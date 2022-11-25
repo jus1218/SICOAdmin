@@ -1,0 +1,328 @@
+﻿@model List<SICOAdmin1._0.Models.User.User>
+@using SICOAdmin1._0.Models.User
+
+@{
+    ViewBag.Title = "Usuarios";
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+</head>
+
+<div class="container margin-container p-4 glass">
+
+
+    <div class="row fila">
+        <!--TEXTO-->
+        <div class="col-xl-2 col-md-3 d-flex justify-content-center">
+            <h3 class="mt-0">Usuarios</h3>
+        </div>
+        <!--BOTON-->
+        <div class="col-xl-2 col-md-2 mb-3">
+            @if (@lstActions.Contains(8))
+            {
+                <button type="button" class="btn btn-primary col-12 " data-toggle="modal" data-target="#exampleModalLong">
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar
+                </button>
+            }
+        </div>
+        <!--Barra busqueda-->
+        <div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
+            <div class="input-group mb-2">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Buscar..."
+                       aria-label="Buscar..."
+                       aria-describedby="button-search"
+                       id="buscar" />
+                <button class="btn btn-outline-secondary"
+                        type="button"
+                        disabled="disabled"
+                        id="button-search">
+                    <i class="fa fa-search mr-1" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--FILA TABLE-->
+    <div class="row fila scrol-tablex">
+        <table id="tbUsers" class="table table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Correo electrónico</th>
+                    <th scope="col">Tipo</th>
+                    @*<th scope="col">Activo</th>
+                        <th scope="col">Bloqueado</th>*@
+                    <th scope="col">Dias cambio contraseña</th>
+                    <th scope="col">Intentos fallidos permitidos</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody style="text-align:center;">
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.userName</td>
+                        <td>@user.name</td>
+                        <td>@user.email</td>
+                        <td>@user.type</td>
+                        @*<td><input type="checkbox" checked="@user.active" disabled="disabled" /></td>
+                            <td><input type="checkbox" checked="@user.locked" disabled="disabled" /></td>*@
+                        <td>@user.daysChangePassword</td>
+                        <td>@user.failesAttempts</td>
+                        <td>
+
+                            <div class="row ml-2 mr-2">
+                                @if (@lstActions.Contains(9))
+                                {
+                                    <button onclick="document.location.href = '@Url.Action("Edit","User",new { userName = user.userName })'" class="btn btn-warning col"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                                }
+                                <button id="btnBitacora" onclick="jsmostrarBitacora('@user.userName')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+
+                            
+                            </div>
+
+                            <div class="row ml-2 mr-2">
+
+                                @if (user.active)
+                                {
+                                    <button id="btnDesactivar" class="btn btn-danger col" onclick="jsModificarEstado('@user.userName', 'Activ')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
+                                }
+                                else
+                                {
+                                    <button id="btnActivar" class="btn btn-success col" onclick="jsModificarEstado('@user.userName', 'Activ')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
+                                }
+                                @if (user.locked)
+                                {
+                                    <button id="btnDesbloquear" class="btn btn-success col" onclick="jsModificarEstado('@user.userName', 'lock')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desbloquear</button>
+                                }
+                                else
+                                {
+                                    <button id="btnBloquear" class="btn btn-danger col" onclick="jsModificarEstado('@user.userName', 'lock')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Bloquear</button>
+                                }
+                            </div>
+
+ 
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Modal add -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Agregar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return jsConfirm(this)" action="@Url.Action("AddUser", "User")" method="post" id="frm">
+                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
+
+                        <div class="col-xl-3 col-md-6 col-sm-12 me-5">
+                            <label class="mt-4 h6">Usuario</label>
+                            <input required type="text" name="userName" class="form-control" placeholder="(Números/letras)" />
+
+                            <label class="mt-4 h6">Contraseña</label>
+                            <input required name="password" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
+
+                            <label class="mt-4 h6">Nombre</label>
+                            <input required type="text" name="name" class="form-control" pattern="[a-z\sA-Z]+" placeholder="(Solo letras)" />
+
+                            <label class="mt-4 h6">Correo Electrónico</label>
+                            <input required type="email" name="email" class="form-control" placeholder="ejemplo@ejemplo.com" />
+
+                        </div><br />
+
+                        <div class="col-xl-3 col-md-6 col-sm-12 me-5">
+                            <label class="mt-4 h6">Dias cambio contraseña</label>
+                            <input required type="number" name="daysChangePassword" class="form-control" pattern="^[e]" placeholder="(Solo números)" />
+
+                            <label class="mt-4 h6">Intentos fallidos</label>
+                            <input required type="number" name="failesAttempts" class="form-control" placeholder="(Solo números)" />
+
+                            <label class="mt-4 h6">Tipo de usuario</label>
+                            <select required name="type" id="types" class="form-control h6">
+                                <option value="" selected disabled hidden>Seleccionar</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Transaccional">Transaccional</option>
+                                <option value="Consulta">Consulta</option>
+                            </select>
+                        </div><br />
+
+                        <div class="col-xl-3 col-md-6 col-sm-12 me-5">
+                            <label class="mt-4 h6">Activo</label>
+                            <input type="checkbox" name="active" class="form-control" value="true" />
+
+                            <label class="mt-4 h6">Bloqueado</label>
+                            <input type="checkbox" name="locked" class="form-control" value="true" />
+                        </div><br />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- MODAL BITACORA -->
+<div class="modal fade" id="modalBitacora" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalBitacoraTitle">Bitacora de usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="userBit" class="table table-responsive table-hover table-bordered text-center text ">
+                    <thead>
+                        <tr>
+                            <th>Ultimo ingreso</th>
+                            <th>Ultimo cambio contraseña</th>
+                            <th>Usuario creación</th>
+                            <th>Fecha creación</th>
+                            <th>Usuario modificación</th>
+                            <th>Fecha modificación</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="tdBUltIngreso"></td>
+                            <td id="tdBUltiCamContra"></td>
+                            <td id="tdBUsuarioCrea"></td>
+                            <td id="tdBFechaCrea"></td>
+                            <td id="tdBUsuarioModi"></td>
+                            <td id="tdBFechaModi"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+    //Busqueda
+    var busqueda = document.getElementById("buscar");
+    $(document).ready(function (i) {
+        $("#buscar").on("keyup", function (i) {
+            var value = $(this).val().toLowerCase();
+            $("#users tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    //Mostrar Bitacora por usuario
+    function jsmostrarBitacora(pUserName) {
+        console.log("Bitacora");
+        console.log(pUserName);
+        fetch("@Url.Content("~/User/getBitacora")" + "?userName=" + pUserName)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+                    console.log(res);
+                    console.log("Bitacora");
+
+                    tdBUltIngreso.textContent = res.lastEntry;
+                    tdBUltiCamContra.textContent = res.lastChangedPassword;
+                    tdBUsuarioCrea.textContent = res.userCreation;
+                    tdBFechaCrea.textContent = res.dateCreation;
+                    tdBUsuarioModi.textContent = res.userModification;
+                    tdBFechaModi.textContent = res.dateModification;
+                })
+    }
+
+    //Bloquear - desbloquear / Activar - desactivar
+        function jsModificarEstado(pUserName, pAction) {
+            console.log(pUserName);
+            console.log(pAction);
+            if (pAction === 'Activ') {
+                fetch("@Url.Content("~/User/ActivUser")" + "?userName=" + pUserName)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        console.log(res);
+                        if (res == "1") {
+                            swal({
+                                title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $("#tbUsers").load(" #tbUsers");
+                        } else {
+                            swal({
+                                title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $("#tbUsers").load(" #tbUsers");
+                        }
+                    })
+            } else if (pAction === 'lock') {
+                fetch("@Url.Content("~/User/LockUser")" + "?userName=" + pUserName)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        console.log(res);
+                        if (res == "1") {
+                            swal({
+                                title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                                showConfirmButton: false
+                            }
+                            );
+                            $("#tbUsers").load(" #tbUsers");
+                        } else {
+                            swal({
+                                title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $("#tbUsers").load(" #tbUsers");
+                        }
+                    })
+            }
+        }
+
+    </script>
+}
+<script type="text/javascript">
+    function jsConfirm(form) {
+        console.log("entra");
+        @if (TempData["MessageAdd"] == null)
+        {
+            <text>
+                $(document).ready(function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No se pudo modificar',
+                        text: "@TempData["MessageAdd"]".slice(1),
+                        showConfirmButton: false,
+                    })
+                })
+                </text>
+        }
+    }
+</script>

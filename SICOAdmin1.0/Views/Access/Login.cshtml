@@ -1,0 +1,214 @@
+﻿@{
+    Layout = null;
+}
+<head>
+    <title>Inicio de sesión - SICOAdmin</title>
+    <link href="~/Content/css/login.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!--LOGO EN LA PESTAÑA-->
+    <link rel="website icon" type="png" href="~/Content/images/Logo.png" style="border-radius:100px;" />
+</head>
+
+<body>
+    <div class="main">
+        <div class="container">
+            <center>
+                <div class="middle">
+                    <div id="login">
+
+                        <form action="@Url.Action("Login", "Access")" method="post" id="frm">
+
+                            <fieldset class="clearfix">
+
+                                <p><span class="fa fa-user"></span><input type="text" name="userName" Placeholder="Nombre de usuario" required></p>
+                                <p><span class="fa fa-lock"></span><input type="password" name="password" Placeholder="Contraseña" required></p>
+
+                                <div>
+                                    <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit" value="Iniciar sesión"></span>
+                                </div>
+                                <!--PENDIENTE DE CONTINUAR DESARROLLO-->
+                                @*<div>
+                                    <br />
+                                    <span style="width:48%; text-align:left;  display: inline-block;"><a data-toggle="modal" data-target="#modalChangePass" class="small" href="" style="color:white; text-align:center;">Cambiar contraseña</a></span>
+                                </div>*@
+
+
+                            </fieldset>
+                            <div class="clearfix"></div>
+                        </form>
+
+                        <div class="clearfix"></div>
+
+                    </div> <!-- end login -->
+                    <div style="position:relative; border-radius:50%; background-color:white; padding:5px; border-color: black; border: 10px solid; margin-left:20px;">
+                        <img id="imagenD" src="~/Content/Images/logo  1.png"
+                             style="width: 8cm; height:1.5cm; position:inherit; top:50%; transform: translate(0, -50%); padding-left:8px;" />
+
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+            </center>
+        </div>
+    </div>
+</body>
+
+<!-- Modal cambio de contraseña -->
+<div class="modal fade in" id="modalChangePass" tabindex="-1" role="dialog" aria-labelledby="changepass" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Cambio de contraseña</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return submitForm(this)" action="@Url.Action("CambiarContrasena", "User")" method="post" id="changePass">
+                    <div class="form-group">
+                        <label>Usuario</label>
+                        <input required type="text" name="userName" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña actual</label>
+                        <input required type="password" name="password" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pass1">Contraseña nueva</label>
+                        <input name="newPassword" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." class="form-control" id="pass1" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    var msg;
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#frm").submit(function (e) {
+            e.preventDefault();
+
+
+            url = "@Url.Content("~/Access/Login")"
+            parametros = $(this).serialize();
+
+            $.post(url, parametros, function (data) {
+                if (data[0] == "1") {
+
+                    var msg = data.slice(20);
+                    console.log(data.slice(20));
+                    const validate = 'Bienvenido al sistema SICOAdmin'
+                    if (data[21] === "B") {
+                        msg = validate;
+                    }
+                    console.log(msg);
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Ingreso correcto',
+                        text: msg,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        }
+                    })
+                    setTimeout( function() { document.location.href = "@Url.Content("~/")" }, 2500);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ha ocurrido un error',
+                        text: data,
+                        confirmButtonText: 'Aceptar',
+                    })
+                }
+
+            })
+
+        })
+    })
+
+    function submitForm(form) {
+        console.log(form);
+        Swal.fire({
+            title: 'Seguro de cambiar su contraseña?',
+            text: "No podrás revertir este cambio!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cambiar la contraseña!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        })
+        return false;
+    }
+</script>
+
+<!--<script type="text/javascript">
+    $(document).ready(function () {
+        console.log("entra");
+
+
+        $("#changePass").submit(function (e) {
+            e.preventDefault();
+            url = "@Url.Content("~/User/CambiarContrasena")";
+            parametros = $(this).serialize();
+            $.post(url, parametros, function (resultado) {
+                //console.log(resultado);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cambio éxitoso',
+                    text: "@TempData["MsgChangePass"]",
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                //setTimeout(function () {form.submit()}, 2001);
+
+            })
+    3
+
+        })
+        //Swal.fire({
+        //    title: 'Seguro de cambiar su contraseña?',
+        //    text: "No podrás revertir este cambio!",
+        //    icon: 'warning',
+        //    showCancelButton: true,
+        //    confirmButtonColor: '#3085d6',
+        //    cancelButtonColor: '#d33',
+        //    confirmButtonText: 'Sí, cambiar la contraseña!'
+        //}).then((result) => {
+        //    if (result.isConfirmed) {-->
+@*@if (TempData["MsgChangePass"] == null) {
+        <text>
+
+        </text>
+    }*@
+<!--//    }
+        //})
+        //return false;
+    })
+</script>-->
