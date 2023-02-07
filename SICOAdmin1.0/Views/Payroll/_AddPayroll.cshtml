@@ -1,0 +1,63 @@
+﻿@model List<SelectListItem>
+@*lstConsecutivos = (List<SelectListItem>)ViewBag.lstConsecutivos;*@
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Agregar Nómina</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form action="@Url.Action("Add", "Payroll")" method="post" id="frm">
+                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
+
+                        <div class="form-group">
+                            <label class="mt-4 h6">Descripcion</label>
+                            <input required type="text" class="form-control" name="Descripcion" pattern="(?=.+[\w]).{1,30}|(?=.+[\W]).{1,30}" />
+
+
+                            <label class="mt-4 h6">Tipo de Nómina</label>
+                            <select required name="Frecuencia" id="Frecuencia" class="form-control h6 was-validated">
+                                <option value="" selected disabled hidden>Tipo Nomina</option>
+                                <option value="SEM">Semanal</option>
+                                <option value="BSM">Bisemanal</option>
+                                <option value="QUIN">Quincenal</option>
+                                <option value="MEN">Mensual</option>
+                            </select>
+
+
+                            <div class="form-group">
+                                <label class="mt-4 h6">Consecutivo</label>
+                                <select required name="IdConsecutivo" id="IdConsecutivo" class="form-control h6">
+                                    <option value="" selected disabled hidden>Seleccione un Consecutivo</option>
+                                    @if (Model != null)
+                                    {
+                                        foreach (var e in Model)
+                                        {
+                                            <option value="@e.Value"> @e.Text</option>
+                                        }
+                                    }
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="col mt-4 d-flex justify-content-center mb-2">
+                        <button id="btnModalAgregar" style="margin-top: 10px" type="submit" class="btn btn-success" value="Guardar">Guardar</button>
+                        <button style="margin-top: 10px" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>z
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+

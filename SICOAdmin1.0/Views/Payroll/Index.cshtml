@@ -33,235 +33,47 @@
         <!--BOTON-->
         <div class="col-xl-2 col-md-2 mb-3 ">
             <button id="Crear" data-toggle="modal" data-target="#Modal" type="button" class="btn btn-primary col-12">
-                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar</button>
+                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar
+            </button>
 
         </div>
         <!--Barra busqueda-->
-        <div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
-            <div class="input-group mb-2">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Buscar..."
-                       aria-label="Buscar..."
-                       aria-describedby="button-search"
-                       id="buscar" />
-                <button class="btn btn-outline-secondary"
-                        type="button"
-                        disabled="disabled"
-                        id="button-search">
-                    Buscar
-                </button>
-            </div>
-        </div>
+        @*<div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
+                <div class="input-group mb-2">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Buscar..."
+                           aria-label="Buscar..."
+                           aria-describedby="button-search"
+                           id="buscar" />
+                    <button class="btn btn-outline-secondary"
+                            type="button"
+                            disabled="disabled"
+                            id="button-search">
+                        Buscar
+                    </button>
+                </div>
+            </div>*@
 
-        <div class="col-lg-12 row fila scrol-tablex">
-            <table id="tbPayrolls" class="table table-bordered">
-                <thead class="text-center">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">Frecuencia</th>
-                        <th scope="col"># Consecutivo</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody style="text-align:center;">
-                    @foreach (var e in lstPayrolls)
-                    {
-                        <tr>
-                            <td>@e.IdNomina </td>
-                            <td>@e.Descripcion </td>
-                            <td>@e.Frecuencia </td>
-                            <td>@e.IdConsecutivo </td>
-                            <td>
-
-                                <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
-                                        class="btn btn-warning"
-                                        onclick="jsmostrarDatos(@e.IdNomina);"><i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar</button>
-
-                                <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora" type="button" onclick="jsBitacora(@e.IdNomina);"><i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <!-- FILA TABLE row tablePayroll-->
+        <div class="col-lg-12 row fila scrol-tablex" id="tablePayroll">
+            @Html.Partial("_TablePayroll", lstPayrolls);
         </div>
     </div>
 </div>
 
 
 <!-- Modal Agregar-->
-<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Agregar Nómina</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <div class="modal-body">
-
-                <form action="@Url.Action("Add", "Payroll")" method="post" id="frm">
-                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
-
-                        <div class="form-group">
-                            <label class="mt-4 h6">Descripcion</label>
-                            <input required type="text" class="form-control" name="Descripcion" pattern="(?=.+[\w]).{1,30}|(?=.+[\W]).{1,30}" />
-
-
-                            <label class="mt-4 h6">Tipo de Nómina</label>
-                            <select required name="Frecuencia" id="Frecuencia" class="form-control h6 was-validated">
-                                <option value="" selected disabled hidden>Tipo Nomina</option>
-                                <option value="SEM">Semanal</option>
-                                <option value="BSM">Bisemanal</option>
-                                <option value="QUIN">Quincenal</option>
-                                <option value="MEN">Mensual</option>
-                            </select>
-
-
-                            <div class="form-group">
-                                <label class="mt-4 h6">Consecutivo</label>
-                                <select required name="IdConsecutivo" id="IdConsecutivo" class="form-control h6">
-                                    <option value="" selected disabled hidden>Seleccione un Consecutivo</option>
-                                    @foreach (var e in lstConsecutivos)
-                                    {
-                                        <option value="@e.Value"> @e.Text</option>
-                                    }
-                                </select>
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-                    <div class="col mt-4 d-flex justify-content-center mb-2">
-                        <button id="btnModalAgregar" style="margin-top: 10px" type="submit" class="btn btn-success" value="Guardar">Guardar</button>
-                        <button style="margin-top: 10px" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    </div>z
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Modal Bitacora-->
-<div class="modal fade" id="ModalBitacora" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="text-align:center" class="modal-title" id="ModalTitle">Bitacora Nómina</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <!--FILA TABLE-->
-                <div class="row fila scrol-tablex">
-                    <table id="tbBitacora" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Usuario Creacion</th>
-                                <th scope="col">Fecha Creacion</th>
-                                <th scope="col">Usuario Modificacion</th>
-                                <th scope="col">Fecha Modificacion</th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-align:center;">
-
-                            <tr id="tablaBitacora">
-                                <td id="tbIdNomina"> </td>
-                                <td id="tbUsuarioCreacion"> </td>
-                                <td id="tbFechaCreacion"> </td>
-                                <td id="tbUsuarioModificacion"> </td>
-                                <td id="tbFechaModificacion"> </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <button style="margin-top: 15px" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
-                <!-- -->
-            </div>
-        </div>
-    </div>
-</div>
-
+@Html.Partial("_AddPayroll", lstConsecutivos);
 
 
 
 <!-- Modal Update-->
-<div class="modal fade" id="ModalUpdate" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Editar Nómina</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+@Html.Partial("_EditPayroll", lstConsecutivos);
 
-            <div class="modal-body">
-
-
-                <form action="@Url.Action("Update", "Payroll")" method="post" id="upfrm" class="was-validated">
-                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
-
-                        <div class="form-group">
-
-                            @Html.HiddenFor(c => c.IdNomina, new { @class = "", id = "txtId" })
-
-                            <label class="mt-4 h6">Descripcion</label>
-                            <input required type="text" class="form-control" name="descripcion" id="upDescripcion" pattern="(?=.+[\w]).{1,30}|(?=.+[\W]).{1,30}" />
-
-                            <label class="mt-4 h6">Tipo de Nómina</label>
-                            <select required name="Frecuencia" id="upFrecuencia" class="form-control h6">
-
-                                <option value="SEM">Semanal</option>
-                                <option value="BSM">Bisemanal</option>
-                                <option value="QUIN">Quincenal</option>
-                                <option value="MEN">Mensual</option>
-                            </select>
-
-                            <div class="form-group">
-                                <label class="mt-4 h6">Consecutivo</label>
-                                <select required name="IdConsecutivo" id="upIdConsecutivo" class="form-control h6">
-                                    <option value="" selected disabled hidden>Seleccione un Consecutivo</option>
-                                    @foreach (var e in lstConsecutivos)
-                                    {
-                                        <option value="@e.Value"> @e.Text</option>
-                                    }
-                                </select>
-
-                            </div>
-                            <div class="col mt-4 d-flex justify-content-center mb-2">
-                                <button id="btnModalAgregar" style="margin-top: 10px" type="submit" class="btn btn-success" value="Guardar">Guardar</button>
-                                <button style="margin-top: 10px" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-
-
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-
+<!-- Modal Bitacora-->
+@Html.Partial("_PayrollLog");
 @section scripts{
 
     <script type="text/javascript">
@@ -295,12 +107,36 @@
 
 }
 <script>
+    //================================= OBTECION DE ELEMENTOS DEL DOM =====================================
+
+    //------------------ ELEMENTOS DE EDITAR ------------------------------
+
+    const idNom = document.getElementById("upId");
+
+    //El tipo de variable LET se utiliza para los select
+    //lo unico que cambia al hacerlo con let y const, es el tipo de variable
+    let idCons = document.getElementById("upIdConsecutivo");
+
+    const idDesc = document.getElementById("upDescripcion");
+    const idFrec = document.getElementById("upFrecuencia");
+
+    //------------------ ELEMENTOS DE BITACORA ------------------------------
+
     const tbId = document.getElementById("tbIdNomina");
     const tbUsuarioCreacion = document.getElementById("tbUsuarioCreacion");
     const tbUsuarioModificacion = document.getElementById("tbUsuarioModificacion")
 
     const tbFechaCreacion = document.getElementById("tbFechaCreacion");
     const tbFechaModificacion = document.getElementById("tbFechaModificacion");
+
+
+    //===================================== FUNCIONES =======================================
+
+    function cargarComponentPayrrol() {
+        $("#tablePayroll").load("Payroll/_TablePayroll", function (res) {
+            $("#tablePayroll").html(res);
+        })
+    }
 
     function jsBitacora(pId) {
         fetch("@Url.Content("~/Payroll/pintarDatos")" + "?pId=" + pId)
@@ -329,14 +165,6 @@
     }
 
 
-    const idNom = document.getElementById("txtId");
-
-    //El tipo de variable LET se utiliza para los select
-    //lo unico que cambia al hacerlo con let y const, es el tipo de variable
-    let idCons = document.getElementById("upIdConsecutivo");
-
-    const idDesc = document.getElementById("upDescripcion");
-    const idFrec = document.getElementById("upFrecuencia");
     function jsmostrarDatos(pId) {
 
           fetch("@Url.Content("~/Payroll/pintarDatos")" + "?pId=" + pId)
@@ -361,16 +189,14 @@
                 idCons.value = res.IdConsecutivo;
             })
 
-
-        $(document).ready(function () {
-            $("#buscar").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#tbConsecutivo tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });
-
     }
+    //$(document).ready(function () {
+    //    $("#buscar").on("keyup", function () {
+    //        var value = $(this).val().toLowerCase();
+    //        $("#tbConsecutivo tbody tr").filter(function () {
+    //            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //        });
+    //    });
+    //});
 </script>
 
