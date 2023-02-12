@@ -1,0 +1,86 @@
+﻿@model List<SICOAdmin1._0.Models.Parameter.Parameter>
+
+@{
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+}
+
+<table id="tbParameters" class="table table-bordered">
+    <thead class="text-center">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Mensualidad</th>
+            <th scope="col"># Conse Recibo</th>
+            <th scope="col">Interés Mora</th>
+            <th scope="col">Domento Cobro</th>
+            <th scope="col">Condición Pago</th>
+            <th scope="col">Estado</th>
+            @if (lstActions.Contains(21))
+            {
+                <th scope="col">Acciones</th>
+            }
+        </tr>
+    </thead>
+
+    <tbody style="text-align:center;">
+        @if (Model != null)
+        {
+            foreach (var e in Model)
+            {
+                <tr>
+                    <td>@e.IdParameter</td>
+                    <td>@Convert.ToDecimal(@e.MonthlyPayment).ToString("C")</td>
+                    <td>@e.IdConsecRecibo</td>
+                    <td>@Convert.ToDecimal(@e.InterestBlackberry).ToString(".00") %</td>
+                    <td>@e.DocumentTypePayment</td>
+                    <td>@e.PaymentCondition.ToString("C")</td>
+                    @if (e.Status == "1")
+                    {
+                        <td>Activado</td>
+                    }
+                    else
+                    {
+                        <td>Desactivado</td>
+                    }
+
+                    @if (lstActions.Contains(21))
+                    {
+
+                        <td>
+                            <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
+                                    class="btn btn-warning"
+                                    onclick="showData(@e.IdParameter);">
+                                <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
+                            </button>
+
+                            <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora"
+                                    type="button" onclick="jsShowLog(@e.IdParameter);">
+                                <i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora
+                            </button>
+
+                            @if (e.Status == "0")
+                            {
+                                <button id="btnActivar" class="btn btn-success"
+                                        style="width: 35%;" type="button" onclick="jsChangeStatus(@e.IdParameter);">
+                                    <i class="fa fa-unlock mr-1" aria-hidden="true"></i>Activar
+                                </button>
+                            }
+                            else
+                            {
+                                <button id="btnDes" class="btn btn-danger"
+                                        style="width: 35%;" onclick="jsChangeStatus(@e.IdParameter);">
+                                    <i class="fa fa-lock mr-1" aria-hidden="true"></i>Desactivar
+                                </button>
+                            }
+
+                        </td>
+
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>
