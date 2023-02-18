@@ -2,6 +2,8 @@
   
 
 @{ //int horaR = 0;
+
+    int i = 0;
 }
 
 
@@ -25,6 +27,7 @@
         {
             foreach (var ctrlAsistencia in Model)
             {
+                i++;
                 <tr>
                     <td>@ctrlAsistencia.IdAsistencia</td>
                     <td>@ctrlAsistencia.NomColaborador</td>
@@ -50,3 +53,29 @@
         }
     </tbody>
 </table>
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="numPagePerfUser">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span>@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+
+
+
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" onclick="jsRetroceder(@ViewBag.PagActual,@ViewBag.totalPag.Value)" />
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" onclick="jsSiguiente(@ViewBag.PagActual,@ViewBag.totalPag.Value);" value=">" />
+
+        }
+
+    </div>
+
+
+
+</div>

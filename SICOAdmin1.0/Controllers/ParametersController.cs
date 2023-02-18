@@ -210,7 +210,7 @@ namespace SICOAdmin1._0.Controllers
             param.UserCreacion = objResult.UsuarioCreacion;
             param.UserModification = objResult.UsuarioModificacion;
             param.DateCreacion = objResult.FechaCreacion;
-            param.DateModification = objResult.FechaModificacion;
+            param.DateModification = (DateTime)objResult.FechaModificacion;
             return param;
         }
         public JsonResult changeStatus(int idParam)

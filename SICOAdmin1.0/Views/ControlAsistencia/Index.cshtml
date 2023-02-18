@@ -21,32 +21,44 @@
 
 
     <div class="row fila">
-        <!--TEXTO-->
-        <div class="col-xl-3 col-md-3 d-flex justify-content-center">
-            <h3 class="mt-0">Control Asistencia</h3>
-        </div>
-        <!--BOTON-->
-        <div class="col-xl-2 col-md-2 mb-3">
-            <button type="button" class="btn btn-primary col-12" data-toggle="modal" data-target="#agregarCtrlAsistencia" >
-                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-                Agregar
-            </button>
-        </div>
-        <!--Barra busqueda-->
-        @*<div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
-                <div class="input-group mb-2">
-                    <input type="text"
-                           class="form-control"
-                           placeholder="Buscar..."
-                           aria-label="Buscar..."
-                           aria-describedby="button-search"
-                           id="buscar" />
 
-                </div>
-            </div>*@
+        <!--BOTON-->
+
+
+
+
+        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12"><h3 class="d-flex justify-content-center">Control Asistencia</h3></div>
+
+
+
+        <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 " data-toggle="modal" data-target="#agregarCtrlAsistencia">
+            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+            Agregar
+        </button>
+
+
+        <!--Barra busqueda-->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
+            <div class="input-group " >
+                <input type="text"
+                       class="form-control"
+                       placeholder="Buscar..."
+                       aria-label="Buscar..."
+                       aria-describedby="button-search"
+                       id="buscar" />
+
+            </div>
+        </div>
+    </div>
+    <div class="row m-1 ">
+        <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamPaginacion" onchange="cambTam(@ViewBag.totalPag.Value)">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
     </div>
     <!--FILA TABLE   row       tableAttendanceControl -->
-    <div class=" fila   scrol-tablex" id="tableAttendanceControl">
+    <div class="row fila   scrol-tablex" id="tableAttendanceControl">
         @Html.Partial("_TableAttendanceControl", lstControlAsist);
     </div>
 </div>
@@ -327,6 +339,63 @@
         }
 
 
+
+        //Pasar a la pagina siguiente
+        const jsSiguiente = (sig, totalPage) => {
+
+            var siguiente = sig - 1;//Limpiamos el valor que viene de la vista
+            $("#tableAttendanceControl").load("ControlAsistencia/_TableAttendanceControl",
+                {
+
+                    NumPagina: siguiente,
+                    palabraBuscar: $("#buscar").val().toLowerCase(),//"",
+                    //estaBuscando: false,
+                    accion: 'S',
+                    totalPaginas: totalPage,
+                    CantRegistros: document.getElementById("tamPaginacion").value
+                }, function (res) {
+                    $("#tableAttendanceControl").html(res);
+                })
+
+        }
+
+
+        //Pasar a la pagina anterior
+        const jsRetroceder = (ant, totalPage) => {
+
+            var anterior = ant - 1;//Limpiamos el valor que viene de la vista
+            $("#tableAttendanceControl").load("ControlAsistencia/_TableAttendanceControl",
+                {
+
+                    NumPagina: anterior,
+                    palabraBuscar: $("#buscar").val().toLowerCase(),//buscarPerfil.textContent,
+                    accion: 'N',
+                    totalPaginas: totalPage,
+                    CantRegistros: document.getElementById("tamPaginacion").value
+                }, function (res) {
+                    $("#tableAttendanceControl").html(res);
+                })
+
+        }
+
+        // Cambio de tamaño de paginacion
+        const cambTam = (totalPage) => {
+
+            $("#tableAttendanceControl").load("ControlAsistencia/_TableAttendanceControl",
+                {
+
+                    //NumPagina: numPagePerfUser,
+                    palabraBuscar: $("#buscar").val().toLowerCase(),
+                    CantRegistros: document.getElementById("tamPaginacion").value,
+                    //buscarPerfil.textContent
+                    //estaBuscando: false
+                    totalPaginas: totalPage
+                }, function (res) {
+                    $("#tableAttendanceControl").html(res);
+                })
+            //
+        }
+
         //================================ LAMADAS A LOS MODALES FECTH ================================
         // NOTA: trae los datos y levanta el modal
         function llamarModalModCtrlAsist(idCtrlAist){
@@ -357,7 +426,7 @@
                     EdithoraCalculada.innerHTML = vistaCalcularHoras(diferenciaHoras);
                     EdithoraCalculada.value = diferenciaHoras;
 
-                   
+
 
                     seleccionarItem(EditColaborador, res.idColaborador);
                     seleccionarItem(EditipoJornada, res.tipoJornada);
@@ -465,6 +534,34 @@
             EdithoraCalculada.value = diferenciaHoras.toString();
         })
 
+
+        // Buscar Usuarios del perfil
+        $("#buscar").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+
+
+            //if (value.length > 2 || value.length == 0) {
+            $("#tableAttendanceControl").load("ControlAsistencia/_TableAttendanceControl",
+                {
+
+                    NumPagina: 0,
+                    palabraBuscar: value,
+                    estaBuscando: true,
+                    accion: 'n', //n -> no pasar de pagina
+                    CantRegistros: document.getElementById("tamPaginacion").value,
+                    //CantRegistros: document.getElementById("tamPaginacion").value
+
+                }, function (res) {
+                    $("#tableAttendanceControl").html(res);
+                })
+
+
+            //}
+
+
+        })
+
+
         //================== VALIDACION DE INPUTS EN EL FORMULARIO ============================
         formCrearCtrl.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -518,11 +615,13 @@
 
 
         //================== OTROS(data_table JQuery) ============================
-        $(document).ready(function () {
-            $('#tColaboradores').DataTable();
-        });
+        //$(document).ready(function () {
+        //    $('#tColaboradores').DataTable();
+        //});
 
-       
+
+
+
     </script>
 
 }
