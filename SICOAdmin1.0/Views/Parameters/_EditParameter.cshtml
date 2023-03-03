@@ -1,0 +1,72 @@
+﻿<!-- Modal Update-->
+<div class="modal fade" id="ModalUpdate" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Editar Parámetro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form action="@Url.Action("Update", "Parameters")" method="post" id="frm" class="was-validated">
+                    @*@Html.HiddenFor(p => p.IdParameter, new { @class = "form-control", id = "upIdParam" })*@
+                    <input class = "form-control", id = "upIdParam" name="IdParameter" type="text" style="visibility:hidden" />
+                    
+                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
+
+                        <div class="col-xl-6 col-md-6 col-sm-10 me-5 form-group">
+
+                            <label class="mt-4 h6">Mensualidad</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="border-radius: 0px;">₡</span>
+                                <input required dile-input-number-mask mask="000-00 00 00" type="number" step=".001" class="outScroll form-control " name="MonthlyPayment" id="upMensualidad" />
+                            </div>
+
+                            <label class="mt-4 h6">Condición Pago</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="border-radius: 0px;">₡</span>
+                                <input required type="number" class="form-control" name="PaymentCondition" id="upCondicion" />
+                            </div>
+
+                            <label class="mt-4 h6">Interés  Mora</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="border-radius: 0px;">%</span>
+                                <input required type="number" step="0.01" class="form-control" name="InterestBlackberry" id="upMora">
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-md-6 col-sm-10 me-5 form-group">
+
+                            <label class="mt-4 h6">Tipo Documento Cobro</label>
+                            <input type="text" class="form-control" required name="DocumentTypePayment" id="upDocumento" pattern=".{1,4}" />
+
+                            <label class="mt-4 h6">Consec Recibo</label>
+                            <input required type="number" class="form-control" name="IdConsecRecibo" id="upRecibo" />
+
+                            <label class="mt-4 h6">Estado</label>
+                            <select required name="Status" id="upEstado" class="form-control">
+                                <option value="" selected disabled hidden>Seleccione el Estado</option>
+                                <option value="1">Activado</option>
+                                <option value="0">Desactivado</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col mt-4 d-flex justify-content-center mb-2">
+                        <button id="btnModalAgregar" style="margin-top: 10px" type="submit" class="btn btn-success" value="Guardar">Guardar</button>
+                        <button style="margin-top: 10px" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>z
+                </form>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,54 @@
+﻿@model SICOAdmin1._0.Models.Consecutivo.Consecutivo
+
+<!-- Modal Update-->
+<div class="modal fade" id="ModalUpdate" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Editar Consecutivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                @using (Html.BeginForm("Update", "Consecutivo", FormMethod.Post, new { role = "form", @class = "row-12 was-validated", name = "FormActualizar" }))
+                {
+                    @Html.HiddenFor(c => c.IdConsecutivo, new { @class = "", id = "txtId" })
+                    <div class="col-xl-4 col-md-6 col-sm-12 me-5">
+                        @Html.LabelFor(c => c.Alias, new { @class = "mt-4" })
+                        @Html.TextBoxFor(c => c.Alias, new { @class = "form-control", id = "txtAlias", required = "required", HtmlAttributes = new { Type = "text" } })
+                        @Html.ValidationMessage("Alias", null, new { @class = "text-danger" })
+
+                        @Html.LabelFor(c => c.Mascara, new { @class = "mt-4" })
+                        @Html.TextBoxFor(c => c.Mascara, new { @class = "form-control", id = "txtMascara", placeHolder = "NNNN9999", required = "required", pattern = @"(([N]+[9]+[^\s]){1,30})|([9]){1,30}", HtmlAttributes = new { Type = "text" } })
+                        @Html.ValidationMessage("Mascara", null, new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="col-xl-6 col-md-6 col-sm-12 me-5">
+
+                        @Html.LabelFor(c => c.Activo, new { @class = "mt-4" })
+                        @Html.CheckBoxFor(c => c.Activo, new { @class = "form-control", id = "txtActivo" })
+                        @Html.ValidationMessage("Activo", null, new { @class = "text-danger" })
+
+                        @Html.LabelFor(c => c.ProximoValor, new { @class = "mt-4" })
+                        @Html.TextBoxFor(c => c.ProximoValor, new { @class = "form-control", id = "txtProximoValor", placeHolder = "Valor Mascara", required = "required", pattern = @"(([a-zA-Z0-9]){1,30})|(([9]){1,30})", HtmlAttributes = new { Type = "text" } })
+                        @Html.ValidationMessage("Proximo Valor", null, new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="col mt-4 d-flex justify-content-center mb-2" style="margin-top:auto">
+                        <button id="btnModalUpdate" onclick="jsRecargarComponente();" style="margin-top: 15px" type="submit" class="btn btn-success" value="Guardar">Guardar</button>
+                        <button style="margin-top: 15px" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
