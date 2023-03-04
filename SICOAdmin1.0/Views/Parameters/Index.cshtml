@@ -6,6 +6,13 @@
     List<Parameter> lstParameters = (List<Parameter>)ViewBag.Parameters;
     List<Parameter> lstLogParameters = (List<Parameter>)ViewBag.LogParameters;
 
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+
 }
 <head>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -38,98 +45,36 @@
         </div>
         <!--BOTON-->
         <div class="col-xl-2 col-md-2 mb-3 ">
-            <button id="Crear" data-toggle="modal" data-target="#Modal" type="button" class="btn btn-primary col-12">
-                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-                Agregar
-            </button>
+            @if (lstActions.Contains(20))
+            {
+                <button id="Crear" data-toggle="modal" data-target="#Modal" type="button" class="btn btn-primary col-12">
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+                    Agregar
+                </button>
+            }
 
         </div>
         <!--Barra busqueda-->
-        <div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
-            <div class="input-group mb-2">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Buscar..."
-                       aria-label="Buscar..."
-                       aria-describedby="button-search"
-                       id="buscar" />
-                <button class="btn btn-outline-secondary"
-                        type="button"
-                        disabled="disabled"
-                        id="button-search">
-                    Buscar
-                </button>
-            </div>
-        </div>
+        @*<div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
+                <div class="input-group mb-2">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Buscar..."
+                           aria-label="Buscar..."
+                           aria-describedby="button-search"
+                           id="buscar" />
+                    <button class="btn btn-outline-secondary"
+                            type="button"
+                            disabled="disabled"
+                            id="button-search">
+                        Buscar
+                    </button>
+                </div>
+            </div>*@
 
         <!--Table -->
         <div class="col-lg-12 row fila scrol-tablex">
-            <table id="tbParameters" class="table table-bordered">
-                <thead class="text-center">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Mensualidad</th>
-                        <th scope="col"># Conse Recibo</th>
-                        <th scope="col">Interés Mora</th>
-                        <th scope="col">Domento Cobro</th>
-                        <th scope="col">Condición Pago</th>
-                        <th scope="col">Estado</th>
-
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody style="text-align:center;">
-                    @foreach (var e in lstParameters)
-                    {
-                        <tr>
-                            <td>@e.IdParameter</td>
-                            <td>@Convert.ToDecimal(@e.MonthlyPayment).ToString("C")</td>
-                            <td>@e.IdConsecRecibo</td>
-                            <td>@Convert.ToDecimal(@e.InterestBlackberry).ToString(".00") %</td>
-                            <td>@e.DocumentTypePayment</td>
-                            <td>@e.PaymentCondition.ToString("C")</td>
-                            @if (e.Status == "1")
-                            {
-                                <td>Activado</td>
-                            }
-                            else
-                            {
-                                <td>Desactivado</td>
-                            }
-
-
-                            <td>
-                                <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
-                                        class="btn btn-warning"
-                                        onclick="showData(@e.IdParameter);">
-                                    <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
-                                </button>
-
-                                <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora"
-                                        type="button" onclick="jsShowLog(@e.IdParameter);">
-                                    <i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora
-                                </button>
-
-                                @if (e.Status == "0")
-                                {
-                                    <button id="btnActivar" class="btn btn-success"
-                                            style="width: 35%;" type="button" onclick="jsChangeStatus(@e.IdParameter);">
-                                        <i class="fa fa-unlock mr-1" aria-hidden="true"></i>Activar
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button id="btnDes" class="btn btn-danger"
-                                            style="width: 35%;" onclick="jsChangeStatus(@e.IdParameter);">
-                                        <i class="fa fa-lock mr-1" aria-hidden="true"></i>Desactivar
-                                    </button>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            @Html.Partial("_TableParameters", lstParameters);
         </div>
 
     </div>
@@ -137,199 +82,15 @@
 
 
 <!-- Modal Agregar-->
-<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Agregar Parámetro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+@Html.Partial("_AddParameter");
 
-            <div class="modal-body">
-
-                <form action="@Url.Action("Add", "Parameters")" method="post" id="frm">
-                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
-
-                        <div class="col-xl-6 col-md-6 col-sm-10 me-5 form-group">
-
-                            <label class="mt-4 h6">Mensualidad</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="border-radius: 0px;">₡</span>
-                                <input required dile-input-number-mask mask="000-00 00 00" type="number" step=".001" class="outScroll form-control " name="MonthlyPayment" />
-                            </div>
-
-                            <label class="mt-4 h6">Condición Pago</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="border-radius: 0px;">₡</span>
-                                <input required type="number" class="form-control" name="PaymentCondition" />
-                            </div>
-
-                            <label class="mt-4 h6">Interés  Mora</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="border-radius: 0px;">%</span>
-                                <input required type="number" step="0.01" class="form-control" name="InterestBlackberry">
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6 col-md-6 col-sm-10 me-5 form-group">
-
-                            <label class="mt-4 h6">Tipo Documento Cobro</label>
-                            <input type="text" class="form-control" required name="DocumentTypePayment" pattern=".{1,4}" />
-
-                            <label class="mt-4 h6">Consec Recibo</label>
-                            <input required type="number" class="form-control" name="IdConsecRecibo" />
-
-                            <label class="mt-4 h6">Estado</label>
-                            <select required name="Status" id="Estado" class="form-control">
-                                <option value="" selected disabled hidden>Seleccione el Estado</option>
-                                <option value="1">Activado</option>
-                                <option value="0">Desactivado</option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="col mt-4 d-flex justify-content-center mb-2">
-                        <button id="btnModalAgregar" style="margin-top: 10px" type="submit" class="btn btn-success" value="Guardar">Guardar</button>
-                        <button style="margin-top: 10px" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    </div>z
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- Modal Update-->
-<div class="modal fade" id="ModalUpdate" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Editar Parámetro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-
-                <form action="@Url.Action("Update", "Parameters")" method="post" id="frm" class="was-validated">
-                    @Html.HiddenFor(p => p.IdParameter, new { @class = "form-control", id = "upIdParam" })
-                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
-
-                        <div class="col-xl-6 col-md-6 col-sm-10 me-5 form-group">
-
-                            <label class="mt-4 h6">Mensualidad</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="border-radius: 0px;">₡</span>
-                                <input required dile-input-number-mask mask="000-00 00 00" type="number" step=".001" class="outScroll form-control " name="MonthlyPayment" id="upMensualidad" />
-                            </div>
-
-                            <label class="mt-4 h6">Condición Pago</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="border-radius: 0px;">₡</span>
-                                <input required type="number" class="form-control" name="PaymentCondition" id="upCondicion" />
-                            </div>
-
-                            <label class="mt-4 h6">Interés  Mora</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="border-radius: 0px;">%</span>
-                                <input required type="number" step="0.01" class="form-control" name="InterestBlackberry" id="upMora">
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6 col-md-6 col-sm-10 me-5 form-group">
-
-                            <label class="mt-4 h6">Tipo Documento Cobro</label>
-                            <input type="text" class="form-control" required name="DocumentTypePayment" id="upDocumento" pattern=".{1,4}" />
-
-                            <label class="mt-4 h6">Consec Recibo</label>
-                            <input required type="number" class="form-control" name="IdConsecRecibo" id="upRecibo" />
-
-                            <label class="mt-4 h6">Estado</label>
-                            <select required name="Status" id="upEstado" class="form-control">
-                                <option value="" selected disabled hidden>Seleccione el Estado</option>
-                                <option value="1">Activado</option>
-                                <option value="0">Desactivado</option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="col mt-4 d-flex justify-content-center mb-2">
-                        <button id="btnModalAgregar" style="margin-top: 10px" type="submit" class="btn btn-success" value="Guardar">Guardar</button>
-                        <button style="margin-top: 10px" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    </div>z
-                </form>
-
-
-
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
+<!-- Modal Editar-->
+@Html.Partial("_EditParameter");
 <!-- Modal Bitacora-->
-<div class="modal fade" id="ModalBitacora" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="text-align:center" class="modal-title" id="ModalTitle">Bitacora Parámetro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
+@Html.Partial("_ParameterLog");
 
 
-                <div style="text-align:center;">
-
-                    <label class="mr-1" style="text-align:center;">#</label>
-                    <input style="text-align:center; width:40px; height:28px; " type="text" disabled id="tbIdParam" />
-
-                    <label style="text-align:start" class="mr-1">Usuario Creación</label>
-                    <input style="text-align:center;" type="text" disabled id="tbUsuarioCreacion" />
-                    <label class="mr-1"> Fecha Creación</label>
-                    <input id="tbFechaCreacion"  style="text-align:center;" type="text" disabled />
-                </div>
-                <br />
-                <!--FILA TABLE-->
-                <div class="row fila scrol-tablex">
-                    <table id="tbBitacora" class="table table-bordered" style="text-align:center;">
-                        <thead>
-                            <tr>                     
-                                <th scope="col">Acción Realizada</th>                                
-                                <th scope="col">Usuario Modificacion</th>
-                                <th scope="col">Fecha Modificacion</th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-align:center;" id="tbCuerpo">
-                            
-
-                        </tbody>
-                    </table>
-            
-
-                </div>
-
-                <!-- -->
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-
-
-
+<!--Script para mostrar los Mensajes-->
 @section scripts{
 
     <script type="text/javascript">
@@ -359,7 +120,24 @@
 }
 
 <script>
-    //Bitacora
+
+
+      //================================= OBTECION DE ELEMENTOS DEL DOM =====================================
+
+    //------------------ ELEMENTOS DE EDITAR ------------------------------
+
+    //Mostrar Los Datos a actualizar
+
+    const pParam = document.getElementById("upIdParam");
+    const Mensualidad = document.getElementById("upMensualidad");
+    const Mora = document.getElementById("upMora");
+    const Condicion = document.getElementById("upCondicion");
+    const Documento = document.getElementById("upDocumento");
+    const Recibo = document.getElementById("upRecibo");
+    let estado = document.getElementById("upEstado");
+
+  //------------------ ELEMENTOS DE BITACORA ------------------------------
+
 
     const tbId = document.getElementById("tbIdParam");
     const tbUsuarioCreacion = document.getElementById("tbUsuarioCreacion");
@@ -368,6 +146,10 @@
 
     const tbFechaCreacion = document.getElementById("tbFechaCreacion");
     //const tbFechaModificacion = document.getElementById("tbFechaModificacion");
+
+
+     //===================================== FUNCIONES =======================================
+
     //Bitacora
     function jsShowLog(pId) {
         $("#tbCuerpo").html("");
@@ -381,8 +163,8 @@
                         console.log(date);
                         var tr = `<tr>
 
-                           <td>`+ res[i].AccionRealizada+`</td>                         
-                           <td>`+ res[i].UserModification +`</td>                         
+                           <td>`+ res[i].AccionRealizada+`</td>
+                           <td>`+ res[i].UserModification +`</td>
                            <td>`+ res[i].DateModification +`</td>
 
                         </tr>`;
@@ -404,7 +186,7 @@
                     //tbUsuarioModificacion.textContent = res.UsuarioModificacion;
                     //tbUsuarioModificacion.value = res.UsuarioModificacion;
 
-                    
+
                     //tbFechaModificacion.textContent = res.FechaModificacion;
                     //tbFechaModificacion.value = res.FechaModificacion;
 
@@ -442,16 +224,6 @@
 
     }
 
-
-    //Mostrar Los Datos a actualizar
-
-    const pParam = document.getElementById("upIdParam");
-    const Mensualidad = document.getElementById("upMensualidad");
-    const Mora = document.getElementById("upMora");
-    const Condicion = document.getElementById("upCondicion");
-    const Documento = document.getElementById("upDocumento");
-    const Recibo = document.getElementById("upRecibo");
-    let estado = document.getElementById("upEstado");
 
     function showData(pId) {
         fetch("@Url.Content("~/Parameters/showData")" + "?idParam=" + pId)
@@ -502,14 +274,14 @@
         }
     });
 
-    //Funcion Busqueda
-    $(document).ready(function () {
-        $("#buscar").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#tbConsecutivo tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-    });
+    ////Funcion Busqueda
+    //$(document).ready(function () {
+    //    $("#buscar").on("keyup", function () {
+    //        var value = $(this).val().toLowerCase();
+    //        $("#tbConsecutivo tbody tr").filter(function () {
+    //            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //        });
+    //    });
+    //});
 
 </script>

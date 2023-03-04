@@ -1,8 +1,11 @@
 ﻿@model List<SICOAdmin1._0.Models.Payroll.Payroll>
 @{
-
-
-}
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+}
 
 <table id="tbPayrolls" class="table table-bordered">
     <thead class="text-center">
@@ -11,7 +14,10 @@
             <th scope="col">Descripcion</th>
             <th scope="col">Frecuencia</th>
             <th scope="col"># Consecutivo</th>
-            <th scope="col">Acciones</th>
+            @if (lstActions.Contains(28))
+            {
+                <th scope="col">Acciones</th>
+            }
         </tr>
     </thead>
 
@@ -21,22 +27,24 @@
         {
             foreach (var e in Model)
             {
-            <tr>
-                <td>@e.IdNomina </td>
-                <td>@e.Descripcion </td>
-                <td>@e.Frecuencia </td>
-                <td>@e.IdConsecutivo </td>
-                <td>
+                <tr>
+                    <td>@e.IdNomina </td>
+                    <td>@e.Descripcion </td>
+                    <td>@e.Frecuencia </td>
+                    <td>@e.IdConsecutivo </td>
+                    @if(lstActions.Contains(28)) {
+                    <td>
 
-                    <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
-                            class="btn btn-warning"
-                            onclick="jsmostrarDatos(@e.IdNomina);">
-                        <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
-                    </button>
+                        <button id="Editar" dat a-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
+                                class="btn btn-warning"
+                                onclick="jsmostrarDatos(@e.IdNomina);">
+                            <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
+                        </button>
 
-                    <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora" type="button" onclick="jsBitacora(@e.IdNomina);"><i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora</button>
-                </td>
-            </tr>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora" type="button" onclick="jsBitacora(@e.IdNomina);"><i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora</button>
+                    </td>
+                    }
+                </tr>
             }
         }
     </tbody>
