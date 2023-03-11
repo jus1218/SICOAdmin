@@ -1,0 +1,63 @@
+﻿
+@model SICOAdmin1._0.Models.ActionType.TypeActionPers
+
+<div class="modal fade" id="editTypeActionPers" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Editar Acción Personal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="formEditarTipoAccion">
+                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
+
+                        <div class="form-group">
+                            @*<input hidden type="number" class="form-control" id="edIdAction" name="IdTypeActionPers" />
+                            *@
+                            @Html.HiddenFor(c => c.IdTypeActionPers, new { @class = "form-control", id = "edIdAction" })
+                            <label class="mt-4 h6">Descripción</label>
+                            <input required type="text" class="form-control" id="editDescription" name="Description" pattern="(?=.+[\w]).{1,30}|(?=.+[\W]).{1,30}" />
+
+                            <label class="mt-4 h6">Acción</label>
+                            <input required type="text" class="form-control" id="editAction" name="TypeAction " pattern="(?=.+[\w]).{1,70}|(?=.+[\W]).{1,70}" />
+
+
+                            <div class="form-group">
+                                <label class="mt-4 h6">Estado Empleado</label>
+                                <input required type="text" name="StatusEmployed" id="editStatus" class="form-control h6 " />
+
+
+
+                                <label class="mt-4 h6"> Restablecer Estado</label>
+                                @*<input class="form-control h6" type="checkbox" name="ResetState" id="editResetState" />*@
+
+                                <select required name="ResetState" class="form-control h6 custom-select" id="editResetState">
+                                    <option disabled value="" hidden>Seleccione una opción</option>
+                                    <option value="true">Sí</option>
+                                    <option value="false">No</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    @*<div class="modal-footer">*@
+                    <div class="col mt-4 d-flex justify-content-center mb-2">
+                        <input type="submit" class="btn btn-success" value="Actualizar" onclick="editarTypeActionPers();" />
+                       
+                       8  @*<button style="margin-top: 10px" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>*@
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -17,7 +17,7 @@
 
                     <div class="col-6">
 
-                        <form id="formEditarCtrl"  class="was-validated">
+                        <form id="formEditarCtrl" class="was-validated">
 
                             <div class="form-group mt-2">
 
@@ -25,17 +25,20 @@
                                 <input type="text" id="IdAsistencia" name="IdAsistencia" disabled class="form-control" />
                             </div>
 
-                          
+
                             <div class="form-group mt-4" id="selectCollaborators">
 
 
                                 <label for="tipoJornada"># Colaborador:</label>
                                 <select required name="EditColaborador" class="custom-select" id="EditColaborador">
                                     <option disabled value="-1">Seleccione un colaborador...</option>
-                                    @foreach(var col in Model)
+                                    @if (Model != null)
                                     {
-                                        <option value="@col.Value">@col.Text</option>
+                                        foreach (var col in Model)
+                                        {
+                                            <option value="@col.Value">@col.Text</option>
 
+                                        }
                                     }
                                 </select>
 

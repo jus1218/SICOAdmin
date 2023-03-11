@@ -21,6 +21,9 @@ namespace SICOAdmin1._0.Controllers
         ObjectParameter msj = new ObjectParameter("msj", "");
         // GET: ControlAsistencia
 
+        ObjectParameter totalPag = new ObjectParameter("totalPag", 0);
+        int PagActual = 0;
+
 
         // ======================================= VISTAS =======================================
         public ActionResult Index()
@@ -33,7 +36,7 @@ namespace SICOAdmin1._0.Controllers
 
                 using (var db = new SICOAdminEntities())
                 {
-                    lstControlAsist = db.SP_C_MostrarControlAsistencia().ToList();
+                    lstControlAsist = db.SP_C_MostrarControlAsistencia(PagActual, 1, "", totalPag).ToList();
                     lstColaboradores = db.SP_C_MostrarColaboradores("", "tod").ToList();
                 }
                 //Convertimos la hora y el tipo de jornada
@@ -74,8 +77,12 @@ namespace SICOAdmin1._0.Controllers
 
                 TempData["lstControlAsist"] = ddlControlAsistencia;
                 TempData["lstColaboradores"] = ddlColaboradores;
+
+                ViewBag.PagActual = PagActual + 1;
+                ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
             }
-            catch (Exception e){
+            catch (Exception e)
+            {
                 Console.WriteLine(e.Message);
             }
             return View();
@@ -140,8 +147,8 @@ namespace SICOAdmin1._0.Controllers
 
             using (var db = new SICOAdminEntities())
             {
-                 db.SP_P_CrearControlAsistencia(obj.IdColaborador, obj.FechaHoraIngreso, obj.FechaHoraSalida,
-                    obj.TipoJornada, obj.HorasRegulares, obj.HorasExtras, obj.HoraDobles, obj.HorasExtrasDobles, ((User)Session["User"]).userName, msj);
+                db.SP_P_CrearControlAsistencia(obj.IdColaborador, obj.FechaHoraIngreso, obj.FechaHoraSalida,
+                   obj.TipoJornada, obj.HorasRegulares, obj.HorasExtras, obj.HoraDobles, obj.HorasExtrasDobles, ((User)Session["User"]).userName, msj);
             }
 
             if (msj.Value.Equals("Asistencia creada correctamente")) resp = 1;
@@ -153,23 +160,26 @@ namespace SICOAdmin1._0.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult EditarAttendanceControl(CONTROL_ASISTENCIA obj) {
+        public JsonResult EditarAttendanceControl(CONTROL_ASISTENCIA obj)
+        {
             int resp = 0;
 
 
-           
+
             //obj.HorasRegulares = decimal.Round(obj.HorasRegulares, 4);
 
 
-            using (var db = new SICOAdminEntities()){
-                db.SP_P_ModificarControlAsistencia(obj.IdAsistencia,obj.IdColaborador, obj.FechaHoraIngreso, obj.FechaHoraSalida,
+            using (var db = new SICOAdminEntities())
+            {
+                db.SP_P_ModificarControlAsistencia(obj.IdAsistencia, obj.IdColaborador, obj.FechaHoraIngreso, obj.FechaHoraSalida,
                     obj.TipoJornada, obj.HorasRegulares, obj.HorasExtras, obj.HoraDobles, obj.HorasExtrasDobles,
                     ((User)Session["User"]).userName, msj);
             }
 
             if (msj.Value.Equals("Asistencia modificada correctamente")) resp = 1;
 
-            return Json(new{
+            return Json(new
+            {
                 resp = resp,
                 mensaje = msj.Value
             }, JsonRequestBehavior.AllowGet);
@@ -200,7 +210,7 @@ namespace SICOAdmin1._0.Controllers
                 horasExtrasDobles = convertToHora(lstControlAsistBusc.HorasExtrasDobles)
 
             };
-            
+
             return Json(obj2, JsonRequestBehavior.AllowGet);
 
         }
@@ -240,16 +250,68 @@ namespace SICOAdmin1._0.Controllers
 
 
         // ======================================= VISTAS PARCIALES =======================================
-        public PartialViewResult _TableAttendanceControl()
+        //public PartialViewResult _TableAttendanceControl()
+        //{
+        //    using (var db = new SICOAdminEntities())
+        //    {
+
+        //       // lstControlAsist = db.SP_C_MostrarControlAsistencia().ToList();
+
+        //    }
+
+
+        //    List<ControlAsistencia> ddlControlAsistencia = lstControlAsist.ConvertAll(d =>
+        //    {
+        //        return new ControlAsistencia()
+        //        {
+        //            IdAsistencia = d.IdAsistencia,
+        //            NomColaborador = d.NomColaborador,
+        //            FechaHoraIngreso = d.FechaHoraIngreso,
+        //            FechaHoraSalida = d.FechaHoraSalida,
+        //            TipoJornada = TipoJornadaConvert(d.TipoJornada),
+        //            HorasRegulares = convertToHora(d.HorasRegulares),
+        //            HorasExtras = convertToHora(d.HorasExtras),
+        //            HoraDoble = convertToHora(d.HoraDobles),
+        //            HorasExtrasDobles = convertToHora(d.HorasExtrasDobles),
+        //            UsuarioCreacion = d.UsuarioCreacion,
+        //            UsuarioModificacion = d.UsuarioModificacion
+        //        };
+        //    });
+
+
+
+
+
+
+        //    TempData["lstControlAsist"] = ddlControlAsistencia;
+
+
+        //    return PartialView("_TableAttendanceControl", ddlControlAsistencia);
+        //}
+
+        //***************** VERSION MEJORADA CON PAGINACION *****************
+
+        public PartialViewResult _TableAttendanceControl(Pagina obj)
         {
+            //Si no busca viene nulo
+            if (obj.palabraBuscar == null) obj.palabraBuscar = "";
+
+            // Validacion si el usuario esta buscado o solo pasando de pagina
+            if (obj.accion.Equals('S')) obj.NumPagina += 1; //Enviar al SP
+            else if (obj.accion.Equals('N')) obj.NumPagina -= 1;
+
+            // Restricciones para que no busque paginas que no existe
+            if (obj.NumPagina > obj.totalPaginas - 1) obj.NumPagina = Convert.ToInt32(totalPag.Value);
+            else if (obj.NumPagina < 0) obj.NumPagina = 0;
+
+
             using (var db = new SICOAdminEntities())
-            {
-
-                lstControlAsist = db.SP_C_MostrarControlAsistencia().ToList();
-
-            }
+                lstControlAsist = db.SP_C_MostrarControlAsistencia(obj.NumPagina, obj.CantRegistros, obj.palabraBuscar, totalPag).ToList();
 
 
+
+            //Convertimos la hora y el tipo de jornada
+            //Esto se hace aqui porque el entityFrameword no deja modfificar el tipo de horas de decimal a time o string
             List<ControlAsistencia> ddlControlAsistencia = lstControlAsist.ConvertAll(d =>
             {
                 return new ControlAsistencia()
@@ -268,17 +330,15 @@ namespace SICOAdmin1._0.Controllers
                 };
             });
 
-
-
-
-
-
-            TempData["lstControlAsist"] = ddlControlAsistencia;
-
+            //Datos a la vista
+            ViewBag.PagActual = obj.NumPagina + 1;
+            ViewBag.totalPag = totalPag;
 
             return PartialView("_TableAttendanceControl", ddlControlAsistencia);
         }
 
+
+        //*******************************************************************
         public PartialViewResult _SelectCollaborators(int idColaborador)
         { //id del colaborador seleccionado
 
