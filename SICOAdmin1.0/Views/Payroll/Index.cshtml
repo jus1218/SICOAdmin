@@ -1,4 +1,5 @@
-﻿@model SICOAdmin1._0.Models.Payroll.Payroll
+﻿
+@model SICOAdmin1._0.Models.Payroll.Payroll
 @using SICOAdmin1._0.Models.Payroll
 
 @{
@@ -7,8 +8,13 @@
     List<Payroll> lstPayrolls = (List<Payroll>)ViewBag.Payrolls;
     List<SelectListItem> lstConsecutivos = (List<SelectListItem>)ViewBag.lstConsecutivos;
 
-}
 
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+} 
 
 
 <head>
@@ -31,11 +37,15 @@
             <h3 class="mt-0">Nóminas</h3>
         </div>
         <!--BOTON-->
-        <div class="col-xl-2 col-md-2 mb-3 ">
-            <button id="Crear" data-toggle="modal" data-target="#Modal" type="button" class="btn btn-primary col-12">
-                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar
-            </button>
 
+        <div class="col-xl-2 col-md-2 mb-3 ">
+
+            @if (lstActions.Contains(27))
+            {
+                <button id="Crear" data-toggle="modal" data-target="#Modal" type="button" class="btn btn-primary col-12">
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar
+                </button>
+            }
         </div>
         <!--Barra busqueda-->
         @*<div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
@@ -74,6 +84,9 @@
 
 <!-- Modal Bitacora-->
 @Html.Partial("_PayrollLog");
+
+
+<!-- Script para la muestra de los Menjases-->
 @section scripts{
 
     <script type="text/javascript">
