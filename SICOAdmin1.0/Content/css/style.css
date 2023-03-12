@@ -66,6 +66,22 @@ body {
     min-height:30px;
     min-width:150px;
 }
+.formulario__grupo-incorrecto {
+    color: #bb2929;
+}
+
+.formulario__grupo-correcto {
+    color: green;
+}
+.th {
+    text-align: center;
+}
+.modal-content {
+    border-radius:20px;
+}
+button.close {
+    border-radius: 20px;
+}
 
 @media screen and (min-width: 768px) {
     /*Tamaño tablet*/

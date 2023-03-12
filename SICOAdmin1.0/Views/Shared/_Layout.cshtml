@@ -121,6 +121,7 @@
                                 <li>
                                     <a><i class="fa fa-clone"></i>Reporte Consulta<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Index", "Concepto")">Admin. Concepto</a></li>
                                         <li><a href="@Url.Action("Index","Home")">Consultar E/S</a></li>
                                         <li><a href="@Url.Action("Index","Home")">Consultar Planilla</a></li>
                                         <li><a href="@Url.Action("Index","Home")">Cuotas por filial</a></li>
@@ -257,7 +258,7 @@
             </div>
             <!-- /BARRA NAVEGACION SUPERIOR -->
             <!--CONTENIDO RENDERIZADO-->
-            <div class="right_col" role="main">
+            <div class="right_col" id="renderBody" role="main">
 
                 @RenderBody()
             </div>

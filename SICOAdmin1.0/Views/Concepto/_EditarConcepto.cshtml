@@ -1,0 +1,162 @@
+﻿
+
+<div class="modal fade" id="md-editarConcepto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Editar Concepto</h2>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group" >
+                                <label for="concepto"># Concepto</label>
+                                <input name="concepto" disabled type="number" class="form-control" id="idConceptoEdit" placeholder="Ingrese el numero de concepto">
+                                <label for="idConcepto" class="m-1" ></label>
+                            </div>
+                            <div class="form-group" id="grupo__aliasEdit">
+                                <label for="exampleInputEmail1">Alias</label>
+                                <input type="text" class="form-control" id="aliasEdit" placeholder="Ingrese el alias">
+                                <label for="idConceptoEdit" class="m-1 msj__label" id="lblAliasErrorEdit"></label>
+                                <!--id="lblAliasError"-->
+                            </div>
+
+
+                            <div class="form-group" id="grupo__descripcionEdit">
+                                <label for="exampleInputEmail1">Descripción</label>
+                                <input type="text" class="form-control" id="descripcionEdit" placeholder="Ingrese la descripcion">
+                                <label for="idConcepto" class="m-1 msj__label" id="lblDescripcionErrorEdit"></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Tipo</label>
+                                <input type="number" class="form-control" id="tipoEdit" placeholder="Ingrese su tipo">
+                            </div>
+                            <div class="form-group" id="grupo__unidadEdit">
+                                <label for="exampleInputEmail1">Unidad</label>
+                                <input type="number" class="form-control" id="unidadEdit" placeholder="Ingrese la unidad">
+                                <label for="idConcepto" class="m-1 msj__label" id="lblUnidadErrorEdit"></label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="salarial">Salarial</label>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="salarialEdit" value="1">
+                                    <label class="form-check-label" for="salarial">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="salarialEdit" value="0" checked>
+                                    <label class="form-check-label" for="salarial">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!---->
+
+
+                        </div>
+
+
+
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="salarial">Fijo</label>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="fijoEdit" value="1">
+                                    <label class="form-check-label" for="fijo">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="fijoEdit" value="0" checked>
+                                    <label class="form-check-label" for="fijo">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="salarial">Liquidable</label>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="liquidableEdit" value="1">
+                                    <label class="form-check-label" for="liquidable">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="liquidableEdit" value="0" checked>
+                                    <label class="form-check-label" for="liquidable">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="salarial">Cantidad Editable</label>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="cantEditableEdit" value="1">
+                                    <label class="form-check-label" for="cantEditable">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="cantEditableEdit" value="0" checked>
+                                    <label class="form-check-label" for="cantEditable">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="salarial">Monto Editable</label>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="montoEditableEdit" value="1">
+                                    <label class="form-check-label" for="montoEditable">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="montoEditableEdit" value="0" checked>
+                                    <label class="form-check-label" for="montoEditable">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" id="grupo__periodicidadEdit">
+                                <label for="exampleInputEmail1">Periodicidad</label>
+                                <input type="number" class="form-control" id="periodicidadEdit" placeholder="Ingrese su periodicidad">
+                                <label for="idConcepto" class="m-1 msj__label" id="lblPeriodicidadErrorEdit"></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="salarial">Estado</label>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="estadoEdit" value="1">
+                                    <label class="form-check-label" for="estado">
+                                        Activo
+                                    </label>
+                                </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="estadoEdit" value="0" checked>
+                                    <label class="form-check-label" for="estado">
+                                        Inactivo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                       
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="edit">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
