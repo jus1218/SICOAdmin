@@ -69,7 +69,9 @@
         const d = document,
             $renderBody = d.getElementById("renderBody");
         let $tamanoPagina = d.getElementById("tamanoPagina").value,
-            $buscar = d.getElementById("buscar").value.toLowerCase();
+            $buscar = d.getElementById("buscar").value.toLowerCase(),
+            $btnCrear = d.getElementById("create"),
+            $btnEditar = d.getElementById("edit");
         // FALTA EL ATRIBUTO TIPO
         const formIsValid = {
             idConcepto: false,
@@ -199,8 +201,23 @@
                 formIsValid: formIsValid
             })
 
-        })
+            if (todosLosCamposLlenos(formIsValid)) {
+                $btnCrear.disabled = false;
+                return false;
+            }
+            else {
+                $btnCrear.disabled = true;
+            }
 
+            //console.log($btnEditar);
+            //$btnEditar.disabled = false
+            //if (!todosLosCamposLlenos(formIsValidEdit)) $btnEditar.disabled = false;
+            //else $btnEditar.disabled = true;
+
+
+
+;
+        })
 
         // ROUTE
         $renderBody.addEventListener("click", e => {
@@ -406,6 +423,17 @@
                })
 
             }
+
+            if (e.target.id === "cerrarModalCrear") {
+                console.log("HOLA");
+                clearInputsColor();
+                d.getElementById("createForm").reset();
+            }
+            if (e.target.id === "cerrarModalEditar") {
+                clearInputsColor();
+                d.getElementById("EditForm").reset();
+            }
+
         })
         // CHANGE
         $renderBody.addEventListener("change", (e) => {

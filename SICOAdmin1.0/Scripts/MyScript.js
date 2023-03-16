@@ -69,11 +69,11 @@ const validarCampo = (props) => {
     lblMsj.textContent = pasoTest ? "" : objExpresion.msjError;
 };
 
-const cargarComponent = (props) => {
+const cargarComponent =  (props) => {
 
     let { container, url } = props;
 
-    fetch(url)
+     fetch(url)
         .then((res) => res.text())
         .then((viewPartial) => document.getElementById(container).innerHTML = viewPartial)
         .catch((er) => console.error("Ha ocurrido un error al cargar el contenido", er));
