@@ -1,0 +1,93 @@
+﻿
+
+@model List<SICOAdmin1._0.Models.SP_C_MostrarProveedores_Result>
+
+
+@{ //int horaR = 0;
+
+    int i = 0;
+}
+
+
+
+<table id="tColaboradores" class="table table-bordered ">
+    <thead class="">
+        <tr>
+            <th scope="col" class="th"># Proveedor</th>
+            <th scope="col" class="th">Nombre</th>
+            <th scope="col" class="th">Identificacion</th>
+            <th scope="col" class="th">Tipo</th>
+            <th scope="col" class="th">Contacto</th>
+            <th scope="col" class="th">Telefono 1</th>
+            <th scope="col" class="th">CorreoElectronico</th>
+            <th scope="col" class="th">Activo</th>
+        </tr>
+    </thead>
+    <tbody style="text-align:center;">
+
+        @if (Model != null)
+        {
+            foreach (var proveedor in Model)
+            {
+                i++;
+                <tr>
+                    <td>@proveedor.IdProveedor</td>
+                    <td>@proveedor.Nombre</td>
+                    <td>@proveedor.Identificacion</td>
+                    <td>@proveedor.Tipo</td>
+                    <td>@proveedor.Contacto</td>
+                    <td>@proveedor.Telefono1</td>
+                    <td>@proveedor.CorreoElectronico</td>
+                    @if (proveedor.Activo == true)
+                    {
+
+                        <td>SI</td>
+                    }
+                    else
+                    {
+                        <td>NO</td>
+                    }
+                    @*
+                        data-toggle="modal" data-target="#editCtrlAsistencia"
+                        data-toggle="modal" data-target="#viewMore"
+                    *@
+
+                    <td>
+                        <button type="button" class="btn btn-warning" name="viewEditPage" data-id="@proveedor.IdProveedor"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
+
+                        <button type="button" class="btn btn-primary" name="detalle" data-id="@proveedor.IdProveedor">
+                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
+                        </button>
+                    </td>
+
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+
+
+
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+        }
+
+    </div>
+
+
+
+</div>
