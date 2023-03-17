@@ -1,0 +1,454 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarConceptos_Result>
+@{
+    //Layout = null;
+}
+
+
+<div class="container margin-container p-4 glass">
+
+
+    <div class="row fila">
+
+        <!--BOTON-->
+
+        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12"><h3 class="d-flex justify-content-center">Concepto</h3></div>
+
+
+
+        <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 " data-toggle="modal" data-target="#agregarConcepto">
+            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+            Agregar
+        </button>
+
+
+        <!--Barra busqueda-->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
+            <div class="input-group ">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Buscar..."
+                       aria-label="Buscar..."
+                       aria-describedby="button-search"
+                       id="buscar" />
+
+            </div>
+        </div>
+    </div>
+    <div class="row m-1 ">
+        <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamanoPagina">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+    <!--FILA TABLE   row       tableAttendanceControl -->
+    <div class="row fila   scrol-tablex" id="content-table">
+        @Html.Partial("_TablaConcepto", Model);
+    </div>
+
+</div>
+
+@Html.Partial("_AgregarConcepto")
+@Html.Partial("_DetalleConcepto")
+@Html.Partial("_EditarConcepto")
+
+
+
+
+
+
+
+
+
+
+
+@section scripts{
+
+    <script>
+
+        const d = document,
+            $renderBody = d.getElementById("renderBody");
+        let $tamanoPagina = d.getElementById("tamanoPagina").value,
+            $buscar = d.getElementById("buscar").value.toLowerCase(),
+            $btnCrear = d.getElementById("create"),
+            $btnEditar = d.getElementById("edit");
+        // FALTA EL ATRIBUTO TIPO
+        const formIsValid = {
+            idConcepto: false,
+            alias: false,
+            descripcion: false,
+            unidad: false,
+            periodicidad:false
+        };
+        const formIsValidEdit = {
+            idConceptoEdit: true,
+            aliasEdit: true,
+            descripcionEdit: true,
+            unidadEdit: true,
+            periodicidadEdit: true
+        };
+        const valuesChecks = {
+            salarial: 0,
+            fijo: 0,
+            liquidable: 0,
+            cantEditable: 0,
+            montoEditable: 0,
+            estado: 0
+        }
+        const expresiones = {
+            idConcepto: {
+                expresionR: /^[0-9]+$/,
+                msjError: "id del concepto no cumple con lo solicitado, solo numeros", //Mensaje del label
+                grupoError: "grupo__idConcepto", // id del grupo al que se va pintar de color
+                labelError: "lblIdConceptoError", // id del elemento donde se va pintar y se agregara el msj
+            },
+            alias: {
+                expresionR: /^.+$/,//valida que la cadena no venga vacia
+                msjError: "llene el campo", //Mensaje del label
+                grupoError: "grupo__alias", // id del grupo al que se va pintar de color
+                labelError: "lblAliasError", // id del elemento donde se va pintar y se agregara el msj
+            },
+            descripcion: {
+                expresionR: /^.+$/,//valida que la cadena no venga vacia
+                msjError: "llene el campo", //Mensaje del label
+                grupoError: "grupo__descripcion", // id del grupo al que se va pintar de color
+                labelError: "lblDescripcionError", // id del elemento donde se va pintar y se agregara el msj
+            },
+            unidad: {
+                expresionR: /^.+$/,//valida que la cadena no venga vacia
+                msjError: "llene el campo", //Mensaje del label
+                grupoError: "grupo__unidad", // id del grupo al que se va pintar de color
+                labelError: "lblUnidadError", // id del elemento donde se va pintar y se agregara el msj
+            },
+            periodicidad: {
+                expresionR: /^.+$/,//valida que la cadena no venga vacia
+                msjError: "llene el campo", //Mensaje del label
+                grupoError: "grupo__periodicidad", // id del grupo al que se va pintar de color
+                labelError: "lblPeriodicidadError", // id del elemento donde se va pintar y se agregara el msj
+            },
+        }
+
+        const expresionesEdit = {
+            aliasEdit: {
+                expresionR: /^.+$/,//valida que la cadena no venga vacia
+                msjError: "llene el campo", //Mensaje del label
+                grupoError: "grupo__aliasEdit", // id del grupo al que se va pintar de color
+                labelError: "lblAliasErrorEdit", // id del elemento donde se va pintar y se agregara el msj
+            },
+            descripcionEdit: {
+                expresionR: /^.+$/,//valida que la cadena no venga vacia
+                msjError: "llene el campo", //Mensaje del label
+                grupoError: "grupo__descripcionEdit", // id del grupo al que se va pintar de color
+                labelError: "lblDescripcionErrorEdit", // id del elemento donde se va pintar y se agregara el msj
+            },
+            unidadEdit: {
+                expresionR: /^.+$/,//valida que la cadena no venga vacia
+                msjError: "llene el campo", //Mensaje del label
+                grupoError: "grupo__unidadEdit", // id del grupo al que se va pintar de color
+                labelError: "lblUnidadErrorEdit", // id del elemento donde se va pintar y se agregara el msj
+            },
+            periodicidadEdit: {
+                expresionR: /^.+$/,//valida que la cadena no venga vacia
+                msjError: "llene el campo", //Mensaje del label
+                grupoError: "grupo__periodicidadEdit", // id del grupo al que se va pintar de color
+                labelError: "lblPeriodicidadErrorEdit", // id del elemento donde se va pintar y se agregara el msj
+            },
+        }
+        //KEY_UP
+        $renderBody.addEventListener("keyup", e => {
+
+
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+
+                console.log(palabraBuscar.toLowerCase());
+
+                buscarPalabra({
+                    url: "@Url.Content("~/Concepto/_TablaConcepto")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+
+
+            /*
+             * 1 - Verifica que sea un check
+             * 2 - si el valor es 1 lo cambia por 0 y viceversa**/
+            if (valuesChecks[e.target.name] != undefined) valuesChecks[e.target.name] == 1 ? valuesChecks[e.target.name] = 0 : valuesChecks[e.target.name] = 1;
+
+            // Valida los inputs de editar
+            if (formIsValidEdit[e.target.id] != undefined) {
+                validarCampo({
+                    objExpresion: expresionesEdit[e.target.id],
+                    input: e.target,
+                    formIsValid: formIsValidEdit
+                })
+                return false;
+            }
+
+
+            /*
+             * Inputs U otra etiqueta que no se validen con expresiones retorna FALSE**/
+            if (formIsValid[e.target.id] == undefined) return false;
+
+            //validamos el tamano de los campos
+            //validarCampo(expresiones[e.target.id], e.target, formIsValid);
+            validarCampo({
+                objExpresion: expresiones[e.target.id],
+                input: e.target,
+                formIsValid: formIsValid
+            })
+
+            if (todosLosCamposLlenos(formIsValid)) {
+                $btnCrear.disabled = false;
+                return false;
+            }
+            else {
+                $btnCrear.disabled = true;
+            }
+
+            //console.log($btnEditar);
+            //$btnEditar.disabled = false
+            //if (!todosLosCamposLlenos(formIsValidEdit)) $btnEditar.disabled = false;
+            //else $btnEditar.disabled = true;
+
+
+
+;
+        })
+
+        // ROUTE
+        $renderBody.addEventListener("click", e => {
+            //$("#editar").modal("hide");// OCULTA EL MODAL
+            let page = e.target.dataset.value ||"";
+            if (e.target.id === "create") {
+                inputsError({
+                    objExpresion: expresiones,
+                    formIsValid: formIsValid
+                })
+
+                if (!todosLosCamposLlenos(formIsValid)) return false;
+
+                fetchMethod({
+                    url: "@Url.Content("~/Concepto/CreateConcept")", method: "POST",
+                    body: {
+                        idConcepto: d.getElementById("idConcepto").value,
+                        alias: d.getElementById("alias").value,
+                        descripcion: d.getElementById("descripcion").value,
+                        tipo: d.getElementById("tipo").value,
+                        unidad: d.getElementById("unidad").value,
+                        salarial: valuesChecks["salarial"],
+                        fijo: valuesChecks["fijo"],
+                        liquidable: valuesChecks["liquidable"],
+                        cantEditable: valuesChecks["cantEditable"],
+                        montoEditable: valuesChecks["montoEditable"],
+                        periodicidad: d.getElementById("periodicidad").value,
+                        activo: valuesChecks["estado"]
+
+                    },
+                    cbSuccess: (res) => {
+                        //console.log(res)
+
+                        if (res.status == 1) {
+                            $("#agregarConcepto").modal("hide");// OCULTA EL MODAL
+
+                            cargarComponent({
+                                container: "content-table",
+                                url: "@Url.Content("~/Concepto/_TablaConcepto")"
+                            });
+                            clearInputsColor();
+                            d.getElementById("createForm").reset();
+                            swal('Bien!',
+                                res.mensaje,
+                                'success')
+                        } else {
+                            swal('Opps!',
+                                res.mensaje,
+                                'error'
+                            )
+                        }
+                    }
+                })
+
+            }
+            else if (e.target.id === "edit") {
+                //inputsError({
+                //    objExpresion: expresionesEdit,
+                //    formIsValid: formIsValidEdit
+                //})
+                console.log("Verificando");
+                if (!todosLosCamposLlenos(formIsValidEdit)) return false;
+                console.log("Enviando...");
+
+                let salarial = d.querySelector('input[name="salarialEdit"]:checked').value;
+                let fijo = d.querySelector('input[name="fijoEdit"]:checked').value;
+                let liquidable = d.querySelector('input[name="liquidableEdit"]:checked').value
+                let cantEditable = d.querySelector('input[name="cantEditableEdit"]:checked').value
+                let montoEditable = d.querySelector('input[name="montoEditableEdit"]:checked').value
+                let activo = d.querySelector('input[name="estadoEdit"]:checked').value;
+
+
+                fetchMethod({
+                    url: "@Url.Content("~/Concepto/EditConcept")",
+                    body: {
+                        idConcepto: d.getElementById("idConceptoEdit").value,
+                        alias: d.getElementById("aliasEdit").value,
+                        descripcion: d.getElementById("descripcionEdit").value,
+                        tipo: d.getElementById("tipoEdit").value,
+                        unidad: d.getElementById("unidadEdit").value,
+                        salarial: (salarial == "1"),
+                        fijo: (fijo == "1"),
+                        liquidable: (liquidable == "1"),
+                        cantEditable: (cantEditable == "1"),
+                        montoEditable: (montoEditable == "1"),
+                        periodicidad: d.getElementById("periodicidadEdit").value,
+                        activo: (activo == "1"),
+
+
+                    },
+                    cbSuccess: (res) => {
+                        if (res.status == 1) {
+                            $("#md-editarConcepto").modal("hide");// OCULTA EL MODAL
+
+                            cargarComponent({ container: "content-table", url: "@Url.Content("~/Concepto/_TablaConcepto")" });
+                            clearInputsColor();
+                            d.getElementById("createForm").reset();
+                            swal('Bien!',
+                                res.mensaje,
+                                'success')
+                        } else {
+                            swal('Opps!',
+                                res.mensaje,
+                                'error'
+                            )
+                        }
+                    }
+                })
+
+
+
+
+
+
+            }
+            else if (e.target.name === "showEditModel") {
+                let idConceptEdit = e.target.dataset.id;
+                console.log("Editando");
+
+                fetchMethod({
+                    url: "@Url.Content("~/Concepto/GetConcept")?id=" + idConceptEdit,
+                    cbSuccess: (res) => {
+                        console.log(res);
+                        //console.log(d.getElementById("aliasEdit").name);
+                        //console.log(d.getElementById("aliasEdit").name);
+                        d.getElementById("idConceptoEdit").value = res.IdConcepto;
+                        d.getElementById("aliasEdit").value = res.Alias;
+                        d.getElementById("descripcionEdit").value = res.Descripcion;
+                        d.getElementById("unidadEdit").value = res.Unidad;
+
+                        darValorRadio({ esActivo: res.Salarial, elementName: "salarialEdit" });
+                        darValorRadio({ esActivo: res.Salarial, elementName: "salarialEdit" });
+                        darValorRadio({ esActivo: res.Fijo, elementName: "fijoEdit" });
+                        darValorRadio({ esActivo: res.Liquidable, elementName: "liquidableEdit" });
+
+                        darValorRadio({ esActivo: res.CantEditable, elementName: "cantEditableEdit" });
+                        darValorRadio({ esActivo: res.MontoEditable, elementName: "montoEditableEdit" });
+                        d.getElementById("periodicidadEdit").value = res.Periodicidad;
+                        darValorRadio({ esActivo: res.Activo, elementName: "estadoEdit" });//-------------------
+
+
+
+
+                        $("#md-editarConcepto").modal("show");// LEVANTAMOS EL MODAL
+                    }
+                });
+            }
+            else if (e.target.name === "showMore") {
+
+                let idConcept = e.target.dataset.id;
+                console.log(idConcept);
+
+
+                fetchMethod({
+                    url: "@Url.Content("~/Concepto/GetConcept")?id=" + idConcept,
+                    cbSuccess: (res) => {
+
+                        console.log(res);
+                        d.getElementById("tdAlias").textContent = res.Alias;
+                        d.getElementById("tdDescripcion").textContent = res.Alias;
+                        d.getElementById("tdTipo").textContent = res.Tipo;
+                        d.getElementById("tdUnidad").textContent = res.Unidad;
+                        d.getElementById("tdSalarial").textContent = (res.Salarial ? "SI" : "NO");
+                        d.getElementById("tdFijo").textContent = (res.Fijo ? "SI" : "NO");
+                        d.getElementById("tdLiquidable").textContent = (res.Liquidable ? "SI" : "NO");
+                        d.getElementById("tdCantEditable").textContent = (res.CantEditable ? "SI" : "NO");
+                        d.getElementById("tdMontoEditable").textContent = (res.MontoEditable ? "SI" : "NO");
+                        d.getElementById("tdPeriodicidad").textContent = res.Periodicidad;
+                        d.getElementById("tdActivo").textContent = (res.Activo ? "SI" : "NO");
+                        $("#m-showMore").modal("show");// LEVANTAMOS EL MODAL
+                    }
+                })
+
+
+            }
+            else if (e.target.name === "nextPage") {
+                console.log("Tamano de pagina: " + d.getElementById("tamanoPagina").value);
+                console.log("Tamano de pagina: " + $tamanoPagina);
+
+                console.log("Palabra: " + d.getElementById("buscar").value.toLowerCase());
+                console.log("TOTAL DE PAGINAS: " +@ViewBag.totalPag.Value);
+                console.log("Total de paginas: " + d.getElementById("totalPag").textContent);
+                console.log("Cantidad de registros: " + d.getElementById("tamanoPagina").value);
+
+                siguientePagina({
+                    sig: page,
+                    totalPage: d.getElementById("totalPag").textContent,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/Concepto/_TablaConcepto")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                })
+
+            }
+            else if (e.target.name === "previousPage") {
+               retrocederPagina({
+                   ant: page,
+                   totalPage: d.getElementById("totalPag").textContent,
+                   tamanoPagina: d.getElementById("tamanoPagina").value,
+                   url: "@Url.Content("~/Concepto/_TablaConcepto")",
+                   container: "content-table",
+                   palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+               })
+
+            }
+
+            if (e.target.id === "cerrarModalCrear") {
+                console.log("HOLA");
+                clearInputsColor();
+                d.getElementById("createForm").reset();
+            }
+            if (e.target.id === "cerrarModalEditar") {
+                clearInputsColor();
+                d.getElementById("EditForm").reset();
+            }
+
+        })
+        // CHANGE
+        $renderBody.addEventListener("change", (e) => {
+            if (!(e.target.id === "tamanoPagina")) return false;
+
+
+            cambioTamanoPagina({
+                totalPage:d.getElementById("totalPag").textContent,
+                tamanoPagina: e.target.value,
+                url:"@Url.Content("~/Concepto/_TablaConcepto")",
+                container: "content-table",
+                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+            });
+
+        })
+    </script>
+
+}

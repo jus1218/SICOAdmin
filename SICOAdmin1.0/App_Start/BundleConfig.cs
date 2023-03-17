@@ -25,7 +25,7 @@ namespace SICOAdmin1._0
                         "~/Vendors/bootstrap/dist/css/bootstrap.min.css",
                         "~/Vendors/fontawesome/css/font-awesome.min.css",
                         "~/Vendors/nprogress/nprogress.css",
-                        "~/Content/css/style.css", 
+                        "~/Content/css/style.css",
                         "~/Content/css/sweetalert.min.css",
                         //"~/Content/bootstrap4.min.css",//
                         "~/Content/gijgo.min.css",//
@@ -39,7 +39,8 @@ namespace SICOAdmin1._0
                         "~/Scripts/sweetalert.min.js",
                         "~/Scripts/gijgo.min.js",//
                         "~/Scripts/jquery-3.3.1.min.js",//
-                        "~/Content/js/custom.min.js"
+                        "~/Content/js/custom.min.js",
+                         "~/Scripts/MyScript.js"
                         ));
 
         }
