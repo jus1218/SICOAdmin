@@ -1,0 +1,98 @@
+﻿
+<form id="createProveedor">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-2"></div>
+        <div class="col-sm-12 col-md-4">
+            <div class="form-group" id="grupo__nombre">
+                <label for="concepto">Nombre</label>
+                <input  name="concepto" type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" pattern="[A-Za-z]+" title="Solo se permiten letras" required>
+                <label for="nombre" class="m-1 msj__label" id="lblNombreError"></label>
+            </div>
+
+            <div class="form-group" id="grupo__identificacion">
+                <label for="concepto">Identificacion</label>
+                <input name="concepto" type="text" class="form-control" id="identificacion" placeholder="Ingrese la cedula" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                <label for="identificacion" class="m-1 msj__label" id="lblIdentificacionError"></label>
+            </div>
+
+            <div class="form-group" id="grupo__tipo">
+
+                <label for="tipo">Tipo</label>
+                <select required name="tipo" class="custom-select" id="tipo">
+                    <option value="" selected disabled>Seleccione una opcion...</option>
+                    <option value="1">tipo 1</option>
+                    <option value="2">tipo 2</option>
+                    <option value="3">tipo 3</option>
+                </select>
+                <label for="tipo" class="m-1 msj__label" id="lblTipoError"></label>
+            </div>
+
+            <div class="form-group" id="grupo__contacto">
+                <label for="concepto">Contacto</label>
+                <input name="concepto" type="number" class="form-control" id="contacto" placeholder="Ingrese el numero de contacto" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                <label for="contacto" class="m-1 msj__label" id="lblContactoError"></label>
+            </div>
+
+            <div class="form-group" id="grupo__telefono1">
+                <label for="telefono1">Telefono 1</label>
+                <input name="telefono1" type="number" class="form-control" id="telefono1" placeholder="Ingrese el numero de telefono" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                <label for="telefono1" class="m-1 msj__label" id="lblTelefono1Error"></label>
+            </div>
+        </div>
+        <!--==================== COL 2 ====================-->
+        <div class="col-sm-12 col-md-4">
+            <div class="form-group" id="grupo__telefono2">
+                <label for="telefono2">Telefono 2</label>
+                <input name="telefono2" type="number" class="form-control" id="telefono2" placeholder="Ingrese el numero de telefono" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                <label for="telefono2" class="m-1 msj__label" id="lblTelefono2Error"></label>
+            </div>
+
+
+            <div class="form-group" id="grupo__correo">
+                <label for="correo">Correo</label>
+                <input required name="correo" type="email" class="form-control" id="correo" placeholder="Ingrese el correo">
+                <label for="correo" class="m-1 msj__label" id="lblCorreoError"></label>
+            </div>
+
+            <div class="form-group" id="grupo__condicionPago">
+                <label for="condicionPago">condicion de Pago</label>
+                <input name="condicionPago" type="number" class="form-control" id="condicionPago" placeholder="numero de dias" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                <label for="condicionPago" class="m-1 msj__label" id="lblCondicionPagoError"></label>
+            </div>
+            <div class="form-group" id="grupo__cuentaBancaria">
+                <label for="CuentaBancaria">Cuenta Bancaria</label>
+                <input  name="cuentaBancaria" type="text" class="form-control" id="cuentaBancaria" placeholder="Ingrese la cuenta bancaria" pattern="[A-Za-z0-9]+" title="Solo se permiten letras y números" required>
+                <label for="cuentaBancaria" class="m-1 msj__label" id="lblCuentaBancariaError"></label>
+            </div>
+
+            <div class="form-group" id="grupo__banco">
+                <label for="banco">Nombre Del Banco</label>
+                <input name="banco" type="text" class="form-control" id="banco" placeholder="Ingrese el banco que pertenece la cuenta" pattern="[A-Za-z]+" title="Solo se permiten letras" required>
+                <label for="banco" class="m-1 msj__label" id="lblBancoError"></label>
+            </div>
+
+        </div>
+        <div class="col-sm-12 col-md-2"></div>
+    </div>
+
+
+
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-4"></div>
+        <div class=" col-sm-12 col-md-4 d-flex  justify-content-center">
+            <!--
+
+    href="Url.Action("Index", "Proveedor")"
+        -->
+            <button type="button" class="btn btn-secondary col-sm-6 col-md-6" name="regresar" id="regresarr">Cerrar</button>
+            <button type="submit" class="btn btn-primary col-sm-6 col-md-6">Crear</button>
+        </div>
+        <div class="col-sm-12 col-md-4"></div>
+    </div>
+
+
+
+</form>
+
+

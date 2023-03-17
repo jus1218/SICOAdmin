@@ -1,0 +1,221 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarProveedores_Result>
+@{
+    //Layout = null;
+}
+
+<div class="container margin-container p-4 glass" id="renderLocal">
+
+    @Html.Partial("_MostrarProveedores", Model);
+</div>
+
+
+
+
+
+@section scripts{
+
+    <script>
+
+        const d = document,
+            $renderBody = d.getElementById("renderBody"),
+            $formCreate = d.getElementById("createProveedor");
+
+        $renderBody.addEventListener("click",  (e) => {
+            let page = e.target.dataset.value || "";
+
+            if (e.target.id === "viewCreatePage") {
+                console.log("Vista crear")
+                cargarComponent({
+                    container: "renderLocal", url: "@Url.Content("~/Proveedor/_AgregarProveedor")",
+                })
+            }
+            else if (e.target.name === "viewEditPage") {
+                console.log("Vista editar")
+                let idSupplier = e.target.dataset.id;
+                cargarComponent({
+                    container: "renderLocal",
+                    url: "@Url.Content("~/Proveedor/_EditarProveedorPage")?id=" + idSupplier,
+                })
+            }
+            else if (e.target.name === "regresar") {
+
+                //let btn = d.getElementById("regresarr");
+
+                //btn.setAttribute("disabled", "disabled");
+
+                cargarComponent({
+                    container: "renderLocal", url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
+                })
+               /* btn.removeAttribute("disabled");*/
+            }
+            else if (e.target.name === "detalle") {
+                console.log("Regresando");
+                let idSupplier = e.target.dataset.id;
+
+                cargarComponent({
+                    container: "renderLocal",
+                    url: "@Url.Content("~/Proveedor/_DetalleProveedor")?id=" + idSupplier,
+                })
+
+
+            }
+            else if (e.target.name === "nextPage") {
+                siguientePagina({
+                    sig: page,
+                    totalPage: d.getElementById("totalPag").textContent,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/Proveedor/_TablaProveedor")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                })
+            }
+            else if (e.target.name === "previousPage") {
+
+                retrocederPagina({
+                   ant: page,
+                   totalPage: d.getElementById("totalPag").textContent,
+                   tamanoPagina: d.getElementById("tamanoPagina").value,
+                   url: "@Url.Content("~/Proveedor/_TablaProveedor")",
+                   container: "content-table",
+                   palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+               })
+            }
+
+        })
+
+
+        //submit
+        $renderBody.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            if (e.target.id === "createProveedor") {
+                console.log("CREANDO");
+                fetchMethod({
+                    url: "@Url.Content("~/Proveedor/CrearProveedor")",
+                    body: {
+                    Nombre: d.getElementById("nombre").value,
+                    Identificacion: d.getElementById("identificacion").value,
+                    Tipo: d.getElementById("tipo").value,
+                    Contacto: d.getElementById("contacto").value,
+                    Telefono1: d.getElementById("telefono1").value,
+                    Telefono2: d.getElementById("telefono2").value,
+                    CorreoElectronico: d.getElementById("correo").value,
+                    CondicionPago: d.getElementById("condicionPago").value,
+                    CuentaBancaria: d.getElementById("cuentaBancaria").value,
+                    Banco: d.getElementById("banco").value,
+
+                },
+                    cbSuccess: (res) => {
+                        if (res.status == 1) {
+                            //clearInputsColor();
+                            //d.getElementById("createProveedor").reset();
+                            console.log(res.mensaje);
+                            cargarComponent({
+                                container: "renderLocal",
+                                url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
+                            })
+
+
+                                swal('Bien!',
+                                res.mensaje,
+                                'success')
+                        }
+                        else {
+                            swal('Opps!',
+                            res.mensaje,
+                            'error')
+                        }
+
+                    }
+                })
+
+
+            }
+
+            if (e.target.id === "editarProveedor") {
+                let estado = d.querySelector('input[name="estado"]:checked').value;
+                 fetchMethod({
+                    url: "@Url.Content("~/Proveedor/EditarProveedor")",
+                     body: {
+                        IdProveedor: d.getElementById("idProveedorEdit").value,
+                        Nombre: d.getElementById("nombreEdit").value,
+                        Identificacion: d.getElementById("identificacionEdit").value,
+                        Tipo: d.getElementById("tipoEdit").value,
+                        Contacto: d.getElementById("contactoEdit").value,
+                        Telefono1: d.getElementById("telefono1Edit").value,
+                        Telefono2: d.getElementById("telefono2Edit").value,
+                         CorreoElectronico: d.getElementById("correoEdit").value,
+                         CondicionPago: d.getElementById("condicionPagoEdit").value,
+                         CuentaBancaria: d.getElementById("cuentaBancariaEdit").value,
+                         Banco: d.getElementById("bancoEdit").value,
+                         Activo: (estado =="1"),
+
+                    },
+                    cbSuccess: (res) => {
+                        if (res.status == 1) {
+                            //clearInputsColor();
+                            //d.getElementById("createProveedor").reset();
+                            console.log(res.mensaje);
+                            cargarComponent({
+                                container: "renderLocal",
+                                url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
+                            })
+
+
+                                swal('Bien!',
+                                res.mensaje,
+                                'success')
+                        }
+                        else {
+                            swal('Opps!',
+                            res.mensaje,
+                            'error')
+                        }
+
+                    }
+                })
+
+
+            }
+        })
+
+
+        // CHANGE
+        $renderBody.addEventListener("change", (e) => {
+            if (!(e.target.id === "tamanoPagina")) return false;
+
+            console.log(d.getElementById("totalPag").textContent);
+            console.log(e.target.value);
+            console.log("@Url.Content("~/Proveedor/_TablaProveedor")");
+            console.log(d.getElementById("buscar").value.toLowerCase());
+
+            cambioTamanoPagina({
+                totalPage:d.getElementById("totalPag").textContent,
+                tamanoPagina: e.target.value,
+                url:"@Url.Content("~/Proveedor/_TablaProveedor")",
+                container: "content-table",
+                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+            });
+
+        })
+
+
+        $renderBody.addEventListener("keyup", (e) => {
+
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+
+                console.log(palabraBuscar.toLowerCase());
+
+                buscarPalabra({
+                    url: "@Url.Content("~/Proveedor/_TablaProveedor")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+
+        })
+    </script>
+}
