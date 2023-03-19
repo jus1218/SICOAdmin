@@ -71,9 +71,17 @@ const validarCampo = (props) => {
 
 const cargarComponent =  (props) => {
 
-    let { container, url } = props;
+    let { container, url, body } = props;
 
-     fetch(url)
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+
+    })
         .then((res) => res.text())
         .then((viewPartial) => document.getElementById(container).innerHTML = viewPartial)
         .catch((er) => console.error("Ha ocurrido un error al cargar el contenido", er));

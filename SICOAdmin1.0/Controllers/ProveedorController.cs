@@ -207,6 +207,34 @@ namespace SICOAdmin1._0.Controllers
                 mensaje = msj.Value
             }, JsonRequestBehavior.AllowGet);
         }
+
+
+
+        public JsonResult ChangeState(int id)
+        {
+            ObjectParameter seModifico = new ObjectParameter("seModifico", 0);
+
+
+            try
+            {
+
+                using (var db = new SICOAdminEntities())
+                {
+                    db.SP_P_CambiarEstadoProveedor(id, msj, seModifico);
+                }
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine(er.Message);
+            }
+
+
+            return Json(new
+            {
+                status = seModifico.Value,
+                mensaje = msj.Value
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 
 }
