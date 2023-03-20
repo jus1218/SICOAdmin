@@ -96,13 +96,24 @@ namespace SICOAdmin1._0.Controllers
 
 
         //VIISTA RENDER
-        public PartialViewResult _MostrarProveedores()
+        public PartialViewResult _MostrarProveedores(Pagina obj)
         {
+            obj.CantRegistros = obj.CantRegistros == 1 ? DEFAULT_NUMBER_PAGE : obj.CantRegistros;
+            //Si no busca viene nulo
+            if (obj.palabraBuscar == null) obj.palabraBuscar = "";
+
+            // Validacion si el usuario esta buscado o solo pasando de pagina
+            if (obj.accion.Equals('S')) obj.NumPagina += 1; //Enviar al SP
+            else if (obj.accion.Equals('N')) obj.NumPagina -= 1;
+
+            // Restricciones para que no busque paginas que no existe
+            if (obj.NumPagina > obj.totalPaginas - 1) obj.NumPagina = Convert.ToInt32(totalPag.Value);
+            else if (obj.NumPagina < 0) obj.NumPagina = 0;
 
             try
             {
-
-                using (var db = new SICOAdminEntities()) lstProveedores = db.SP_C_MostrarProveedores(PagActual, DEFAULT_NUMBER_PAGE, "", totalPag).ToList();
+//DEFAULT_NUMBER_PAGE
+                using (var db = new SICOAdminEntities()) lstProveedores = db.SP_C_MostrarProveedores(obj.NumPagina, obj.CantRegistros, obj.palabraBuscar, totalPag).ToList();
 
             }
             catch (Exception e)
@@ -112,11 +123,11 @@ namespace SICOAdmin1._0.Controllers
 
             }
 
+            ViewBag.palabraBuscar = obj.palabraBuscar;
+            ViewBag.CantRegistros = obj.CantRegistros;
 
-            ViewBag.PagActual = PagActual + 1;
+            ViewBag.PagActual = obj.NumPagina + 1;
             ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
-
-
             return PartialView("_MostrarProveedores", lstProveedores);
         }
 

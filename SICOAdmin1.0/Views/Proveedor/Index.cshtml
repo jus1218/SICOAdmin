@@ -25,34 +25,68 @@
 
             let page = e.target.dataset.value || "";
             if (e.target.id === "viewCreatePage") {
-                console.log("Vista crear")
+                
                 cargarComponent({
                     container: "renderLocal", url: "@Url.Content("~/Proveedor/_AgregarProveedor")",
                 })
+                return false;
             }
             else if (e.target.name === "viewEditPage") {
-                console.log("Vista editar")
+                let numPage = Number(d.getElementById("pagActual").textContent) - 1;
                 let idSupplier = e.target.dataset.id;
+                let objPaginacion = {
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: numPage,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    totalPaginas: d.getElementById("totalPag").textContent
+
+                }
+                localStorage.setItem("objPaginacion", JSON.stringify(objPaginacion));
+
                 cargarComponent({
                     container: "renderLocal",
                     url: "@Url.Content("~/Proveedor/_EditarProveedorPage")?id=" + idSupplier,
                 })
+                return false;
             }
             else if (e.target.name === "regresar") {
                 //let btn = d.getElementById("regresarr");
                 //btn.setAttribute("disabled", "disabled");
+
+
+                let objP = JSON.parse(localStorage.getItem("objPaginacion"));
+
                 cargarComponent({
                     container: "renderLocal", url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
+                    body: objP
                 })
-               /* btn.removeAttribute("disabled");*/
+                console.log("Cantidad de registros" + objP.CantRegistros);
+
+                
+                
+                /* btn.removeAttribute("disabled");*/
+                return false;
             }
             else if (e.target.name === "detalle") {
-                console.log("Regresando");
+
+
+                let numPage = Number(d.getElementById("pagActual").textContent) -1;
                 let idSupplier = e.target.dataset.id;
+                let objPaginacion = {
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: numPage,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    totalPaginas: d.getElementById("totalPag").textContent
+
+                }
+                localStorage.setItem("objPaginacion", JSON.stringify(objPaginacion));
+
+
                 cargarComponent({
                     container: "renderLocal",
                     url: "@Url.Content("~/Proveedor/_DetalleProveedor")?id=" + idSupplier,
                 })
+                return false;
             }
             else if (e.target.name === "nextPage") {
                 siguientePagina({
@@ -63,6 +97,7 @@
                     container: "content-table",
                     palabraBuscar: d.getElementById("buscar").value.toLowerCase()
                 })
+                return false;
             }
             else if (e.target.name === "previousPage") {
                 retrocederPagina({
@@ -79,7 +114,7 @@
         $renderBody.addEventListener("submit", (e) => {
             e.preventDefault();
             if (e.target.id === "createProveedor") {
-                console.log("CREANDO");
+                
                 fetchMethod({
                     url: "@Url.Content("~/Proveedor/CrearProveedor")",
                     body: {
@@ -98,7 +133,7 @@
                         if (res.status == 1) {
                             //clearInputsColor();
                             //d.getElementById("createProveedor").reset();
-                            console.log(res.mensaje);
+                            //console.log(res.mensaje);
                             cargarComponent({
                                 container: "renderLocal",
                                 url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
@@ -114,6 +149,7 @@
                         }
                     }
                 })
+                return false;
             }
             if (e.target.id === "editarProveedor") {
                 let estado = d.querySelector('input[name="estado"]:checked').value;
@@ -137,7 +173,7 @@
                         if (res.status == 1) {
                             //clearInputsColor();
                             //d.getElementById("createProveedor").reset();
-                            console.log(res.mensaje);
+                            //console.log(res.mensaje);
                             cargarComponent({
                                 container: "renderLocal",
                                 url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
@@ -152,39 +188,36 @@
                             'error')
                         }
                     }
-                })
+                 })
+                return false;
             }
         })
         // CHANGE
         $renderBody.addEventListener("change", (e) => {
 
-            console.log(e.target);
 
 
 
             if (e.target.id === "tamanoPagina") {
-                console.log(d.getElementById("totalPag").textContent);
-                console.log(e.target.value);
-                console.log("@Url.Content("~/Proveedor/_TablaProveedor")");
-                console.log(d.getElementById("buscar").value.toLowerCase());
+               
                 cambioTamanoPagina({
                     totalPage: d.getElementById("totalPag").textContent,
                     tamanoPagina: e.target.value,
                     url: "@Url.Content("~/Proveedor/_TablaProveedor")",
                     container: "content-table",
-                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: (d.getElementById("pagActual").textContent - 1)
                 });
+                return false;
             }
 
 
 
 
             if (e.target.name === "stateProvider") {
-
-                console.log(e.target.dataset.id);
+                
                 let idChangeState = e.target.dataset.id;
-                console.log(d.getElementById("tamanoPagina").textContent);
-
+                console.log(idChangeState);
                 fetchMethod({
                     url: "@Url.Content("~/Proveedor/ChangeState")?id=" + idChangeState,
                     cbSuccess: (res) => {
@@ -196,8 +229,8 @@
                             body: {
                                 totalPaginas: d.getElementById("totalPag").textContent,
                                 CantRegistros: d.getElementById("tamanoPagina").value,
-                                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
-
+                                palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                                NumPagina: (d.getElementById("pagActual").textContent - 1),
                             }
                         })
                         swal('Bien!',
@@ -227,7 +260,7 @@
         $renderBody.addEventListener("keyup", (e) => {
             if (e.target.id === "buscar" ) {
                 let palabraBuscar = e.target.value;
-                console.log(palabraBuscar.toLowerCase());
+                //console.log(palabraBuscar.toLowerCase());
                 buscarPalabra({
                     url: "@Url.Content("~/Proveedor/_TablaProveedor")",
                     container: "content-table",

@@ -41,20 +41,21 @@
             @if (proveedor.Activo == true)
             {
 
-                
+                <!--   proveedor.IdProveedor-->
                 <td>
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch1" data-id="@proveedor.IdProveedor">
-                        <label class="custom-control-label" for="customSwitch1">Activo</label>
+                        <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
+                        <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Activo</label>
                     </div>
                 </td>
             }
             else
             {
+                <!--  proveedor.IdProveedor"  -->
                 <td>
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch2" data-id="@proveedor.IdProveedor">
-                        <label class="custom-control-label" for="customSwitch2">Desactivo</label>
+                        <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
+                        <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Desactivo</label>
                     </div>
                 </td>
             }
