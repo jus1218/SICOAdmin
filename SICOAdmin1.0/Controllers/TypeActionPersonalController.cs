@@ -13,7 +13,7 @@ namespace SICOAdmin1._0.Controllers
     public class TypeActionPersonalController : Controller
     {
         
-        List<SP_C_MostrarTipoAccion_Result> lstAcciones = new List<SP_C_MostrarTipoAccion_Result>();
+        List<SP_C_MostrarTipoAccionPers_Result> lstAcciones = new List<SP_C_MostrarTipoAccionPers_Result>();
         List<TypeActionPers> actions = new List<TypeActionPers>();
 
         SP_C_GetTipoAccionPers_Result typeActionResul = new SP_C_GetTipoAccionPers_Result();
@@ -27,7 +27,7 @@ namespace SICOAdmin1._0.Controllers
 
             using (SICOAdminEntities db = new SICOAdminEntities())
             {
-                lstAcciones = db.SP_C_MostrarTipoAccion(PagActual, 1, " ", totalPag).ToList();
+                lstAcciones = db.SP_C_MostrarTipoAccionPers(PagActual, 1, " ", totalPag).ToList();
             }
 
             List<TypeActionPers> ddlActionsTypePers = lstAcciones.ConvertAll
@@ -118,7 +118,7 @@ namespace SICOAdmin1._0.Controllers
 
 
             using (var db = new SICOAdminEntities())
-                lstAcciones = db.SP_C_MostrarTipoAccion(obj.NumPagina, obj.CantRegistros, obj.palabraBuscar, totalPag).ToList();
+                lstAcciones = db.SP_C_MostrarTipoAccionPers(obj.NumPagina, obj.CantRegistros, obj.palabraBuscar, totalPag).ToList();
 
             List<TypeActionPers> ddlActionsTypePers = lstAcciones.ConvertAll
           (d =>
