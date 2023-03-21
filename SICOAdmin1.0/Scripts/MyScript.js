@@ -71,9 +71,17 @@ const validarCampo = (props) => {
 
 const cargarComponent =  (props) => {
 
-    let { container, url } = props;
+    let { container, url, body } = props;
 
-     fetch(url)
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+
+    })
         .then((res) => res.text())
         .then((viewPartial) => document.getElementById(container).innerHTML = viewPartial)
         .catch((er) => console.error("Ha ocurrido un error al cargar el contenido", er));
@@ -207,7 +215,7 @@ const retrocederPagina = (props) => {
 
 // Cambio de tamaño de paginacion
 const cambioTamanoPagina = (props) => {
-    let { totalPage, tamanoPagina, url, container, palabraBuscar } = props;
+    let { totalPage, tamanoPagina, url, container, palabraBuscar, NumPagina } = props;
 
     fetch(url, {
         method: "POST",
@@ -219,7 +227,8 @@ const cambioTamanoPagina = (props) => {
 
             palabraBuscar: palabraBuscar,
             totalPaginas: totalPage,
-            CantRegistros: tamanoPagina
+            CantRegistros: tamanoPagina,
+            NumPagina
         })
     })
         .then((res) => res.text())

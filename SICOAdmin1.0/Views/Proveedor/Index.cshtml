@@ -6,8 +6,9 @@
 <div class="container margin-container p-4 glass" id="renderLocal">
 
     @Html.Partial("_MostrarProveedores", Model);
-</div>
 
+
+</div>
 
 
 
@@ -15,49 +16,89 @@
 @section scripts{
 
     <script>
-
         const d = document,
             $renderBody = d.getElementById("renderBody"),
             $formCreate = d.getElementById("createProveedor");
 
-        $renderBody.addEventListener("click",  (e) => {
-            let page = e.target.dataset.value || "";
+        //CLICK
+        $renderBody.addEventListener("click", (e) => {
 
+            let page = e.target.dataset.value || "";
             if (e.target.id === "viewCreatePage") {
-                console.log("Vista crear")
+
+
+                let numPage = Number(d.getElementById("pagActual").textContent) - 1;
+                let objPaginacion = {
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: numPage,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    totalPaginas: d.getElementById("totalPag").textContent
+
+                }
+                localStorage.setItem("objPaginacion", JSON.stringify(objPaginacion));
+
+
                 cargarComponent({
                     container: "renderLocal", url: "@Url.Content("~/Proveedor/_AgregarProveedor")",
                 })
+                return false;
             }
             else if (e.target.name === "viewEditPage") {
-                console.log("Vista editar")
+                let numPage = Number(d.getElementById("pagActual").textContent) - 1;
                 let idSupplier = e.target.dataset.id;
+                let objPaginacion = {
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: numPage,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    totalPaginas: d.getElementById("totalPag").textContent
+
+                }
+                localStorage.setItem("objPaginacion", JSON.stringify(objPaginacion));
+
                 cargarComponent({
                     container: "renderLocal",
                     url: "@Url.Content("~/Proveedor/_EditarProveedorPage")?id=" + idSupplier,
                 })
+                return false;
             }
             else if (e.target.name === "regresar") {
-
                 //let btn = d.getElementById("regresarr");
-
                 //btn.setAttribute("disabled", "disabled");
+
+
+                let objP = JSON.parse(localStorage.getItem("objPaginacion"));
 
                 cargarComponent({
                     container: "renderLocal", url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
+                    body: objP
                 })
-               /* btn.removeAttribute("disabled");*/
+                console.log("Cantidad de registros" + objP.CantRegistros);
+
+                
+                
+                /* btn.removeAttribute("disabled");*/
+                return false;
             }
             else if (e.target.name === "detalle") {
-                console.log("Regresando");
+
+
+                let numPage = Number(d.getElementById("pagActual").textContent) -1;
                 let idSupplier = e.target.dataset.id;
+                let objPaginacion = {
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: numPage,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    totalPaginas: d.getElementById("totalPag").textContent
+
+                }
+                localStorage.setItem("objPaginacion", JSON.stringify(objPaginacion));
+
 
                 cargarComponent({
                     container: "renderLocal",
                     url: "@Url.Content("~/Proveedor/_DetalleProveedor")?id=" + idSupplier,
                 })
-
-
+                return false;
             }
             else if (e.target.name === "nextPage") {
                 siguientePagina({
@@ -68,9 +109,9 @@
                     container: "content-table",
                     palabraBuscar: d.getElementById("buscar").value.toLowerCase()
                 })
+                return false;
             }
             else if (e.target.name === "previousPage") {
-
                 retrocederPagina({
                    ant: page,
                    totalPage: d.getElementById("totalPag").textContent,
@@ -80,16 +121,12 @@
                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
                })
             }
-
         })
-
-
         //submit
         $renderBody.addEventListener("submit", (e) => {
             e.preventDefault();
-
             if (e.target.id === "createProveedor") {
-                console.log("CREANDO");
+                
                 fetchMethod({
                     url: "@Url.Content("~/Proveedor/CrearProveedor")",
                     body: {
@@ -103,19 +140,16 @@
                     CondicionPago: d.getElementById("condicionPago").value,
                     CuentaBancaria: d.getElementById("cuentaBancaria").value,
                     Banco: d.getElementById("banco").value,
-
                 },
                     cbSuccess: (res) => {
                         if (res.status == 1) {
                             //clearInputsColor();
                             //d.getElementById("createProveedor").reset();
-                            console.log(res.mensaje);
+                            //console.log(res.mensaje);
                             cargarComponent({
                                 container: "renderLocal",
                                 url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
                             })
-
-
                                 swal('Bien!',
                                 res.mensaje,
                                 'success')
@@ -125,13 +159,10 @@
                             res.mensaje,
                             'error')
                         }
-
                     }
                 })
-
-
+                return false;
             }
-
             if (e.target.id === "editarProveedor") {
                 let estado = d.querySelector('input[name="estado"]:checked').value;
                  fetchMethod({
@@ -149,19 +180,16 @@
                          CuentaBancaria: d.getElementById("cuentaBancariaEdit").value,
                          Banco: d.getElementById("bancoEdit").value,
                          Activo: (estado =="1"),
-
                     },
                     cbSuccess: (res) => {
                         if (res.status == 1) {
                             //clearInputsColor();
                             //d.getElementById("createProveedor").reset();
-                            console.log(res.mensaje);
+                            //console.log(res.mensaje);
                             cargarComponent({
                                 container: "renderLocal",
                                 url: "@Url.Content("~/Proveedor/_MostrarProveedores")",
                             })
-
-
                                 swal('Bien!',
                                 res.mensaje,
                                 'success')
@@ -171,42 +199,80 @@
                             res.mensaje,
                             'error')
                         }
-
                     }
-                })
-
-
+                 })
+                return false;
             }
         })
-
-
         // CHANGE
         $renderBody.addEventListener("change", (e) => {
-            if (!(e.target.id === "tamanoPagina")) return false;
 
-            console.log(d.getElementById("totalPag").textContent);
-            console.log(e.target.value);
-            console.log("@Url.Content("~/Proveedor/_TablaProveedor")");
-            console.log(d.getElementById("buscar").value.toLowerCase());
 
-            cambioTamanoPagina({
-                totalPage:d.getElementById("totalPag").textContent,
-                tamanoPagina: e.target.value,
-                url:"@Url.Content("~/Proveedor/_TablaProveedor")",
-                container: "content-table",
-                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
-            });
+
+
+            if (e.target.id === "tamanoPagina") {
+               
+                cambioTamanoPagina({
+                    totalPage: d.getElementById("totalPag").textContent,
+                    tamanoPagina: e.target.value,
+                    url: "@Url.Content("~/Proveedor/_TablaProveedor")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: (d.getElementById("pagActual").textContent - 1)
+                });
+                return false;
+            }
+
+
+
+
+            if (e.target.name === "stateProvider") {
+                
+                let idChangeState = e.target.dataset.id;
+                console.log(idChangeState);
+                fetchMethod({
+                    url: "@Url.Content("~/Proveedor/ChangeState")?id=" + idChangeState,
+                    cbSuccess: (res) => {
+                    if (res.status == 1) {
+                        console.log(res.mensaje);
+                        cargarComponent({
+                            container: "content-table",
+                            url: "@Url.Content("~/Proveedor/_TablaProveedor")",
+                            body: {
+                                totalPaginas: d.getElementById("totalPag").textContent,
+                                CantRegistros: d.getElementById("tamanoPagina").value,
+                                palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                                NumPagina: (d.getElementById("pagActual").textContent - 1),
+                            }
+                        })
+                        swal('Bien!',
+                            res.mensaje,
+                            'success')
+                        }
+                        else {
+                            swal('Opps!',
+                            res.mensaje,
+                            'error')
+                        }
+                }
+                });
+
+
+
+
+                return false;
+            }
+
+
+
 
         })
 
-
+        //KEY_UP
         $renderBody.addEventListener("keyup", (e) => {
-
             if (e.target.id === "buscar" ) {
                 let palabraBuscar = e.target.value;
-
-                console.log(palabraBuscar.toLowerCase());
-
+                //console.log(palabraBuscar.toLowerCase());
                 buscarPalabra({
                     url: "@Url.Content("~/Proveedor/_TablaProveedor")",
                     container: "content-table",
@@ -215,7 +281,6 @@
                 });
                 return false;
             }
-
         })
     </script>
 }
