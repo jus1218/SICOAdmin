@@ -89,14 +89,14 @@
                                             <li><a href="@Url.Action("Index", "Perfil")">Admin. Perfiles</a></li>
                                         }
 
-
+                                        <li><a href="@Url.Action("Index", "Filial_Person")">Condominos</a></li>
 
                                     </ul>
                                 </li>
 
 
                                 <li>
-                                    <a><i class="fa fa-clone"></i>Planilla <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-clone"></i> Planilla <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         @if (@lstActions.Contains(16))
                                         {
@@ -119,11 +119,11 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-clone"></i>Reporte Consulta<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-clone"></i> Reporte Consulta <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="@Url.Action("Index","Home")">Consultar E/S</a></li>
-                                        <li><a href="@Url.Action("Index","Home")">Consultar Planilla</a></li>
-                                        <li><a href="@Url.Action("Index","Home")">Cuotas por filial</a></li>
+                                        <li><a href="@Url.Action("Index","Consecutivo")">Consultar E/S</a></li>
+                                        <li><a href="@Url.Action("Index","Consecutivo")">Consultar Planilla</a></li>
+                                        <li><a href="@Url.Action("Index","Consecutivo")">Cuotas por filial</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -182,15 +182,15 @@
                                             <span>Parametros</span>
                                         </a>
                                     }
-                                    <a class="dropdown-item" href="javascript:;">Cambiar contraseña</a>
-                                        <a class="dropdown-item" href="@Url.Action("Logout","Home")"><i class="fa fa-sign-out pull-right"></i> Cerrar sesión</a>
-                                    </div>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#changePassModal">Cambiar contrasena</a>
+                                    <a class="dropdown-item" href="@Url.Action("Logout","Home")"><i class="fa fa-sign-out pull-right"></i> Cerrar sesión</a>
+                                </div>
                             </li>
 
                             <li role="presentation" class="nav-item dropdown open">
                                 <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
                                     <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
+                                    <span class="badge bg-green">3</span>
                                 </a>
                                 <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                                     <li class="nav-item">
@@ -257,7 +257,7 @@
             </div>
             <!-- /BARRA NAVEGACION SUPERIOR -->
             <!--CONTENIDO RENDERIZADO-->
-            <div class="right_col" role="main">
+            <div class="right_col" id="renderBody" role="main">
 
                 @RenderBody()
             </div>
@@ -270,6 +270,48 @@
                 <div class="clearfix"></div>
             </footer>
             <!--/FOOTER-->
+        </div>
+    </div>
+
+    <!--/MODAL PARA CAMBIO DE CONTRASEÑA-->
+    <div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Cambiar contrasena</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return jsConfirm(this)" onclick="jsChangePass()" method="post" id="frm">
+                        <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-lg-center">
+
+                            <div class="col-xl-3 col-md-6 col-md-12 me-5">
+                                <label class="mt-4 h6">Contrasena actual</label>
+                                <input id="passAct" required name="password" type="password" @*pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$*@ class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
+
+                                <label class="mt-4 h6">Contrasena nueva</label>
+                                <input id="pass1" required name="password" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
+
+                                <label class="mt-4 h6">Confirmar contrasena</label>
+                                <input id="pass2" required name="password" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
+
+                                <span id="messagePass" class="mt-4 h7"></span> <!-- Aquí se mostrará el mensaje -->
+                                <br />
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            <button id="btnSuccess" type="submit" class="btn btn-success" onclick="return confirm('Está seguro de cambiar la contrasena?');">Guardar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -292,10 +334,70 @@
                 document.webkitCancelFullScreen();
             }
         }
+
+        // Obtener los inputs y el span
+        var pass1 = document.getElementById("pass1");
+        var pass2 = document.getElementById("pass2");
+        var message = document.getElementById("messagePass");
+        var btnS = document.getElementById("btnSuccess");
+
+        // Agregar un evento al cambiar el valor de los inputs
+        pass1.addEventListener("input", compare);
+        pass2.addEventListener("input", compare);
+        btnS.addEventListener("input", compare);
+
+        // Definir la función que compara los valores
+        function compare() {
+            if (($('#pass2').val().length > 0) && ($('#pass1').val().length > 0)) {
+                if (passAct.value != pass1.value) {
+                    // Si los valores son iguales, mostrar un mensaje verde
+                    if (pass1.value == pass2.value) {
+                        message.innerHTML = "Las contrasenas coinciden";
+                        message.style.color = "green";
+                    }
+                    // Si los valores son diferentes, mostrar un mensaje rojo
+                    else {
+                        message.innerHTML = "Las contrasenas no coinciden";
+                        message.style.color = "red";
+
+                    }
+                } else {
+                    message.innerHTML = "La contrasena actual y la nueva no pueden ser iguales";
+                    message.style.color = "red";
+
+                }
+            }
+        }
+
+        function jsChangePass() {
+            passAct = document.getElementById("passAct");
+            pass1 = document.getElementById("pass1");
+            pass2 = document.getElementById("pass2");
+            fetch("@Url.Content("~/User/CambiarContrasena")" + "?userName=" + " " , "?password=" + passAct , "?newPassword" + pass2)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+                    console.log(res);
+                    if (res[0] == "1") {
+                        console.log("Bien");
+                        swal({
+                            title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        console.log("Mal");
+                        swal({
+                            title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                    }
+                })
+
+        }
     </script>
 
     @Scripts.Render("~/Vendors/js")
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
     <!--Sive para hacer que el script contenidos en el contenido
         rederizado se ejecute despues de los scripts importantes
         asi se evita un problema-->

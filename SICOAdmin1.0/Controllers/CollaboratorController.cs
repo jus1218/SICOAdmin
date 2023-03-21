@@ -309,7 +309,7 @@ namespace SICOAdmin1._0.Controllers
             ViewBag.Payrolls = payrolls;
 
             modelC = GetCollaborator(id);
-                
+
             return View(modelC);
         }
 
@@ -332,10 +332,10 @@ namespace SICOAdmin1._0.Controllers
 
                     using (SICOAdminEntities db = new SICOAdminEntities())
                     {
-                        db.SP_P_ModificarColaborador(CModel.Identification,CModel.State, CModel.Address, CModel.Telephone1, CModel.Telephone2,
-                                                     CModel.Nationality, CModel.DateEntry,CModel.DateDeparture, CModel.IdNomina, CModel.CivilStatus, CModel.VacationBalance, 
+                        db.SP_P_ModificarColaborador(CModel.Identification, CModel.State, CModel.Address, CModel.Telephone1, CModel.Telephone2,
+                                                     CModel.Nationality, CModel.DateEntry, CModel.DateDeparture, CModel.IdNomina, CModel.CivilStatus, CModel.VacationBalance,
                                                      CModel.LastVacationCalc, CModel.IdPuesto, CModel.FormPayment, CModel.BankAccount, CModel.Bank,
-                                                     CModel.Email, CModel.EmergencyContact, CModel.TelephoneContact, CModel.ReferenceSalary, 
+                                                     CModel.Email, CModel.EmergencyContact, CModel.TelephoneContact, CModel.ReferenceSalary,
                                                      ((User)Session["User"]).userName, resultado, mensaje);
 
                         Message = Convert.ToString(mensaje.Value);

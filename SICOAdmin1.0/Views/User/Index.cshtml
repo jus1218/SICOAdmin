@@ -88,7 +88,7 @@
                                 }
                                 <button id="btnBitacora" onclick="jsmostrarBitacora('@user.userName')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
 
-                            
+
                             </div>
 
                             <div class="row ml-2 mr-2">
@@ -111,7 +111,7 @@
                                 }
                             </div>
 
- 
+
                         </td>
                     </tr>
                 }
@@ -229,11 +229,11 @@
 @section scripts{
     <script>
     //Busqueda
-    var busqueda = document.getElementById("buscar");
+    //var busqueda = document.getElementById("buscar");
     $(document).ready(function (i) {
         $("#buscar").on("keyup", function (i) {
             var value = $(this).val().toLowerCase();
-            $("#users tbody tr").filter(function () {
+            $("#tbUsers tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });

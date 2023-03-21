@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+}
+
+
+<table id="tbCondominiums" class="table table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">Nombre</th>
+            <th scope="col">Identificacion</th>
+            <th scope="col">Responsable</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Trato</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Telefono 1</th>
+            <th scope="col">Telefono 2</th>
+            <th scope="col">WhatsApp</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody style="text-align:center;">
+        @foreach (var FP in Model)
+        {
+            <tr>
+                <td>@FP.Name</td>
+                <td>@FP.Identification</td>
+                @if (FP.Responsable)
+                {
+                    <td><input type="checkbox" disabled checked /></td>
+                }
+                else
+                {
+                    <td><input type="checkbox" disabled /></td>
+                }
+                <td>@FP.Type</td>
+                <td>@FP.Treatment</td>
+                <td>@FP.Email</td>
+                <td>@FP.Telephone1</td>
+                <td>@FP.Telephone2</td>
+                <td>@FP.WhatsApp</td>
+                <td>
+
+                    <div class="row ml-2 mr-2">
+                        @if (@lstActions.Contains(9))
+                        {
+                            <button data-toggle="modal" data-target="#updateFPModal" class="btn btn-warning col" onclick="jsMostrarDatosFP(@FP.Identification)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                        }
+                        <button id="btnBitacora" onclick="jsmostrarBitacora('@FP.Identification')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+
+
+                    </div>
+
+                    <div class="row ml-2 mr-2">
+
+                        @if (FP.Active)
+                        {
+                            <button id="btnDesactivar" class="btn btn-danger col" onclick="jsModificarEstado('@FP.Identification', 'Activ')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
+                        }
+                        else
+                        {
+                            <button id="btnActivar" class="btn btn-success col" onclick="jsModificarEstado('@FP.Identification', 'Activ')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
+                        }
+                    </div>
+
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
