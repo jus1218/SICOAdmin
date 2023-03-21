@@ -1,0 +1,94 @@
+﻿@model List<SICOAdmin1._0.Models.Departure.Departure>
+
+@{
+    int i = 0;
+}
+
+
+<table id="tbTypeActionPers" class="table table-bordered ">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripción</th>
+            <th>Alias</th>
+            <th>Tipo</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody style="text-align:center;">
+        @if (Model != null)
+        {
+            foreach (var d in Model)
+            {
+                i++;
+                <tr>
+
+                    <td>@d.IdPartida</td>
+                    <td>@d.Description</td>
+                    <td>@d.Alias</td>
+                    <td>@d.TypeDep</td>
+                    @if (@d.Active)
+                    {
+                        <td>Sí</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+
+
+                    <td>
+
+                        <button id="btnEditar" onclick="levantarModal(0,@d.IdPartida);" type="button" class="btn btn-warning"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
+
+                        <button class="btn btn-primary" onclick="showaDataDeparture(@d.IdPartida,'Bitacora');"><i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles</button>
+
+                        @if (!d.Active)
+                        {
+                            <button id="btnActivar" class="btn btn-success"
+                                    style="width: 35%;" type="button" onclick="jsChangeStatus(@d.IdPartida, false);">
+                                <i class="fa fa-unlock mr-1" aria-hidden="true"></i>Activar
+                            </button>
+                        }
+                        else
+                        {
+                            <button id="btnDes" class="btn btn-danger"
+                                    style="width: 35%;" onclick="jsChangeStatus(@d.IdPartida,true);">
+                                <i class="fa fa-lock mr-1" aria-hidden="true"></i>Desactivar
+                            </button>
+                        }
+                    </td>
+
+                </tr>
+            }
+        }
+
+
+    </tbody>
+</table>
+
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="numPagePerfUser">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span>@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+
+
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" onclick="jsRetroceder(@ViewBag.PagActual,@ViewBag.totalPag.Value)" />
+
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" onclick="jsSiguiente(@ViewBag.PagActual,@ViewBag.totalPag.Value);" value=">" />
+
+        }
+    </div>
+
+</div>

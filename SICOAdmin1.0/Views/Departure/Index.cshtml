@@ -1,0 +1,406 @@
+﻿@model SICOAdmin1._0.Models.Departure.Departure
+
+@{
+    ViewBag.Title = "Partida";
+    var lstDeparture = (List<SICOAdmin1._0.Models.Departure.Departure>)ViewBag.lstDepartures;
+
+}
+
+@section styles{
+
+    <style>
+        .th {
+            text-align: center;
+        }
+    </style>
+}
+
+<div class="container margin-container p-4 glass">
+
+
+    <div class="row fila">
+        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12">
+            <h3 class="d-flex justify-content-center">Partidas</h3>
+        </div>
+
+        <button id="btnAgregar" type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 "
+                onclick="levantarModal(1,0);">
+            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+            Agregar
+        </button>
+
+
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
+            <div class="input-group ">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Buscar..."
+                       aria-label="Buscar..."
+                       aria-describedby="button-search"
+                       id="buscar" />
+
+            </div>
+        </div>
+    </div>
+    <div class="row m-1 ">
+        <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamPaginacion" onchange="cambTam(@ViewBag.totalPag.Value)">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="10">10</option>
+        </select>
+
+    </div>
+
+
+    <div class="row fila   scrol-tablex" id="tableDeparture">
+        @Html.Partial("_TableDeparture", lstDeparture);
+    </div>
+
+
+
+
+</div>
+
+<!--VISTAS PARCIALES-->
+@Html.Partial("_FormDeparture");
+
+@Html.Partial("_DepartureLog");
+
+
+<script>
+
+    //========================= FORMULARIOS ================================
+
+    let formDeparture = document.getElementById("formCrearDeparture");
+
+    //========================= ELEMENTOS DEl MODAL ===========================
+
+    let modalTitle = document.querySelector('#ModalTitle');
+    let idDeparture = document.getElementById("IdPartida");
+    let alias = document.getElementById("addAlias");
+    let description = document.getElementById("addDescription");
+    let active = document.getElementById("addActive");
+    let typeDep = document.getElementById("addType");
+
+    //========================= ELEMENTOS BITACORA ==============================
+
+
+    const tbId = document.getElementById("tbIdDeparture");
+    const tbUsuarioCreacion = document.getElementById("tbUsuarioCreacion");
+    const tbUsuarioModificacion = document.getElementById("tbUsuarioModificacion")
+
+    const tbFechaCreacion = document.getElementById("tbFechaCreacion");
+    const tbFechaModificacion = document.getElementById("tbFechaModificacion");
+
+
+    //====== BOTONES =======
+
+    let btnModal = document.getElementById("btnModal");
+    let btnAgregarDeparture = document.getElementById("btnAgregar");
+    let btnEditarDeparture = document.getElementById("btnEditar");
+
+
+    //================= EVENTOS ====================
+
+    formDeparture.addEventListener("submit", (e) => {
+        console.log('Evento');
+        e.preventDefault();
+        if (btnModal.value == "Agregar") {
+            crearDeparture();
+        } else {
+            editarDeparture();
+        }
+    })
+
+    //========================= FUNCIONES ===========================
+    //NOTA: Recibe un valor dependiendo del boton que invoque al metodo
+    function levantarModal(pFuncion,pId) {
+        console.log(pFuncion);
+        //1 = Agregar
+        //0 = Editar
+
+        if (pFuncion == 1) {
+            formDeparture.reset();
+            btnModal.value = "Agregar";
+            modalTitle.textContent = "Agregar Partida";
+        } else {
+            /*if (pFuncion == 0) {*/
+            modalTitle.textContent = "Editar Partida";
+            btnModal.value = "Editar";
+            //}
+            showaDataDeparture(pId,"Datos");
+        }
+        $("#ModalDeparture").modal("show");
+    }
+
+    function jsChangeStatus(pId, pValue) {
+        @*//@ViewBag.active = pValue;*@
+        fetch("@Url.Content("~/Departure/ModificarEstadoDeparture")", {
+
+           method: "POST",
+           body: JSON.stringify({
+
+               IdPartida: pId,
+               Active: pValue,
+
+                }),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+
+        }).then(res => res.ok ? res.json() : null)
+            .then(res => {
+                console.log(pValue);
+                console.log(res);
+                if (res.resp == 1) {
+                    swal({
+                        title: "Correcto", text: res.msj, type: "success", timer: 3000,
+                        showConfirmButton: false
+                    }
+                    );
+                } else {
+                    swal({
+                        title: "Ups... Ha ocurrido un error",
+                        text: res.msj,
+                        type: "error",
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }
+                cargarComponenteDeparture();
+            })
+
+
+        
+
+    }
+
+    //========================= FUNCIONES FETCH===========================
+
+    function crearDeparture() {
+        $("#ModalDeparture").modal("hide");
+        fetch("@Url.Content("~/Departure/AgregarDeparture")" , {
+            method: "POST",
+            body: JSON.stringify({
+
+                Description: description.value,
+                Alias: alias.value,
+                TypeDep: typeDep.value,
+                Active: active.value
+            }),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+
+        }).then(res => res.ok ? res.json() : null)
+            .then(res => {
+                console.log(res);
+                if (res.resp = 1) {
+                    swal('Bien!',
+                        res.msj,
+                        'success')
+                } else {
+                    console.log("error agregar");
+                    swal('Opps!',
+                        res.msj,
+                        'error'
+                    )
+                }
+            }).catch(res => console.log("Algo paso"))
+        cargarComponenteDeparture();
+    }
+
+    function editarDeparture() {
+        console.log('Editar');
+        $("#ModalDeparture").modal("hide");
+        fetch("@Url.Content("~/Departure/EditarDeparture")" , {
+            method: "POST",
+            body: JSON.stringify({
+                IdPartida: idDeparture.value,
+                Description: description.value,
+                Alias: alias.value,
+                TypeDep: typeDep.value,
+                Active: active.value
+
+            }),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+
+        }).then(res => res.ok ? res.json() : null)
+            .then(res => {
+                console.log(res);
+                if (res.resp = 1) {
+                    
+                    swal('Bien!',
+                        res.msj,
+                        'success')
+                } else {
+                    console.log("error agregar");
+                    swal('Opps!',
+                        res.msj,
+                        'error'
+                    )
+                }
+            }).catch(res => console.log("Algo paso"))
+        cargarComponenteDeparture();
+    }
+
+
+
+
+    function showaDataDeparture(pId, pAccion) {
+
+
+       fetch("@Url.Content("~/Departure/ShowDataDeparture")" + "?pId=" + pId)
+
+         .then(res => res.ok ? res.json() : null)
+         .then(res => {
+             console.log(res);
+             console.log(pAccion);
+             if (pAccion == "Datos") {
+
+                 idDeparture.textContent = res.IdPartida;
+                 idDeparture.value = res.IdPartida;
+
+                    alias.textContent = res.Alias;
+                    alias.value = res.Alias;
+
+                    description.textContent = res.Description;
+                    description.value = res.Description;
+
+                    typeDep.textContent = res.TypeDep;
+                    typeDep.value = res.TypeDep;
+                    /*alias.textContent = res.*/
+
+                    if (res.Active) {
+                        active.options.item(1).selected = 'selected';
+                    } else {
+                        active.options.item(2).selected = 'selected';
+                    }
+
+             } else {
+
+                 tbId.textContent = res.IdPartida;
+                 tbId.value = res.IdPartida;
+
+                tbUsuarioCreacion.textContent = res.UserCreation;
+                tbUsuarioCreacion.value = res.UserCreation;
+
+                tbUsuarioModificacion.textContent = res.UserModification;
+                tbUsuarioModificacion.value = res.UserModification;
+
+                tbFechaCreacion.textContent = res.CreationDate;
+                tbFechaCreacion.value = res.CreationDate;
+
+                tbFechaModificacion.textContent = res.ModificationDate;
+                tbFechaModificacion.value = res.ModificationDate;
+
+                 $("#DepartureLog").modal("show");
+             }
+
+        })
+    }
+
+
+
+
+
+
+
+    //========================= BOTONES DE LA TABLA ===========================
+
+
+    function cargarComponenteDeparture() {
+
+        $("#tableDeparture").load("Departure/_TableDeparture", function (res) {
+            $("#tableDeparture").html(res);
+        })
+    }
+
+    //Pasar a la pagina siguiente
+    const jsSiguiente = (sig, totalPage) => {
+
+        var siguiente = sig - 1;//Limpiamos el valor que viene de la vista
+        $("#tableDeparture").load("Departure/_TableDeparture",
+            {
+
+                NumPagina: siguiente,
+                palabraBuscar: $("#buscar").val().toLowerCase(),//"",
+                //estaBuscando: false,
+                accion: 'S',
+                totalPaginas: totalPage,
+                CantRegistros: document.getElementById("tamPaginacion").value
+            }, function (res) {
+                $("#tableDeparture").html(res);
+            })
+
+    }
+
+    //Pasar a la pagina anterior
+    const jsRetroceder = (ant, totalPage) => {
+
+        var anterior = ant - 1;//Limpiamos el valor que viene de la vista
+        $("#tableDeparture").load("Departure/_TableDeparture",
+            {
+
+                NumPagina: anterior,
+                palabraBuscar: $("#buscar").val().toLowerCase(),//buscarPerfil.textContent,
+                accion: 'N',
+                totalPaginas: totalPage,
+                CantRegistros: document.getElementById("tamPaginacion").value
+            }, function (res) {
+                $("#tableDeparture").html(res);
+            })
+
+    }
+
+
+    // Cambio de tamaño de paginacion
+    const cambTam = (totalPage) => {
+
+        $("#tableDeparture").load("Departure/_TableDeparture",
+            {
+
+                //NumPagina: numPagePerfUser,
+                palabraBuscar: $("#buscar").val().toLowerCase(),
+                CantRegistros: document.getElementById("tamPaginacion").value,
+                //buscarPerfil.textContent
+                //estaBuscando: false
+                totalPaginas: totalPage
+            }, function (res) {
+                $("#tableDeparture").html(res);
+            })
+        //
+    }
+
+
+
+    $("#buscar").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+
+        //if (value.length > 2 || value.length == 0) {
+        $("#tableDeparture").load("Departure/_TableDeparture",
+            {
+
+                NumPagina: 0,
+                palabraBuscar: value,
+                estaBuscando: true,
+                accion: 'n', //n -> no pasar de pagina
+                CantRegistros: document.getElementById("tamPaginacion").value,
+                //CantRegistros: document.getElementById("tamPaginacion").value
+
+            }, function (res) {
+                $("#tableDeparture").html(res);
+            })
+
+    })
+
+
+
+
+</script>
