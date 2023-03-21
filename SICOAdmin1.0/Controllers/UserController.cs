@@ -327,7 +327,7 @@ namespace SICOAdmin.Controllers
         }
 
 
-        public JsonResult GetBitacora(string userName)//NO SE USA AÚN
+        public JsonResult GetBitacora(string userName)
         {
             User oUser = new User();
             SP_C_MostrarUsuarios_Result user = new SP_C_MostrarUsuarios_Result();
@@ -358,11 +358,24 @@ namespace SICOAdmin.Controllers
         }
 
         [HttpPost]
-        public ActionResult CambiarContrasena(string userName, string password, string newPassword)
+        public JsonResult CambiarContrasena(string userName, string password, string newPassword)
         {
             ObjectParameter resultado = new ObjectParameter("resultado", false);
             ObjectParameter mensaje = new ObjectParameter("mensaje", "");
-            try
+            String[] results = new string[2];
+            if(String.IsNullOrEmpty(userName))
+            {
+                userName = ((User)Session["User"]).userName;
+            }
+
+            using (SICOAdminEntities db = new SICOAdminEntities())
+            {
+                db.SP_P_CambioContrasena(userName, password, newPassword, resultado, mensaje);
+
+                results[0] = Convert.ToString(resultado.Value);
+                results[1]= Convert.ToString(mensaje.Value);
+            }
+            /*try
             {
                 using (SICOAdminEntities db = new SICOAdminEntities())
                 {
@@ -371,24 +384,25 @@ namespace SICOAdmin.Controllers
                     bool bit = Convert.ToBoolean(resultado.Value);
                     string message = Convert.ToString(mensaje.Value);
 
-
+                    TempData.Clear();
                     if (bit)
                     {
-                        ViewBag.Alert = message;
-                        return Redirect(Url.Content("~/Access/Login"));
+                        TempData["Message"] = message;
+                        return Redirect(Url.Content("~/"));
                     }
                     else
                     {
-                        ViewBag.Alert = message;
-                        return Content(message);
+                        TempData["Message"] = message;
+                        return Redirect(Url.Content("~/"));
                     }
+                    
                 }
             }
             catch (Exception ex)
             {
                 return Content("Ocurrio un error :( \n" + ex.Message);
-            }
-
+            }*/
+            return Json(results, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult LockUser(string userName)

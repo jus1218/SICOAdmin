@@ -60,6 +60,5 @@ namespace SICOAdmin1._0.Models
         public virtual ICollection<CONCEPTO_COLABORADOR> CONCEPTO_COLABORADOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CONTROL_ASISTENCIA> CONTROL_ASISTENCIA { get; set; }
-        public virtual PROVEEDOR PROVEEDOR { get; set; }
     }
 }
