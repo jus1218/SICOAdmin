@@ -215,7 +215,7 @@ const retrocederPagina = (props) => {
 
 // Cambio de tamaño de paginacion
 const cambioTamanoPagina = (props) => {
-    let { totalPage, tamanoPagina, url, container, palabraBuscar } = props;
+    let { totalPage, tamanoPagina, url, container, palabraBuscar, NumPagina } = props;
 
     fetch(url, {
         method: "POST",
@@ -227,7 +227,8 @@ const cambioTamanoPagina = (props) => {
 
             palabraBuscar: palabraBuscar,
             totalPaginas: totalPage,
-            CantRegistros: tamanoPagina
+            CantRegistros: tamanoPagina,
+            NumPagina
         })
     })
         .then((res) => res.text())

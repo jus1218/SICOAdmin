@@ -58,6 +58,8 @@ namespace SICOAdmin1._0.Controllers
         {
             obj.Activo = true;
 
+            //obj.Telefono2 = obj.Telefono2 == null ? "" : obj.Telefono2;
+
             using (var db = new SICOAdminEntities())
             {
                 db.SP_P_CrearProveedor(obj.Nombre, obj.Identificacion, obj.Tipo,

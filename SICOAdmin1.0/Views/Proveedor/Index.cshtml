@@ -25,7 +25,19 @@
 
             let page = e.target.dataset.value || "";
             if (e.target.id === "viewCreatePage") {
-                
+
+
+                let numPage = Number(d.getElementById("pagActual").textContent) - 1;
+                let objPaginacion = {
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: numPage,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    totalPaginas: d.getElementById("totalPag").textContent
+
+                }
+                localStorage.setItem("objPaginacion", JSON.stringify(objPaginacion));
+
+
                 cargarComponent({
                     container: "renderLocal", url: "@Url.Content("~/Proveedor/_AgregarProveedor")",
                 })
