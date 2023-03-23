@@ -1,65 +1,20 @@
 ﻿@model SICOAdmin1._0.Models.Departure.Departure
-
 @{
     ViewBag.Title = "Partida";
     var lstDeparture = (List<SICOAdmin1._0.Models.Departure.Departure>)ViewBag.lstDepartures;
 
 }
 
-@section styles{
 
-    <style>
-        .th {
-            text-align: center;
-        }
-    </style>
-}
-
-<div class="container margin-container p-4 glass">
+<style>
+    .th {
+        text-align: center;
+    }
+</style>
 
 
-    <div class="row fila">
-        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12">
-            <h3 class="d-flex justify-content-center">Partidas</h3>
-        </div>
-
-        <button id="btnAgregar" type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 "
-                onclick="levantarModal(1,0);">
-            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-            Agregar
-        </button>
-
-
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
-            <div class="input-group ">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Buscar..."
-                       aria-label="Buscar..."
-                       aria-describedby="button-search"
-                       id="buscar" />
-
-            </div>
-        </div>
-    </div>
-    <div class="row m-1 ">
-        <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamPaginacion" onchange="cambTam(@ViewBag.totalPag.Value)">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="10">10</option>
-        </select>
-
-    </div>
-
-
-    <div class="row fila   scrol-tablex" id="tableDeparture">
-        @Html.Partial("_TableDeparture", lstDeparture);
-    </div>
-
-
-
-
+<div class="container margin-container p-4 glass" id="renderLocalDeparture">
+    @Html.Partial("_ShowDepartures", lstDeparture);
 </div>
 
 <!--VISTAS PARCIALES-->
@@ -101,38 +56,7 @@
     let btnEditarDeparture = document.getElementById("btnEditar");
 
 
-    //================= EVENTOS ====================
 
-    formDeparture.addEventListener("submit", (e) => {
-        console.log('Evento');
-        e.preventDefault();
-        if (btnModal.value == "Agregar") {
-            crearDeparture();
-        } else {
-            editarDeparture();
-        }
-    })
-
-    //========================= FUNCIONES ===========================
-    //NOTA: Recibe un valor dependiendo del boton que invoque al metodo
-    function levantarModal(pFuncion,pId) {
-        console.log(pFuncion);
-        //1 = Agregar
-        //0 = Editar
-
-        if (pFuncion == 1) {
-            formDeparture.reset();
-            btnModal.value = "Agregar";
-            modalTitle.textContent = "Agregar Partida";
-        } else {
-            /*if (pFuncion == 0) {*/
-            modalTitle.textContent = "Editar Partida";
-            btnModal.value = "Editar";
-            //}
-            showaDataDeparture(pId,"Datos");
-        }
-        $("#ModalDeparture").modal("show");
-    }
 
     function jsChangeStatus(pId, pValue) {
         @*//@ViewBag.active = pValue;*@
@@ -173,45 +97,13 @@
             })
 
 
-        
+
 
     }
 
     //========================= FUNCIONES FETCH===========================
 
-    function crearDeparture() {
-        $("#ModalDeparture").modal("hide");
-        fetch("@Url.Content("~/Departure/AgregarDeparture")" , {
-            method: "POST",
-            body: JSON.stringify({
-
-                Description: description.value,
-                Alias: alias.value,
-                TypeDep: typeDep.value,
-                Active: active.value
-            }),
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-
-        }).then(res => res.ok ? res.json() : null)
-            .then(res => {
-                console.log(res);
-                if (res.resp = 1) {
-                    swal('Bien!',
-                        res.msj,
-                        'success')
-                } else {
-                    console.log("error agregar");
-                    swal('Opps!',
-                        res.msj,
-                        'error'
-                    )
-                }
-            }).catch(res => console.log("Algo paso"))
-        cargarComponenteDeparture();
-    }
+    @*
 
     function editarDeparture() {
         console.log('Editar');
@@ -235,7 +127,7 @@
             .then(res => {
                 console.log(res);
                 if (res.resp = 1) {
-                    
+
                     swal('Bien!',
                         res.msj,
                         'success')
@@ -248,12 +140,9 @@
                 }
             }).catch(res => console.log("Algo paso"))
         cargarComponenteDeparture();
-    }
+    }*@
 
-
-
-
-    function showaDataDeparture(pId, pAccion) {
+    function showaDataDeparture(pId,pAccion) {
 
 
        fetch("@Url.Content("~/Departure/ShowDataDeparture")" + "?pId=" + pId)
@@ -261,7 +150,7 @@
          .then(res => res.ok ? res.json() : null)
          .then(res => {
              console.log(res);
-             console.log(pAccion);
+
              if (pAccion == "Datos") {
 
                  idDeparture.textContent = res.IdPartida;
@@ -273,10 +162,14 @@
                     description.textContent = res.Description;
                     description.value = res.Description;
 
-                    typeDep.textContent = res.TypeDep;
-                    typeDep.value = res.TypeDep;
-                    /*alias.textContent = res.*/
+                    //typeDep.textContent = res.TypeDep;
+                    //typeDep.value = res.TypeDep;
 
+                 if (res.TypeDep == "SL") {
+                     typeDep.options.item(2).selected = 'selected';
+                 } else {
+                     typeDep.options.item(1).selected = 'selected';
+                 }
                     if (res.Active) {
                         active.options.item(1).selected = 'selected';
                     } else {
@@ -307,100 +200,208 @@
     }
 
 
+    //==========================================================================
+
+    const d = document,
+        $renderBody = d.getElementById("renderBody"),
+        $formCreate = d.getElementById("formCrearDeparture");
 
 
+    //CLICK
+    $renderBody.addEventListener("click", (e) => {
 
 
-
-    //========================= BOTONES DE LA TABLA ===========================
-
-
-    function cargarComponenteDeparture() {
-
-        $("#tableDeparture").load("Departure/_TableDeparture", function (res) {
-            $("#tableDeparture").html(res);
-        })
-    }
-
-    //Pasar a la pagina siguiente
-    const jsSiguiente = (sig, totalPage) => {
-
-        var siguiente = sig - 1;//Limpiamos el valor que viene de la vista
-        $("#tableDeparture").load("Departure/_TableDeparture",
-            {
-
-                NumPagina: siguiente,
-                palabraBuscar: $("#buscar").val().toLowerCase(),//"",
-                //estaBuscando: false,
-                accion: 'S',
-                totalPaginas: totalPage,
-                CantRegistros: document.getElementById("tamPaginacion").value
-            }, function (res) {
-                $("#tableDeparture").html(res);
-            })
-
-    }
-
-    //Pasar a la pagina anterior
-    const jsRetroceder = (ant, totalPage) => {
-
-        var anterior = ant - 1;//Limpiamos el valor que viene de la vista
-        $("#tableDeparture").load("Departure/_TableDeparture",
-            {
-
-                NumPagina: anterior,
-                palabraBuscar: $("#buscar").val().toLowerCase(),//buscarPerfil.textContent,
-                accion: 'N',
-                totalPaginas: totalPage,
-                CantRegistros: document.getElementById("tamPaginacion").value
-            }, function (res) {
-                $("#tableDeparture").html(res);
-            })
-
-    }
+        let page = e.target.dataset.value || "";
 
 
-    // Cambio de tamaño de paginacion
-    const cambTam = (totalPage) => {
+        if (e.target.id === "btnAgregar") {
+            console.log("Entra al metodo llamar modal");
+            formDeparture.reset();
 
-        $("#tableDeparture").load("Departure/_TableDeparture",
-            {
+            btnModal.value = "Agregar Partida";
+            modalTitle.textContent = "Agregar Partida";
 
-                //NumPagina: numPagePerfUser,
-                palabraBuscar: $("#buscar").val().toLowerCase(),
-                CantRegistros: document.getElementById("tamPaginacion").value,
-                //buscarPerfil.textContent
-                //estaBuscando: false
-                totalPaginas: totalPage
-            }, function (res) {
-                $("#tableDeparture").html(res);
-            })
-        //
-    }
+            $("#ModalDeparture").modal("show");
+            return false;
+        }
+        else if (e.target.id === "btnEditar") {
 
+            let idPartida = e.target.dataset.id;
+            console.log(idPartida);
 
+            modalTitle.textContent = "Editar Partida";
+            btnModal.value = "Editar Partida";
+            showaDataDeparture(idPartida, "Datos");
+            $("#ModalDeparture").modal("show");
 
-    $("#buscar").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
+            return false;
+        } else if (e.target.name === "nextPage") {
 
-        //if (value.length > 2 || value.length == 0) {
-        $("#tableDeparture").load("Departure/_TableDeparture",
-            {
+             siguientePagina({
+                    sig: page,
+                    totalPage: d.getElementById("totalPag").textContent,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/Departure/_TableDeparture")",
+                 container: "tableDeparture",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                })
 
-                NumPagina: 0,
-                palabraBuscar: value,
-                estaBuscando: true,
-                accion: 'n', //n -> no pasar de pagina
-                CantRegistros: document.getElementById("tamPaginacion").value,
-                //CantRegistros: document.getElementById("tamPaginacion").value
+            return false;
+        }  else if (e.target.name === "previousPage") {
+                retrocederPagina({
+                   ant: page,
+                   totalPage: d.getElementById("totalPag").textContent,
+                   tamanoPagina: d.getElementById("tamanoPagina").value,
+                   url: "@Url.Content("~/Departure/_TableDeparture")",
+                    container: "tableDeparture",
+                   palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+               })
+            }
 
-            }, function (res) {
-                $("#tableDeparture").html(res);
-            })
 
     })
 
 
+    //SUBMIT
+    $renderBody.addEventListener("submit", (e) => {
+        e.preventDefault();
 
+        if (e.target.id === "formCrearDeparture") {
+            if (btnModal.value == "Agregar Partida") {
+
+                $("#ModalDeparture").modal("hide");
+                fetchMethod({
+
+                    url: "@Url.Content("~/Departure/AgregarDeparture")",
+                    body: {
+                        Description: d.getElementById("addDescription").value,
+                        Alias: d.getElementById("addAlias").value,
+                        TypeDep: d.getElementById("addType").value,
+                        Active: d.getElementById("addActive").value,
+
+                    },
+                    cbSuccess: (res) => {
+                        if (res.resp == 1) {
+                            console.log(res.mensaje);
+                            cargarComponent({
+                                container: "renderLocalDeparture",
+                                url: "@Url.Content("~/Departure/_ShowDepartures")",
+                            })
+                                swal('Bien!',
+                                res.msj,
+                                'success')
+                        }
+                        else {
+                            swal('Opps!',
+                            res.msj,
+                            'error')
+                        }
+                    }
+                })
+                return false;
+
+            } else {
+
+                $("#ModalDeparture").modal("hide");
+                  fetchMethod({
+                    url: "@Url.Content("~/Departure/EditarDeparture")",
+                    body: {
+
+                        IdPartida: d.getElementById("IdPartida").value,
+                        Description: d.getElementById("addDescription").value,
+                        Alias: d.getElementById("addAlias").value,
+                        TypeDep: d.getElementById("addType").value,
+                        Active: d.getElementById("addActive").value,
+                    },
+                    cbSuccess: (res) => {
+                        if (res.resp == 1) {
+
+                            cargarComponent({
+                                container: "renderLocalDeparture",
+                                url: "@Url.Content("~/Departure/_ShowDepartures")",
+                            })
+                                swal('Bien!',
+                                res.msj,
+                                'success')
+                        }
+                        else {
+                            swal('Opps!',
+                            res.msj,
+                            'error')
+                        }
+                    }
+                     })
+                return false;
+            }
+            return false;
+        }
+
+    })
+
+
+    //CHANGE
+    $renderBody.addEventListener("change", (e) => {
+
+        if (e.target.name === "stateDeparture") {
+
+            let pId = e.target.dataset.id;
+           
+            fetchMethod({
+                url: "@Url.Content("~/Departure/ModificarEstadoDeparture")?pId=" + pId,
+                cbSuccess: (res) => {
+                    if (res.resp == 1) {
+                        cargarComponent({
+                            container: "tableDeparture",
+                            url: "@Url.Content("~/Departure/_TableDeparture")",
+                            body: {
+                                totalPaginas: d.getElementById("totalPag").textContent,
+                                CantRegistros: d.getElementById("tamanoPagina").value,
+                                palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                                NumPagina: (d.getElementById("pagActual").textContent - 1),
+                            }
+                        })
+                        swal('Bien!',
+                            res.msj,
+                            'success')
+                    }
+                    else {
+                        swal('Opps!',
+                            res.msj,
+                            'error')
+                    }
+                }
+            });
+
+            return false;
+        }
+
+            if (e.target.id === "tamanoPagina") {
+
+                cambioTamanoPagina({
+                    totalPage: d.getElementById("totalPag").textContent,
+                    tamanoPagina: e.target.value,
+                    url: "@Url.Content("~/Departure/_TableDeparture")",
+                    container: "tableDeparture",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: (d.getElementById("pagActual").textContent - 1)
+                });
+                return false;
+            }
+    })
+
+      //KEY_UP
+        $renderBody.addEventListener("keyup", (e) => {
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+                //console.log(palabraBuscar.toLowerCase());
+                buscarPalabra({
+                    url: "@Url.Content("~/Departure/_TableDeparture")",
+                    container: "tableDeparture",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+        })
 
 </script>

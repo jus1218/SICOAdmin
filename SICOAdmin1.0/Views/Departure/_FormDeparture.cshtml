@@ -1,10 +1,9 @@
-﻿@model SICOAdmin1._0.Models.Departure.Departure
-
+﻿
 <div class="modal fade" id="ModalDeparture" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Agregar Acción Personal</h5>
+                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Partida</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -28,11 +27,16 @@
 
                             <div class="form-group">
                                 <label class="mt-4 h6">Tipo Partida</label>
-                                <input required type="text" name="TypeDep" id="addType" class="form-control h6 " pattern="(?=.+[\w]).{1,2}" />
+                                @*<input required type="text" name="TypeDep" id="addType" class="form-control h6 " pattern="(?=.+[\w]).{1,2}" />*@
+                                <select required name="`TypeDep" class="form-control h6 custom-select" id="addType">
+                                    <option disabled value="" selected hidden>Seleccione una opción</option>
+                                    <option value="IG">Ingreso</option>
+                                    <option value="SL">Salida</option>
+
+                                </select>
+
 
                                 <label class="mt-4 h6">Activo</label>
-                                @*<input class="form-control h6" type="checkbox" name="ResetState" id="ResetState" />*@
-
                                 <select required name="Active" class="form-control h6 custom-select" id="addActive">
                                     <option disabled value="" selected hidden>Seleccione una opción</option>
                                     <option value="true">Sí</option>
@@ -44,11 +48,10 @@
 
 
                     </div>
-                    @*<div class="modal-footer">*@
+
                     <div class="col mt-4 d-flex justify-content-center mb-2">
                         <input id="btnModal" type="submit" class="btn btn-success" value="Guardar" />
-                        @*<button type="submit" class="btn btn-success" value="Agregar">Agregar</button>*@
-                        @*<button style="margin-top: 10px" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>*@
+
                     </div>
                 </form>
 

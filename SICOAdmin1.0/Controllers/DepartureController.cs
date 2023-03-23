@@ -75,6 +75,38 @@ namespace SICOAdmin1._0.Controllers
             return PartialView("_TableDeparture", LstDepartures);
         }
 
+
+        public PartialViewResult _ShowDepartures(Pagina obj)
+        {
+
+
+            //Si no busca viene nulo
+            if (obj.palabraBuscar == null) obj.palabraBuscar = "";
+
+            // Validacion si el usuario esta buscado o solo pasando de pagina
+            if (obj.accion.Equals('S')) obj.NumPagina += 1; //Enviar al SP
+            else if (obj.accion.Equals('N')) obj.NumPagina -= 1;
+
+            // Restricciones para que no busque paginas que no existe
+            if (obj.NumPagina > obj.totalPaginas - 1) obj.NumPagina = Convert.ToInt32(totalPag.Value);
+            else if (obj.NumPagina < 0) obj.NumPagina = 0;
+
+
+            //Datos a la vista
+            ViewBag.PagActual = obj.NumPagina + 1;
+            ViewBag.totalPag = totalPag;
+
+            //Se prueba a ver si funciona así.
+
+            //Mandando la lista de una vez, para no hacer muchas consultas
+            //a la Base de datos
+
+
+
+            LstDepartures.Clear();
+            LstDepartures = GetDeparturesDB(obj.NumPagina, obj.CantRegistros, obj.palabraBuscar);
+            return PartialView("_ShowDepartures", LstDepartures);
+        }
         //==================== FUNCIONES FETCH ======================
 
         public JsonResult AgregarDeparture(Departure pDeparture)
@@ -116,16 +148,16 @@ namespace SICOAdmin1._0.Controllers
         }
         [HttpPost]
         //Activa o desactiva la Partida 
-        public JsonResult ModificarEstadoDeparture(Departure obj)
+        public JsonResult ModificarEstadoDeparture(int pId)
         {
 
             //Cambia el valor de la variable, si viene true a false
 
-            obj.Active = !obj.Active;
+            //obj.Active = !obj.Active;
             
             using (var db = new SICOAdminEntities())
             {
-                db.SP_P_ModificarEstadoPartida(obj.IdPartida,obj.Active, ((User)Session["User"]).userName, res, msj);
+                db.SP_P_ModificarEstadoPartida(pId, ((User)Session["User"]).userName, res, msj);
             }
             return Json(new
             {
