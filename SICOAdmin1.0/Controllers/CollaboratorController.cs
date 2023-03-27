@@ -12,29 +12,29 @@ namespace SICOAdmin1._0.Controllers
 {
     public class CollaboratorController : Controller
     {
+        //LISTAS
+        List<SP_C_MostrarColaboradoresPag_Result> lstCollaborators = null;
+
+        //VARIABLES DE PAGINACION
+        ObjectParameter totalPag = new ObjectParameter("totalPag", 0);
+        int PagActual = 0;
+        const int DEFAULT_NUMBER_PAGE = 1;
+
         // GET: Collaborator
         public ActionResult Index()
         {
-            List<SP_C_MostrarColaboradores_Result> lstCollaboratorsDB = null;
             List<SP_C_MostarNominas_Result> lstPayrollsDB = null;
             List<SP_C_MostrarPuestos_Result> lstPositionsDB = null;
-            List<Collaborator> lstCollaborators = new List<Collaborator>();
 
 
-
-
+            //Paginación
+            using (var db = new SICOAdminEntities()) lstCollaborators = db.SP_C_MostrarColaboradoresPag(PagActual, DEFAULT_NUMBER_PAGE, "", totalPag).ToList();
+            
             using (SICOAdminEntities db = new SICOAdminEntities())
             {
-                lstCollaboratorsDB = db.SP_C_MostrarColaboradores("", "tod").ToList();
+                
                 lstPayrollsDB = db.SP_C_MostarNominas("tod", 0).ToList();
                 lstPositionsDB = db.SP_C_MostrarPuestos().ToList();
-
-                foreach (var c in lstCollaboratorsDB)
-                {
-                    lstCollaborators.Add(GetCollaborator(c.Identificacion));
-                }
-
-
             }
 
             List<SelectListItem> payrolls = lstPayrollsDB.ConvertAll(
@@ -61,8 +61,12 @@ namespace SICOAdmin1._0.Controllers
 
             ViewBag.Positions = positions;
             ViewBag.Payrolls = payrolls;
-            ViewBag.Collaborators = lstCollaborators;
-            return View();
+
+            //Paginación
+            ViewBag.PagActual = PagActual + 1;
+            ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
+
+            return View(lstCollaborators);
         }
 
         public Collaborator GetCollaborator(string id)
@@ -484,6 +488,53 @@ namespace SICOAdmin1._0.Controllers
                 message = "2";
             }
             return Json(message, JsonRequestBehavior.AllowGet);
+        }
+
+        //VIISTA RENDER
+        public PartialViewResult _GetCollaborators()
+        {
+
+            try
+            {
+
+                using (var db = new SICOAdminEntities()) lstCollaborators = db.SP_C_MostrarColaboradoresPag(PagActual, DEFAULT_NUMBER_PAGE, "", totalPag).ToList();
+
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+
+            }
+
+
+            ViewBag.PagActual = PagActual + 1;
+            ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
+
+
+            return PartialView("_GetCollaborators", lstCollaborators);
+        }
+
+        public PartialViewResult _TableCollaborators(Pagina obj)
+        {
+            //Si no busca viene nulo
+            if (obj.palabraBuscar == null) obj.palabraBuscar = "";
+
+            // Validacion si el usuario esta buscado o solo pasando de pagina
+            if (obj.accion.Equals('S')) obj.NumPagina += 1; //Enviar al SP
+            else if (obj.accion.Equals('N')) obj.NumPagina -= 1;
+
+            // Restricciones para que no busque paginas que no existe
+            if (obj.NumPagina > obj.totalPaginas - 1) obj.NumPagina = Convert.ToInt32(totalPag.Value);
+            else if (obj.NumPagina < 0) obj.NumPagina = 0;
+
+            using (var db = new SICOAdminEntities())
+            {
+                lstCollaborators = db.SP_C_MostrarColaboradoresPag(obj.NumPagina, obj.CantRegistros, obj.palabraBuscar, totalPag).ToList();
+            }
+            ViewBag.PagActual = obj.NumPagina + 1;
+            ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
+            return PartialView("_TableCollaborators", lstCollaborators);
         }
     }
 }

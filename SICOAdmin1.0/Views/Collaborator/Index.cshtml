@@ -1,10 +1,8 @@
-﻿@model SICOAdmin1._0.Models.Collaborator.Collaborator
-@using SICOAdmin1._0.Models.Collaborator
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarColaboradoresPag_Result>
 
 @{
     ViewBag.Title = "Colaboradores";
-    List<Collaborator> modelCollaborators = (List<Collaborator>)ViewBag.Collaborators;
-   
+
 }
 
 <head>
@@ -12,261 +10,85 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 </head>
 
-<div class="container margin-container p-4 glass">
+<div class="container margin-container p-4 glass" id="renderLocal">
 
-
-    <div class="row fila">
-        <!--TEXTO-->
-        <div class="col-xl-2 col-md-3 d-flex justify-content-center">
-            <h3 class="mt-0">Colaboradores</h3>
-        </div>
-        <!--BOTON-->
-        <div class="col-xl-2 col-md-2 mb-3">
-            <button type="button" class="btn btn-primary col-12" onclick="document.location.href = '@Url.Action("AddCollaborator","Collaborator")'">
-                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar
-            </button>
-        </div>
-        <!--Barra busqueda-->
-        <div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
-            <div class="input-group mb-2">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Buscar..."
-                       aria-label="Buscar..."
-                       aria-describedby="button-search"
-                       id="buscar" />
-                <button class="btn btn-outline-secondary"
-                        type="button"
-                        disabled="disabled"
-                        id="button-search">
-                    <i class="fa fa-search mr-1" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <!--FILA TABLE-->
-    <div class="row fila scrol-tablex">
-        <table id="tbCollaborators" class="table table-bordered">
-            <thead>
-                <tr class="text-center">
-                    <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Identificacion</th>
-                    <th scope="col">Género</th>
-                    <th scope="col">Activo</th>
-                    <th scope="col">Dirección</th>
-                    <th scope="col">Teléfono 1</th>
-                    <th scope="col">Fecha de nacimiento</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody style="text-align:center;">
-                @foreach (var collaborator in modelCollaborators)
-                {
-                    <tr>
-                        <td>@collaborator.Id</td>
-                        <td>@collaborator.Name</td>
-                        <td>@collaborator.Identification</td>
-                        <td>@collaborator.Gender</td>
-                        <td><input type="checkbox" checked="@collaborator.Active" disabled="disabled" /></td>
-                        <td>@collaborator.Address</td>
-                        <td>@collaborator.Telephone1</td>
-                        <td>@collaborator.DateBirth.ToString("dd MMMM, yyyy")</td>
-
-                        <td>
-                            <button id="btnEdit" onclick="document.location.href = '@Url.Action("Update","Collaborator",new { id = collaborator.Identification })'" class="btn btn-warning"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
-                            <button id="btnBitacora" onclick="jsmostrarBitacora('@collaborator.Identification')" class="btn btn-info" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
-                            <button id="btnDetails" onclick="jsViewDetails('@collaborator.Identification')" class="btn btn-primary" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-info-circle mr-1" aria-hidden="true"></i> Detalles</button>
-
-                            @if (collaborator.Active)
-                            {
-                                <button id="btnDesactivar" class="btn btn-danger" onclick="jsModificarEstado('@collaborator.Identification')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
-                            }
-                            else
-                            {
-                                <button id="btnActivar" class="btn btn-success" onclick="jsModificarEstado('@collaborator.Identification')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+    @Html.Partial("_GetCollaborators", Model)
 </div>
 
-<!-- MODAL BITACORA -->
-<div class="modal fade" id="modalBitacora" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalBitacoraTitle">Bitacora de colaborador</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table id="userBit" class="table table-hover table-bordered text-center text ">
-                    <thead>
-                        <tr>
-                            <th>Usuario creación</th>
-                            <th>Fecha creación</th>
-                            <th>Usuario modificación</th>
-                            <th>Fecha modificación</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="tdBUsuarioCrea"></td>
-                            <td id="tdBFechaCrea"></td>
-                            <td id="tdBUsuarioModi"></td>
-                            <td id="tdBFechaModi"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- TABLA PARA MÁS DETALLES COLABORADOR -->
-<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Detalles de colaborador</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row fila scrol-tablex">
-                    <table id="collaboratorsDetails" style="float: left; color:black; font-size:medium" width="50%">
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <td id="tdBName"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Género</th>
-                            <td id="tdBGender"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Activo</th>
-                            <td><input id="tdBActive" type="checkbox" checked="" disabled="disabled" /></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Estado</th>
-                            <td id="tdBState"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Dirección</th>
-                            <td id="tdBAddress"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Teléfono 1</th>
-                            <td id="tdBTelephone1"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Teléfono 2</th>
-                            <td id="tdBTelephone2"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Identificacion</th>
-                            <td id="tdBIdentification"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Nacionalidad</th>
-                            <td id="tdNationality"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Fecha de nacimiento</th>
-                            <td id="tdBDateBirth"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Fecha de ingreso</th>
-                            <td id="tdBDateEntry"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Fecha de salida</th>
-                            <td id="tdBDateDeparture"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Nomina</th>
-                            <td id="tdBIdNomina"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Estado civil</th>
-                            <td id="tdBCivilStatus"></td>
-                        </tr>
-                    </table>
-                    <table id="collaboratorsDetails" width="50%" style="color:black; font-size:medium;">
-                        <tr>
-                            <th scope="col">Saldo de vacaciones</th>
-                            <td id="tdBVacationBalance"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Último cálculo de vacaciones</th>
-                            <td id="tdBLastVacationCalc"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Puesto</th>
-                            <td id="tdBIdPuesto"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Forma de pago</th>
-                            <td id="tdBFormPayment"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Cuenta bancaria</th>
-                            <td id="tdBBankAccount"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Banco</th>
-                            <td id="tdBBank"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Correo electrónico</th>
-                            <td id="tdBEmail"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Contacto de emergencia</th>
-                            <td id="tdBEmergencyContact"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Teléfono de contacto</th>
-                            <td id="tdBTelephoneContact"></td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Salario de referencia</th>
-                            <td id="tdBReferenceSalary"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
+@Html.Partial("_Bitacora")
 
 @section scripts{
     <script>
-        //Busqueda
-        var busqueda = document.getElementById("buscar");
-        $(document).ready(function (i) {
-            $("#buscar").on("keyup", function (i) {
-                var value = $(this).val().toLowerCase();
-                $("#tbCollaborators tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });
 
-        
+        //Paginación
+         const d = document,
+            $renderBody = d.getElementById("renderBody")
+        $renderBody.addEventListener("click",  (e) => {
+            let page = e.target.dataset.value || "";
+            if (e.target.name === "regresar") {
+                //let btn = d.getElementById("regresarr");
+                //btn.setAttribute("disabled", "disabled");
+                cargarComponent({
+                    container: "renderLocal", url: "@Url.Content("~/Collaborator/_GetCollaborators")",
+                })
+               /* btn.removeAttribute("disabled");*/
+            }
+            else if (e.target.name === "nextPage") {
+                console.log("entra");
+                siguientePagina({
+                    sig: page,
+                    totalPage: d.getElementById("totalPag").textContent,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/Collaborator/_TableCollaborators")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                })
+            }
+            else if (e.target.name === "previousPage") {
+
+
+                retrocederPagina({
+                   ant: page,
+                   totalPage: d.getElementById("totalPag").textContent,
+                   tamanoPagina: d.getElementById("tamanoPagina").value,
+                   url: "@Url.Content("~/Collaborator/_TableCollaborators")",
+                   container: "content-table",
+                   palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+               })
+            }
+        })
+        //Paginación
+        // CHANGE
+        $renderBody.addEventListener("change", (e) => {
+            if (!(e.target.id === "tamanoPagina")) return false;
+            console.log(d.getElementById("totalPag").textContent);
+            console.log(e.target.value);
+            console.log("@Url.Content("~/Collaborator/_TableCollaborators")");
+            console.log(d.getElementById("buscar").value.toLowerCase());
+            cambioTamanoPagina({
+                totalPage:d.getElementById("totalPag").textContent,
+                tamanoPagina: e.target.value,
+                url:"@Url.Content("~/Collaborator/_TableCollaborators")",
+                container: "content-table",
+                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+            });
+        })
+
+        $renderBody.addEventListener("keyup", (e) => {
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+                console.log(palabraBuscar.toLowerCase());
+                buscarPalabra({
+                    url: "@Url.Content("~/Collaborator/_TableCollaborators")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+        })
+
+
 
         //Mostrar Bitacora por colaborador
         function jsmostrarBitacora(pId) {

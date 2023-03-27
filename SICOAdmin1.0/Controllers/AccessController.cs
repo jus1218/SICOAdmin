@@ -11,8 +11,18 @@ namespace SICOAdmin1._0.Controllers
 {
     public class AccessController : Controller
     {
+        //Variables
+        ObjectParameter resultado = new ObjectParameter("resultado", false);
+        ObjectParameter mensaje = new ObjectParameter("mensaje", "");
         static int contG = 0;
         static string userG = "";
+
+        //Clase para Json
+        public partial class Atrributtes {
+            public String User { get; set; }
+            public String Pass { get; set; }
+        }
+
         // GET: Access
         public ActionResult Index()
         {
@@ -23,86 +33,89 @@ namespace SICOAdmin1._0.Controllers
         {
             return View();
         }
-
         [HttpPost]
-        public ActionResult Login(string userName, string password)
+        public JsonResult LoginJs(Atrributtes Obj)
         {
-
-            ObjectParameter resultado = new ObjectParameter("resultado", false);
-            ObjectParameter mensaje = new ObjectParameter("mensaje", "");
-            try
+            using (SICOAdminEntities db = new SICOAdminEntities())
             {
+                db.SP_P_Logeo(Obj.User, Obj.Pass, resultado, mensaje);
+            }
+            bool bit = Convert.ToBoolean(resultado.Value);
+            string message = Convert.ToString(mensaje.Value);
 
+            if (bit)
+            {
                 using (SICOAdminEntities db = new SICOAdminEntities())
                 {
-                    db.SP_P_Logeo(userName, password, resultado, mensaje);
+                    SP_C_BuscarUsuario_Result user = db.SP_C_BuscarUsuario(Obj.User).FirstOrDefault();
 
 
+                    User oUser = new User();
 
-                    bool bit = Convert.ToBoolean(resultado.Value);
-                    string message = Convert.ToString(mensaje.Value);
-
-                    if (bit)
+                    oUser.userName = user.Usuario;
+                    oUser.name = user.Nombre;
+                    switch (user.Tipo.ToString())
                     {
-                        SP_C_BuscarUsuario_Result user = db.SP_C_BuscarUsuario(userName).FirstOrDefault();
-                        User oUser = new User();
+                        case "Ad":
+                            oUser.type = TypesU.Administrador;
+                            break;
+                        case "Co":
+                            oUser.type = TypesU.Consulta;
+                            break;
+                        case "Tr":
+                            oUser.type = TypesU.Transaccional;
+                            break;
+                    }
+                    oUser.active = user.Activo;
+                    oUser.locked = user.Bloqueado;
+                    oUser.password = user.Contrasena;
+                    oUser.email = user.CorreoElectronico;
+                    oUser.daysChangePassword = user.DiasCambioContrasena;
+                    oUser.failesAttempts = user.IntentosFallidos;
+                    oUser.lastChangedPassword = (DateTime)user.UltCambioContrasena;
+                    oUser.lastEntry = user.UltIngreso;
+                    oUser.userCreation = user.UsuarioCreacion;
+                    oUser.dateCreation = user.FechaCreacion;
+                    oUser.userModification = user.UsuarioModificacion;
+                    oUser.dateModification = (DateTime)user.FechaModificacion;
+                    Session["User"] = oUser; //Guardar el usuario loggeado
+                    contG = 0;
+                    userG = " ";
 
-                        oUser.userName = user.Usuario;
-                        oUser.name = user.Nombre;
-                        switch (user.Tipo.ToString())
-                        {
-                            case "Ad":
-                                oUser.type = TypesU.Administrador;
-                                break;
-                            case "Co":
-                                oUser.type = TypesU.Consulta;
-                                break;
-                            case "Tr":
-                                oUser.type = TypesU.Transaccional;
-                                break;
-                        }
-                        oUser.active = user.Activo;
-                        oUser.locked = user.Bloqueado;
-                        oUser.password = user.Contrasena;
-                        oUser.email = user.CorreoElectronico;
-                        oUser.daysChangePassword = user.DiasCambioContrasena;
-                        oUser.failesAttempts = user.IntentosFallidos;
-                        oUser.lastChangedPassword = (DateTime)user.UltCambioContrasena;
-                        oUser.lastEntry = user.UltIngreso;
-                        oUser.userCreation = user.UsuarioCreacion;
-                        oUser.dateCreation = user.FechaCreacion;
-                        oUser.userModification = user.UsuarioModificacion;
-                        oUser.dateModification = (DateTime)user.FechaModificacion;
+                    //Notificación de vencimiento de contraseña
+                    String notification = message.Substring(19);
 
-
-                        Session["User"] = oUser;
-                        contG = 0;
-                        userG = " ";
-
-                        //CARGAMOS LOS PRIVILEGIOS
-                        List<int?> lstActions = null;
-                        lstActions = db.SP_C_AuthorizeUser(oUser.userName).ToList();
-                        Session["lstActions"] = lstActions;
-
-                        return Content("1" + message);//message
+                    if (notification[0] != 'S')
+                    {
+                        Session["Notification"] = null;
                     }
                     else
                     {
-                        string msg = IntentosPermitidos(userName);
-                        if (msg != null)
-                        {
-                            message = msg;
-                            contG = 0;
-                            userG = "";
-                        }
-                        return Content(message);
+                        Session["Notification"] = notification;
                     }
+
+
+                    //CARGAMOS LOS PRIVILEGIOS
+                    List<int?> lstActions = null;
+                    lstActions = db.SP_C_AuthorizeUser(oUser.userName).ToList();
+                    Session["lstActions"] = lstActions;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                return Content("Ocurrio un error :( \n" + ex.Message);
+                string msg = IntentosPermitidos(Obj.User);
+                if (msg != null)
+                {
+                    message = msg;
+                    contG = 0;
+                    userG = "";
+                }
             }
+            return Json(new 
+            {
+                result = resultado.Value,
+                message = message
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public string IntentosPermitidos(string userName)

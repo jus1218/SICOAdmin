@@ -52,26 +52,26 @@
                         <td>
                             <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
                                     class="btn btn-warning"
-                                    onclick="showData(@e.IdParameter);">
+                                    onclick="showData(@e.IdParameter)">
                                 <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
                             </button>
 
                             <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora"
-                                    type="button" onclick="jsShowLog(@e.IdParameter);">
+                                    type="button" onclick="jsShowLog(@e.IdParameter)">
                                 <i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora
                             </button>
 
                             @if (e.Status == "0")
                             {
                                 <button id="btnActivar" class="btn btn-success"
-                                        style="width: 35%;" type="button" onclick="jsChangeStatus(@e.IdParameter);">
+                                        style="width: 35%;" type="button" onclick="jsChangeStatus(@e.IdParameter)">
                                     <i class="fa fa-unlock mr-1" aria-hidden="true"></i>Activar
                                 </button>
                             }
                             else
                             {
                                 <button id="btnDes" class="btn btn-danger"
-                                        style="width: 35%;" onclick="jsChangeStatus(@e.IdParameter);">
+                                        style="width: 35%;" onclick="jsChangeStatus(@e.IdParameter)">
                                     <i class="fa fa-lock mr-1" aria-hidden="true"></i>Desactivar
                                 </button>
                             }

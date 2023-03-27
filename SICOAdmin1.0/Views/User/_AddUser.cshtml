@@ -1,0 +1,65 @@
+﻿
+<!-- Modal add User-->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Agregar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return jsConfirm(this)" action="@Url.Action("AddUser", "User")" method="post" id="frm">
+                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
+
+                        <div class="col-xl-3 col-md-6 col-sm-12 me-5">
+                            <label class="mt-4 h6">Usuario</label>
+                            <input required type="text" name="userName" class="form-control" placeholder="(Números/letras)" />
+
+                            <label class="mt-4 h6">Contraseña</label>
+                            <input required name="password" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
+
+                            <label class="mt-4 h6">Nombre</label>
+                            <input required type="text" name="name" class="form-control" pattern="[a-z\sA-Z]+" placeholder="(Solo letras)" />
+
+                            <label class="mt-4 h6">Correo Electrónico</label>
+                            <input required type="email" name="email" class="form-control" placeholder="ejemplo@ejemplo.com" />
+
+                        </div><br />
+
+                        <div class="col-xl-3 col-md-6 col-sm-12 me-5">
+                            <label class="mt-4 h6">Dias cambio contraseña</label>
+                            <input required type="number" name="daysChangePassword" class="form-control" pattern="^[e]" placeholder="(Solo números)" />
+
+                            <label class="mt-4 h6">Intentos fallidos</label>
+                            <input required type="number" name="failesAttempts" class="form-control" placeholder="(Solo números)" />
+
+                            <label class="mt-4 h6">Tipo de usuario</label>
+                            <select required name="type" id="types" class="form-control h6">
+                                <option value="" selected disabled hidden>Seleccionar</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Transaccional">Transaccional</option>
+                                <option value="Consulta">Consulta</option>
+                            </select>
+                        </div><br />
+
+                        <div class="col-xl-3 col-md-6 col-sm-12 me-5">
+                            <label class="mt-4 h6">Activo</label>
+                            <input type="checkbox" name="active" class="form-control" value="true" />
+
+                            <label class="mt-4 h6">Bloqueado</label>
+                            <input type="checkbox" name="locked" class="form-control" value="true" />
+                        </div><br />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
