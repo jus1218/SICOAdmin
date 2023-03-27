@@ -1,6 +1,8 @@
 ﻿@model SICOAdmin1._0.Models.SP_C_BuscarProveedor_Result
 
-
+@{
+    var lstTipoProveedor = (List<SelectListItem>)ViewBag.lstTipoProveedor;
+}
 <form id="editarProveedor">
 
     <div class="row">
@@ -8,50 +10,70 @@
         <div class="col-sm-12 col-md-4">
             <div class="form-group" id="grupo__nombreEdit">
                 <label for="concepto"># Proveedor</label>
-                <input required disabled name="concepto" type="text" class="form-control" id="idProveedorEdit" value="@Model.IdProveedor" >
+                <input required disabled name="concepto" type="text" class="form-control" id="idProveedorEdit" value="@Model.IdProveedor">
             </div>
             <div class="form-group" id="grupo__nombreEdit">
                 <label for="nombre">Nombre</label>
-                <input  name="nombre" type="text" class="form-control" id="nombreEdit" value="@Model.Nombre" placeholder="Ingrese el nombre" pattern="[A-Za-z]+" title="Solo se permiten letras" required>
+                <input name="nombre" type="text" class="form-control" id="nombreEdit" value="@Model.Nombre" placeholder="Ingrese el nombre" pattern="[A-Za-z]+" title="Solo se permiten letras" required>
                 <label for="nombre" class="m-1 msj__label" id="lblNombreErrorEdit"></label>
             </div>
 
             <div class="form-group" id="grupo__identificacionEdit">
                 <label for="identificacion">Identificacion</label>
-                <input  name="identificacion" type="text" class="form-control" id="identificacionEdit" value="@Model.Identificacion" placeholder="Ingrese la cedula" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                <input name="identificacion" type="text" class="form-control" id="identificacionEdit" value="@Model.Identificacion" placeholder="Ingrese la cedula" pattern="[0-9]+" title="Solo se permiten numeros" required>
                 <label for="identificacion" class="m-1 msj__label" id="lblIdentificacionErrorEdit"></label>
             </div>
 
             <div class="form-group" id="grupo__tipoEdit">
 
                 <label for="tipo">Tipo</label>
+                @*<select required name="tipo" class="custom-select" id="tipoEdit">
+                        <option value="">Seleccione una opcion...</option>
+                        @if (Model.Tipo == "1")
+                        {
+
+                            <option value="1" selected>tipo 1</option>
+                            <option value="3">tipo 3</option>
+                        }
+                        else if (Model.Tipo == "2")
+                        {
+                            <option value="1">tipo 1</option>
+                            <option value="2" selected>tipo 2</option>
+                            <option value="3">tipo 3</option>
+                        }
+                        else
+                        {
+                            <option value="1">tipo 1</option>
+                            <option value="2">tipo 2</option>
+                            <option value="3" selected>tipo 3</option>
+                        }
+                    </select>*@
+
                 <select required name="tipo" class="custom-select" id="tipoEdit">
                     <option value="">Seleccione una opcion...</option>
-                    @if (Model.Tipo == "1")
+                    @foreach (var tipo in lstTipoProveedor)
                     {
 
-                        <option value="1" selected>tipo 1</option>
-                        <option value="3">tipo 3</option>
-                    }
-                    else if (Model.Tipo == "2")
-                    {
-                        <option value="1">tipo 1</option>
-                        <option value="2" selected>tipo 2</option>
-                        <option value="3">tipo 3</option>
-                    }
-                    else
-                    {
-                        <option value="1">tipo 1</option>
-                        <option value="2">tipo 2</option>
-                        <option value="3" selected>tipo 3</option>
+                        if (tipo.Value == Model.Tipo)
+                        {
+                            <option value="@Model.Tipo" selected>@tipo.Text</option>
+                            continue;
+                        }
+                        <option value="@tipo.Value"> @tipo.Text</option>
+
+
                     }
                 </select>
+
+
+
+
                 <label for="tipo" class="m-1 msj__label" id="lblTipoErrorEdit"></label>
             </div>
 
             <div class="form-group" id="grupo__contactoEdit">
                 <label for="contacto">Contacto</label>
-                <input name="contacto" type="text" class="form-control" id="contactoEdit" value="@Model.Contacto" placeholder="Ingrese el nombre de contacto"  pattern="[A-Za-z]+" title="Solo se permiten numeros" required>
+                <input name="contacto" type="text" class="form-control" id="contactoEdit" value="@Model.Contacto" placeholder="Ingrese el nombre de contacto" pattern="[A-Za-z]+" title="Solo se permiten numeros" required>
                 <label for="contacto" class="m-1 msj__label" id="lblContactoErrorEdit"></label>
             </div>
 

@@ -25,55 +25,63 @@
     </thead>
     <tbody style="text-align:center;">
 
-        @if (Model != null)
+        @if (Model != null && Model.Count > 0)
         {
             foreach (var proveedor in Model)
             {
                 i++;
-        <tr>
-            <td>@proveedor.IdProveedor</td>
-            <td>@proveedor.Nombre</td>
-            <td>@proveedor.Identificacion</td>
-            <td>@proveedor.Tipo</td>
-            <td>@proveedor.Contacto</td>
-            <td>@proveedor.Telefono1</td>
-            <td>@proveedor.CorreoElectronico</td>
-            @if (proveedor.Activo == true)
-            {
+                <tr>
+                    <td>@proveedor.IdProveedor</td>
+                    <td>@proveedor.Nombre</td>
+                    <td>@proveedor.Identificacion</td>
+                    <td>@proveedor.Tipo</td>
+                    <td>@proveedor.Contacto</td>
+                    <td>@proveedor.Telefono1</td>
+                    <td>@proveedor.CorreoElectronico</td>
+                    @if (proveedor.Activo == true)
+                    {
 
-                <!--   proveedor.IdProveedor-->
-                <td>
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
-                        <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Activo</label>
-                    </div>
-                </td>
+                        <!--   proveedor.IdProveedor-->
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
+                                <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Activo</label>
+                            </div>
+                        </td>
+                    }
+                    else
+                    {
+                        <!--  proveedor.IdProveedor"  -->
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
+                                <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Desactivo</label>
+                            </div>
+                        </td>
+                    }
+                    @*
+                        data-toggle="modal" data-target="#editCtrlAsistencia"
+                        data-toggle="modal" data-target="#viewMore"
+                    *@
+
+                    <td>
+                        <button type="button" class="btn btn-warning" name="viewEditPage" data-id="@proveedor.IdProveedor"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
+
+                        <button type="button" class="btn btn-primary" name="detalle" data-id="@proveedor.IdProveedor">
+                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
+                        </button>
+                    </td>
+
+                </tr>
             }
-            else
-            {
-                <!--  proveedor.IdProveedor"  -->
-                <td>
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
-                        <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Desactivo</label>
-                    </div>
-                </td>
-            }
-            @*
-        data-toggle="modal" data-target="#editCtrlAsistencia"
-        data-toggle="modal" data-target="#viewMore"
-            *@
+        }
+        else
+        {
 
-            <td>
-                <button type="button" class="btn btn-warning" name="viewEditPage" data-id="@proveedor.IdProveedor"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
+            <tr>
+                <td colspan="8">No existe registros actualmente</td>
+            </tr>
 
-                <button type="button" class="btn btn-primary" name="detalle" data-id="@proveedor.IdProveedor">
-                    <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
-                </button>
-            </td>
-
-        </tr>
-            }
         }
     </tbody>
 </table>

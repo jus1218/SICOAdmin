@@ -21,31 +21,41 @@
             </tr>
         </thead>
         <tbody id="contentTable">
-            @foreach (var perfil in Model)// ViewBag.userPerfil
+            @if (Model != null && Model.Count > 0)
             {
-                i++;
-                <tr>
-                    <td>
-                        @perfil.IdPerfil
-                    </td>
-                    <td>
-                        @perfil.Nombre
-                    </td>
-                    <td>
-                        @if (@lstActions.Contains(12))
-                        {
-                            <button onclick="document.location.href = '@Url.Action("Editar", "Perfil", new { Id = perfil.IdPerfil })'" type="button" class="btn btn-warning">
-                                <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
-                                Editar
-                            </button>
+                @foreach (var perfil in Model)// ViewBag.userPerfil
+                {
+                    i++;
+                    <tr>
+                        <td>
+                            @perfil.IdPerfil
+                        </td>
+                        <td>
+                            @perfil.Nombre
+                        </td>
+                        <td>
+                            @if (@lstActions.Contains(12))
+                            {
+                                <button onclick="document.location.href = '@Url.Action("Editar", "Perfil", new { Id = perfil.IdPerfil })'" type="button" class="btn btn-warning">
+                                    <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
+                                    Editar
+                                </button>
 
-                        }
+                            }
 
-                        <input onclick="jsDeletePerf('@perfil.IdPerfil');" type="button" value="Eliminar" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalEliminar" />
-                    </td>
-                </tr>
+                            <input onclick="jsDeletePerf('@perfil.IdPerfil');" type="button" value="Eliminar" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalEliminar" />
+                        </td>
+                    </tr>
+                }
             }
+            else
+            {
 
+                <tr>
+                    <td colspan="3">No existe registros actualmente</td>
+                </tr>
+
+            }
 
         </tbody>
     </table>

@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    var lstTipoProveedor = (List<SelectListItem>)ViewBag.lstTipoProveedor;
+}
 <form id="createProveedor">
 
     <div class="row">
@@ -6,7 +8,7 @@
         <div class="col-sm-12 col-md-4">
             <div class="form-group" id="grupo__nombre">
                 <label for="concepto">Nombre</label>
-                <input  name="concepto" type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" pattern="[A-Za-z]+" title="Solo se permiten letras" required>
+                <input name="concepto" type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" pattern="[A-Za-z]+" title="Solo se permiten letras" required>
                 <label for="nombre" class="m-1 msj__label" id="lblNombreError"></label>
             </div>
 
@@ -19,12 +21,21 @@
             <div class="form-group" id="grupo__tipo">
 
                 <label for="tipo">Tipo</label>
-                <select required name="tipo" class="custom-select" id="tipo">
-                    <option value="" selected disabled>Seleccione una opcion...</option>
-                    <option value="1">tipo 1</option>
-                    <option value="2">tipo 2</option>
-                    <option value="3">tipo 3</option>
-                </select>
+                @*<select required name="tipo" class="custom-select" id="tipo">
+                        <option value="" selected disabled>Seleccione una opcion...</option>
+                        <option value="1">tipo 1</option>
+                        <option value="2">tipo 2</option>
+                        <option value="3">tipo 3</option>
+                    </select>*@
+                @Html.DropDownList("Tipo de Proveedores", lstTipoProveedor, "Seleccione un Tipo", new
+                {
+                    id = "tipo",
+                    @class = "custom-select ",
+                    AutoPostBack = "true",
+                    OnSelectedIndexChanged = "Selection_Change",
+                    required = true
+
+                })
                 <label for="tipo" class="m-1 msj__label" id="lblTipoError"></label>
             </div>
 
@@ -62,7 +73,7 @@
             </div>
             <div class="form-group" id="grupo__cuentaBancaria">
                 <label for="CuentaBancaria">Cuenta Bancaria</label>
-                <input  name="cuentaBancaria" type="text" class="form-control" id="cuentaBancaria" placeholder="Ingrese la cuenta bancaria" pattern="[A-Za-z0-9]+" title="Solo se permiten letras y números" required>
+                <input name="cuentaBancaria" type="text" class="form-control" id="cuentaBancaria" placeholder="Ingrese la cuenta bancaria" pattern="[A-Za-z0-9]+" title="Solo se permiten letras y números" required>
                 <label for="cuentaBancaria" class="m-1 msj__label" id="lblCuentaBancariaError"></label>
             </div>
 
@@ -83,8 +94,8 @@
         <div class=" col-sm-12 col-md-4 d-flex  justify-content-center">
             <!--
 
-    href="Url.Action("Index", "Proveedor")"
-        -->
+            href="Url.Action("Index", "Proveedor")"
+                -->
             <button type="button" class="btn btn-secondary col-sm-6 col-md-6" name="regresar" id="regresarr">Cerrar</button>
             <button type="submit" class="btn btn-primary col-sm-6 col-md-6">Crear</button>
         </div>
