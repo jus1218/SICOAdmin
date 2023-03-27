@@ -28,11 +28,15 @@ namespace SICOAdmin1._0.Controllers
         // ================================================= VISTAS =================================================
         public ActionResult Index()
         {
+           
 
             try
             {
 
-                using (var db = new SICOAdminEntities()) lstProveedores = db.SP_C_MostrarProveedores(PagActual, DEFAULT_NUMBER_PAGE, "", totalPag).ToList();
+                using (var db = new SICOAdminEntities()) {
+                    lstProveedores = db.SP_C_MostrarProveedores(PagActual, DEFAULT_NUMBER_PAGE, "", totalPag).ToList();
+                    
+                }
 
             }
             catch (Exception e)
@@ -43,7 +47,6 @@ namespace SICOAdmin1._0.Controllers
 
             }
 
-
             ViewBag.PagActual = PagActual + 1;
             ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
 
@@ -51,6 +54,33 @@ namespace SICOAdmin1._0.Controllers
         }
         // =============================================== FUNTIONS =================================================
 
+
+        public List<SelectListItem> ObtenerTipoProveedores() {
+            List<SP_C_MostrarTiposProveedores_Result> lstTipoProveedor = null;
+            List<SelectListItem> ddlTiposProveedores = null;
+
+
+            try {
+                using (var db = new SICOAdminEntities()) lstTipoProveedor = db.SP_C_MostrarTiposProveedores().ToList();
+
+                ddlTiposProveedores = lstTipoProveedor.ConvertAll(d =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = "# " + d.IdTipoProveedor.ToString() + " - " + d.Nombre.ToString(),
+                        Value = d.IdTipoProveedor.ToString(),
+                        Selected = false
+                    };
+                });
+
+            }
+            catch (Exception er) {
+                Console.WriteLine(er);
+            }
+
+
+            return ddlTiposProveedores;
+        }
 
         // ============================================= RETURN JSON ================================================
         [HttpPost]
@@ -80,8 +110,7 @@ namespace SICOAdmin1._0.Controllers
 
             try
             {
-
-                using (var db = new SICOAdminEntities()) objConcept = db.SP_C_BuscarProveedor(int.Parse(id)).First();
+                using (var db = new SICOAdminEntities()) objConcept = db.SP_C_BuscarProveedor(int.Parse(id),false).First();
             }
             catch (Exception er)
             {
@@ -158,25 +187,37 @@ namespace SICOAdmin1._0.Controllers
         }
 
 
-        public PartialViewResult _AgregarProveedor()
-        {
+        public PartialViewResult _AgregarProveedor(){
+
+            ViewBag.lstTipoProveedor = ObtenerTipoProveedores();
+
 
             return PartialView("_AgregarProveedor");
         }
         public PartialViewResult _DetalleProveedor(string id)
         {
-            SP_C_BuscarProveedor_Result objConcept = null;
+            SP_C_BuscarProveedor_Result objProveedor = null;
+            //List < SelectListItem > lstTipoProveedor = ObtenerTipoProveedores();
+            //List<SP_C_MostrarTiposProveedores_Result> lstTipoProveedor = null;
+
             try
             {
 
-                using (var db = new SICOAdminEntities()) objConcept = db.SP_C_BuscarProveedor(int.Parse(id)).First();
+                using (var db = new SICOAdminEntities()) {
+                    objProveedor = db.SP_C_BuscarProveedor(int.Parse(id),false).First();
+                    //lstTipoProveedor = db.SP_C_MostrarTiposProveedores().ToList();
+                }
             }
             catch (Exception er)
             {
                 Console.WriteLine(er.Message);
             }
 
-            return PartialView("_DetalleProveedor", objConcept);
+
+            //var tipo = lstTipoProveedor.FirstOrDefault(p => p.IdTipoProveedor == objConcept.Tipo);
+            //objProveedor.Tipo = tipo.Nombre;
+
+            return PartialView("_DetalleProveedor", objProveedor);
         }
         public PartialViewResult _EditarProveedorPage(string id)
         {
@@ -184,13 +225,20 @@ namespace SICOAdmin1._0.Controllers
             try
             {
 
-                using (var db = new SICOAdminEntities()) objConcept = db.SP_C_BuscarProveedor(int.Parse(id)).First();
+                using (var db = new SICOAdminEntities()) objConcept = db.SP_C_BuscarProveedor(int.Parse(id), true).First();
             }
             catch (Exception er)
             {
                 Console.WriteLine(er.Message);
             }
 
+
+            //var tipo = objConcept.Tipo.Split(' ')[1];
+
+            //objConcept.Tipo = tipo;
+
+
+            ViewBag.lstTipoProveedor = ObtenerTipoProveedores();
             return PartialView("_EditarProveedor", objConcept);
         }
 
