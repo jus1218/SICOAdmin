@@ -4,11 +4,13 @@
     User UserLog = (User)Session["User"];
     string userNameLog = " ";
     string name = "";
+    string min = " ";
 
     if (UserLog != null)
     {
         userNameLog = UserLog.userName;
         name = UserLog.name;
+        min = (UserLog.lastEntry).Minute.ToString();
     }
 
     List<int?> lstActions = (List<int?>)Session["lstActions"];
@@ -27,7 +29,7 @@
         flag = false;
     }
 
-    string min = (UserLog.lastEntry).Minute.ToString();
+
 }
 
 <!DOCTYPE html>
