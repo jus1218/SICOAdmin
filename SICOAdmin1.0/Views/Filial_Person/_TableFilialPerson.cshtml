@@ -1,16 +1,18 @@
 ﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarFilialPersonasPag_Result>
 @{
-    List<int?> lstActions = (List<int?>)Session["lstActions"];
-    if (lstActions == null)
-    {
-        lstActions = new List<int?>();
-    }
     int i = 0;
+
+    //Si no existen registros a mostrar
+    bool flag = false;
+    if (Model.ToList().Count() > 0) {
+        flag = true;
+    }
 }
 
-<table id="tbCondominiums" class="table table-bordered">
+<table id="tbFilialPerson" class="table table-bordered text-center">
     <thead>
         <tr class="text-center">
+            <th scope="col"># Filial</th>
             <th scope="col">Nombre</th>
             <th scope="col">Identificacion</th>
             <th scope="col">Responsable</th>
@@ -23,67 +25,75 @@
             <th scope="col">Acciones</th>
         </tr>
     </thead>
-    <tbody style="text-align:center;">
-        @foreach (var FP in Model)
+    <tbody>
+        @if (flag)
         {
-            i++;
-            <tr>
-                <td>@FP.Nombre</td>
-                <td>@FP.Indentification</td>
-                @if (FP.Responsable)
-                {
-                    <td><input type="checkbox" disabled checked /></td>
-                }
-                else
-                {
-                    <td><input type="checkbox" disabled /></td>
-                }
-                @if (FP.Tipo == "I")
-                {
-                    <td>Inquilino</td>
-                }
-                else if (FP.Tipo == "P")
-                {
-                    <td>Propietario</td>
-                }
-                else if (FP.Tipo == " ")
-                {
-                    <td>Sin definir</td>
-                }
-                <td>@FP.Trato</td>
-                <td>@FP.CorreoElectronico</td>
-                <td>@FP.Telefono1</td>
-                <td>@FP.Telefono2</td>
-                <td>@FP.WhatsApp</td>
-                <td>
+            foreach (var FP in Model)
+            {
+                i++;
+                <tr>
+                    <td>@FP.IdFilial</td>
+                    <td>@FP.Nombre</td>
+                    <td>@FP.Indentification</td>
+                    @if (FP.Responsable)
+                    {
+                        <td><input type="checkbox" disabled checked /></td>
+                    }
+                    else
+                    {
+                        <td><input type="checkbox" disabled /></td>
+                    }
+                    @if (FP.Tipo == "I")
+                    {
+                        <td>Inquilino</td>
+                    }
+                    else if (FP.Tipo == "P")
+                    {
+                        <td>Propietario</td>
+                    }
+                    else if (FP.Tipo == " ")
+                    {
+                        <td>Sin definir</td>
+                    }
+                    <td>@FP.Trato</td>
+                    <td>@FP.CorreoElectronico</td>
+                    <td>@FP.Telefono1</td>
+                    <td>@FP.Telefono2</td>
+                    <td>@FP.WhatsApp</td>
+                    <td>
 
-                    <div class="row ml-2 mr-2">
-                        @if (@lstActions.Contains(9))
-                        {
+                        <div class="row ml-2 mr-2">
                             <button data-toggle="modal" data-target="#updateFPModal" class="btn btn-warning col" onclick="jsMostrarDatosFP(@FP.Indentification)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
-                        }
-                        <button id="btnBitacora" onclick="jsmostrarBitacora('@FP.Indentification')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+                            <button id="btnBitacora" onclick="jsmostrarBitacora('@FP.Indentification')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
 
 
-                    </div>
+                        </div>
 
-                    <div class="row ml-2 mr-2">
+                        <div class="row ml-2 mr-2">
 
-                        @if (FP.Activo)
-                        {
-                            <button id="btnDesactivar" class="btn btn-danger col" onclick="jsModificarEstado('@FP.Indentification', 'Activ')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
-                        }
-                        else
-                        {
-                            <button id="btnActivar" class="btn btn-success col" onclick="jsModificarEstado('@FP.Indentification', 'Activ')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
-                        }
-                    </div>
+                            @if (FP.Activo)
+                            {
+                                <button id="btnDesactivar" class="btn btn-danger col" onclick="jsModificarEstado('@FP.Indentification', 'Activ')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
+                            }
+                            else
+                            {
+                                <button id="btnActivar" class="btn btn-success col" onclick="jsModificarEstado('@FP.Indentification', 'Activ')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
+                            }
+                        </div>
 
 
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="11">
+                    <content>No hay registros en la tabla</content>
                 </td>
             </tr>
         }
-
 
     </tbody>
 </table>
@@ -95,9 +105,6 @@
     </div>
 
     <div class="col mr-0">
-
-
-
         @if (@ViewBag.PagActual > 1)
         {
             <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
@@ -107,9 +114,5 @@
             <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
 
         }
-
     </div>
-
-
-
 </div>

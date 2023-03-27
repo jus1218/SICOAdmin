@@ -1,0 +1,87 @@
+﻿@model List <SICOAdmin1._0.Models.SP_C_MostrarColaboradoresPag_Result>
+@{
+    int i = 0;
+
+    //Si no existen registros a mostrar
+    bool flag = false;
+    if (Model.ToList().Count() > 0)
+    {
+        flag = true;
+    }
+}
+<table id="tbCollaborators" class="table table-bordered text-center">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Identificacion</th>
+            <th scope="col">Género</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Teléfono 1</th>
+            <th scope="col">Fecha de nacimiento</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (flag)
+        {
+            foreach (var collaborator in Model)
+            {
+                i++;
+                <tr>
+                    <td>@collaborator.IdColaborador</td>
+                    <td>@collaborator.Nombre</td>
+                    <td>@collaborator.Identificacion</td>
+                    <td>@collaborator.Genero</td>
+                    <td><input type="checkbox" checked="@collaborator.Activo" disabled="disabled" /></td>
+                    <td>@collaborator.Direccion</td>
+                    <td>@collaborator.Telefono1</td>
+                    <td>@collaborator.FechaNacimiento.ToString("dd MMMM, yyyy")</td>
+
+                    <td>
+                        <button id="btnEdit" onclick="document.location.href = '@Url.Action("Update", "Collaborator", new { id = collaborator.Identificacion })'" class="btn btn-warning"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                        <button id="btnBitacora" onclick="jsmostrarBitacora('@collaborator.Identificacion')" class="btn btn-info" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+                        <button id="btnDetails" onclick="jsViewDetails('@collaborator.Identificacion')" class="btn btn-primary" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-info-circle mr-1" aria-hidden="true"></i> Detalles</button>
+
+                        @if (collaborator.Activo)
+                        {
+                            <button id="btnDesactivar" class="btn btn-danger" onclick="jsModificarEstado('@collaborator.Identificacion')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
+                        }
+                        else
+                        {
+                            <button id="btnActivar" class="btn btn-success" onclick="jsModificarEstado('@collaborator.Identificacion')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="9">
+                    <content>No hay registros en la tabla</content>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+        }
+    </div>
+</div>

@@ -1,15 +1,8 @@
 ﻿
 @model List<SICOAdmin1._0.Models.SP_C_MostrarFilialPersonasPag_Result>
-@*@using SICOAdmin1._0.Models.Filial_Persona*@
 
 @{
     ViewBag.Title = "Condominos";
-
-    List<int?> lstActions = (List<int?>)Session["lstActions"];
-    if (lstActions == null)
-    {
-        lstActions = new List<int?>();
-    }
 }
 
 <div class="container margin-container p-4 glass" id="renderLocal">
@@ -17,53 +10,7 @@
     @Html.Partial("_GetFilialPersons", Model)
 </div>
 
-@* ============================================================================================================ *@
-<!--<head>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-</head>
 
-<div class="container margin-container p-4 glass">
-
-
-    <div class="row fila">-->
-<!--TEXTO-->
-<!--<div class="col-xl-2 col-md-3 d-flex justify-content-center">
-    <h3 class="mt-0">Condóminos</h3>
-</div>-->
-<!--BOTON-->
-<!--<div class="col-xl-2 col-md-2 mb-3">
-    @if (@lstActions.Contains(8))
-    {
-        <button type="button" class="btn btn-primary col-12 " data-toggle="modal" data-target="#AddModal">
-            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar
-        </button>
-    }
-</div>-->
-<!--Barra busqueda-->
-<!--<div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
-        <div class="input-group mb-2">
-            <input type="text"
-                   class="form-control"
-                   placeholder="Buscar..."
-                   aria-label="Buscar..."
-                   aria-describedby="button-search"
-                   id="buscar" />
-            <button class="btn btn-outline-secondary"
-                    type="button"
-                    disabled="disabled"
-                    id="button-search">
-                <i class="fa fa-search mr-1" aria-hidden="true"></i>
-            </button>
-        </div>
-    </div>
-</div>-->
-<!--FILA TABLE-->
-<!--<div class="row fila scrol-tablex">
-        @*Html.Partial("_TableFilialPerson")*@
-    </div>
-</div>
--->
 @Html.Partial("_Bitacora")
 @Html.Partial("_AddFilialPerson")
 @Html.Partial("_UpdateFilialPerson")
@@ -72,8 +19,7 @@
 @section scripts{
     <script>
          const d = document,
-            $renderBody = d.getElementById("renderBody"),
-            $formCreate = d.getElementById("createProveedor");
+            $renderBody = d.getElementById("renderBody")
         $renderBody.addEventListener("click",  (e) => {
             let page = e.target.dataset.value || "";
             if (e.target.name === "regresar") {
@@ -85,6 +31,7 @@
                /* btn.removeAttribute("disabled");*/
             }
             else if (e.target.name === "nextPage") {
+                console.log("entra");
                 siguientePagina({
                     sig: page,
                     totalPage: d.getElementById("totalPag").textContent,
@@ -95,6 +42,8 @@
                 })
             }
             else if (e.target.name === "previousPage") {
+
+
                 retrocederPagina({
                    ant: page,
                    totalPage: d.getElementById("totalPag").textContent,
@@ -110,23 +59,12 @@
         function handleClick(checkbox) {
             if (checkbox.checked) {
                 console.log("True");
-                cbResponsable.value = true;
+                checkbox.value = true;
             } else {
                 console.log("False");
-                cbResponsable.value = false;
+                checkbox.value = false;
             }
         }
-
-        //Busqueda
-        //var busqueda = document.getElementById("buscar");
-        $(document).ready(function (i) {
-            $("#buscar").on("keyup", function (i) {
-                var value = $(this).val().toLowerCase();
-                $("#tbCondominiums tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });
 
         //Mostrar Bitacora por usuario
         function jsmostrarBitacora(pIdentification) {
@@ -172,7 +110,7 @@
             }
         }
 
-
+        //Cargar datos
         function jsMostrarDatosFP(pId) {
 
             fetch("@Url.Content("~/Filial_Person/GetInfoFP")" + "?pIdentification=" + pId)

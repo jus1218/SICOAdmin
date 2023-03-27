@@ -59,54 +59,6 @@ namespace SICOAdmin1._0.Controllers
             ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
 
             return View(lstFilialPersons);
-
-            /*List<SP_C_MostrarFilialPersona_Result> lstFilialPersonsDB = null;
-            List<Filial_Person> lstFilialPersons = new List<Filial_Person>();
-            List<SP_C_MostrarFiliales_Result> lstfilialesDB = null;
-            Filial_Person objFP;
-
-            using (SICOAdminEntities db = new SICOAdminEntities())
-            {
-                lstFilialPersonsDB = db.SP_C_MostrarFilialPersona("", "tod").ToList();
-                lstfilialesDB = db.SP_C_MostrarFiliales().ToList();
-            }
-
-            foreach (var FP in lstFilialPersonsDB)
-            {
-                objFP = new Filial_Person();
-                objFP.IdFilial = FP.IdFilial;
-                objFP.IdPerson = FP.IdPersona;
-                objFP.Name = FP.Nombre;
-                objFP.Identification = FP.Indentification;
-                objFP.Active = FP.Activo;
-                objFP.Responsable = FP.Responsable;
-                objFP.Type = FP.Tipo;
-                objFP.Treatment = FP.Trato;
-                objFP.Email = FP.CorreoElectronico;
-                objFP.Telephone1 = FP.Telefono1;
-                objFP.Telephone2 = FP.Telefono2;
-                objFP.WhatsApp = FP.WhatsApp;
-                objFP.UserCreation = FP.UsuarioCreacion;
-                objFP.DateCreation = FP.FechaCreacion;
-                objFP.UserModification = FP.UsuarioModificacion;
-                objFP.DateModification = FP.FechaModificacion;
-
-                lstFilialPersons.Add(objFP);
-            }
-
-            List<SelectListItem> filials = lstfilialesDB.ConvertAll(
-                 d =>
-                 {
-                     return new SelectListItem()
-                     {
-                         Value = d.IdFilial.ToString(),
-                         Text = "Filial " + d.IdFilial,
-                         Selected = false
-                     };
-                 });
-
-            ViewBag.Filials = filials;
-            return View(lstFilialPersons);*/
         }
 
         // GET: Filial_Person/Create
@@ -145,7 +97,6 @@ namespace SICOAdmin1._0.Controllers
             ObjectParameter mensaje = new ObjectParameter("mensaje", "");
             string Message = "";
             bool result = false;
-            modelFP.IdPerson = 2;
             try
             {
                 if (modelFP != null)
@@ -342,7 +293,7 @@ namespace SICOAdmin1._0.Controllers
 
             using (var db = new SICOAdminEntities())
             {
-                lstFilialPersons = db.SP_C_MostrarFilialPersonasPag(PagActual, DEFAULT_NUMBER_PAGE, "", totalPag).ToList();
+                lstFilialPersons = db.SP_C_MostrarFilialPersonasPag(obj.NumPagina, obj.CantRegistros, obj.palabraBuscar, totalPag).ToList();
             }
             ViewBag.PagActual = obj.NumPagina + 1;
             ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
