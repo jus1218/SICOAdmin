@@ -1,5 +1,5 @@
 # ASP.NET
-- task: SonarCloudAnalyze@1
+
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
@@ -16,6 +16,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SICOAdmin'
+    organization: 'rolbinvialeslope'
+    scannerMode: 'MSBuild'
+    projectKey: 'rolbinvialeslopez_SICOAdmin'
+    projectName: 'SICOAdmin'
+- task: SonarCloudAnalyze@1
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
