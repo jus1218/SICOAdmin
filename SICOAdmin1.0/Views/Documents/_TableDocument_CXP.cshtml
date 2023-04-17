@@ -1,0 +1,97 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXP_Result>
+
+@{
+    //List<SelectListItem> lstProviders = (List<SelectListItem>)ViewBag.lstProviders;
+    int i = 0;
+}
+
+
+<table id="tbDocuments_CXP" class="table table-bordered">
+
+    <thead class="">
+        <tr>
+            <th scope="col" class="th"># Documento</th>
+            <th scope="col" class="th">Proveedor</th>
+            <th scope="col" class="th">Tipo</th>
+            <th scope="col" class="th">Monto</th>
+            <th scope="col" class="th">Saldo</th>
+            <th scope="col" class="th">Estado</th>
+            <th scope="col" class="th">Condición Pago</th>
+            <th scope="col" class="th">Fecha Documento</th>
+            @*<th scope="col" class="th">Acciones</th>*@
+        </tr>
+
+    </thead>
+
+
+    <tbody style="text-align:center;">
+        @if (Model != null && Model.Count > 0)
+        {
+            i++;
+            foreach (var d in Model)
+            {
+                <tr>
+                    <td>@d.Documento</td>
+                    <td>@d.Nombre</td>
+                    @if (@d.TipoDocumento == "FA")
+                    {
+                        <td>Factura</td>
+                    }
+                    else
+                    {
+                        <td>Recibo</td>
+                    }
+                    <td>@Convert.ToDecimal(@d.Monto).ToString("C")</td>
+                    <td>@Convert.ToDecimal(@d.Saldo).ToString("C")</td>
+                    <td>@d.Estado</td>
+                    <td>@d.CondicionPago.ToString("C")</td>
+                    <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
+
+                    <td>
+                        <button id="btnEditDoc" type="button" class="btn btn-warning" data-id="@d.Documento">
+                            <i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar
+                        </button>
+
+                        <button data-id="@d.Documento" id="viewLogDoc" type="button" class="btn btn-primary">
+                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
+                        </button>
+
+                        <button data-id="@d.Documento" id="add_deposito_CXP" type="button" class="btn btn-info">
+                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Depositar
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">No existe registros actualmente</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+        }
+    </div>
+
+</div>

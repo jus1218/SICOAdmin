@@ -1,0 +1,175 @@
+﻿@model List<SelectListItem>
+@*@{
+        List<SelectListItem> lstProviders = (List<SelectListItem>)ViewBag.lstProviders;
+    }*@
+
+
+<style>
+    .select-con-botón {
+        position: relative;
+        /*display: inline-block;*/
+    }
+
+        .select-con-botón select {
+            padding-right: 5px; /* ajusta este valor para que el botón no se superponga al texto */
+        }
+
+        .select-con-botón button {
+            position: absolute;
+            top: 2px;
+            right: 0;
+            padding: 5px;
+            background-color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+</style>
+
+<div class="modal fade" id="ModalDocument_CXP" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 style="text-align:center" class="modal-title" id="ModalTitle_CXP">Partida</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="formAddDocument_CXP">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2"></div>
+                        <div class="col-sm-12 col-md-4">
+
+                            <div class="form-group" id="grupo_Doc">
+                                <label for="addDocumento">Documento</label>
+                                <input name="Documento" type="text" class="form-control" id="documento" placeholder="Ingrese el Documento" pattern="(?=.+[\w]).{1,50}|(?=.+[\W]).{1,50}" title="Solo se permiten números y letras" required>
+                                <label for="addDocumento" class="m-1 msj__label" id="lblNombreError"></label>
+                            </div>
+
+
+                            <div class="form-group" id="grupo_proveedor">
+
+
+                                <label for="Proveedor">Proveedor</label>
+                                @if (Model != null && Model.Count > 0)
+                                {
+
+
+                                    <select required name="IdProveedor" id="IdProveedor" class="form-control">
+                                        <option value="" selected disabled hidden>Seleccione un Proveedor</option>
+
+                                        @foreach (var e in Model)
+                                        {
+                                            <option value="@e.Value"> @e.Text</option>
+                                        }
+
+                                    </select>
+
+                                }
+                                else
+                                {
+                                    <div class="select-con-botón">
+
+                                        <select required name="tipo" class="custom-select" id="prov">
+
+                                            <option value="" selected disabled>No hay Proveedores</option>
+
+                                        </select>
+                                        <button class=" btn btn-info" id="btnAddProvider">Agregar</button>
+                                    </div>
+
+                                    @*@Html.DropDownList("Proveedores", Model, "Seleccione el Proveedor", new
+                                        {
+                                            id = "Proveedor",
+                                            value = "Model.Value",
+
+                                            @class = "custom-select ",
+                                            AutoPostBack = "true",
+                                            OnSelectedIndexChanged = "Selection_Change",
+                                            required = true
+                                        })*@
+
+                                }
+
+
+                            </div>
+
+
+                            @*<div class="form-group" id="grupo_tipo">
+                                <label for="TipoDocumento">Tipo</label>
+                                <select required name="TipoDocumento" class="custom-select" id="tipoDocumento">
+                                    <option value="" selected disabled>Seleccione una opcion...</option>
+                                    <option value="FA">Factura</option>
+                                    <option value="RB">Recibo</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="grupo_tipo">
+                                <label for="estado">Estado</label>
+                                <select required name="Estado" class="custom-select" id="estado">
+                                    <option value="" selected disabled>Seleccione una opcion...</option>
+                                    <option value="AD">Adelanto</option>
+                                    <option value="PD">Pendiente</option>
+                                    <option value="CL">Cancelado</option>
+                                </select>
+                            </div>*@
+
+
+                            <div class="form-group" id="grupo-nota">
+                                <label for="nota">Nota</label>
+                                <textarea class="form-control" id="nota" rows="2"></textarea>
+                            </div>
+                        </div>
+
+
+                        <!--==================== COL 2 ====================-->
+                        <br />
+                        <div class="col-sm-12 col-md-4">
+
+
+                            <div class="form-group" id="grupo_fecha">
+                                <label for="FechaDocumento">Fecha Documento</label>
+                                <input type="date" id="fechaDocumento" required name="FechaDocumento" class="form-control" />
+                            </div>
+
+
+                            <div class="form-group" id="grupo__monto">
+                                <label for="monto">Monto</label>
+                                <input name="Monto" type="number" class="form-control" id="monto" placeholder="Ingrese el Monto" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                <label for="monto" class="m-1 msj__label" id="lbMontoError"></label>
+                            </div>
+
+
+                            @*<div class="form-group" id="grupo_saldo">
+                                <label for="saldo">Saldo</label>
+                                <input name="Saldo" type="number" class="form-control" id="saldo" placeholder="Ingrese la Saldo" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                <label for="saldo" class="m-1 msj__label" id="lblSaldoError"></label>
+                            </div>*@
+
+
+                            <div class="form-group" id="grupo__pago">
+                                <label for="pago">Condición Pago</label>
+                                <input name="CondicionPago" type="number" class="form-control" id="pago" placeholder="Ingrese la Condición de Pago" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                <label for="pago" class="m-1 msj__label" id="lblPagoError"></label>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col mt-4 d-flex justify-content-center mb-2">
+                        <input id="btnModal_CXP" type="submit" class="btn btn-success" value="Guardar" />
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+
+
+</script>

@@ -1,0 +1,39 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXP_Result>
+
+
+@{
+
+    List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result> lstDocuments_CXC = (List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result>)ViewBag.lstDocuments_CXC;
+
+
+    List<SelectListItem> lstProviders = (List<SelectListItem>)ViewBag.lstProviders;
+    List<SelectListItem> lstClients = (List<SelectListItem>)ViewBag.lstClients;
+}
+<style>
+    .th {
+        text-align: center;
+    }
+</style>
+
+<div class="container margin-container p-4 glass" id="renderLocalDoc">
+    @Html.Partial("_ShowDocuments_CXP", Model)
+
+
+</div>
+
+
+<!--================= VISTAS PARCIALES ===================-->
+
+@Html.Partial("_FormDocument_CXP", lstProviders)
+
+@Html.Partial("_FormDocument_CXC", lstClients)
+
+@Html.Partial("_LogDocument_CXP")
+
+
+@Html.Partial("_LogDocument_CXC")
+@Html.Partial("_Deposito_CXC",lstClients)
+
+
+<script src="~/Scripts/FuncionesDocumento_CXC_y_CXP.js"></script>
+
