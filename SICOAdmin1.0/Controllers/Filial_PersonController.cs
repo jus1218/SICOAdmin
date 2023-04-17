@@ -36,10 +36,7 @@ namespace SICOAdmin1._0.Controllers
             }
             catch (Exception e)
             {
-
-
                 Console.WriteLine(e.Message);
-
             }
 
             List<SelectListItem> filials = lstfilialesDB.ConvertAll(
@@ -134,8 +131,6 @@ namespace SICOAdmin1._0.Controllers
         [HttpPost]
         public ActionResult UpdateFilialPerson(Filial_Person oFP)
         {
-            string Message = "";
-            int Response = 0;
             ObjectParameter resultSP = new ObjectParameter("resultado", 0);
             ObjectParameter mensajeSP = new ObjectParameter("mensaje", 0);
 

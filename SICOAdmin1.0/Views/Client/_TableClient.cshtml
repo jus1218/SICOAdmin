@@ -1,0 +1,130 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarClientes_Result>
+
+
+@{
+    List<SelectListItem> lstFilials = (List<SelectListItem>)ViewBag.Filials;
+    int i = 0;
+    //Si no existen registros a mostrar
+    bool flag = false;
+    if (Model.ToList().Count() > 0)
+    {
+        flag = true;
+    }
+}
+
+<table id="tbClient" class="table table-bordered text-center table-sortable">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">Nombre</th>
+            <th scope="col">N° Filial</th>
+            <th scope="col">Identificacion</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">Telefono 1</th>
+            <th scope="col">Telefono 2</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Condicion de Pago</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (flag)
+        {
+            foreach (var c in Model)
+            {
+                i++;
+                <tr>
+                    <td>@c.Nombre</td>
+                    <td>@c.IdFilial</td>
+                    <td>@c.Identificacion</td>
+                    @if (c.Tipo == "Cd")
+                    {
+                        <td>Cliente</td>
+                    }
+                    else if (c.Tipo == "In")
+                    {
+                        <td>Inquilino</td>
+                    }
+                    <td>@c.Contacto</td>
+                    <td><a href="@("https://wa.me/506" + c.Telefono1)">@c.Telefono1</a></td>
+                    @if (c.Telefono2 == null)
+                    {
+                        <td>No se registró</td>
+                    }
+                    else
+                    {
+                        <td>@c.Telefono2</td>
+                    }
+
+                    <td>@c.CorreoElectronico</td>
+                    <td>@c.CondicionPago días</td>
+                    <!--SWITCH-->
+                    @if (c.Activo)
+                    {
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@c.IdCliente" data-id="@c.IdCliente" title="hola" onclick="jsModificarEstado('@c.Identificacion')">
+                                <label class="custom-control-label" for="customSwitch_@c.IdCliente">Activo</label>
+                            </div>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@c.IdCliente" data-id="@c.IdCliente" title="hola" onclick="jsModificarEstado('@c.Identificacion')">
+                                <label class="custom-control-label" for="customSwitch_@c.IdCliente">Desactivado</label>
+                            </div>
+                        </td>
+                    }
+                    <td>
+
+                        <div class="row ml-2 mr-2">
+                            <button id="btnUpClient" data-toggle="modal" data-target="#updateModalClient" class="btn btn-warning col" onclick="jsGetDataClient(@c.Identificacion)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                            <button id="btnBitacora" onclick="jsmostrarBitacora('@c.Identificacion')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+                        </div>
+                        <div class="row ml-2 mr-2">
+                            <button id="btnViewPrint" onclick="window.location.href = '/Print/Report'" class="btn btn-secondary col"><i class="fa fa-eye mr-1" aria-hidden="true"></i> Ver estado de cuenta</button>
+                            <button id="btnPrint" onclick="document.location.href = '@Url.Action("Print","Print", new { pId = @c.Identificacion})'" class="btn btn-secondary col"><i class="fa fa-print mr-1" aria-hidden="true"></i> Descargar estado de cuenta</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10">
+                    <content>No hay registros en la tabla</content>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<style type="text/css">
+    .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+        }
+    </div>
+</div>
