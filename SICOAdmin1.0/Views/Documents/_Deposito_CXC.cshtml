@@ -1,0 +1,128 @@
+﻿@model List<SelectListItem>
+
+
+<style>
+    .select-con-botón {
+        position: relative;
+        /*display: inline-block;*/
+    }
+
+        .select-con-botón select {
+            padding-right: 5px; /* ajusta este valor para que el botón no se superponga al texto */
+        }
+
+        .select-con-botón button {
+            position: absolute;
+            top: 2px;
+            right: 0;
+            padding: 5px;
+            background-color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+</style>
+
+<div class="modal fade" id="ModalDeposito" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 style="text-align:center" class="modal-title" id="ModalTitleDeposito_CXC">Depositos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+
+                <div class="row justify-content-center">
+
+                    <div class="col-sm-2">
+                        <label for="numero_documento">Documento</label>
+                        <input disabled name="numero_documento" type="text" class="four columns form-control" id="numero_documento" pattern="(?=.+[\w]).{1,50}|(?=.+[\W]).{1,50}" title="Solo se permiten números y letras" required>
+                        <label for="numero_documento" class="m-1 msj__label" id="lblNombreError"></label>
+
+
+                    </div>
+
+
+                    <!--==================== COL 2 ====================-->
+                    <br />
+                    <div class="col-sm-2">
+                        <div class="form-group" id="grupo__monto">
+                            <div class="form-group" id="grupo_fecha">
+                                <label for="FechaDocumento_dep">Fecha Documento</label>
+                                <input disabled type="date" id="FechaDocumento_dep" required name="FechaDocumento_dep" class="four columns form-control" />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-3">
+
+                        <div class="form-group" id="grupo__usuario">
+                            <label for="usuario">Cliente</label>
+                            <input disabled name="cliente_mens" type="number" class="four columns form-control" id="usuario_dep" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                            <label for="usuario_dep" class="m-1 msj__label" id="lbMontoError"></label>
+                        </div>
+
+
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group" id="grupo__monto">
+                            <label for="monto">Monto</label>
+                            <input disabled name="monto_cxc" type="number" class="four columns form-control" id="monto_mens" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                            <label for="monto_cxc" class="m-1 msj__label" id="lbMontoError"></label>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-2">
+
+                        <div class="form-group" id="grupo_saldo">
+                            <label for="saldo">Saldo</label>
+                            <input disabled name="saldo_cxc" type="number" class="four columns form-control" id="saldo_mens" placeholder="Ingrese la Saldo" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                            <label for="saldo_cxc" class="m-1 msj__label" id="lblSaldoError"></label>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-sm-8 ">
+                        <table id="tbDeposito" class="table table-bordered">
+                            <thead style="text-align:center;">
+                                <tr>
+                                    <th scope="col">Documento Credito</th>
+                                    <th scope="col">Monto</th>
+                                    <th scope="col">Fecha</th>
+                            
+                                </tr>
+                            </thead>
+                            <tbody style="text-align:center;">
+
+                                <tr id="tablaBitacora">
+                                    <td id="tbDocumento"> </td>
+                                    <td id="tbMonto"> </td>
+                                    <td id="tbFecha"> </td>
+                        
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="col mt-4 d-flex justify-content-center mb-2">
+                    <input id="btnModalDeposito_CXC" type="submit" class="btn btn-success" value="Regresar" />
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
