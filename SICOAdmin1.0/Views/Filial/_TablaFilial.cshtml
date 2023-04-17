@@ -1,0 +1,96 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarFilial_Result>
+
+@{ //int horaR = 0;
+
+    int i = 0;
+}
+
+
+<table id="tFilial" class="table table-bordered ">
+    <thead class="">
+        <tr>
+            <th scope="col" class="th"># Id</th>
+            <th scope="col" class="th">Descripción</th>
+            <th scope="col" class="th">Estado</th>
+        </tr>
+    </thead>
+    <tbody style="text-align:center;">
+
+        @if (Model != null)
+        {
+            foreach (var filial in Model)
+            {
+                i++;
+        <tr>
+            <td>@filial.IdFilial</td>
+            <td>@filial.Descripcion</td>
+              @if (filial.Estado == "1")
+              {
+                  <td>
+                      <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
+                          <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
+                      </div>
+                  </td>
+              }
+              else
+              {
+                 
+                  <td>
+                      <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
+                          <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
+                      </div>
+                  </td>
+              }
+
+            <td>
+                <button type="button"
+                        class="btn btn-warning"
+                        id="showEditModel"
+                        data-id="@filial.IdFilial">
+                    <i class="fa fa-pencil mr-2"
+                       aria-hidden="true"></i>Editar
+                </button>
+
+                <button id="btnBitacora"
+                        
+                        class="btn btn-primary"
+                        name="showMore"
+                        data-id="@filial.IdFilial">
+                    <i class="fa fa-info-circle  mr-2"
+                       aria-hidden="true"></i>Detalles
+                </button>
+            </td>
+
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+
+
+
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+        }
+
+    </div>
+
+
+
+</div>

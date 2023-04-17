@@ -1,0 +1,52 @@
+﻿<div class="modal fade"
+     id="ModalBitacora"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="ModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" 
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="text-align:center"
+                    class="modal-title"
+                    id="ModalTitle">
+                    Bitacora Filial
+                </h5>
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row fila scrol-tablex">
+                    <table id="tbBitacora" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Usuario Creacion</th>
+                                <th scope="col">Fecha Creacion</th>
+                                <th scope="col">Usuario Modificacion</th>
+                                <th scope="col">Fecha Modificacion</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center;">
+
+                            <tr id="tablaBitacora">
+                                <td namen="Ucreacion" id="tbUsuarioCreacion"> </td>
+                                <td namen="Fcreacion" id="tbFechaCreacion"> </td>
+                                <td namen="Umodificacion" id="tbUsuarioModificacion"> </td>
+                                <td namen="Fmodificacion" id="tbFechaModificacion"> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button style="margin-top: 15px" type="button" class="btn btn-secondary" id="btnregresar" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

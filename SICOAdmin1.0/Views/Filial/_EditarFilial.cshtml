@@ -1,0 +1,50 @@
+﻿
+<div class="modal fade"
+     id="modalEditarFilial"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="text-align:center"
+                    class="modal-title"
+                    id="ModalTitle">
+                    Editar Filial
+                </h5>
+            </div>
+            <div class="modal-body">
+                <form id="EditForm">
+                    <div class="form-group">
+                        <label for="filial" class="col-form-label">ID:</label>
+                        <input name="idFilial" disabled type="number" class="form-control" id="idFilialEdit" readonly>
+                        <label for="idFilial" class="m-1"></label>
+                    </div>
+                    <div class="form-group" id="grupo__filialEdit">
+                        <label for="descripcion" class="col-form-label">Descripción:</label>
+                        <input name="descrip" type="text" class="form-control" id="descripcionEdit" placeholder="Ingrese la descripcion" required>
+                        <div class="invalid-feedback">
+                            La descripción es requerida.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="estado" class="col-form-label">Estado:</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="estadoEdit" namen="estadoEdit" checked>
+                            <label class="custom-control-label" for="estado"></label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary col-sm-6 col-md-6" id="btnregresar" data-dismiss="modal" >Cerrar</button>
+                        <button type="submit" class="btn btn-primary col-sm-6 col-md-6" id="editarFilialBtn">Editar</button>
+                    </div>
+                </form>
+
+            </div>
+            
+        </div>
+    </div>
+
+</div>  
+

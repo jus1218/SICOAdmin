@@ -1,0 +1,256 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarFilial_Result>
+@{
+
+
+}
+<div class="container margin-container p-4 glass" id="renderBody">
+
+
+    <div class="row fila">
+
+        <!--BOTON-->
+
+        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12"><h3 class="d-flex justify-content-center">Filial</h3></div>
+
+        <button type="button"
+                class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12"
+                id="viewCreatePage">
+            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+            Agregar
+        </button>
+
+
+        <!--Barra busqueda-->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
+            <div class="input-group ">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Buscar..."
+                       aria-label="Buscar..."
+                       aria-describedby="button-search"
+                       id="buscar" />
+
+            </div>
+        </div>
+    </div>
+    <div class="row m-1 ">
+        <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamanoPagina">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+    <!--FILA TABLE   row       tableAttendanceControl -->
+    <div class="row fila   scrol-tablex" id="content-table">
+        @Html.Partial("_TablaFilial", Model);
+    </div>
+
+</div>
+@Html.Partial("_BitFilial")
+@Html.Partial("_AgregarFilial")
+@Html.Partial("_EditarFilial")
+
+
+@section Scripts {
+<script type="text/javascript">
+
+        const d = document,
+        $renderBody = d.getElementById("renderBody");
+
+
+    $renderBody.addEventListener("click", (e) =>{
+
+        let page = e.target.dataset.value || "";
+    
+        if (e.target.id === "viewCreatePage") {
+
+            console.log("Creando");
+            $("#agregarFilial").modal("show");// LEVANTAMOS EL MODAL
+
+        }
+        else if (e.target.id === "showEditModel") {
+            let id = e.target.dataset.id;
+            console.log("Editando");
+            console.log(id);
+
+            $("#modalEditarFilial").modal("show");// LEVANTAMOS EL MODAL
+            fetchMethod({
+                
+                url: "@Url.Content("~/Filial/_EditarFilial")?id=" + id,
+                cbSuccess: (res) => {
+                    console.log(res);
+                    d.getElementById("idFilialEdit").value = res.IdFilial;
+                    d.getElementById("descripcionEdit").value = res.Descripcion;
+                    darValorRadio({ esActivo: res.Activo, elementName: "estadoEdit" });//-------------------
+                }
+
+            });
+
+            console.log("Editando");
+        }
+        else if (e.target.id === "btnBitacora") {
+            $("#ModalBitacora").modal("show");// LEVANTAMOS EL MODAL
+            let idFilial = e.target.dataset.id;
+            console.log("Bitacora");
+            
+    
+            fetchMethod({
+                url: "@Url.Content("~/Filial/GetFilial")?id=" + idFilial,
+                cbSuccess: (res) => {
+    
+                    console.log(res);
+                    d.getElementById("tbUsuarioCreacion").textContent = res.usuarioCreacion;
+                    d.getElementById("tbFechaCreacion").textContent = res.fechaCreacion;
+                    d.getElementById("tbUsuarioModificacion").textContent = res.usuarioModificacion;
+                    d.getElementById("tbFechaModificacion").textContent = res.fechaModificacion;
+                    
+                }
+            })
+            
+    
+        }
+        else if (e.target.name === "nextPage") {
+            siguientePagina({
+                sig: page,
+                totalPage: d.getElementById("totalPag").textContent,
+                CantRegistros: d.getElementById("tamanoPagina").value,
+                url: "@Url.Content("~/Filial/_TablaFilial")",
+                container: "content-table",
+                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+            })
+        }
+        else if (e.target.name === "previousPage")
+        {
+            retrocederPagina({
+            ant: page,
+            totalPage: d.getElementById("totalPag").textContent,
+            tamanoPagina: d.getElementById("tamanoPagina").value,
+            url: "@Url.Content("~/Filial/_TablaFilial")",
+            container: "content-table",
+            palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+            })
+        }
+    })
+
+    //submit
+    $renderBody.addEventListener("submit", (e) =>{
+        e.preventDefault();
+        console.log(e.target);
+        if (e.target.id === "createForm") {
+
+            console.log("CREANDO");
+            fetchMethod({
+                 url: "@Url.Content("~/Filial/CrearFilial")", method: "POST",
+                 body: {
+                     Descripcion: d.getElementById("descripcion").value,
+                     Estado: d.getElementById("estado").value
+         
+                 },
+
+                cbSuccess: (res) => {
+                    
+                    if (res.status == 1) {
+                        $("#agregarFilial").modal("hide");// OCULTA EL MODAL
+                    
+                        cargarComponent({
+                            container: "content-table",
+                            url: "@Url.Content("~/Concepto/_TablaFilial")"
+                        });
+                            clearInputsColor();
+                         d.getElementById("#createForm").reset();
+                        swal('Bien!',
+                        res.mensaje,
+                        'success')
+                    } else {
+                        swal('Opps!',
+                            res.mensaje,
+                            'error'
+                        )
+                    }
+
+                }
+            })
+
+
+        }
+
+        if (e.target.id === "EditForm") {
+            console.log("preciono el btn al modal editar");
+            let filial = d.querySelector('input[name="filial"]').value;
+            let descripcion = d.querySelector('input[name="descrip"]').value;
+            let estado = d.querySelector('input[name="estado"]:checked').value;
+
+            fetchMethod({
+                url: "@Url.Content("~/Filial/EditarFilial")",
+                body: {
+                    IdFilial: d.getElementById("#idFilialEdit").value,
+                    Descripcion: d.getElementById("#descripcionEdit").value,
+                    Activo: (estado == "1"),
+                },
+
+                cbSuccess: (res) => {
+                    if (res.status == 1) {$("#ModalEditarFilial").modal("hide");// OCULTA EL MODAL
+                         console.log("salio al modal editar");
+                        cargarComponent({
+                            container: "content-table",
+                            url: "@Url.Content("~/Proveedor/_TablaFilial")"
+                        });
+                       clearInputsColor();
+                        d.getElementById("#createForm").reset();
+
+                       swal('Bien!', res.mensaje,'success')
+                    }
+                    else
+                    {
+                         swal('Opps!',res.mensaje,'error')
+                    }
+                }
+            })
+
+        }
+
+    })
+
+
+    // CHANGE
+    $renderBody.addEventListener("change", (e) => {
+    if (!(e.target.id === "tamanoPagina")) return false;
+
+        console.log(d.getElementById("totalPag").textContent);
+        console.log(e.target.value);
+        console.log("@Url.Content("~/Filial/_TablaFilial")");
+        console.log(d.getElementById("buscar").value.toLowerCase());
+
+        cambioTamanoPagina({
+            totalPage: d.getElementById("totalPag").textContent,
+            tamanoPagina: e.target.value,
+            url: "@Url.Content("~/Filial/_TablaFilial")",
+            container: "content-table",
+            palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+        });
+
+
+    })
+
+
+
+    $renderBody.addEventListener("keyup", (e) => {
+
+         if (e.target.id === "buscar") {
+             let palabraBuscar = e.target.value;
+             console.log(palabraBuscar.toLowerCase());
+             buscarPalabra({
+                 url: "@Url.Content("~/Filial/_TablaFilial")",
+                 container: "content-table",
+                 palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                 tamanoPagina: d.getElementById("tamanoPagina").value
+             });
+             return false;
+         }
+
+    })
+
+</script>
+}
+
+

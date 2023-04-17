@@ -1,0 +1,68 @@
+﻿<div class="modal fade"
+     id="agregarFilial"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Crear Filial</h2>
+            </div>
+
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="form-group" id="grupo__descripcion">
+                        <label for="descripcion" class="col-form-label">Descripción:</label>
+                        <input type="text" class="form-control" id="descripcion" placeholder="Ingrese la descripcion" required>
+                        <label for="descripcion" class="m-1 msj__label" id="lblDescripcionError"></label>
+                        <div class="invalid-feedback">
+                            La descripción es requerida.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="estado" class="col-form-label">Estado:</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="estado" name="estado" checked>
+                            <label class="custom-control-label" for="estado"></label>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-sm-12 col-md-4"></div>
+                        <div class=" col-sm-12 col-md-4 d-flex  justify-content-center">
+                            <button type="button" class="btn btn-secondary col-sm-6 col-md-6" id="btnregresar" data-dismiss="modal" >Cerrar</button>
+                            <button type="submit" class="btn btn-primary col-sm-6 col-md-6" id="crearFilialBtn">Crear</button>
+                        </div>
+                        <div class="col-sm-12 col-md-4"></div>
+                    </div>
+                </form>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+@*<script>
+  function agregarElemento() {
+    //// Obtener los valores de los campos
+    //var descripcion = document.getElementById("descripcion").value;
+    //var estado = document.getElementById("estado").checked;
+
+    //// Validar que la descripción no esté vacía
+    //if (descripcion === "") {
+    //  document.getElementById("descripcion").classList.add("is-invalid");
+    //  return;
+    //} else {
+    //  document.getElementById("descripcion").classList.remove("is-invalid");
+    //}
+
+    // Hacer algo con los valores (por ejemplo, enviarlos a un servidor)
+    // ...
+
+    // Cerrar el modal
+      $('#agregarFilial').modal('hide');
+  }
+</script>*@
