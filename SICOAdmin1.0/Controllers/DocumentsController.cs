@@ -9,6 +9,8 @@ using SICOAdmin1._0.Models;
 
 using System.Data.Entity.Core.Objects;
 using SICOAdmin1._0.Models.User;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -90,8 +92,7 @@ namespace SICOAdmin1._0.Controllers
                         obj.Documento,
                         obj.IdProveedor,
                         obj.TipoDocumento,
-                        obj.Monto,
-                        obj.Saldo,
+                        obj.Monto,                        
                         obj.Estado,
                         obj.CondicionPago,
                         obj.FechaDocumento,
@@ -120,7 +121,7 @@ namespace SICOAdmin1._0.Controllers
             }
             using (var db = new SICOAdminEntities())
             {
-                db.SP_P_ModificarDocumento("DOCUMENTO_CXP", obj.Documento, obj.IdProveedor, obj.TipoDocumento, obj.Monto, obj.Saldo, obj.Estado, obj.CondicionPago, obj.FechaDocumento, obj.Notas,
+                db.SP_P_ModificarDocumento("DOCUMENTO_CXP", obj.Documento, obj.IdProveedor, obj.TipoDocumento, obj.Monto, obj.CondicionPago, obj.FechaDocumento, obj.Notas,
                     ((User)Session["User"]).userName, res, msj);
             }
             return Json(
@@ -181,7 +182,7 @@ namespace SICOAdmin1._0.Controllers
                         obj.IdCliente,
                         obj.TipoDocumento,
                         obj.Monto,
-                        obj.Saldo,
+                        
                         obj.Estado,
                         obj.CondicionPago,
                         obj.FechaDocumento,
@@ -212,7 +213,8 @@ namespace SICOAdmin1._0.Controllers
                 }
                 using (var db = new SICOAdminEntities())
                 {
-                    db.SP_P_ModificarDocumento("DOCUMENTO_CXC", obj.Documento, obj.IdCliente, obj.TipoDocumento, obj.Monto, obj.Saldo, obj.Estado, obj.CondicionPago, obj.FechaDocumento, obj.Notas,
+                    db.SP_P_ModificarDocumento("DOCUMENTO_CXC",obj.Documento,obj.IdCliente,obj.TipoDocumento,obj.Monto,obj.CondicionPago,obj.FechaDocumento,obj.Notas,
+                   
                         ((User)Session["User"]).userName, res, msj);
                 }
             }
@@ -264,6 +266,20 @@ namespace SICOAdmin1._0.Controllers
             return Json(obj, JsonRequestBehavior.AllowGet);
 
         }
+
+
+        public JsonResult getDeposits_CXC(string pDocument) {
+
+            List<SP_C_Mostrar_Depositos_CXC_Result> depositos = new List<SP_C_Mostrar_Depositos_CXC_Result>();
+            
+            
+            using (var db = new SICOAdminEntities())
+                depositos = db.SP_C_Mostrar_Depositos_CXC(pDocument).ToList();
+
+            return Json(depositos, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         //========================== PARTIAL_VIEW ================================
 

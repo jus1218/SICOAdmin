@@ -37,7 +37,7 @@
                     {
                         <td>Mensualidad</td>
                     }
-                    else if(d.TipoDocumento == "depo")
+                    else if (d.TipoDocumento == "depo")
                     {
                         <td>Deposito</td>
                     }
@@ -56,9 +56,15 @@
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
                         </button>
 
-                            <button data-id="@d.Documento" id="add_deposito_cxc" type="button" class="btn btn-info">
-                                <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Ver Depositos
-                            </button>
+                        <button data-id="@d.Documento" id="add_deposito_cxc" type="button" class="btn btn-outline-dark">
+                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Agregar Deposito
+                        </button>
+
+                        <button data-id="@d.Documento" id="show_depositos_cxc" type="button" class="btn btn-outline-info">
+                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Ver Depositos
+                        </button>
+
+
                     </td>
                 </tr>
             }

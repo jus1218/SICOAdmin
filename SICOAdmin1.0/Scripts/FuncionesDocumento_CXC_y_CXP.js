@@ -62,8 +62,6 @@ function showDataDocument_cxp(pDoc, pAccion) {
                     d.querySelector('#tipoDocumento').options.item(2).selected = 'selected';
                 }
 
-                d.querySelector('#IdProveedor').value = res.IdProveedor;
-
                 if (res.Estado == "AD") {
                     d.querySelector('#estado').options.item(1).selected = 'selected';
                 } else if (res.Estado == "PD") {
@@ -71,6 +69,10 @@ function showDataDocument_cxp(pDoc, pAccion) {
                 } else if (res.Estado == "CL") {
                     d.querySelector('#estado').options.item(3).selected = 'selected';
                 }
+
+
+                d.querySelector('#IdProveedor').value = res.IdProveedor;
+
 
             }
             if (pAccion == "Bitacora") {
@@ -121,6 +123,8 @@ function showDataDocument_cxc(pDoc, pAccion) {
 
                 d.querySelector('#monto_cxc').textContent = res.Monto;
                 d.querySelector('#monto_cxc').value = res.Monto;
+                d.querySelector('#nota_cxc').textContent = res.Nota;
+                d.querySelector('#nota_cxc').value = res.Nota;
 
                 d.querySelector('#saldo_cxc').textContent = res.Saldo;
                 d.querySelector('#saldo_cxc').value = res.Saldo;
@@ -128,8 +132,7 @@ function showDataDocument_cxc(pDoc, pAccion) {
                 d.querySelector('#pago_cxc').textContent - res.CondicionPago;
                 d.querySelector('#pago_cxc').value = res.CondicionPago;
 
-                d.querySelector('#nota_cxc').textContent = res.Nota;
-                d.querySelector('#nota_cxc').value = res.Nota;
+
 
                 d.querySelector('#fechaDocumento_cxc').textContent = res.FechaDocumento;
                 d.querySelector('#fechaDocumento_cxc').value = res.FechaDocumento;
@@ -141,7 +144,6 @@ function showDataDocument_cxc(pDoc, pAccion) {
                     d.querySelector('#tipoDocumento_cxc').options.item(2).selected = 'selected';
                 }
 
-                d.querySelector('#IdCliente').value = res.IdCliente;
 
                 if (res.Estado == "AD") {
                     d.querySelector('#estado_cxc').options.item(1).selected = 'selected';
@@ -150,6 +152,9 @@ function showDataDocument_cxc(pDoc, pAccion) {
                 } else if (res.Estado == "FN") {
                     d.querySelector('#estado_cxc').options.item(3).selected = 'selected';
                 }
+
+
+                d.querySelector('#IdCliente').value = res.IdCliente;
 
             }
             if (pAccion == "Bitacora") {
@@ -178,7 +183,25 @@ function showDataDocument_cxc(pDoc, pAccion) {
 };
 
 
+function convertirFecha(FechaDocumento) {
 
+    const dateString = FechaDocumento;
+    const dateMilliseconds = Number(dateString.match(/\d+/)[0]); // Extraer el número de milisegundos
+    const date = new Date(dateMilliseconds);
+
+    var dia = date.getDate().toString().padStart(2, "0");
+    var mes = (date.getMonth() + 1).toString().padStart(2, "0");
+    var anio = date.getFullYear().toString();
+    var fechaFormateada = dia + "/" + mes + "/" + anio;
+    console.log(fechaFormateada);
+    return fechaFormateada;
+}
+
+function limpiarTableDepositos(table) {
+    while (table.firstChild) {
+        table.removeChild(table.firstChild);
+    }
+}
 //================ ELEMENTOS MODALES ==============================
 let formDocument_CXP = document.querySelector('#formAddDocument_CXP');
 let modalTitle = document.querySelector('#ModalTitle_CXP');
@@ -218,10 +241,18 @@ $renderBody.addEventListener("click", (e) => {
 
     if (e.target.id === "CreateDocument_CXP") {
 
+        const div_saldo = d.getElementById("grupo_saldo");
+        const div_estado = d.getElementById("grupo_estado");
+        const div_tipo = d.getElementById("grupo_tipo");
+
 
         formDocument_CXP.reset();
         btnModal.value = "Agregar Documento";
         modalTitle.textContent = "Agregar Documento Cuenta por Pagar";
+
+        div_estado.setAttribute('hidden', '');
+        div_saldo.setAttribute('hidden', '');
+        div_tipo.setAttribute('hidden', '');
 
         $("#ModalDocument_CXP").modal("show");
 
@@ -235,8 +266,18 @@ $renderBody.addEventListener("click", (e) => {
     else if (e.target.id == "btnEditDoc") {
         let doc = e.target.dataset.id;
 
+        const div_saldo = d.getElementById("grupo_saldo");
+        const div_estado = d.getElementById("grupo_estado");
+        const div_tipo = d.getElementById("grupo_tipo");
+
+
         btnModal.value = "Editar Documento";
         modalTitle.textContent = "Editar Documento  CXP";
+
+
+        div_estado.removeAttribute('hidden');
+        div_saldo.removeAttribute('hidden');
+        div_tipo.removeAttribute('hidden');
 
         showDataDocument_cxp(doc, "Datos");
 
@@ -320,12 +361,21 @@ $renderBody.addEventListener("click", (e) => {
         //Como se utiliza el mismo boton para el llamado de los documentos
         //se verifica por medio del "name" para llamar ala funcion correspondiente
 
-        //if (btnCreateDoc.name == "CreateDocument_CXP") {
 
-        //CreateDocument_CXC
+        const div_saldo = d.getElementById("grupo_saldo_cxc");
+        const div_estado = d.getElementById("grupo_estado_cxc");
+        const div_tipo = d.getElementById("grupo_tipo_cxc");
+
         formDocument_CXC.reset();
         btnModal_CXC.value = "Agregar Documento";
         modalTitle_CXC.textContent = "Agregar Documento Cuenta por Cobrar";
+
+
+        div_estado.setAttribute('hidden', '');
+        div_saldo.setAttribute('hidden', '');
+        div_tipo.setAttribute('hidden', '');
+
+
 
         $("#ModalDocument_CXC").modal("show");
         //}
@@ -338,12 +388,25 @@ $renderBody.addEventListener("click", (e) => {
 
     else if (e.target.id == "btnEditDoc_cxc") {
         let doc = e.target.dataset.id;
+        const div_saldo = d.getElementById("grupo_saldo_cxc");
+        const div_estado = d.getElementById("grupo_estado_cxc");
+        const div_tipo = d.getElementById("grupo_tipo_cxc");
 
         btnModal_CXC.value = "Editar Documento";
         modalTitle_CXC.textContent = "Editar Documento Cuenta por Cobrar";
 
+
+        div_estado.removeAttribute('hidden');
+        div_saldo.removeAttribute('hidden');
+        div_tipo.removeAttribute('hidden');
+
         showDataDocument_cxc(doc, "Datos");
 
+
+
+        //d.getElementById("grupo_saldo").style.visibility = 'visible';
+        //d.getElementById("grupo_estado").style.visibility = 'visible';
+        //d.getElementById("grupo_tipo").style.visibility = 'visible';
 
         $("#ModalDocument_CXC").modal("show");
         return false;
@@ -379,13 +442,13 @@ $renderBody.addEventListener("click", (e) => {
         localStorage.setItem("objPaginacion", JSON.stringify(objPaginacion));
 
 
-        
+
         return false;
     }
 
-                        //===================================================
-                        //============= METODDOS DE PAGINACION ==============
-                        //===================================================
+    //===================================================
+    //============= METODDOS DE PAGINACION ==============
+    //===================================================
 
     //===================================================
     //========  BOTON SIGUIENTE PAGINA  =================
@@ -453,12 +516,63 @@ $renderBody.addEventListener("click", (e) => {
     }
 
     //===================================================
-    //===========  BOTON AGREGAR DEPOSITO  ==============
+    //===========  BOTON VER DEPOSITOS CXC  =============
     //===================================================
-    else if (e.target.id === "add_deposito_cxc") {
+    else if (e.target.id === "show_depositos_cxc") {
 
-        console.log("entra al metodo deposito");
+        let pDoc = e.target.dataset.id;
 
+        const table = d.getElementById("tbDepositos");
+
+        limpiarTableDepositos(table);
+    
+        
+
+        fetch("Documents/getDeposits_CXC" + "?pDocument=" + pDoc)
+            .then(res => res.ok ? res.json() : null)
+            .then(res => {
+                console.log(res);
+
+
+                let total = 0;
+                for (var i = 0; i < res.length; i++) {
+                    const { Documento, DocumentoCredito, FechaCreacion, FechaDocumento, MontoDeposito,
+                        MontoMensualidad, NombreCliente, SaldoMensualidad } = res[i];
+
+
+                    var FechaDoc = convertirFecha(FechaDocumento);
+                    var FechaAux = convertirFecha(FechaCreacion);
+
+                    d.getElementById("numero_documento").textContent = Documento;
+                    d.getElementById("numero_documento").value = Documento;
+
+                    d.getElementById("FechaDocumento_dep").textContent = FechaDoc;
+                    d.getElementById("FechaDocumento_dep").value = FechaDoc;
+
+                    d.getElementById("usuario_dep").textContent = NombreCliente;
+                    d.getElementById("usuario_dep").value = NombreCliente;
+
+                    d.getElementById("monto_mens").textContent = MontoMensualidad;
+                    d.getElementById("monto_mens").value = MontoMensualidad;
+
+                    d.getElementById("saldo_mens").textContent = SaldoMensualidad;
+                    d.getElementById("saldo_mens").value = SaldoMensualidad;
+
+                    total = total + MontoDeposito;
+
+                    var datos = `
+                   <tr id="tbDatos">
+                        <td id="tbDocumento">${DocumentoCredito}</td>
+                        <td id="tbMonto">${MontoDeposito}</td>
+                        <td id="tbFecha">${FechaAux}</td>
+
+                   </tr>`;
+                    $("#tbDepositos").append(datos)
+                }
+                d.getElementById("total_depositos").textContent = total;
+                d.getElementById("total_depositos").value = total;
+        })
+           
         $("#ModalDeposito").modal("show");
     }
 
@@ -471,9 +585,9 @@ $renderBody.addEventListener("submit", (e) => {
 
     e.preventDefault();
 
-                    //===================================================
-                    //============= METODDOS DE DOCS_CXP ================
-                    //===================================================
+    //===================================================
+    //============= METODDOS DE DOCS_CXP ================
+    //===================================================
 
 
     //===================================================
@@ -570,9 +684,9 @@ $renderBody.addEventListener("submit", (e) => {
 
     }
 
-                        //===================================================
-                        //============= METODDOS DE DOCS_CXC ================
-                        //===================================================
+    //===================================================
+    //============= METODDOS DE DOCS_CXC ================
+    //===================================================
 
     //===================================================
     //===========  AGREGA UN DOCUMENTO CXC  =============
@@ -691,7 +805,7 @@ $renderBody.addEventListener("submit", (e) => {
             },
             cbSuccess: (res) => {
                 if (res.status == 1) {
-      
+
                     cargarComponent({
                         container: "renderLocalDoc",
                         url: "Documents/_ShowDocuments_CXP",
@@ -727,7 +841,7 @@ $renderBody.addEventListener("change", (e) => {
         const optionTable = d.querySelector('#ChoiceDocumentTable').value;
 
         if (optionTable == "DOCUMENTS_CXC") {
-            
+
 
             cambioTamanoPagina({
                 totalPage: d.getElementById("totalPag").textContent,
@@ -740,8 +854,7 @@ $renderBody.addEventListener("change", (e) => {
 
             console.log(optionTable);
         }
-        else
-        {
+        else {
             console.log(optionTable);
             cambioTamanoPagina({
                 totalPage: d.getElementById("totalPag").textContent,
@@ -762,9 +875,9 @@ $renderBody.addEventListener("change", (e) => {
     else if (e.target.id === "ChoiceDocumentTable") {
 
         const optionTable = d.querySelector('#ChoiceDocumentTable').value;
-        
+
         if (optionTable == "DOCUMENTS_CXC") {
-        
+
 
             cargarComponent({
                 container: "renderLocalDoc",
@@ -772,7 +885,7 @@ $renderBody.addEventListener("change", (e) => {
             });
         }
         else if (optionTable == "DOCUMENTS_CXP") {
-        
+
             cargarComponent({
                 container: "renderLocalDoc",
                 url: "Documents/_ShowDocuments_CXP",

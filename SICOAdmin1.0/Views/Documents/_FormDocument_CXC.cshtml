@@ -49,7 +49,7 @@
                             </div>
 
 
-                            <div class="form-group" id="grupo_proveedor">
+                            <div class="form-group" id="grupo_cliente">
 
 
                                 <label for="IdCliente">Cliente</label>
@@ -86,24 +86,24 @@
                             </div>
 
 
-                            @*<div class="form-group" id="grupo_tipo">
-                                    <label for="tipoDocumento_cxc">Tipo</label>
-                                    <select required name="tipoDocumento_cxc" class="custom-select" id="tipoDocumento_cxc">
-                                        <option value="" selected disabled>Seleccione una opcion...</option>
-                                        <option value="mens">Mensualidad</option>
-                                        <option value="depo">Deposito</option>
-                                    </select>
-                                </div>
+                            <div hidden class="form-group" id="grupo_tipo_cxc">
+                                <label for="tipoDocumento_cxc">Tipo</label>
+                                <select required name="tipoDocumento_cxc" class="custom-select" id="tipoDocumento_cxc">
+                                    <option value="" selected disabled>Seleccione una opcion...</option>
+                                    <option value="mens">Mensualidad</option>
+                                    <option value="depo">Deposito</option>
+                                </select>
+                            </div>
 
-                                <div class="form-group" id="grupo_tipo">
-                                    <label for="estado_cxc">Estado</label>
-                                    <select required name="Estado" class="custom-select" id="estado_cxc">
-                                        <option value="" selected disabled>Seleccione una opcion...</option>
-                                        <option value="AD">Adelanto</option>
-                                        <option value="PD">Pendiente</option>
-                                        <option value="FN">Finalizado</option>
-                                    </select>
-                                </div>*@
+                            <div hidden class="form-group" id="grupo_estado_cxc">
+                                <label for="estado_cxc">Estado</label>
+                                <select required name="Estado" class="custom-select" id="estado_cxc">
+                                    <option value="" selected disabled>Seleccione una opcion...</option>
+                                    <option value="AD">Adelanto</option>
+                                    <option value="PD">Pendiente</option>
+                                    <option value="FN">Finalizado</option>
+                                </select>
+                            </div>
 
 
                             <div class="form-group" id="grupo-nota">
@@ -131,11 +131,11 @@
                             </div>
 
 
-                            @*<div class="form-group" id="grupo_saldo">
+                            <div hidden class="form-group" id="grupo_saldo_cxc">
                                 <label for="saldo">Saldo</label>
                                 <input name="saldo_cxc" type="number" class="form-control" id="saldo_cxc" placeholder="Ingrese la Saldo" pattern="[0-9]+" title="Solo se permiten numeros" required>
                                 <label for="saldo_cxc" class="m-1 msj__label" id="lblSaldoError"></label>
-                            </div>*@
+                            </div>
 
 
                             <div class="form-group" id="grupo__pago">
