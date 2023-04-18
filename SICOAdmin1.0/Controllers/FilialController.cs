@@ -18,7 +18,7 @@ namespace SICOAdmin1._0.Controllers
 
         // VARIABLES OUTPUT DEL PROCEDURE
         ObjectParameter msj = new ObjectParameter("msj", "");
-        ObjectParameter seAgrego = new ObjectParameter("seAgrego", "");
+        ObjectParameter seAgrego = new ObjectParameter("seAgrego", 1);
 
         //VARIABLES DE PAGINACION
         ObjectParameter totalPag = new ObjectParameter("totalPag", 0);
@@ -44,8 +44,7 @@ namespace SICOAdmin1._0.Controllers
         }
         #endregion
         // ============================================= RETURN JSON ================================================
-        #region CrearFilial Js
-
+        #region CrearFilial
         [HttpPost]
         public JsonResult CrearFilial(FILIAL obj)//
         {
@@ -55,7 +54,7 @@ namespace SICOAdmin1._0.Controllers
             try {
                 using (var db = new SICOAdminEntities())
                 {
-                    //db.SP_P_CrearFilial(obj.Descripcion, obj.Estado, (((User)Session["User"]).userName, msj, seAgrego));
+                    db.SP_P_CrearFilial(obj.Descripcion, obj.Estado, ((User)Session["User"]).userName, msj, seAgrego);
                 }
             }
             catch(Exception e)
@@ -73,14 +72,14 @@ namespace SICOAdmin1._0.Controllers
         #endregion
 
         #region Obtener Filial
-        public JsonResult GetFilial(string id)
+        public JsonResult GetFilial(int id)
         {
             SP_C_BuscarFilial_Result objFilial = null;
 
             try
             {
 
-               // using (var db = new SICOAdminEntities()) objFilial = (SP_C_BuscarFilial_Result)db.SP_C_BuscarFilial(Convert.ToInt32(id));
+                using (var db = new SICOAdminEntities()) objFilial = db.SP_C_BuscarFilial(id, false).First();
             }
             catch (Exception er)
             {
@@ -118,7 +117,7 @@ namespace SICOAdmin1._0.Controllers
 
         #endregion
 
-        #region Agregar cod js
+        #region Agregar
 
         public PartialViewResult _AgregarFilial()
         {
@@ -126,23 +125,8 @@ namespace SICOAdmin1._0.Controllers
         }
         #endregion
 
-        #region EditarFilial cod js
+        #region EditarFilial
         /**************************************************************************************/
-        public PartialViewResult _EditarFilial(int id)
-        {
-            SP_C_BuscarFilial_Result objConcept = null;
-            try
-            {
-
-                using (var db = new SICOAdminEntities()) objConcept = (SP_C_BuscarFilial_Result)db.SP_C_BuscarFilial(id, false);
-            }
-            catch (Exception er)
-            {
-                Console.WriteLine(er.Message);
-            }
-
-            return PartialView("_EditarFilial", objConcept);
-        }
 
         public JsonResult EditarFilial(FILIAL obj)
         {
@@ -156,7 +140,6 @@ namespace SICOAdmin1._0.Controllers
                 {
                     db.SP_P_ModificarFilial(obj.IdFilial, 
                                             obj.Descripcion, 
-                                            obj.Estado, 
                                             ((User)Session["User"]).userName, 
                                             msj, 
                                             seModifico);
@@ -188,7 +171,7 @@ namespace SICOAdmin1._0.Controllers
 
                 using (var db = new SICOAdminEntities())
                 {
-                    db.SP_P_CambiarEstadoProveedor(id, msj, seModifico);
+                    db.SP_P_ModificarEstadoFilial(id, msj, seModifico);
                 }
             }
             catch (Exception er)
@@ -208,52 +191,6 @@ namespace SICOAdmin1._0.Controllers
 
         #endregion
 
-        #region Bitacora
-        //public JsonResult DatosBitacora(string idFilalial)
-        //{
-        //    //SP_C_MostrarFilial_Bit_Result objFilial = null;
-        //    //try
-        //    //{
-
-        //    //    using (var db = new SICOAdminEntities())
-        //    //    {
-        //    //        objFilial = db.SP_C_MostrarFilial_Bit(int.Parse(idFilalial)).First();
-        //    //        //lstTipoProveedor = db.SP_C_MostrarTiposProveedores().ToList();
-        //    //    }
-        //    //}
-        //    //catch (Exception er)
-        //    //{
-        //    //    Console.WriteLine(er.Message);
-        //    //}
-
-        //    //return PartialView("_BitFilial", objFilial);
-        //    //FILIAL model = new FILIAL();
-        //    //SP_C_MostrarFilial_Bit_Result fili = new SP_C_MostrarFilial_Bit_Result();
-        //    //using (SICOAdminEntities db = new SICOAdminEntities())
-        //    //{
-        //    //    fili = db.SP_C_MostrarFilial_Bit("BIT", IdFilalial).FirstOrDefault();
-
-        //    //    model.UsuarioCreacion = fili.UsuarioCreacion;
-        //    //    model.FechaCreacion = fili.FechaCreacion;
-        //    //    model.UsuarioModificacion = fili.UsuarioModificacion;
-        //    //    model.FechaModificacion = (DateTime)fili.FechaModificacion;
-
-
-        //    ////}
-
-        //    //DateTime a = (DateTime)model.FechaModificacion;
-
-        //    //var objP = new
-        //    //{
-        //    //    model.UsuarioCreacion,
-        //    //    FechaCreacion = model.FechaCreacion.ToString("dd / MM / yyyy H: mm:ss"),
-        //    //    model.UsuarioModificacion,
-        //    //    FechaModificacion = a.ToString("dd / MM / yyyy H: mm:ss"),
-
-        //    //};
-        //}
-
-        #endregion
 
     }
 

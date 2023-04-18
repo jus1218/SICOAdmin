@@ -15,11 +15,7 @@ namespace SICOAdmin1._0.Models.FIlial
         [Display(Name = "Descripcion")]
         [StringLength(100)]
         public string Descripcion { get; set; }
-
-        [Required]
-        [Display(Name = "Estado")]
         public Boolean Estado { get; set; }
-
         public string UsuarioCreacion { get; set; }
         public DateTime FechaCreacion { get; set; }
         public string UsuarioModificacion { get; set; }
