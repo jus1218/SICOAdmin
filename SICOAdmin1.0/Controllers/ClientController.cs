@@ -137,7 +137,7 @@ namespace SICOAdmin1._0.Controllers
 
             using (SICOAdminEntities db = new SICOAdminEntities())
             {
-                db.SP_P_ActivarDesactivarCliente(pIdentification, "AEDUARDO"/*((User)Session["User"]).userName*/, DateTime.Now, resultado, mensaje);
+                db.SP_P_ActivarDesactivarCliente(pIdentification, ((User)Session["User"]).userName, DateTime.Now, resultado, mensaje);
                 result = Convert.ToBoolean(resultado.Value);
             }
             if (result)
