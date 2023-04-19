@@ -172,6 +172,14 @@ namespace SICOAdmin1._0.Controllers
             return Json(d, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult showActiveDepartures() {
+            List<SP_Buscar_Partidas_Activas_Result> activeDepartures = new List<SP_Buscar_Partidas_Activas_Result>();
+
+            using (var db = new SICOAdminEntities())
+                activeDepartures = db.SP_Buscar_Partidas_Activas().ToList();
+
+            return Json(activeDepartures,JsonRequestBehavior.AllowGet);
+        }
         //=========== CONSULTAS A LA BASE DE DATOS ================
 
         public List<Departure> GetDeparturesDB(int NumPagina,int CantRegistros,string palabraBuscar)

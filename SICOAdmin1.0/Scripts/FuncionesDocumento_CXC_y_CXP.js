@@ -1,5 +1,6 @@
 ﻿//===============================================================================
 //========================= ELEMENTOS BITACORA CXP ==============================
+
 //===============================================================================
 const tbId = document.getElementById("tbDoc");
 const tbUsuarioCreacion = document.getElementById("tbUsuarioCreacion");
@@ -195,12 +196,36 @@ function convertirFecha(FechaDocumento) {
     var fechaFormateada = dia + "/" + mes + "/" + anio;
     console.log(fechaFormateada);
     return fechaFormateada;
+};
+
+function limpiarHtml(elemento) {
+    while (elemento.firstChild) {
+        elemento.removeChild(elemento.firstChild);
+    }
 }
 
-function limpiarTableDepositos(table) {
-    while (table.firstChild) {
-        table.removeChild(table.firstChild);
-    }
+function llenarSelectPartidas() {
+    const selectPartida = d.querySelector('#partida_deposito');
+    fetch("/Departure/showActiveDepartures")
+
+        .then(res => res.ok ? res.json() : null)
+        .then(res => {
+
+            for (var i = 0; i < res.length; i++) {
+                const { Alias, Descripcion, IdPartida, Tipo } = res[i];
+                const option = document.createElement('option');
+                //option.value = res[i].IdPartida;
+                //option.textContent = res[i].Descripcion;
+                option.value = IdPartida;
+                option.textContent = Alias + " - " + Descripcion + " - " + Tipo;
+
+
+                selectPartida.appendChild(option);
+            }
+            
+        })
+
+
 }
 //================ ELEMENTOS MODALES ==============================
 let formDocument_CXP = document.querySelector('#formAddDocument_CXP');
@@ -516,6 +541,42 @@ $renderBody.addEventListener("click", (e) => {
     }
 
     //===================================================
+    //===========  BOTON HACER DEPOSITO CXC  ============
+    //===================================================
+    else if (e.target.id === "add_deposito_cxc") {
+        let pDoc = e.target.dataset.id;
+        const selectPartida = d.getElementById("partida_deposito");
+        limpiarHtml(selectPartida);
+
+        llenarSelectPartidas();
+
+        fetch("/Documents/getDataDocument_CXC?pDoc=" + pDoc)
+            .then(res => res.ok ? res.json() : null)
+            .then(res => {
+                
+                const { Documento,NombreCliente, Saldo} = res;
+
+
+                d.getElementById("documento_debito").textContent = Documento;
+                d.getElementById("documento_debito").value = Documento;
+
+            
+                d.getElementById("IdUser").textContent = NombreCliente;
+                d.getElementById("IdUser").value = NombreCliente;
+
+                
+                d.getElementById("saldo_debito").textContent = Saldo;
+                d.getElementById("saldo_debito").value = Saldo;
+
+            })
+
+
+
+        $("#ModalAddDeposito").modal("show");
+        //$("#ModalAddDeposito").modal("show");
+        return false;
+    }
+    //===================================================
     //===========  BOTON VER DEPOSITOS CXC  =============
     //===================================================
     else if (e.target.id === "show_depositos_cxc") {
@@ -524,15 +585,13 @@ $renderBody.addEventListener("click", (e) => {
 
         const table = d.getElementById("tbDepositos");
 
-        limpiarTableDepositos(table);
-    
-        
+        limpiarHtml(table);
+
+
 
         fetch("Documents/getDeposits_CXC" + "?pDocument=" + pDoc)
             .then(res => res.ok ? res.json() : null)
             .then(res => {
-                console.log(res);
-
 
                 let total = 0;
                 for (var i = 0; i < res.length; i++) {
@@ -571,9 +630,10 @@ $renderBody.addEventListener("click", (e) => {
                 }
                 d.getElementById("total_depositos").textContent = total;
                 d.getElementById("total_depositos").value = total;
-        })
-           
+            })
+
         $("#ModalDeposito").modal("show");
+        return false;
     }
 
 
@@ -585,9 +645,9 @@ $renderBody.addEventListener("submit", (e) => {
 
     e.preventDefault();
 
-    //===================================================
-    //============= METODDOS DE DOCS_CXP ================
-    //===================================================
+                //===================================================
+                //============= METODDOS DE DOCS_CXP ================
+                //===================================================
 
 
     //===================================================
@@ -788,7 +848,7 @@ $renderBody.addEventListener("submit", (e) => {
     //===================================================
 
     else if (e.target.id === "createProveedor") {
-        console.log("Entra al metodo agregar Proveedor");
+        
         fetchMethod({
             url: "Proveedor/CrearProveedor",
             body: {
@@ -823,7 +883,50 @@ $renderBody.addEventListener("submit", (e) => {
         })
         return false;
     }
+    else if (e.target.id === "formAddDeposito_CXC") {
 
+
+        
+        fetchMethod({
+            url: "Documents/GenerateDeposit",
+            body: {
+                NombreTabla: "DOCUMENTO_CXC",
+                NombreTablaAuxiliar: "AUXILIAR_CXC",
+
+                DocumentoDebito: d.getElementById("documento_debito").value,
+
+                DocumentoCredito: d.getElementById("documento_credito").value,
+
+                FechaDocumento: d.getElementById("fechaDeposito").value,
+
+                IdPartida: d.getElementById("partida_deposito").value,
+               
+                Monto: d.getElementById("monto_deposito").value,
+                CondicionPago: d.getElementById("CondicionPagoDepo").value,
+                
+                Nota: d.getElementById("nota_deposito").value,
+            },
+            cbSuccess: (res) => {
+                if (res.resp == 1) {
+
+                    cargarComponent({
+                        container: "renderLocalDoc",
+                        url: "Documents/_ShowDocuments_CXP",
+                    })
+                    swal('Bien!',
+                        res.msj,
+                        'success')
+                }
+                else {
+                    swal('Opps!',
+                        res.msj,
+                        'error')
+                }
+            }
+        })
+
+        return false;
+    }
 
 });
 
@@ -852,10 +955,10 @@ $renderBody.addEventListener("change", (e) => {
                 NumPagina: (d.getElementById("pagActual").textContent - 1)
             });
 
-            console.log(optionTable);
+            
         }
         else {
-            console.log(optionTable);
+            
             cambioTamanoPagina({
                 totalPage: d.getElementById("totalPag").textContent,
                 tamanoPagina: e.target.value,
@@ -894,7 +997,59 @@ $renderBody.addEventListener("change", (e) => {
         return false;
     }
 
+    else if (e.target.id === "fechaDeposito") {
+      
+        const inputFecha = d.getElementById("fechaDeposito");
+        const botonAgregar = d.getElementById('btnAddDeposito_CXC');
+        verificarFecha(inputFecha, botonAgregar);
+
+        return false;
+    }
+    else if (e.target.id === "fechaDocumento_cxc") {
+
+        const inputFecha = d.getElementById("fechaDocumento_cxc");
+        const botonAgregar = d.getElementById('btnModal_CXC');
+        verificarFecha(inputFecha, botonAgregar);
+        return false;
+    }
+    else if (e.target.id === "fechaDocumento") {
+
+        const inputFecha = d.getElementById("fechaDocumento");
+        const botonAgregar = d.getElementById('btnModal_CXP');
+        verificarFecha(inputFecha, botonAgregar);
+        return false;
+
+    }
 
 
+
+
+
+    //fechaDocumento_cxc
 
 });
+
+function verificarFecha(InputFecha,btnAgregar) {
+
+    const fechaActual = new Date();
+    const dia = fechaActual.getDate();
+    const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+    const anio = fechaActual.getFullYear();
+    const fechaFormateada = `${anio}-${mes}-${dia}`;
+
+
+    if (InputFecha.value > fechaFormateada) {
+        console.log("Fecha Invalida");
+
+        //console.log("Fecha Seleccionada => " + InputFecha.value);
+        //console.log("Fecha Seleccionada => " + InputFecha.value);
+        InputFecha.style.border = '2px solid red';
+        
+        btnAgregar.disabled = true;
+
+    } else {
+        btnAgregar.disabled = false;
+        InputFecha.style.border = '1px solid #ced4da'
+    }
+
+}
