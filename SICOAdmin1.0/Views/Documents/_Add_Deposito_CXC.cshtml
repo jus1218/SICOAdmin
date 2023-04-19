@@ -1,0 +1,111 @@
+﻿
+
+<style>
+    .select-con-botón {
+        position: relative;
+        /*display: inline-block;*/
+    }
+
+        .select-con-botón select {
+            padding-right: 5px; /* ajusta este valor para que el botón no se superponga al texto */
+        }
+
+        .select-con-botón button {
+            position: absolute;
+            top: 2px;
+            right: 0;
+            padding: 5px;
+            background-color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+</style>
+
+<div class="modal fade" id="ModalAddDeposito" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content ">
+            <div class="d-flex justify-content-center ">
+                <h5 style="text-align:center" class="modal-title p-3" id="ModalTitleDeposito_CXC">Realizar Deposito</h5>
+
+            </div>
+
+            <div class="modal-body">
+                <form id="formAddDeposito_CXC">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2"></div>
+                        <div class="col-sm-12 col-md-4">
+
+                            <div class="form-group" id="grupo_Doc">
+                                <label for="documento_debito">Documento Debito</label>
+                                <input disabled name="documento_debito" type="text" class="form-control" id="documento_debito" placeholder="Ingrese el Documento" pattern="(?=.+[\w]).{1,50}|(?=.+[\W]).{1,50}" title="Solo se permiten números y letras" required>
+
+                            </div>
+                            <div class="form-group" id="grupo_saldo_documento">
+                                <label for="saldo_debito">Saldo Debito</label>
+                                <input disabled name="saldo_debito" type="number" class="form-control" id="saldo_debito" placeholder="Ingrese la Saldo" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                <label for="saldo_debito" class="m-1 msj__label" id="lblSaldoError"></label>
+                            </div>
+
+
+                            <div class="form-group" id="grupo_cliente">
+
+
+                                <label for="IdUser">Cliente</label>
+                                <input id="IdUser" value="" type="text" disabled class="form-control" />
+
+
+                            </div>
+
+                            <div class="form-group" id="grupo__pago">
+                                <label for="CondicionPagoDepo">Condición Pago</label>
+                                <input name="CondicionPagoDepo" type="number" class="form-control" id="CondicionPagoDepo" placeholder="Ingrese la Condición de Pago" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                <label for="pago" class="m-1 msj__label" id="lblPagoError"></label>
+                            </div>
+                            <div class="form-group" id="grupo-nota">
+                                <label for="nota_deposito">Nota</label>
+                                <textarea class="form-control" id="nota_deposito" rows="2"></textarea>
+                            </div>
+                        </div>
+
+
+                        <!--==================== COL 2 ====================-->
+                        
+                        <div class="col-sm-12 col-md-4">
+
+                            <div class="form-group" id="grupo_Doc">
+                                <label for="documento_credito">Documento Credito</label>
+                                <input name="documento_credito" type="text" class="form-control" id="documento_credito" placeholder="Ingrese el Documento Credito" pattern="(?=.+[\w]).{1,50}|(?=.+[\W]).{1,50}" title="Solo se permiten números y letras" required>
+
+                            </div>
+                            <div class="form-group" id="grupo__monto_deposito">
+                                <label for="monto_deposito">Monto Deposito</label>
+                                <input name="monto_deposito" type="number" class="form-control" id="monto_deposito" placeholder="Ingrese el Monto a Depositar" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                <label for="monto_deposito" class="m-1 msj__label" id="lbMontoError"></label>
+                            </div>
+
+                            <div class="form-group" id="grupo_fechaDeposito">
+                                <label for="fechaDeposito">Fecha Deposito</label>
+                                <input type="date" id="fechaDeposito" required name="fechaDeposito" class="form-control" />
+                            </div>
+
+
+                            <div class="form-group" id="grupo_partida">
+                                <label for="partida">Partida</label>
+                                <select required id="partida_deposito" name="partida" class="custom-select">
+                                    <option value="" selected disabled hidden>Seleccione una Partida</option>
+
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col mt-4 d-flex justify-content-center mb-2">
+                        <input id="btnCerrar" type="submit" data-dismiss="modal"  class="btn btn-danger" value="Cerrar" />
+                        <input id="btnAddDeposito_CXC" type="submit" class="btn btn-success" value="Guardar" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
