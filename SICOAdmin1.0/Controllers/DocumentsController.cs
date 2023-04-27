@@ -92,8 +92,7 @@ namespace SICOAdmin1._0.Controllers
                         obj.Documento,
                         obj.IdProveedor,
                         obj.TipoDocumento,
-                        obj.Monto,                        
-                        obj.Estado,
+                        obj.Monto, 
                         obj.CondicionPago,
                         obj.FechaDocumento,
                         obj.Notas,
@@ -183,7 +182,6 @@ namespace SICOAdmin1._0.Controllers
                         obj.TipoDocumento,
                         obj.Monto,
                         
-                        obj.Estado,
                         obj.CondicionPago,
                         obj.FechaDocumento,
                         obj.Notas,

@@ -160,7 +160,7 @@ const darValorRadio = (props) => {
 
 //Pasar a la pagina siguiente
 const siguientePagina = (props) => {
-    let { sig, totalPage, CantRegistros, url, container, palabraBuscar } = props;
+    let { idRelacion,sig, totalPage, CantRegistros, url, container, palabraBuscar } = props;
     let siguiente = sig - 1;//Limpiamos el valor que viene de la vista
 
 
@@ -172,7 +172,7 @@ const siguientePagina = (props) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-
+            Usuario: idRelacion,
             NumPagina: siguiente,
             palabraBuscar:"",
             accion: 'S',
@@ -188,7 +188,7 @@ const siguientePagina = (props) => {
 
 //Pasar a la pagina anterior
 const retrocederPagina = (props) => {
-    let { ant, totalPage, tamanoPagina, url, container, palabraBuscar } = props;
+    let { idRelacion,ant, totalPage, tamanoPagina, url, container, palabraBuscar } = props;
     var anterior = ant - 1;//Limpiamos el valor que viene de la vista
 
 
@@ -200,7 +200,7 @@ const retrocederPagina = (props) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-
+            Usuario: idRelacion,
             NumPagina: anterior,
             palabraBuscar: palabraBuscar,
             accion: 'N',
@@ -215,7 +215,7 @@ const retrocederPagina = (props) => {
 
 // Cambio de tamaño de paginacion
 const cambioTamanoPagina = (props) => {
-    let { totalPage, tamanoPagina, url, container, palabraBuscar, NumPagina } = props;
+    let { idRelacion,totalPage, tamanoPagina, url, container, palabraBuscar, NumPagina } = props;
 
     fetch(url, {
         method: "POST",
@@ -224,7 +224,7 @@ const cambioTamanoPagina = (props) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-
+            Usuario: idRelacion,
             palabraBuscar: palabraBuscar,
             totalPaginas: totalPage,
             CantRegistros: tamanoPagina,
@@ -238,7 +238,7 @@ const cambioTamanoPagina = (props) => {
 }
 
 const buscarPalabra = (props) => {
-    let { url, container, palabraBuscar, tamanoPagina } = props;
+    let { idRelacion,url, container, palabraBuscar, tamanoPagina } = props;
 
 
     fetch(url, {
@@ -248,7 +248,7 @@ const buscarPalabra = (props) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-
+            Usuario: idRelacion,
             NumPagina: 0,
             palabraBuscar: palabraBuscar,
             estaBuscando: true,
