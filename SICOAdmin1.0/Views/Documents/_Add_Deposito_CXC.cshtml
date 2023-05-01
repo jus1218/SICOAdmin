@@ -22,10 +22,10 @@
 </style>
 
 <div class="modal fade" id="ModalAddDeposito" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="d-flex justify-content-center ">
-                <h5 style="text-align:center" class="modal-title p-3" id="ModalTitleDeposito_CXC">Realizar Deposito</h5>
+                <h5 style="text-align:center" class="modal-title p-3" id="ModalTitleDeposito_CXC">Asociar Documento CXC</h5>
 
             </div>
 
@@ -58,12 +58,12 @@
 
                             <div class="form-group" id="grupo__pago">
                                 <label for="CondicionPagoDepo">Condición Pago</label>
-                                <input name="CondicionPagoDepo" type="number" class="form-control" id="CondicionPagoDepo" placeholder="Ingrese la Condición de Pago" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                <input disabled name="CondicionPagoDepo" type="number" class="form-control" id="CondicionPagoDepo" placeholder="Ingrese la Condición de Pago" pattern="[0-9]+" title="Solo se permiten numeros" required>
                                 <label for="pago" class="m-1 msj__label" id="lblPagoError"></label>
                             </div>
                             <div class="form-group" id="grupo-nota">
                                 <label for="nota_deposito">Nota</label>
-                                <textarea class="form-control" id="nota_deposito" rows="2"></textarea>
+                                <textarea disabled class="form-control" id="nota_deposito" rows="2"></textarea>
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
                             <div class="form-group" id="grupo_partida">
                                 <label for="partida">Partida</label>
                                 <select required id="partida_deposito" name="partida" class="custom-select">
-                                    <option value="" selected disabled hidden>Seleccione una Partida</option>
+                                    @*<option value="" selected disabled hidden>Seleccione una Partida</option>*@
 
                                 </select>
                             </div>

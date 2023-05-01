@@ -11,6 +11,7 @@ using System.Data.Entity.Core.Objects;
 using SICOAdmin1._0.Models.User;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SICOAdmin1._0.Models.Documento_Deposito;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -92,8 +93,7 @@ namespace SICOAdmin1._0.Controllers
                         obj.Documento,
                         obj.IdProveedor,
                         obj.TipoDocumento,
-                        obj.Monto,                        
-                        obj.Estado,
+                        obj.Monto,
                         obj.CondicionPago,
                         obj.FechaDocumento,
                         obj.Notas,
@@ -145,8 +145,8 @@ namespace SICOAdmin1._0.Controllers
                 Documento = document.Documento,
                 IdProveedor = document.IdProveedor,
                 TipoDocumento = document.TipoDocumento,
-                Monto = document.Monto,
-                Saldo = document.Saldo,
+                Monto = document.Monto.ToString("C"),
+                Saldo = document.Saldo.ToString("C"),
                 Estado = document.Estado,
                 CondicionPago = document.CondicionPago,
                 FechaDocumento = document.FechaDocumento.ToString("yyyy-MM-dd"),
@@ -175,6 +175,7 @@ namespace SICOAdmin1._0.Controllers
                 {
                     obj.Notas = "N/A";
                 }
+
                 using (var db = new SICOAdminEntities())
                 {
                     db.SP_P_CrearDocumento("DOCUMENTO_CXC",
@@ -182,8 +183,8 @@ namespace SICOAdmin1._0.Controllers
                         obj.IdCliente,
                         obj.TipoDocumento,
                         obj.Monto,
-                        
-                        obj.Estado,
+
+
                         obj.CondicionPago,
                         obj.FechaDocumento,
                         obj.Notas,
@@ -213,8 +214,8 @@ namespace SICOAdmin1._0.Controllers
                 }
                 using (var db = new SICOAdminEntities())
                 {
-                    db.SP_P_ModificarDocumento("DOCUMENTO_CXC",obj.Documento,obj.IdCliente,obj.TipoDocumento,obj.Monto,obj.CondicionPago,obj.FechaDocumento,obj.Notas,
-                   
+                    db.SP_P_ModificarDocumento("DOCUMENTO_CXC", obj.Documento, obj.IdCliente, obj.TipoDocumento, obj.Monto, obj.CondicionPago, obj.FechaDocumento, obj.Notas,
+
                         ((User)Session["User"]).userName, res, msj);
                 }
             }
@@ -246,8 +247,8 @@ namespace SICOAdmin1._0.Controllers
                 NombreCliente = document_cxc.Nombre,
                 Identificacion = document_cxc.Identificacion,
                 TipoDocumento = document_cxc.TipoDocumento,
-                Monto = document_cxc.Monto,
-                Saldo = document_cxc.Saldo,
+                Monto = document_cxc.Monto.ToString("C"),
+                Saldo = document_cxc.Saldo.ToString("C"),
                 Estado = document_cxc.Estado,
                 CondicionPago = document_cxc.CondicionPago,
                 FechaDocumento = document_cxc.FechaDocumento.ToString("yyyy-MM-dd"),
@@ -268,11 +269,11 @@ namespace SICOAdmin1._0.Controllers
         }
 
 
-        public JsonResult getDeposits_CXC(string pDocument) {
+        public JsonResult getDeposits_CXC(string pDocument)
+        {
 
             List<SP_C_Mostrar_Depositos_CXC_Result> depositos = new List<SP_C_Mostrar_Depositos_CXC_Result>();
-            
-            
+
             using (var db = new SICOAdminEntities())
                 depositos = db.SP_C_Mostrar_Depositos_CXC(pDocument).ToList();
 
@@ -280,6 +281,129 @@ namespace SICOAdmin1._0.Controllers
 
         }
 
+        public JsonResult getClients()
+        {
+            try
+            {
+                selectClients = getListActiveClients();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return Json(
+                new
+                {
+                    selectClients
+                }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getDocumentosxCliente(int pIdCliente)
+        {
+
+            List<SP_C_Buscar_DocumentosCXC_Por_Cliente_Result> lstDocumentosDisponiles = new List<SP_C_Buscar_DocumentosCXC_Por_Cliente_Result>();
+            try
+            {
+                using (var db = new SICOAdminEntities())
+                {
+                    lstDocumentosDisponiles = db.SP_C_Buscar_DocumentosCXC_Por_Cliente(pIdCliente).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return Json(
+                new
+                {
+                    lstDocumentosDisponiles
+                }, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult AddMixedDocuments(DocumentosCXC obj)
+        {
+            try
+            {
+                var db = new SICOAdminEntities();
+
+                if (obj.NuevoDocumento)
+                {
+                    using (db)
+                    {
+                        db.SP_P_CrearDocumento(obj.NombreTabla, obj.DocumentoDebito, obj.IdCliente, obj.TipoDocumento,
+                        obj.MontoDebito, obj.CondicionPago, obj.FechaDocumentoDebito, obj.NotaDebito, ((User)Session["User"]).userName, res, msj);
+
+                        if (obj.DocumentoCredito != null && Convert.ToInt32(res.Value) == 1)
+                        {
+                            db.SP_P_CrearAuxiliar(obj.NombreTablaAuxiliar, obj.DocumentoCredito, obj.DocumentoDebito, obj.IdPartida, ((User)Session["User"]).userName, res, msj);
+                        }
+                    }
+                }
+                else
+                {
+                    db.SP_P_CrearAuxiliar(obj.NombreTablaAuxiliar, obj.DocumentoCredito, obj.DocumentoDebito, obj.IdPartida, ((User)Session["User"]).userName, res, msj);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Json(
+                   new
+                   {
+                       resp = res.Value,
+                       msj = msj.Value
+                   }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GenerateDeposit(DocumentosCXC obj)
+        {
+            try
+            {
+                var db = new SICOAdminEntities();
+                using (db)
+                {
+                    db.SP_P_CrearAuxiliar(obj.NombreTablaAuxiliar, obj.DocumentoCredito, obj.DocumentoDebito, obj.IdPartida, ((User)Session["User"]).userName, res, msj);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Json(
+                   new
+                   {
+                       resp = res.Value,
+                       msj = msj.Value
+                   }, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult removeDeposit(DocumentosCXC obj)
+        {
+            //ObjectParameter mensaje = new ObjectParameter("mensaje", "");
+            //ObjectParameter resp = new ObjectParameter("resp", 0);
+
+            try
+
+            {
+                var db = new SICOAdminEntities();
+                using (db)
+                {
+                    db.SP_P_EliminarRelacionAuxiliarDocumento(obj.NombreTablaAuxiliar, obj.DocumentoCredito, obj.DocumentoDebito, res, msj);
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return Json(
+                new
+                {
+                    resp = res.Value,
+                    msj = msj.Value
+                }, JsonRequestBehavior.AllowGet);
+        }
 
         //========================== PARTIAL_VIEW ================================
 
@@ -429,6 +553,24 @@ namespace SICOAdmin1._0.Controllers
         //FUNCIONES 
 
 
+        //public List<SP_C_Buscar_Documentos_CXC_Result> listClean_CXC(List<SP_C_Buscar_Documentos_CXC_Result> lst_cxc)
+        //{
+
+        //    List<SP_C_Buscar_Documentos_CXC_Result> lstDocs_Clean = new List<SP_C_Buscar_Documentos_CXC_Result>();
+
+
+        //    lstDocs_Clean = lst_cxc.ConvertAll(document =>
+        //    {
+        //        return new SP_C_Buscar_Documentos_CXC_Result()
+        //        {
+        //           document.Documento,
+        //        };
+
+        //    });
+
+        //    return lstDocs_Clean;
+
+        //}
         public List<SelectListItem> getListActiveProviders()
         {
 

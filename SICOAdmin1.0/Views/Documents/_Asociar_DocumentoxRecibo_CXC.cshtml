@@ -1,0 +1,190 @@
+﻿
+
+<style>
+    .select-con-botón {
+        position: relative;
+        /*display: inline-block;*/
+    }
+
+        .select-con-botón select {
+            padding-right: 5px; /* ajusta este valor para que el botón no se superponga al texto */
+        }
+
+        .select-con-botón button {
+            position: absolute;
+            top: 2px;
+            right: 0;
+            padding: 5px;
+            background-color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+</style>
+
+<div class="modal fade" id="crear_documento_asociar_deposito" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="d-flex justify-content-center ">
+                <h5 style="text-align:center" class="modal-title p-3" id="ModalTitleDeposito_CXC">Crear Documentos CXC</h5>
+
+            </div>
+
+            <div class="modal-body m-0">
+
+                <div class="container">
+                    <div class="row">
+                        <form id="formDocumentoMixto" class="col-12">
+                            <div class=" row">
+                                <div id="formularioDebito" class="col m-1" style="border-radius: 10px; border: 2px solid green;">
+
+
+
+
+                                    <div class="row justify-content-center">
+                                        <h2 class="text-center">Datos Documento a Guardar</h2>
+                                        <div class="col-6">
+
+                                            <!--Grupo Debito -->
+                                            <div class="form-group" id="grupo_Doc_debito">
+                                                <label for="add_documento_debito">Documento Debito</label>
+                                                <input name="add_documento_debito" type="text" class="form-control" id="add_documento_debito" placeholder="Ingrese el Documento"
+                                                       pattern="(?=.+[\w]).{1,50}|(?=.+[\W]).{1,50}" title="Solo se permiten números y letras" required>
+
+                                                <select hidden id="select_documento_debito" name="add_documento_debito" class="custom-select">
+                                                    <option value="" selected disabled>Documento Debito</option>
+
+                                                </select>
+
+                                            </div>
+                                            <!--Grupo  Cliente-->
+                                            <div class="form-group" id="grupo_cliente_debito">
+                                                <label for="add_cliente_cxc">Cliente</label>
+                                                <select required  class="form-control" id="add_cliente_cxc">
+                                                    <option value="" selected disabled>Asociar Cliente</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group" id="grupo_fecha_debito">
+                                                <label for="FechaDocumento_debito_cxc">Fecha Documento</label>
+                                                <input type="date" id="fechaDocumento_debito_cxc" required name="FechaDocumento_debito_cxc" class="form-control" />
+                                            </div>
+
+                                            <!--Grupo Notas-->
+                                            <div class="form-group" id="grupo-nota_debito">
+                                                <label for="nota_debito_cxc">Nota</label>
+                                                <textarea class="form-control" id="nota_debito_cxc" rows="2"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+
+                                            <div class="form-group" id="grupo__monto_debito">
+                                                <label for="monto_debito_cxc">Monto</label>
+                                                @*<input type="number" id="monto_debito_cxc"
+                                                       required>*@
+                                                <input type="number" class="form-control" id="monto_debito_cxc"
+                                                       step="0.001" pattern="[0-9]+" placeholder="Ingrese el Monto" title="Solo se permiten numeros" required>
+                                            </div>
+
+                                            <div class="form-group" id="grupo_saldo_debito">
+                                                <label for="add_saldo_debito">Saldo Debito</label>
+                                                <input disabled name="add_saldo_debito" type="number" class="form-control" id="add_saldo_debito"
+                                                      step="0.01" placeholder="0.000" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                            </div>
+                                            <div class="form-group" id="grupo_tipo_debito_cxc">
+                                                <label for="add_tipoDocumento_cxc">Tipo</label>
+                                                <select required name="add_tipoDocumento_cxc" class="custom-select" id="add_tipoDocumento_cxc">
+                                                    <option value="" selected disabled>Seleccione el Tipo</option>
+                                                    <option value="mens">Mensualidad</option>
+                                                    <option value="reci">Recibo</option>
+                                                </select>
+
+                                            </div>
+
+                                            <div class="form-group" id="grupo_pago_debito">
+                                                <label for="condicio_pago_cxc">Condición Pago</label>
+                                                <input name="condicio_pago_cxc" type="number" class="form-control" id="condicio_pago_cxc" placeholder="Condición de Pago"
+                                                       pattern="[0-9]+" title="Solo se permiten numeros" required>
+
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="h6">¿Asociar Mensualidades Existentes?</label>
+                                            <input type="checkbox" id="activeCredito" value="1" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="formularioCredito" class="col-5 m-1" style="border-radius: 10px; border: 2px solid brown;">
+
+                                    @*<div class="bg-orange">*@
+
+                                    <div class="col">
+                                        <h2 class="text-center">Recibos del Cliente</h2>
+                                        <br />
+                                        <div class="form-group" id="grupo_Doc">
+                                            <label for="add_documento_credito">Recibos Disponibles</label>
+
+                                            <select id="select_documento_credito" name="add_documento_credito" class="custom-select">
+                                                <option value="" selected disabled>Documento Credito</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group" id="grupo_fecha_credito">
+                                            <label for="fechaDocumento_credito_cxc">Fecha Asociación</label>
+                                            <input type="date" value="" id="fechaDocumento_credito_cxc" name="fechaDocumento_credito_cxc" class="form-control" />
+                                        </div>
+
+                                        <div class="form-group" id="grupo_saldo_credito">
+                                            <label for="add_saldo_credito">Saldo Documento</label>
+                                            <input disabled type="text" class="form-control"
+                                                   id="add_saldo_credito" placeholder="0,000" step="0.01" pattern="[0-9]+"
+                                                   title="Solo se permiten numeros" >
+
+                                        </div>
+
+                                        <div class="form-group" id="grupo_partida_credito">
+
+                                            <label for="partida_credito">Partida</label>
+                                            <select id="partida_credito" name="partida_credito" class="custom-select">
+                                                <option value="" selected disabled>Seleccione una Partida</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group" id="grupo-nota_credito">
+                                            <label for="nota_credito_cxc">Nota</label>
+                                            <textarea class="form-control" id="nota_credito_cxc" disabled rows="2"></textarea>
+                                        </div>
+
+                                    </div>
+
+                                    @*</div>*@
+
+                                </div>
+                            </div>
+
+                            @*<div class="col-8">*@
+                            <div class="row justify-content-center pt-3">
+                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button id="asociar_documento_cxc" type="submit" class="btn btn-success">Guardar</button>
+                            </div>
+
+                            @*</div>*@
+
+
+                        </form>
+                        <!--FIN ROW-->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

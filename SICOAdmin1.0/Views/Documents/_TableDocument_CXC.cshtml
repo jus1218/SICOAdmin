@@ -33,14 +33,15 @@
                 <tr>
                     <td>@d.Documento</td>
                     <td>@d.Nombre</td>
+                    @*<td>@d.TipoDocumento</td>*@
                     @if (@d.TipoDocumento == "mens")
-                    {
-                        <td>Mensualidad</td>
-                    }
-                    else if (d.TipoDocumento == "depo")
-                    {
-                        <td>Deposito</td>
-                    }
+                        {
+                            <td>Mensualidad</td>
+                        }
+                        else if (d.TipoDocumento == "reci")
+                        {
+                            <td>Recibo</td>
+                        }
                     <td>@Convert.ToDecimal(@d.Monto).ToString("C")</td>
                     <td>@Convert.ToDecimal(@d.Saldo).ToString("C")</td>
                     <td>@d.Estado</td>
@@ -48,21 +49,33 @@
                     <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
 
                     <td>
-                        <button id="btnEditDoc_cxc" type="button" class="btn btn-warning" data-id="@d.Documento">
-                            <i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar
-                        </button>
 
-                        <button data-id="@d.Documento" id="viewLogDoc_cxc" type="button" class="btn btn-primary">
-                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
-                        </button>
+                        <div class="dropdown">
+                            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
+                                Administrar
+                            </button>
+                            <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                                <a id="btnEditDoc_cxc" data-id="@d.Documento" class="btn-sm btn-outline-light dropdown-item">Editar Documento</a>
+                                <a id="viewLogDoc_cxc" data-id="@d.Documento" class="btn-sm btn-outline-success dropdown-item ">Detalles</a>
 
-                        <button data-id="@d.Documento" id="add_deposito_cxc" type="button" class="btn btn-outline-dark">
-                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Agregar Deposito
-                        </button>
+                            </div>
+                        </div>
+                      
+                        @if (d.TipoDocumento == "mens")
+                        {
+                          
+                            <button data-id="@d.Documento" id="show_depositos_cxc" type="button" class="btn btn-info">
+                                <i class="fa fa-book  mr-2" aria-hidden="true"></i>Asociaciones
+                            </button>
+                        }
+                        @*else
+                        {
 
-                        <button data-id="@d.Documento" id="show_depositos_cxc" type="button" class="btn btn-outline-info">
-                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Ver Depositos
-                        </button>
+                            <button data-id="@d.Documento" id="show_mensualidades_aso_cxc" type="button" class="btn btn-outline-info">
+                                <i class="fa fa-book  mr-2" aria-hidden="true"></i>Asociaciones
+                            </button>
+                        }*@
 
 
                     </td>
