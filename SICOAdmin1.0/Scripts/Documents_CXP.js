@@ -2,7 +2,7 @@
     $rendBody = doc.getElementById("renderBody");
 
 
-const optionTable = doc.querySelector('#ChoiceDocumentTable').value;
+/*const optionTable = doc.querySelector('#ChoiceDocumentTable').value;*/
 //===============================================================================
 //========================= ELEMENTOS BITACORA CXP ==============================
 //===============================================================================
@@ -150,7 +150,7 @@ $rendBody.addEventListener("click", (e) => {
     //========  BOTON SIGUIENTE PAGINA  =================
     //===================================================
     else if (e.target.name === "nextPage") {
-        /*const optionTable = document.querySelector('#ChoiceDocumentTable').value;*/
+        const optionTable = document.querySelector('#ChoiceDocumentTable').value;
 
         //AVANZA DE PAGINA EN LA TABLA CUENTAS POR COBRAR
         //DEPENDIENDO DE LA TABLA SELECCIONADA
@@ -174,7 +174,7 @@ $rendBody.addEventListener("click", (e) => {
     //===========  BOTON PAGINA ANTERIOR   ==============
     //===================================================
     else if (e.target.name === "previousPage") {
-        //const optionTable = document.querySelector('#ChoiceDocumentTable').value;
+        const optionTable = document.querySelector('#ChoiceDocumentTable').value;
 
         //RETROCEDE DE PAGINA EN LA TABLA CUENTAS POR COBRAR
         //DEPENDIENDO DE LA TABLA SELECCIONADA
@@ -351,7 +351,7 @@ $rendBody.addEventListener("change", (e) => {
 
     if (e.target.id === "tamanoPagina") {
 
-        /*const optionTable = doc.querySelector('#ChoiceDocumentTable').value;*/
+        const optionTable = doc.querySelector('#ChoiceDocumentTable').value;
 
         if (optionTable == "DOCUMENTS_CXP") {
 
@@ -375,7 +375,7 @@ $rendBody.addEventListener("change", (e) => {
     //===================================================
 
     else if (e.target.id === "ChoiceDocumentTable") {
-      
+        const optionTable = doc.querySelector('#ChoiceDocumentTable').value;
         if (optionTable == "DOCUMENTS_CXP") {
             cargarComponent({
                 container: "renderLocalDoc",
@@ -401,6 +401,7 @@ $rendBody.addEventListener("change", (e) => {
 
     $("#buscar").on("keyup", function () {
         var value = $(this).val().toLowerCase();
+        const optionTable = doc.querySelector('#ChoiceDocumentTable').value;
         if (optionTable == "DOCUMENTS_CXP") {
             //if (value.length > 2 || value.length == 0) {
             $("#tableDocument").load("Documents/_TableDocument_CXP",

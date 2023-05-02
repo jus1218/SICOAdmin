@@ -6,46 +6,49 @@
         lstActions = new List<int?>();
     }
 }
+<div class="pre-scrollable col-12">
 
-<table id="tbPayrolls" class="table table-bordered">
-    <thead class="text-center">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Frecuencia</th>
-            <th scope="col"># Consecutivo</th>
-            @if (lstActions.Contains(28))
+    <table id="tbPayrolls" class="table table-bordered table-striped">
+        <thead class="text-center">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Frecuencia</th>
+                <th scope="col"># Consecutivo</th>
+                @if (lstActions.Contains(28))
+                {
+                    <th scope="col">Acciones</th>
+                }
+            </tr>
+        </thead>
+
+        <tbody style="text-align:center;">
+
+            @if (Model != null)
             {
-                <th scope="col">Acciones</th>
+                foreach (var e in Model)
+                {
+                    <tr>
+                        <td>@e.IdNomina </td>
+                        <td>@e.Descripcion </td>
+                        <td>@e.Frecuencia </td>
+                        <td>@e.IdConsecutivo </td>
+                        @if (lstActions.Contains(28))
+                        {
+                            <td>
+
+                                <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
+                                        class="btn btn-warning"
+                                        onclick="jsmostrarDatos(@e.IdNomina);">
+                                    <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
+                                </button>
+
+                                <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora" type="button" onclick="jsBitacora(@e.IdNomina);"><i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora</button>
+                            </td>
+                        }
+                    </tr>
+                }
             }
-        </tr>
-    </thead>
-
-    <tbody style="text-align:center;">
-
-        @if (Model != null)
-        {
-            foreach (var e in Model)
-            {
-                <tr>
-                    <td>@e.IdNomina </td>
-                    <td>@e.Descripcion </td>
-                    <td>@e.Frecuencia </td>
-                    <td>@e.IdConsecutivo </td>
-                    @if(lstActions.Contains(28)) {
-                    <td>
-
-                        <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
-                                class="btn btn-warning"
-                                onclick="jsmostrarDatos(@e.IdNomina);">
-                            <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
-                        </button>
-
-                        <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora" type="button" onclick="jsBitacora(@e.IdNomina);"><i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora</button>
-                    </td>
-                    }
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+   </div>

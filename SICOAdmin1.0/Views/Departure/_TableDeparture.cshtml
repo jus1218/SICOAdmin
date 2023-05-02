@@ -4,96 +4,99 @@
     int i = 0;
 }
 
+<div class="pre-scrollable col-12">
 
-<table id="tbTypeActionPers" class="table table-bordered ">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Descripción</th>
-            <th>Alias</th>
-            <th>Tipo</th>
-            <th>Activo</th>
-            <th>Acciones</th>
+    <table id="tbTypeActionPers" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Descripción</th>
+                <th>Alias</th>
+                <th>Tipo</th>
+                <th>Activo</th>
+                <th>Acciones</th>
 
-        </tr>
-    </thead>
-    <tbody style="text-align:center;">
-        @if (Model != null)
-        {
-            foreach (var d in Model)
+            </tr>
+        </thead>
+        <tbody style="text-align:center;">
+            @if (Model != null)
             {
-                i++;
-                <tr>
+                foreach (var d in Model)
+                {
+                    i++;
+                    <tr>
 
-                    <td>@d.IdPartida</td>
-                    <td>@d.Description</td>
-                    <td>@d.Alias</td>
+                        <td>@d.IdPartida</td>
+                        <td>@d.Description</td>
+                        <td>@d.Alias</td>
 
-                    @if (@d.TypeDep == "IG")
-                    {
+                        @if (@d.TypeDep == "IG")
+                        {
 
-                        <td>Ingreso</td>
-                    }
-                    else
-                    {
-                        <td>Salida</td>
-                    }
+                            <td>Ingreso</td>
+                        }
+                        else
+                        {
+                            <td>Salida</td>
+                        }
 
 
-                    @if (@d.Active)
-                    {
+                        @if (@d.Active)
+                        {
+                            <td>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" checked name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
+                                    <label class="custom-control-label" for="customSwitch_@d.IdPartida">Activo</label>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
+                                    <label class="custom-control-label" for="customSwitch_@d.IdPartida">Desactivo</label>
+                                </div>
+                            </td>
+                        }
+
+
                         <td>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" checked name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
-                                <label class="custom-control-label" for="customSwitch_@d.IdPartida">Activo</label>
-                            </div>
+
+                            <button id="btnEditar" data-id="@d.IdPartida" type="button" class="btn btn-warning"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
+
+                            <button class="btn btn-primary" onclick="showaDataDeparture(@d.IdPartida,'Bitacora');"><i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles</button>
                         </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
-                                <label class="custom-control-label" for="customSwitch_@d.IdPartida">Desactivo</label>
-                            </div>
-                        </td>
-                    }
 
-
-                    <td>
-
-                        <button id="btnEditar" data-id="@d.IdPartida" type="button" class="btn btn-warning"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
-
-                        <button class="btn btn-primary" onclick="showaDataDeparture(@d.IdPartida,'Bitacora');"><i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles</button>                       
-                    </td>
-
-                </tr>
+                    </tr>
+                }
             }
-        }
 
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-
-<div class="col">
+    </div>
     <div class="col">
-        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
-        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+        <div class="col">
+            <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+            <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+
+            <div class="col mr-0">
+
+
+                @if (@ViewBag.PagActual > 1)
+                {
+                    <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+                }
+                @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+                {
+                    <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+                }
+            </div>
+
+        </div>
+
+
     </div>
-
-    <div class="col mr-0">
-
-
-        @if (@ViewBag.PagActual > 1)
-        {
-            <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
-        }
-        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
-        {
-            <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
-
-        }
-    </div>
-
-</div>

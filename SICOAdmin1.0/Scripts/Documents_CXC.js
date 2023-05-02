@@ -3,10 +3,18 @@
 const d = document,
     $renderBody = d.getElementById("renderBody");
 
+
+const contenedorTabla = d.getElementById("tableDocument");
+const tabla = d.getElementById("tbDocuments_CXC");
+
 d.addEventListener('DOMContentLoaded', () => {
     setTimeout(function () {
         localStorage.clear();
     }, 300000);
+    //() => {
+    //    const tablePosition = tabla.offsetTop - contenedorTabla.offsetTop;
+    //    contenedorTabla.scrollTop = tablePosition;
+    //};
 });
 let documentosRecientes = [];
 let documentosCreditoCliente = [];
@@ -80,10 +88,12 @@ $renderBody.addEventListener("click", (e) => {
 
         const selectPartida = d.getElementById("partida_credito");
         const selectCliente = d.getElementById("add_cliente_cxc");
-        llenarSelectPartidas(selectPartida);
-        llenarSelectCliente(selectCliente);
         limpiarFormularioDebito();
         limpiarFormularioCredito();
+        llenarSelectPartidas(selectPartida);
+        llenarSelectCliente(selectCliente);
+        llenarSelectDocumentosDebitos("", selectDocumetosDebito);
+        llenarSelectDocumentosCreditos("", selectDocumetosCredito)
         table_added_recent.setAttribute("hidden", "");
         $("#crear_documento_asociar_deposito").modal("show");
 
@@ -195,7 +205,7 @@ $renderBody.addEventListener("click", (e) => {
         var modalDepositos = d.getElementById("crear_documento_asociar_deposito");
 
         let pDoc = e.target.dataset.id;
-
+        
         const table = d.getElementById("tbDepositos");
 
         limpiarHtml(table);
@@ -731,7 +741,7 @@ function llenarTablaDocumentosRecientes() {
     if (documentosRecientes.length > 0) {
         for (var i = 0; i < documentosRecientes.length; i++) {
             var { DocDebito, DocCredito, Cliente } = documentosRecientes[i];
-            console.log(documentosRecientes[i]);
+            
             var datos = `
              <tr id="tbDatos">
                  <td>${DocDebito}</td>
@@ -926,7 +936,8 @@ function verificarFechasDocumentosAsociados() {
 
     var inputDebitoValido = true;
     var inputCreditoValido = true;
-
+    console.log("fecha Actual: "+fechaActual);
+    console.log(fechaDocumentoDebito.value);
     if (fechaDocumentoDebito.value > fechaActual) {
 
         fechaDocumentoDebito.style.border = '2px solid red';
@@ -961,11 +972,10 @@ function verificarFechasDocumentosAsociados() {
 
 function getDateToDay() {
     const fechaActual = new Date();
-    const dia = fechaActual.getDate();
+    var dia = fechaActual.getDate().toString().padStart(2, "0");
     const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
     const anio = fechaActual.getFullYear();
     const fechaFormateada = `${anio}-${mes}-${dia}`;
-
     return fechaFormateada;
 }
 //=======================================================
@@ -1159,7 +1169,7 @@ function llenarSelectDocumentosCreditos(pIdCliente, element) {
     } else {
         defaultOption.value = "";
         inputSaldoCredito.value = 0;
-        notaCredito.value = ""; S
+        notaCredito.value = ""; 
         OpcionPorDefectoSelect(element, "Recibos");
     }
 }
@@ -1227,25 +1237,25 @@ function showHeaderDeposit(pDoc) {
 
         .then(res => res.ok ? res.json() : null)
         .then(res => {
-
+            
             var { Documento, Monto, Saldo, FechaDocumento, IdCliente, NombreCliente } = res;
             Monto = Monto.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
             Saldo = Saldo.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-            doc.querySelector('#numero_documento').textContent = Documento;
-            doc.querySelector('#numero_documento').value = Documento;
+            d.querySelector('#numero_documento').textContent = Documento;
+            d.querySelector('#numero_documento').value = Documento;
 
-            doc.querySelector('#monto_mens').textContent = Monto;
-            doc.querySelector('#monto_mens').value = Monto;
+            d.querySelector('#monto_mens').textContent = Monto;
+            d.querySelector('#monto_mens').value = Monto;
 
-            doc.querySelector('#saldo_mens').textContent = Saldo;
-            doc.querySelector('#saldo_mens').value = Saldo;
+            d.querySelector('#saldo_mens').textContent = Saldo;
+            d.querySelector('#saldo_mens').value = Saldo;
 
-            doc.querySelector('#FechaDocumento_dep').textContent = FechaDocumento;
-            doc.querySelector('#FechaDocumento_dep').value = FechaDocumento;
+            d.querySelector('#FechaDocumento_dep').textContent = FechaDocumento;
+            d.querySelector('#FechaDocumento_dep').value = FechaDocumento;
 
-            doc.querySelector('#usuario_dep').textContent = NombreCliente;
-            doc.querySelector('#usuario_dep').value = NombreCliente;
+            d.querySelector('#usuario_dep').textContent = NombreCliente;
+            d.querySelector('#usuario_dep').value = NombreCliente;
         })
 
 };
