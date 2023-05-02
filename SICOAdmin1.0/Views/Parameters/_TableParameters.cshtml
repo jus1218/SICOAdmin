@@ -34,9 +34,10 @@
                     <td>@e.IdParameter</td>
                     <td>@Convert.ToDecimal(@e.MonthlyPayment).ToString("C")</td>
                     <td>@e.IdConsecRecibo</td>
+                    <!--INTERES MORA-->
                     <td>@Convert.ToDecimal(@e.InterestBlackberry).ToString(".00") %</td>
                     <td>@e.DocumentTypePayment</td>
-                    <td>@e.PaymentCondition.ToString("C")</td>
+                    <td>@e.PaymentCondition</td>
                     @if (e.Status == "1")
                     {
                         <td>Activado</td>

@@ -380,7 +380,7 @@ namespace SICOAdmin1._0.Controllers
         }
         public JsonResult removeDeposit(DocumentosCXC obj)
         {
-            //ObjectParameter mensaje = new ObjectParameter("mensaje", "");
+            //ObjectParameter mensaje = new ObjectParameter("mensaje", ""); 
             //ObjectParameter resp = new ObjectParameter("resp", 0);
 
             try
