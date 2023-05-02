@@ -6,6 +6,8 @@
     {
         lstActions = new List<int?>();
     }
+    bool puedeModificar = false;
+    if (lstActions.Contains(21)) { puedeModificar = true; }
 }
 
 <table id="tbParameters" class="table table-bordered">
@@ -46,7 +48,7 @@
                         <td>Desactivado</td>
                     }
 
-                    @if (lstActions.Contains(21))
+                    @if (puedeModificar)
                     {
 
                         <td>

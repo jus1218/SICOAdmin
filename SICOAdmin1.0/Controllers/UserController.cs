@@ -67,7 +67,7 @@ namespace SICOAdmin.Controllers
 
             return View(lstUsers);
         }
-      
+        [AuthorizeUser(pAccion: 8)]
         [HttpGet]
         public ActionResult addUser()
         {

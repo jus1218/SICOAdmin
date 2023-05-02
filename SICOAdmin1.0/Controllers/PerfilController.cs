@@ -59,6 +59,7 @@ namespace SICOAdmin1._0.Controllers
         /*---------------------------------------------------------------*/
         /*-------------------Procedimiento SP_P_AgregarPerfil------------*/
         /*---------------------------------------------------------------*/
+        [AuthorizeUser(pAccion: 11)]
         [HttpPost]
         public ActionResult Nuevo(PerfilViewModel model)
         {
@@ -146,6 +147,7 @@ namespace SICOAdmin1._0.Controllers
 
             return View(model);
         }
+        [AuthorizeUser(pAccion: 12)]
         [HttpPost]
         public ActionResult Editar(PerfilViewModel model)
         {
@@ -180,6 +182,7 @@ namespace SICOAdmin1._0.Controllers
         #endregion
 
         /*Activa o inactiva el estado del perfil*/
+        [AuthorizeUser(pAccion: 12)]
         #region EstadoPerfil
         public ActionResult ModificarEstadoPerfil(int Id)
         {
@@ -269,6 +272,7 @@ namespace SICOAdmin1._0.Controllers
             return PartialView("_SelectOpcUser", ddlUsuarios);
         }
         /*----------------------Agrega un Usuario a Perfil---------*/
+        [AuthorizeUser(pAccion: 34)]
         [HttpPost]
         public JsonResult agregarUsuarioPerfil(UsuarioPerfil obj)//
         {
@@ -281,6 +285,7 @@ namespace SICOAdmin1._0.Controllers
             return Json(resp, JsonRequestBehavior.AllowGet);
         }
         /*----------------------Elimina un Usuario a Perfil---------*/
+        [AuthorizeUser(pAccion: 35)]
         [HttpPost]
         public JsonResult eliminarUsuarioPerfil(UsuarioPerfil obj)//
         {

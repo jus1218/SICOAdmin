@@ -3,6 +3,22 @@
 @{
     //List<SelectListItem> lstProviders = (List<SelectListItem>)ViewBag.lstProviders;
     int i = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+
+    bool puedeModificar = false, puedeAgregarRecibo = false, puedeVerRecibos = false;
+
+
+
+    if (lstActions.Contains(68)) { puedeModificar = true; }
+    if (lstActions.Contains(90)) { puedeAgregarRecibo = true; }
+    if (lstActions.Contains(92)) { puedeVerRecibos = true; }
+
 }
 
 
@@ -48,21 +64,25 @@
                     <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
 
                     <td>
+                        @if (puedeModificar) {
                         <button id="btnEditDoc_cxc" type="button" class="btn btn-warning" data-id="@d.Documento">
                             <i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar
                         </button>
+                        }
 
                         <button data-id="@d.Documento" id="viewLogDoc_cxc" type="button" class="btn btn-primary">
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
                         </button>
-
+                        @if (puedeAgregarRecibo) {
                         <button data-id="@d.Documento" id="add_deposito_cxc" type="button" class="btn btn-outline-dark">
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Agregar Deposito
                         </button>
-
+                        }
+                        @if (puedeVerRecibos){
                         <button data-id="@d.Documento" id="show_depositos_cxc" type="button" class="btn btn-outline-info">
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Ver Depositos
                         </button>
+                        }
 
 
                     </td>

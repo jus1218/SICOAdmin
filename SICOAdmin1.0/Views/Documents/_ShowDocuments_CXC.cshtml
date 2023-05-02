@@ -2,8 +2,15 @@
 
 @{
     List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result> lstDocuments_CXC = (List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result>)ViewBag.lstDocuments_CXC;
-    
+
     List<SelectListItem> lstClients = (List<SelectListItem>)ViewBag.lstClients;
+
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
 
 }
 
@@ -16,12 +23,13 @@
     </div>
 
 
-
-    <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 "
-            id="CreateDocument_CXC" name="CreateDocument_CXC">
-        <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-        Agregar
-    </button>
+    @if (lstActions.Contains(66)) { 
+        <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 "
+                id="CreateDocument_CXC" name="CreateDocument_CXC">
+            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+            Agregar
+        </button>
+    }
 
 
     <!--Barra busqueda-->

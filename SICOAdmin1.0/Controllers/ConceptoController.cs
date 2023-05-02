@@ -1,4 +1,5 @@
-﻿using SICOAdmin1._0.Models;
+﻿using SICOAdmin1._0.Filters;
+using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.User;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace SICOAdmin1._0.Controllers
         int PagActual = 0;
 
         // GET: Concepto
+        [AuthorizeUser(pAccion: 79)]
         public ActionResult Index()
         {
 
@@ -49,7 +51,7 @@ namespace SICOAdmin1._0.Controllers
             return View(lstConceptos);
         }
 
-
+        [AuthorizeUser(pAccion: 78)]
         [HttpPost]
         public JsonResult CreateConcept(CONCEPTO obj)//
         {
@@ -108,6 +110,7 @@ namespace SICOAdmin1._0.Controllers
 
         }
 
+        [AuthorizeUser(pAccion: 80)]
         [HttpPost]
         public JsonResult EditConcept(CONCEPTO obj)
         {

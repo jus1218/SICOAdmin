@@ -1,4 +1,5 @@
-﻿using SICOAdmin1._0.Models;
+﻿using SICOAdmin1._0.Filters;
+using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.User;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace SICOAdmin1._0.Controllers
 
 
         // ======================================= VISTAS =======================================
+
+        [AuthorizeUser(pAccion: 25)]
         public ActionResult Index()
         {
             lstControlAsist.Clear();
@@ -138,6 +141,7 @@ namespace SICOAdmin1._0.Controllers
 
 
         // ======================================= RETORNOS JSON =======================================
+        [AuthorizeUser(pAccion: 23)]
         [HttpPost]
         public JsonResult AgregarAttendanceControl(CONTROL_ASISTENCIA obj)//
         {
@@ -159,6 +163,8 @@ namespace SICOAdmin1._0.Controllers
                 mensaje = msj.Value
             }, JsonRequestBehavior.AllowGet);
         }
+
+        [AuthorizeUser(pAccion: 24)]
         [HttpPost]
         public JsonResult EditarAttendanceControl(CONTROL_ASISTENCIA obj)
         {
@@ -185,6 +191,7 @@ namespace SICOAdmin1._0.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
         // busca el ctrol asistencia para llenar los inputs
+        [AuthorizeUser(pAccion: 24)]
         [HttpPost]
         public JsonResult EditAttendanceControl(ControlAsistencia obj)
         {

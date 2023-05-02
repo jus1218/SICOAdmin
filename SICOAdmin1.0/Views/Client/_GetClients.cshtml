@@ -8,7 +8,11 @@
         flag = true;
     }
 
-
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
 }
 
 <div class="row fila">
@@ -17,18 +21,25 @@
     </div>
     <!--BOTON-->
     <div class="col-xl-2 col-md-2 mb-3">
-        @if (flag)
-        {
-            <button type="button" class="btn btn-primary col-12 " data-toggle="modal" data-target="#AddModalClient" title="Agregar cliente">
-                <i class="fa fa-plus-circle mr-1" aria-hidden="true"> Agregar</i>
-            </button>
+
+
+        @if (lstActions.Contains(74)){
+
+            @if (flag)
+            {
+                <button type="button" class="btn btn-primary col-12 " data-toggle="modal" data-target="#AddModalClient" title="Agregar cliente">
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"> Agregar</i>
+                </button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary col-12 " title="Debe agregar una filial" disabled>
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"> Agregar</i>
+                </button>
+            }
+
         }
-        else
-        {
-            <button type="button" class="btn btn-primary col-12 " title="Debe agregar una filial" disabled>
-                <i class="fa fa-plus-circle mr-1" aria-hidden="true"> Agregar</i>
-            </button>
-        }
+
     </div>
     <!--Barra busqueda-->
     <div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">

@@ -8,6 +8,10 @@
         lstActions = new List<int?>();
     }
 
+
+    bool puedeModificar = false;
+    if (lstActions.Contains(18)) { puedeModificar = true; }
+
 }
 
 <table id="tbConsecutivo" class="table table-bordered">
@@ -18,10 +22,9 @@
             <th scope="col">Mascara</th>
             <th scope="col">Proximo Valor</th>
             <th scope="col">Activo</th>
-            @if (lstActions.Contains(18))
-            {
-                <th scope="col">Acciones</th>
-            }
+
+            <th scope="col">Acciones</th>
+            
         </tr>
     </thead>
     <tbody style="text-align:center;">
@@ -47,35 +50,38 @@
                         </td>
                     }
 
-                    @if (lstActions.Contains(18))
-                    {
+                   
+                    
                         <td>
-                            <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
-                                    class="btn btn-warning" onclick="jsmostrarDatos(@e.IdConsecutivo);">
-                                <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
-                            </button>
+                            @if (puedeModificar){
+                                <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
+                                        class="btn btn-warning" onclick="jsmostrarDatos(@e.IdConsecutivo);">
+                                    <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
+                                </button>
+                                if(e.Activo == false)
+                                {
+                                    <button id="btnActivar" class="btn btn-success"
+                                            style="width: 23%;" type="button" onclick="jsModificarEstado(@e.IdConsecutivo);">
+                                        <i class="fa fa-unlock mr-1" aria-hidden="true"></i>Activar
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button id="btnDesactivar" class="btn btn-danger "
+                                            style="width: 23%;" onclick="jsModificarEstado(@e.IdConsecutivo);">
+                                        <i class="fa fa-lock mr-1" aria-hidden="true"></i>Desactivar
+                                    </button>
+                                }
+                            }
 
                             <button id="Bitacora" data-toggle="modal" data-target="#ModalBitacora" type="button" value="Bitacora"
                                     class="btn btn-info" onclick="jsmostrarBitacora(@e.IdConsecutivo);">
                                 <i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora
                             </button>
 
-                            @if (e.Activo == false)
-                            {
-                                <button id="btnActivar" class="btn btn-success"
-                                        style="width: 23%;" type="button" onclick="jsModificarEstado(@e.IdConsecutivo);">
-                                    <i class="fa fa-unlock mr-1" aria-hidden="true"></i>Activar
-                                </button>
-                            }
-                            else
-                            {
-                                <button id="btnDesactivar" class="btn btn-danger "
-                                        style="width: 23%;" onclick="jsModificarEstado(@e.IdConsecutivo);">
-                                    <i class="fa fa-lock mr-1" aria-hidden="true"></i>Desactivar
-                                </button>
-                            }
+
                         </td>
-                    }
+                    
                 </tr>
             }
         }

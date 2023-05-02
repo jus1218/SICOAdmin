@@ -2,6 +2,18 @@
 
 @{
     int i = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+    bool puedeCambiarEstado = false;
+
+    if (lstActions.Contains(62)){
+        puedeCambiarEstado = true;
+    }
+
 }
 
 
@@ -12,8 +24,10 @@
             <th>Descripción</th>
             <th>Alias</th>
             <th>Tipo</th>
-            <th>Activo</th>
-            <th>Acciones</th>
+
+            <th>Estado</th>  
+
+           <th>Acciones</th>
 
         </tr>
     </thead>
@@ -43,27 +57,39 @@
                     @if (@d.Active)
                     {
                         <td>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" checked name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
-                                <label class="custom-control-label" for="customSwitch_@d.IdPartida">Activo</label>
-                            </div>
+                            @if (puedeCambiarEstado)
+                            {
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" checked name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
+                                    <label class="custom-control-label" for="customSwitch_@d.IdPartida">Activo</label>
+                                </div>
+                            }
+                            else {
+                                <label>Activo</label>
+                            }
                         </td>
                     }
                     else
                     {
                         <td>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
-                                <label class="custom-control-label" for="customSwitch_@d.IdPartida">Desactivo</label>
-                            </div>
+                            @if (puedeCambiarEstado)
+                            {
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
+                                    <label class="custom-control-label" for="customSwitch_@d.IdPartida">Desactivo</label>
+                                </div>
+                            }
+                            else { 
+                                 <label>Desactivo</label>
+                            }
                         </td>
                     }
 
 
                     <td>
-
+                        @if(lstActions.Contains(62)) {
                         <button id="btnEditar" data-id="@d.IdPartida" type="button" class="btn btn-warning"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
-
+                        }
                         <button class="btn btn-primary" onclick="showaDataDeparture(@d.IdPartida,'Bitacora');"><i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles</button>                       
                     </td>
 

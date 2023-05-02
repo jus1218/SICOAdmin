@@ -11,6 +11,7 @@ using System.Data.Entity.Core.Objects;
 using SICOAdmin1._0.Models.User;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using SICOAdmin1._0.Filters;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -46,7 +47,7 @@ namespace SICOAdmin1._0.Controllers
         ObjectParameter res = new ObjectParameter("res", 0);
 
 
-
+        //[AuthorizeUser(pAccion: 67)]
         public ActionResult Index()
         {
             try
@@ -78,6 +79,7 @@ namespace SICOAdmin1._0.Controllers
 
         //=================== METODOS FETCH ======================
         //=============== DOCUMENTOS CXP ======================
+        [AuthorizeUser(pAccion: 70)]
         public JsonResult AddDocument_CXP(DOCUMENTO_CXP obj)
         {
             try
@@ -111,7 +113,7 @@ namespace SICOAdmin1._0.Controllers
                 }, JsonRequestBehavior.AllowGet);
         }
 
-
+        [AuthorizeUser(pAccion: 72)]
         public JsonResult EditDocument_CXP(DOCUMENTO_CXP obj)
         {
             if (obj.Notas == null)
@@ -165,7 +167,7 @@ namespace SICOAdmin1._0.Controllers
         }
 
         //=============== DOCUMENTOS CXC ======================
-
+        [AuthorizeUser(pAccion: 66)]
         public JsonResult AddDocument_CXC(DOCUMENTO_CXC obj)
         {
             try
@@ -200,7 +202,7 @@ namespace SICOAdmin1._0.Controllers
                 }, JsonRequestBehavior.AllowGet);
         }
 
-
+        [AuthorizeUser(pAccion: 68)]
         public JsonResult EditDocument_CXC(DOCUMENTO_CXC obj)
         {
             try

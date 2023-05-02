@@ -42,8 +42,9 @@
                                 </button>
 
                             }
-
-                            <input onclick="jsDeletePerf('@perfil.IdPerfil');" type="button" value="Eliminar" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalEliminar" />
+                            @if (lstActions.Contains(35)) {
+                                <input onclick="jsDeletePerf('@perfil.IdPerfil');" type="button" value="Eliminar" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalEliminar" />
+                            }
                         </td>
                     </tr>
                 }

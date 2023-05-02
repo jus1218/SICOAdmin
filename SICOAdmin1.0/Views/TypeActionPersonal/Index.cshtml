@@ -1,10 +1,14 @@
 ﻿@model SICOAdmin1._0.Models.ActionType.TypeActionPers
 
-@{
-    ViewBag.Title = "Tipo Accion Personal";
+@{ ViewBag.Title = "Tipo Accion Personal";
 
     var lstTypeActionPers = (List<SICOAdmin1._0.Models.ActionType.TypeActionPers>)ViewBag.lstTypeActionPersonal;
-}
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    } }
 
 @section styles{
 
@@ -23,11 +27,13 @@
         </div>
 
 
-
-        <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 " data-toggle="modal" data-target="#agregarTypeActionPers">
-            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-            Agregar
-        </button>
+        @if (lstActions.Contains(41))
+        { 
+            <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 " data-toggle="modal" data-target="#agregarTypeActionPers">
+                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+                Agregar
+            </button>
+        }
 
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
             <div class="input-group ">

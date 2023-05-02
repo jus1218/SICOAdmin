@@ -7,6 +7,7 @@ using System.Data.Entity.Core.Objects;
 using SICOAdmin1._0.Models.ActionType;
 using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.User;
+using SICOAdmin1._0.Filters;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -22,6 +23,8 @@ namespace SICOAdmin1._0.Controllers
         ObjectParameter msj = new ObjectParameter("msg", "");
 
         TypeActionPers action;
+
+        [AuthorizeUser(pAccion: 43)]
         public ActionResult Index()
         {
 
@@ -58,7 +61,7 @@ namespace SICOAdmin1._0.Controllers
 
 
         // ======================================= RETORNOS JSON =======================================
-
+        [AuthorizeUser(pAccion: 41)]
         [HttpPost]
         public JsonResult AgregarTypeActionPersonal(TypeActionPers obj)
         {
@@ -78,6 +81,8 @@ namespace SICOAdmin1._0.Controllers
             }, JsonRequestBehavior.AllowGet);
 
         }
+
+        [AuthorizeUser(pAccion: 42)]
         [HttpPost]
         public JsonResult EditarTypeActionPersonal(TypeActionPers obj)
         {

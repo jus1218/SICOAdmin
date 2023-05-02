@@ -13,7 +13,15 @@
 
     int i = 0;
 
-    Boolean puedeCambiarEstado = false;
+    //Boolean puedeCambiarEstado = false;
+    bool puedeModificar = false;
+
+
+    if (lstActions.Contains(58))
+    {
+
+        puedeModificar = true;
+    }
 }
 
 
@@ -28,11 +36,8 @@
             <th scope="col" class="th">Contacto</th>
             <th scope="col" class="th">Telefono 1</th>
             <th scope="col" class="th">CorreoElectronico</th>
-            @if (lstActions.Contains(58))
-            {
-                <th scope="col" class="th">Estado</th>
-                puedeCambiarEstado = true;
-            }
+
+            <th scope="col" class="th">Estado</th>
             <th scope="col" class="th">Acciones</th>
 
         </tr>
@@ -52,30 +57,49 @@
                     <td>@proveedor.Contacto</td>
                     <td>@proveedor.Telefono1</td>
                     <td>@proveedor.CorreoElectronico</td>
-                    @if (puedeCambiarEstado)
-                    {
-                        if (proveedor.Activo == true)
-                        {
 
-                            <!--   proveedor.IdProveedor-->
-                            <td>
+                    @if (proveedor.Activo == true)
+                    {
+
+                        <!--   proveedor.IdProveedor-->
+
+
+
+                        <td>
+                            @if (puedeModificar)
+                            {
                                 <div class="custom-control custom-switch">
+
                                     <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
                                     <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Activo</label>
+
                                 </div>
-                            </td>
-                        }
-                        else
-                        {
-                            <!--  proveedor.IdProveedor"  -->
-                            <td>
+                            }
+                            else
+                            {
+                                <label>Activo</label>
+                            }
+                        </td>
+                    }
+                    else
+                    {
+                        <!--  proveedor.IdProveedor"  -->
+                        <td>
+
+                            @if (puedeModificar)
+                            {
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
                                     <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Desactivo</label>
                                 </div>
-                            </td>
-                        }
+                            }
+                            else
+                            {
+                                <label class="d-flex justify-content-center">Desactivo</label>
+                            }
+                        </td>
                     }
+
 
 
                     @*
@@ -84,7 +108,7 @@
                     *@
 
                     <td>
-                        @if (lstActions.Contains(58))
+                        @if (puedeModificar)
                         {
                             <button type="button" class="btn btn-warning" name="viewEditPage" data-id="@proveedor.IdProveedor"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
                         }

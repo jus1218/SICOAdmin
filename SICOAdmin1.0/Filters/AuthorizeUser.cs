@@ -15,7 +15,7 @@ namespace SICOAdmin1._0.Filters
         //private MiSistemasEntitites db = new MiSistemasEntitites();
         private int accion;
 
-        private Dictionary<int, string> listaAcciones = new Dictionary<int, string>() // numero de accion , url de vistas parciales
+        private static Dictionary<int, string> listaAcciones = new Dictionary<int, string>() // numero de accion , url de vistas parciales
         {
             {57, "~/Proveedor/_MostrarProveedores"},
             {58, "~/Proveedor/_MostrarProveedores"}

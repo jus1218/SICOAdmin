@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SICOAdmin1._0.Filters;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -18,8 +19,9 @@ namespace SICOAdmin1._0.Controllers
         ObjectParameter msj = new ObjectParameter("msj", "");
 
         #endregion
-     //------------------------------------------------------------   /*Vistas*/ 
-     #region Vistas
+        //------------------------------------------------------------   /*Vistas*/ 
+        #region Vistas
+        [AuthorizeUser(pAccion: 39)]
         public ActionResult Index()
         {
             lstJobs.Clear();
@@ -56,8 +58,9 @@ namespace SICOAdmin1._0.Controllers
         }
         #endregion
 
-     //------------------------------------------------------------   /*Retornos Json*/
-     #region Nuevo
+        //------------------------------------------------------------   /*Retornos Json*/
+        #region Nuevo
+        [AuthorizeUser(pAccion: 37)]
         [HttpPost]
         public ActionResult Nuevo(Job model)
         {

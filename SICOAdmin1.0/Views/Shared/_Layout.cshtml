@@ -142,12 +142,17 @@
                                         }
                                         @if (@lstActions.Contains(63))
                                         {
-                                            <li><a href="@Url.Action("Index", "Departure")">Admin. Paritdas</a></li>
+                                            <li><a href="@Url.Action("Index", "Departure")">Admin. Partidas</a></li>
                                         }
                                         @if (@lstActions.Contains(43))
                                         {
                                             <li><a href="@Url.Action("Index", "TypeActionPersonal")">Admin. Tipo Accion Personal</a></li>
                                         }
+
+                                        @if (@lstActions.Contains(39)) { 
+                                            <li><a href="@Url.Action("Index", "Job")">Admin. Puestos</a></li>
+                                        }
+
                                     </ul>
                                 </li>
                                 <li>
@@ -161,10 +166,11 @@
                                         {
                                             <li><a href="@Url.Action("Index", "Home")">Consultar E/S</a></li>
                                         }
-                                            <li><a href="@Url.Action("Index","Home")">Consultar Planilla</a></li>
-
+                                        <li><a href="@Url.Action("Index","Home")">Consultar Planilla</a></li>
+                                        @if (@lstActions.Contains(89)) {
                                             <li><a href="@Url.Action("Index","Filial")">Cuotas por filial</a></li>
-                                        </ul>
+                                        }
+                                    </ul>
                                 </li>
                             </ul>
                         </div>

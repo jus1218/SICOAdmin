@@ -5,6 +5,11 @@
     {
         lstActions = new List<int?>();
     }
+
+
+    bool puedeModificar = false;
+
+    if (lstActions.Contains(28)) { puedeModificar = true; }
 }
 
 <table id="tbPayrolls" class="table table-bordered">
@@ -14,10 +19,9 @@
             <th scope="col">Descripcion</th>
             <th scope="col">Frecuencia</th>
             <th scope="col"># Consecutivo</th>
-            @if (lstActions.Contains(28))
-            {
-                <th scope="col">Acciones</th>
-            }
+
+             <th scope="col">Acciones</th>
+            
         </tr>
     </thead>
 
@@ -32,18 +36,20 @@
                     <td>@e.Descripcion </td>
                     <td>@e.Frecuencia </td>
                     <td>@e.IdConsecutivo </td>
-                    @if(lstActions.Contains(28)) {
+                  
                     <td>
-
-                        <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
-                                class="btn btn-warning"
-                                onclick="jsmostrarDatos(@e.IdNomina);">
-                            <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
-                        </button>
+                          @if (puedeModificar)
+                          {
+                            <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
+                                    class="btn btn-warning"
+                                    onclick="jsmostrarDatos(@e.IdNomina);">
+                                <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
+                            </button>
+                          }
 
                         <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora" type="button" onclick="jsBitacora(@e.IdNomina);"><i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora</button>
                     </td>
-                    }
+                    
                 </tr>
             }
         }

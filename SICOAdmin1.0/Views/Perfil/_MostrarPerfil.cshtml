@@ -3,6 +3,14 @@
 @{
     List<PerfilViewModel> lstMode = (List<PerfilViewModel>)ViewBag.Perfil;
     var objPerfil = new PerfilViewModel();
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+    bool puedeModificar = false;
+    if (lstActions.Contains(12)) { puedeModificar = true; }
 }
 
 <table id="tbPerfiles" class="table table-bordered">
@@ -17,79 +25,84 @@
         </tr>
     </thead>
     <tbody style="text-align:center;">
-        @foreach (var perfil in lstMode)
+
+        @if (lstMode != null && lstMode.Count > 0)
         {
-            <tr>
-                <td>@perfil.IdPerfil</td>
-                <td>@perfil.Nombre</td>
-                <td>@perfil.Descripcion</td>
-                @if (@perfil.Activo == false)
-                {
-                    <td>
-                        Inactivo
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        Activo
-                    </td>
-                }
-            <td>
-
-                <button id="Editar"
-                        type="button"
-                        value="Editar"
-                        class="btn btn-warning "
-                        onclick="document.location.href = '@Url.Action("Editar","Perfil",new { Id = perfil.IdPerfil})'">
-                    <i class="fa fa-pencil mr-2"></i>
-                    Editar
-                </button>
-
-
-
-                <button id="btnBitacora"
-                        onclick="jsmostrarBitacora('@perfil.IdPerfil')"
-                        class="btn btn-info"
-                        data-toggle="modal"
-                        data-target="#ModalBitacora">
-                    <i class="fa fa-book mr-2"></i>
-                    Bitácora
-                </button>
-                
+            foreach (var perfil in lstMode)
+            {
+                <tr>
+                    <td>@perfil.IdPerfil</td>
+                    <td>@perfil.Nombre</td>
+                    <td>@perfil.Descripcion</td>
+                    @if (@perfil.Activo == false)
+                    {
+                        <td>
+                            Inactivo
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            Activo
+                        </td>
+                    }
+                <td>
+                    @if (puedeModificar)
+                    {
+                        <button id="Editar"
+                                type="button"
+                                value="Editar"
+                                class="btn btn-warning "
+                                onclick="document.location.href = '@Url.Action("Editar", "Perfil", new { Id = perfil.IdPerfil })'">
+                            <i class="fa fa-pencil mr-2"></i>
+                            Editar
+                        </button>
 
 
-                @if (@perfil.Activo == false)
-                {
-            <button id="btnActivar"
-                    class="btn btn-primary"
-                    style="width: 23%;"
-                    type="button"
-                    onclick="jsModificarEstado(@perfil.IdPerfil)">
-                <i class="fa fa-unlock mr-2"></i>
-                Activar
-            </button>
+                          if (@perfil.Activo == false)
+                          {
+                            <button id="btnActivar"
+                                    class="btn btn-primary"
+                                    style="width: 23%;"
+                                    type="button"
+                                    onclick="jsModificarEstado(@perfil.IdPerfil)">
+                                <i class="fa fa-unlock mr-2"></i>
+                                Activar
+                            </button> 
+                          }
+                          else{
 
-                }
-                else
-                {
+                            <button id="btnDesactivar"
+                                    class="btn btn-danger "
+                                    style="width: 23%;"
+                                    onclick="jsModificarEstado(@perfil.IdPerfil)">
+                                <i class="fa fa-lock mr-2"></i>
+                                Desactivar
+                            </button>
+                          }                
+                    }
 
-                    <button id="btnDesactivar"
-                            class="btn btn-danger "
-                            style="width: 23%;"
-                            onclick="jsModificarEstado(@perfil.IdPerfil)">
-                        <i class="fa fa-lock mr-2"></i>
-                        Desactivar
+
+                    <button id="btnBitacora"
+                            onclick="jsmostrarBitacora('@perfil.IdPerfil')"
+                            class="btn btn-info"
+                            data-toggle="modal"
+                            data-target="#ModalBitacora">
+                        <i class="fa fa-book mr-2"></i>
+                        Bitácora
                     </button>
 
-                }
 
 
 
-            </td>
-           </tr>
 
-         }
+
+
+                </td>
+               </tr>
+
+             }
+        }
 
     </tbody>
 </table>

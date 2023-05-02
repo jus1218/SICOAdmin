@@ -1,4 +1,5 @@
-﻿using SICOAdmin1._0.Models;
+﻿using SICOAdmin1._0.Filters;
+using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.User;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace SICOAdmin1._0.Controllers
         // GET: Filial
         // ================================================= VISTAS =================================================
         #region Mostrar
+        [AuthorizeUser(pAccion: 89)]
         public ActionResult Index()
         {
             try
@@ -45,6 +47,7 @@ namespace SICOAdmin1._0.Controllers
         #endregion
         // ============================================= RETURN JSON ================================================
         #region CrearFilial
+        [AuthorizeUser(pAccion: 49)]
         [HttpPost]
         public JsonResult CrearFilial(FILIAL obj)//
         {
@@ -119,6 +122,7 @@ namespace SICOAdmin1._0.Controllers
 
         #region Agregar
 
+        [AuthorizeUser(pAccion: 49)]
         public PartialViewResult _AgregarFilial()
         {
             return PartialView("_AgregarFilial");
@@ -127,7 +131,7 @@ namespace SICOAdmin1._0.Controllers
 
         #region EditarFilial
         /**************************************************************************************/
-
+        [AuthorizeUser(pAccion: 50)]
         public JsonResult EditarFilial(FILIAL obj)
         {
 
@@ -161,6 +165,7 @@ namespace SICOAdmin1._0.Controllers
         #endregion
 
         #region EstadoPerfil 
+        [AuthorizeUser(pAccion: 50)]
         public ActionResult ModificarEstadoFilial(int id)
         {
             ObjectParameter seModifico = new ObjectParameter("seModifico", 0);

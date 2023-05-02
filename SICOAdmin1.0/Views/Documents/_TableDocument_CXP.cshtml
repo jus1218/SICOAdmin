@@ -3,6 +3,21 @@
 @{
     //List<SelectListItem> lstProviders = (List<SelectListItem>)ViewBag.lstProviders;
     int i = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+
+    bool puedeModificar = false, puedeAgregarTransaccion = false, puedeVerTransaccion = false;
+
+
+
+    if (lstActions.Contains(72)) { puedeModificar = true; }
+    if (lstActions.Contains(91)) { puedeAgregarTransaccion = true; }
+    if (lstActions.Contains(93)) { puedeVerTransaccion = true; }
 }
 
 
@@ -48,17 +63,20 @@
                     <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
 
                     <td>
+                        @if (puedeModificar) {
                         <button id="btnEditDoc" type="button" class="btn btn-warning" data-id="@d.Documento">
                             <i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar
                         </button>
+                        }
 
                         <button data-id="@d.Documento" id="viewLogDoc" type="button" class="btn btn-primary">
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
                         </button>
-
+                        @if (puedeAgregarTransaccion){
                         <button data-id="@d.Documento" id="add_deposito_CXP" type="button" class="btn btn-info">
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Depositar
                         </button>
+                        }
                     </td>
                 </tr>
             }

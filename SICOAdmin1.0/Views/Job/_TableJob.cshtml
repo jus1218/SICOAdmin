@@ -1,5 +1,15 @@
 ﻿@model List<SICOAdmin1._0.Models.Job>
 @{
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    bool puedeModificar = false;
+
+    if (lstActions.Contains(38)) { puedeModificar = true; }
 }
 <header>
     <style>
@@ -46,6 +56,8 @@
                                    <td>@p.CodigoCCSS</td>
                                    <td>@p.CodigoINS</td>
                     <td>
+
+                        @if (puedeModificar) { 
                         <button id="Editar"
                                 type="button"
                                 value="Editar"
@@ -55,6 +67,9 @@
                                 data-target="#ModalEditar">
                             Editar
                         </button>
+                        }
+
+
                         <input class="btn btn-light" type="button" value="Ver más" @*onclick="viewMore('@ctrlAsistencia.IdAsistencia');"*@ />
 
                         

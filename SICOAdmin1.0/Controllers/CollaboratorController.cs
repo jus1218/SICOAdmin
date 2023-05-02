@@ -7,6 +7,7 @@ using SICOAdmin1._0.Models.Collaborator;
 using SICOAdmin1._0.Models.User;
 using SICOAdmin1._0.Models;
 using System.Data.Entity.Core.Objects;
+using SICOAdmin1._0.Filters;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -21,6 +22,7 @@ namespace SICOAdmin1._0.Controllers
         const int DEFAULT_NUMBER_PAGE = 1;
 
         // GET: Collaborator
+        [AuthorizeUser(pAccion: 16)]
         public ActionResult Index()
         {
             List<SP_C_MostarNominas_Result> lstPayrollsDB = null;
@@ -176,7 +178,7 @@ namespace SICOAdmin1._0.Controllers
         }
 
 
-
+        [AuthorizeUser(pAccion: 14)]
         [HttpGet]
         public ActionResult AddCollaborator()
         {
@@ -219,6 +221,7 @@ namespace SICOAdmin1._0.Controllers
             return View();
         }
 
+        [AuthorizeUser(pAccion: 14)]
         [HttpPost]
         public ActionResult AddCollaborator(Collaborator CModel)
         {
@@ -271,6 +274,7 @@ namespace SICOAdmin1._0.Controllers
             }
         }
 
+        [AuthorizeUser(pAccion: 15)]
         public ActionResult Update(string id)
         {
             Collaborator modelC = new Collaborator();
@@ -317,6 +321,7 @@ namespace SICOAdmin1._0.Controllers
             return View(modelC);
         }
 
+        [AuthorizeUser(pAccion: 15)]
         [HttpPost]
         public ActionResult Update(Collaborator CModel)
         {
@@ -466,6 +471,7 @@ namespace SICOAdmin1._0.Controllers
             return Json(objCJS, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeUser(pAccion: 15)]
         public JsonResult ModificarEstado(string idCol)
         {
             ObjectParameter resultado = new ObjectParameter("resultado", false);

@@ -213,6 +213,8 @@ namespace SICOAdmin1._0.Controllers
             param.DateModification = (DateTime)objResult.FechaModificacion;
             return param;
         }
+
+        [AuthorizeUser(pAccion: 21)]
         public JsonResult changeStatus(int idParam)
         {
             int Response = -3;
