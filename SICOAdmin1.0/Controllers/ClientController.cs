@@ -8,6 +8,7 @@ using SICOAdmin1._0.Models.Client;
 using SICOAdmin1._0.Models.User;
 using System.Data.Entity.Core.Objects;
 using Rotativa;
+using SICOAdmin1._0.Filters;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -26,6 +27,7 @@ namespace SICOAdmin1._0.Controllers
         const int DEFAULT_NUMBER_PAGE = 1;
 
         // GET: Client
+        [AuthorizeUser(pAccion: 75)]
         public ActionResult Index()
         {
             List<SP_C_MostrarFiliales_Result> lstfilialesDB = null;
@@ -70,6 +72,7 @@ namespace SICOAdmin1._0.Controllers
 
         //===========================================JsResults Section================================================
         //Crear Cliente
+        [AuthorizeUser(pAccion: 74)]
         public JsonResult AddClient(Client objClient)
         {
             using (SICOAdminEntities db = new SICOAdminEntities())
@@ -87,6 +90,7 @@ namespace SICOAdmin1._0.Controllers
         }
 
         //Editar Cliente
+        [AuthorizeUser(pAccion: 76)]
         public JsonResult UpdateClient(Client objClient)
         {
             using (SICOAdminEntities db = new SICOAdminEntities())
@@ -130,6 +134,7 @@ namespace SICOAdmin1._0.Controllers
             return Json(objC, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeUser(pAccion: 76)]
         public JsonResult ActivClient(string pIdentification)
         {
             string message = "";

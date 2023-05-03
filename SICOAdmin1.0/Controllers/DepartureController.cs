@@ -9,7 +9,7 @@ using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.Departure;
 using System.Data.Entity.Core.Objects;
 using SICOAdmin1._0.Models.User;
-
+using SICOAdmin1._0.Filters;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -30,6 +30,8 @@ namespace SICOAdmin1._0.Controllers
         ObjectParameter totalPag = new ObjectParameter("totalPag", 0);
         ObjectParameter msj = new ObjectParameter("msj", " ");
         ObjectParameter res = new ObjectParameter("res", 0);
+
+        [AuthorizeUser(pAccion: 63)]
         public ActionResult Index()
         {
 
@@ -108,7 +110,7 @@ namespace SICOAdmin1._0.Controllers
             return PartialView("_ShowDepartures", LstDepartures);
         }
         //==================== FUNCIONES FETCH ======================
-
+        [AuthorizeUser(pAccion: 61)]
         public JsonResult AgregarDeparture(Departure pDeparture)
         {
             short resp = 0;
@@ -129,6 +131,7 @@ namespace SICOAdmin1._0.Controllers
 
         }
 
+        [AuthorizeUser(pAccion: 62)]
         public JsonResult EditarDeparture(Departure pDeparture)
         {
             short resp = 0;
@@ -146,6 +149,8 @@ namespace SICOAdmin1._0.Controllers
             }, JsonRequestBehavior.AllowGet);
 
         }
+
+        [AuthorizeUser(pAccion: 62)]
         [HttpPost]
         //Activa o desactiva la Partida 
         public JsonResult ModificarEstadoDeparture(int pId)

@@ -8,6 +8,17 @@
     {
         flag = true;
     }
+
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+    bool puedeModificar = false;
+    if (lstActions.Contains(15)) { puedeModificar = true; }
+
+
 }
 <table id="tbCollaborators" class="table table-bordered text-center">
     <thead>
@@ -40,17 +51,21 @@
                     <td>@collaborator.FechaNacimiento.ToString("dd MMMM, yyyy")</td>
 
                     <td>
-                        <button id="btnEdit" onclick="document.location.href = '@Url.Action("Update", "Collaborator", new { id = collaborator.Identificacion })'" class="btn btn-warning"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
-                        <button id="btnBitacora" onclick="jsmostrarBitacora('@collaborator.Identificacion')" class="btn btn-info" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
-                        <button id="btnDetails" onclick="jsViewDetails('@collaborator.Identificacion')" class="btn btn-primary" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-info-circle mr-1" aria-hidden="true"></i> Detalles</button>
+                        @if (puedeModificar)
+                        {
+                            <button id="btnEdit" onclick="document.location.href = '@Url.Action("Update", "Collaborator", new { id = collaborator.Identificacion })'" class="btn btn-warning"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                        
+                            <button id="btnBitacora" onclick="jsmostrarBitacora('@collaborator.Identificacion')" class="btn btn-info" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+                            <button id="btnDetails" onclick="jsViewDetails('@collaborator.Identificacion')" class="btn btn-primary" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-info-circle mr-1" aria-hidden="true"></i> Detalles</button>
 
-                        @if (collaborator.Activo)
-                        {
-                            <button id="btnDesactivar" class="btn btn-danger" onclick="jsModificarEstado('@collaborator.Identificacion')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
-                        }
-                        else
-                        {
-                            <button id="btnActivar" class="btn btn-success" onclick="jsModificarEstado('@collaborator.Identificacion')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
+                            if (collaborator.Activo)
+                            {
+                                <button id="btnDesactivar" class="btn btn-danger" onclick="jsModificarEstado('@collaborator.Identificacion')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
+                            }
+                            else
+                            {
+                                <button id="btnActivar" class="btn btn-success" onclick="jsModificarEstado('@collaborator.Identificacion')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
+                            }
                         }
                     </td>
                 </tr>

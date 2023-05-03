@@ -15,11 +15,15 @@ namespace SICOAdmin1._0.Controllers
 {
     public class PerfilController : Controller
     {
+        //VARIABLES DE PAGINACION
+        ObjectParameter totalPag = new ObjectParameter("totalPag", 0);
+        int PagActual = 0;
+        const int DEFAULT_NUMBER_PAGE = 2;
 
         // GET: Perfil
         /*Muestra la Tabla*/
         #region Mostrar
-        
+
         [AuthorizeUser(pAccion: 13)]
         public ActionResult Index()
         {
@@ -55,10 +59,11 @@ namespace SICOAdmin1._0.Controllers
         /*---------------------------------------------------------------*/
         /*-------------------Procedimiento SP_P_AgregarPerfil------------*/
         /*---------------------------------------------------------------*/
+        [AuthorizeUser(pAccion: 11)]
         [HttpPost]
         public ActionResult Nuevo(PerfilViewModel model)
         {
-           
+
             int Response = -3;
             ObjectParameter resultSP = new ObjectParameter("resultado", -3);
             TempData.Clear();
@@ -105,18 +110,18 @@ namespace SICOAdmin1._0.Controllers
             List<SP_P_UsuariosDelPerfil_Result> lstUsuariosPerfil = new List<SP_P_UsuariosDelPerfil_Result>();
             PerfilViewModel model = new PerfilViewModel();
             List<f_opcionesUsuariosPerfil_Result> opcUsuario = null;
-            
+
 
 
             using (SICOAdminEntities db = new SICOAdminEntities())
             {
-                var oPerfil = db.PERFIL.Find(Id); //buscar perfil
+                var oPerfil = db.PERFILs.Find(Id); //buscar perfil
                 model.IdPerfil = oPerfil.IdPerfil;
                 model.Nombre = oPerfil.Nombre;
                 model.Descripcion = oPerfil.Descripcion;
                 model.Activo = oPerfil.Activo;
 
-                lstUsuariosPerfil = db.SP_P_UsuariosDelPerfil(Id).ToList();
+                lstUsuariosPerfil = db.SP_P_UsuariosDelPerfil(Id, PagActual, DEFAULT_NUMBER_PAGE, "", totalPag).ToList();
                 opcUsuario = db.f_opcionesUsuariosPerfil(Id).ToList();
             }
 
@@ -137,8 +142,12 @@ namespace SICOAdmin1._0.Controllers
 
             ViewBag.lstUsuariosPerfil = lstUsuariosPerfil;
 
+            ViewBag.PagActual = PagActual + 1;
+            ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
+
             return View(model);
         }
+        [AuthorizeUser(pAccion: 12)]
         [HttpPost]
         public ActionResult Editar(PerfilViewModel model)
         {
@@ -173,6 +182,7 @@ namespace SICOAdmin1._0.Controllers
         #endregion
 
         /*Activa o inactiva el estado del perfil*/
+        [AuthorizeUser(pAccion: 12)]
         #region EstadoPerfil
         public ActionResult ModificarEstadoPerfil(int Id)
         {
@@ -198,13 +208,45 @@ namespace SICOAdmin1._0.Controllers
         /*Agrega los Usuarios a los Perfiles, y muestra que Usuarios que pertenece a cada Perfil*/
         #region PerfilUsuario
         /*----------------------Procedimiento SP_C_MostrarUsuarioPerfil---------*/
-        public PartialViewResult _UsuariosPerfil(int id)//int id
+        public PartialViewResult _UsuariosPerfil(Pagina obj)//int id
         {
             List<SP_P_UsuariosDelPerfil_Result> lstUsuariosPerfil = new List<SP_P_UsuariosDelPerfil_Result>();
-            using (SICOAdminEntities db = new SICOAdminEntities())
+
+
+            obj.CantRegistros = obj.CantRegistros == 1 ? DEFAULT_NUMBER_PAGE : obj.CantRegistros;
+            //Si no busca viene nulo
+            if (obj.palabraBuscar == null) obj.palabraBuscar = "";
+
+            // Validacion si el usuario esta buscado o solo pasando de pagina
+            if (obj.accion.Equals('S')) obj.NumPagina += 1; //Enviar al SP
+            else if (obj.accion.Equals('N')) obj.NumPagina -= 1;
+
+            // Restricciones para que no busque paginas que no existe
+            if (obj.NumPagina > obj.totalPaginas - 1) obj.NumPagina = Convert.ToInt32(totalPag.Value);
+            else if (obj.NumPagina < 0) obj.NumPagina = 0;
+
+
+
+            try
             {
-                lstUsuariosPerfil = db.SP_P_UsuariosDelPerfil(id).ToList();
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    lstUsuariosPerfil = db.SP_P_UsuariosDelPerfil(int.Parse(obj.Usuario), obj.NumPagina, obj.CantRegistros, obj.palabraBuscar, totalPag).ToList();
+                }
             }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+
+            }
+
+
+            ViewBag.palabraBuscar = obj.palabraBuscar;
+            ViewBag.CantRegistros = obj.CantRegistros;
+
+            ViewBag.PagActual = obj.NumPagina + 1;
+            ViewBag.totalPag = totalPag;//Total de veces que puede tocar el btn
             return PartialView("_UsuariosPerfil", lstUsuariosPerfil);
         }
         /*----------------------Meuestra Opciones de Usuario---------*/
@@ -230,17 +272,20 @@ namespace SICOAdmin1._0.Controllers
             return PartialView("_SelectOpcUser", ddlUsuarios);
         }
         /*----------------------Agrega un Usuario a Perfil---------*/
+        [AuthorizeUser(pAccion: 34)]
         [HttpPost]
         public JsonResult agregarUsuarioPerfil(UsuarioPerfil obj)//
         {
             int resp = 0;
-            using (var db = new SICOAdminEntities()){
+            using (var db = new SICOAdminEntities())
+            {
                 resp = db.SP_P_CrearUsuarioPerfil(obj.Usuario, obj.IdPerfil, ((User)Session["User"]).userName);
             }
 
             return Json(resp, JsonRequestBehavior.AllowGet);
         }
         /*----------------------Elimina un Usuario a Perfil---------*/
+        [AuthorizeUser(pAccion: 35)]
         [HttpPost]
         public JsonResult eliminarUsuarioPerfil(UsuarioPerfil obj)//
         {
@@ -318,7 +363,7 @@ namespace SICOAdmin1._0.Controllers
                         arbol.check = checkedIds.Contains(arbol.IdAccion);
                         if (arbol.check == true)
                         {
-                            idCheck += arbol.IdAccion.ToString()+",";
+                            idCheck += arbol.IdAccion.ToString() + ",";
                             //context.SP_P_GuardarCheck(arbol.IdAccion, idPerfil, UsuCreacion);
 
                         }
@@ -333,7 +378,8 @@ namespace SICOAdmin1._0.Controllers
                 seLogro = true;
 
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Console.WriteLine(e.Message);
             }
 
@@ -360,24 +406,24 @@ namespace SICOAdmin1._0.Controllers
                 model.UsuarioModificacion = perf.UsuarioModificacion;
                 model.FechaModificacion = (DateTime)perf.FechaModificacion;
 
-                
+
             }
 
             DateTime a = (DateTime)model.FechaModificacion;
 
             var objP = new
             {
-               model.UsuarioCreacion,
-               FechaCreacion = model.FechaCreacion.ToString("dd / MM / yyyy H: mm:ss"),
-               model.UsuarioModificacion,
-               FechaModificacion = a.ToString("dd / MM / yyyy H: mm:ss"),
+                model.UsuarioCreacion,
+                FechaCreacion = model.FechaCreacion.ToString("dd / MM / yyyy H: mm:ss"),
+                model.UsuarioModificacion,
+                FechaModificacion = a.ToString("dd / MM / yyyy H: mm:ss"),
 
-             };
+            };
 
-                return Json(objP, JsonRequestBehavior.AllowGet);
+            return Json(objP, JsonRequestBehavior.AllowGet);
         }
 
     }
 
-        #endregion
+    #endregion
 }

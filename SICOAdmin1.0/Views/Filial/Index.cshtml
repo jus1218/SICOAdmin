@@ -1,6 +1,10 @@
 ﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarFilial_Result>
 @{
-
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
 
 }
 <div class="container margin-container p-4 glass" id="renderBody">
@@ -12,12 +16,14 @@
 
         <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12"><h3 class="d-flex justify-content-center">Filial</h3></div>
 
-        <button type="button"
-                class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12"
-                id="viewCreatePage">
-            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-            Agregar
-        </button>
+        @if (lstActions.Contains(49)) {
+            <button type="button"
+                    class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12"
+                    id="viewCreatePage">
+                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+                Agregar
+            </button>
+        }
 
 
         <!--Barra busqueda-->

@@ -1,4 +1,5 @@
-﻿using SICOAdmin1._0.Models;
+﻿using SICOAdmin1._0.Filters;
+using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.User;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,11 @@ namespace SICOAdmin1._0.Controllers
         //VARIABLES DE PAGINACION
         ObjectParameter totalPag = new ObjectParameter("totalPag", 0);
         int PagActual = 0;
-        const int DEFAULT_NUMBER_PAGE = 1;
+        const int DEFAULT_NUMBER_PAGE = 10;
 
         // GET: Proveedor
         // ================================================= VISTAS =================================================
+        [AuthorizeUser(pAccion: 59)]
         public ActionResult Index()
         {
            
@@ -54,7 +56,7 @@ namespace SICOAdmin1._0.Controllers
         }
         // =============================================== FUNTIONS =================================================
 
-
+        
         public List<SelectListItem> ObtenerTipoProveedores() {
             List<SP_C_MostrarTiposProveedores_Result> lstTipoProveedor = null;
             List<SelectListItem> ddlTiposProveedores = null;
@@ -83,6 +85,7 @@ namespace SICOAdmin1._0.Controllers
         }
 
         // ============================================= RETURN JSON ================================================
+        [AuthorizeUser(pAccion: 57)]
         [HttpPost]
         public JsonResult CrearProveedor(PROVEEDOR obj)//
         {
@@ -186,13 +189,25 @@ namespace SICOAdmin1._0.Controllers
             return PartialView("_TableProveedor", lstProveedores);
         }
 
-
+        [AuthorizeUser(pAccion: 57)]
         public PartialViewResult _AgregarProveedor(){
 
-            ViewBag.lstTipoProveedor = ObtenerTipoProveedores();
+
+            List<int?> lstActions = (List<int?>)HttpContext.Session["lstActions"];
+
+            // Verificar si la acción actual está en la lista de acciones permitidas
+            if (lstActions != null && lstActions.Contains(57))
+            {
+                ViewBag.lstTipoProveedor = ObtenerTipoProveedores();
+                return PartialView("_AgregarProveedor");
+            }
 
 
-            return PartialView("_AgregarProveedor");
+
+            //ViewBag.lstTipoProveedor = ObtenerTipoProveedores();
+
+
+            return PartialView("_TableProveedor");
         }
         public PartialViewResult _DetalleProveedor(string id)
         {
@@ -219,6 +234,7 @@ namespace SICOAdmin1._0.Controllers
 
             return PartialView("_DetalleProveedor", objProveedor);
         }
+        [AuthorizeUser(pAccion: 58)]
         public PartialViewResult _EditarProveedorPage(string id)
         {
             SP_C_BuscarProveedor_Result objConcept = null;
@@ -241,7 +257,7 @@ namespace SICOAdmin1._0.Controllers
             ViewBag.lstTipoProveedor = ObtenerTipoProveedores();
             return PartialView("_EditarProveedor", objConcept);
         }
-
+        [AuthorizeUser(pAccion: 58)]
         public JsonResult EditarProveedor(PROVEEDOR obj)
         {
 
@@ -270,7 +286,7 @@ namespace SICOAdmin1._0.Controllers
         }
 
 
-
+        [AuthorizeUser(pAccion: 58)]
         public JsonResult ChangeState(int id)
         {
             ObjectParameter seModifico = new ObjectParameter("seModifico", 0);

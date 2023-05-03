@@ -5,6 +5,16 @@
 @{ //int horaR = 0;
 
     int i = 0;
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+
+    bool puedeEditar = false;
+
+    if (lstActions.Contains(80)) { puedeEditar = true; }
 }
 
 
@@ -49,20 +59,14 @@
                     @if (@concept.Fijo)
                     {
                         <td>SI</td>
-                    } else{
+                    } else {
                         <td>NO</td>
                     }
 
-
-
-                    @*
-                        data-toggle="modal" data-target="#editCtrlAsistencia"
-                        data-toggle="modal" data-target="#viewMore"
-                    *@
-
                     <td>
-                        <button class="btn btn-warning" name="showEditModel" data-id="@concept.IdConcepto"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
-
+                        @if(puedeEditar){
+                            <button class="btn btn-warning" name="showEditModel" data-id="@concept.IdConcepto"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
+                        }
                         <button class="btn btn-primary" name="showMore" data-id="@concept.IdConcepto">
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
                         </button>

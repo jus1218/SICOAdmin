@@ -28,35 +28,35 @@
             @Html.HiddenFor(d => d.IdPerfil)//Se va en la peticion
             @Html.HiddenFor(d => d.Nombre)//S e va el nombre en la peticion
 
-        <div class="col-12 d-xl-flex d-md-flex justify-content-between">
-            <!--Nombre perfil-->
-            <div class="col-xl-3 col-md-3 col-sm-12 me-4">
-                @Html.LabelFor(d => d.IdPerfil)
-                @Html.TextBoxFor(d => d.IdPerfil, new { @class = "form-control", id = "idPerfil", @disabled = true })
-                @Html.ValidationMessage("IdPerfil", null, new { @class = "text-danger" })
-            </div>
-            <!--Nombre perfil-->
-            <div class="col-xl-3 col-md-3 col-sm-12 me-4">
-                @Html.LabelFor(d => d.Nombre)
-                @Html.TextBoxFor(d => d.Nombre, new { @class = "form-control", required = "required", HtmlAttributes = new { Type = "text" } })
-                @Html.ValidationMessage("Nombre", null, new { @class = "text-danger" })
-            </div>
+            <div class="col-12 d-xl-flex d-md-flex justify-content-between">
+                <!--Nombre perfil-->
+                <div class="col-xl-3 col-md-3 col-sm-12 me-4">
+                    @Html.LabelFor(d => d.IdPerfil)
+                    @Html.TextBoxFor(d => d.IdPerfil, new { @class = "form-control", id = "idPerfil", @disabled = true })
+                    @Html.ValidationMessage("IdPerfil", null, new { @class = "text-danger" })
+                </div>
+                <!--Nombre perfil-->
+                <div class="col-xl-3 col-md-3 col-sm-12 me-4">
+                    @Html.LabelFor(d => d.Nombre)
+                    @Html.TextBoxFor(d => d.Nombre, new { @class = "form-control", required = "required", id = "Nombres", HtmlAttributes = new { Type = "text" } })
+                    @Html.ValidationMessage("Nombre", null, new { @class = "text-danger" })
+                </div>
 
-            <!--Decripcion perfil-->
-            <div class="col-xl-3 col-md-3 col-sm-12 me-4">
+                <!--Decripcion perfil-->
+                <div class="col-xl-3 col-md-3 col-sm-12 me-4">
 
-                @Html.LabelFor(d => d.Descripcion)
-                @Html.TextBoxFor(d => d.Descripcion, new { @class = "form-control", id = "Descripccion" })
-                @Html.ValidationMessage("Descripcion", null, new { @class = "text-danger" })
-            </div>
-            <!--Decripcion perfil-->
-            <div class="col-xl-3 col-md-3 col-sm-12 me-4">
-                @Html.LabelFor(d => d.Activo)<br />
-                @Html.CheckBoxFor(d => d.Activo, new { @class = "form-control ", id = "Activo" })
-                @Html.ValidationMessage("Activo", null, new { @class = "text-danger" })
-            </div>
+                    @Html.LabelFor(d => d.Descripcion)
+                    @Html.TextBoxFor(d => d.Descripcion, new { @class = "form-control", id = "Descripccion" })
+                    @Html.ValidationMessage("Descripcion", null, new { @class = "text-danger" })
+                </div>
+                <!--Decripcion perfil-->
+                <div class="col-xl-3 col-md-3 col-sm-12 me-4">
+                    @Html.LabelFor(d => d.Activo)<br />
+                    @Html.CheckBoxFor(d => d.Activo, new { @class = "form-control ", id = "Activo" })
+                    @Html.ValidationMessage("Activo", null, new { @class = "text-danger" })
+                </div>
 
-        </div>
+            </div>
             <!--BOTONES-->
             <div class="col mt-4 d-flex justify-content-center mb-2">
                 @*<input class="btn btn-primary me-2" type="submit" value="Guardar" />*@
@@ -91,34 +91,101 @@
 
             <!--VISTA 1-->
             <div class="tab-pane fade show active" id="usuarios" role="tabpanel" aria-labelledby="home-tab">
-                <!--AGREGAR-->
-                <div class="col-md-4 mt-2" style="z-index:1">
-                    <div class="form-group d-flex justify-content-center" id="selectUsers">
-                        @Html.Partial("_SelectOpcUser", lstUser)
-                    </div>
+                @if (@lstActions.Contains(34))
+                {
 
-                    <div class="row mt-4 d-flex justify-content-center">
-                        <div class="col-xl-6 col-md-6   col-sm-4 mb-3 mt-2">
-                            @*<input type="button"
-                                id="btnAgregarPerfil"
-                                value="Agregar"
-                                class="btn btn-success col-12" />*@
+                    <div class="row">
+                        <!--AGREGAR-->
+                        <div class="col-md-3 col-sm-12 mt-2" style="z-index:1">
+                            <div class="form-group" id="selectUsers">
+                                @Html.Partial("_SelectOpcUser", lstUser)
+                            </div>
 
-                            <button id="btnAgregarPerfil" type="button" class="btn btn-primary col-12">
-                                <i class="fa fa-plus mr-1" aria-hidden="true"></i>
-                                Agregar
-                            </button>
+                            <div class="row mt-4 d-flex justify-content-center">
+                                <div class="col-xl-6 col-md-6   col-sm-4 mb-3 mt-2">
+                                    @*<input type="button"
+                            id="btnAgregarPerfil"
+                            value="Agregar"
+                            class="btn btn-success col-12" />*@
 
+                                    <button id="btnAgregarPerfil" type="button" class="btn btn-primary col-12">
+                                        <i class="fa fa-plus mr-1" aria-hidden="true"></i>
+                                        Agregar
+                                    </button>
+
+
+                                </div>
+
+
+                            </div>
 
                         </div>
+
+
+                        <div class="col ">
+                            <div class="row m-1 ">
+
+                                <div class="d-flex w-100 justify-content-between">
+
+                                    <h2 class="col ps-4">Usuarios del perfil</h2>
+                                    <!--Barra busqueda-->
+                                    <div class="col input-group ">
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Buscar..."
+                                               aria-label="Buscar..."
+                                               aria-describedby="button-search"
+                                               id="buscar" value="@ViewBag.palabraBuscar" />
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="row pl-3">
+                                <select class="col-md-1 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamanoPagina">
+                                    @if (@ViewBag.CantRegistros == null)
+                                    {
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+
+                                    }
+                                    else if (@ViewBag.CantRegistros == 2)
+                                    {
+                                        <option value="2" selected>2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+
+                                    }
+                                    else if (@ViewBag.CantRegistros == 3)
+                                    {
+                                        <option value="2">2</option>
+                                        <option value="3" selected>3</option>
+                                        <option value="4">4</option>
+                                    }
+                                    else if (@ViewBag.CantRegistros == 5)
+                                    {
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4" selected>4</option>
+                                    }
+                                </select>
+                            </div>
+
+
+                            <!--TABLE USUARIOS DEL PERFIL-->
+                            <div class="row p-3" id="tableUser">
+                                @Html.Partial("_UsuariosPerfil", (List<SICOAdmin1._0.Models.SP_P_UsuariosDelPerfil_Result>)ViewBag.lstUsuariosPerfil)
+                            </div>
+                        </div>
+
+
                     </div>
-                </div>
 
-                <!--TABLE USUARIOS DEL PERFIL-->
-                <div class="col p-3" id="tableUser">
-                    @Html.Partial("_UsuariosPerfil", (List<SICOAdmin1._0.Models.SP_P_UsuariosDelPerfil_Result>)ViewBag.lstUsuariosPerfil)
-                </div>
-
+                }
             </div>
             <!--VISTA 2-->
             @if (@lstActions.Contains(32))
@@ -180,8 +247,73 @@
         var url = "@Url.Content("~/Perfil/agregarUsuarioPerfil")";
         var urlDeleteUserProfile = "@Url.Content("~/Perfil/eliminarUsuarioPerfil")";
         let btnAgregarPerfil = document.getElementById("btnAgregarPerfil");
+        const $renderBody = document.getElementById("renderBody");
+        const d = document;
 
 
+        $renderBody.addEventListener("click", (e) => {
+            let page = e.target.dataset.value || "";
+
+           if (e.target.name === "nextPage") {
+               siguientePagina({
+                    idRelacion: idPerfil,
+                    sig: page,
+                    totalPage: document.getElementById("totalPag").textContent,
+                    CantRegistros: document.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/Perfil/_UsuariosPerfil")",//'../_UsuariosPerfil'
+                    container: "tableUser",
+                    palabraBuscar: document.getElementById("buscar").value.toLowerCase()
+                })
+                return false;
+            }
+            else if (e.target.name === "previousPage") {
+               retrocederPagina({
+                    idRelacion: idPerfil,
+                    ant: page,
+                    totalPage: document.getElementById("totalPag").textContent,
+                    tamanoPagina: document.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/Perfil/_UsuariosPerfil")",
+                    container: "tableUser",
+                    palabraBuscar: document.getElementById("buscar").value.toLowerCase()
+               })
+            }
+        });
+
+                // CHANGE
+        $renderBody.addEventListener("change", (e) => {
+            if (e.target.id === "tamanoPagina") {
+
+                cambioTamanoPagina({
+                    idRelacion: idPerfil,
+                    totalPage: d.getElementById("totalPag").textContent,
+                    tamanoPagina: e.target.value,
+                    url: "@Url.Content("~/Perfil/_UsuariosPerfil")",
+                    container: "tableUser",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: (d.getElementById("pagActual").textContent - 1)
+                });
+                return false;
+            }
+        });
+
+
+
+
+                //KEY_UP
+        $renderBody.addEventListener("keyup", (e) => {
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+                //console.log(palabraBuscar.toLowerCase());
+                buscarPalabra({
+                    idRelacion: idPerfil,
+                    url: "@Url.Content("~/Perfil/_UsuariosPerfil")",
+                    container: "tableUser",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+        })
         //btnAgregarPerfil.addEventListener("click", (e) => {
 
         //    console.log("papasito");
@@ -189,7 +321,7 @@
 
         $(document).ready(function () {
             //BUSCAR USUARIOS DEL PERFIL RELACIONADO
-            $("#userss").dataTable();
+            //$("#userss").dataTable();
 
             $("#btnAgregarPerfil").click(() => {
                 console.log("Entro");
@@ -209,7 +341,7 @@
                     .then(res => res.ok ? res.json() : null)
                     .then(res => {
                         if (res == 1) {
-                            cargarComponent();
+                            cargarComponenteLocal();
                             swal('Bien!',
                                 'Se ha agregado!',
                                 'success')
@@ -222,15 +354,30 @@
                     })
 
             })
-        })
+        });
 
-        function cargarComponent() {
+        function cargarComponenteLocal() {
             //recarga tabla usuarios
-            $("#tableUser").load("../_UsuariosPerfil?id=" + idPerfil, function (res) {
-                $("#tableUser").html(res);
-                //BUSCAR USUARIOS DEL PERFIL RELACIONADO
-                $("#userss").dataTable();
-            })
+            //$("#tableUser").load("../_UsuariosPerfil?id=" + idPerfil, function (res) {
+            //    $("#tableUser").html(res);
+            //    //BUSCAR USUARIOS DEL PERFIL RELACIONADO
+            //    $("#userss").dataTable();
+            //})
+
+            cargarComponent({
+                container: 'tableUser',
+                url: '../_UsuariosPerfil',
+                body: {
+                    Usuario: idPerfil,
+                    palabraBuscar: document.getElementById("buscar").value.toLowerCase(),
+                    NumPagina: Number(document.getElementById("pagActual").textContent) - 1,
+                    CantRegistros: document.getElementById("tamanoPagina").value,
+                    totalPaginas: document.getElementById("totalPag").textContent
+                }
+            });
+
+
+
             //recarga dropDownList
             $("#selectUsers").load("../_SelectOpcUser?id=" + idPerfil, function (res) {
                 $("#selectUsers").html(res);
@@ -265,7 +412,7 @@
                 .then(res => res.ok ? res.json() : null)
                 .then(res => {
                     if (res == 1) {
-                        cargarComponent();
+                        cargarComponenteLocal();
                         swal('Bien!',
                             'Se ha eliminado!',
                             'success')
@@ -286,7 +433,7 @@
     </script>
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     @* FUNCION TREE VIEW *@
-    <script >
+    <script>
         console.log("Hola mundo");
         const idPerfil2 = document.getElementById("idPerfil").value;
         $(document).ready(function () {
@@ -301,7 +448,7 @@
                 $.ajax({ url: '/Perfil/SaveCheckedNodes', data: { checkedIds: checkedIds, idPerfil: idPerfil2 }, method: 'POST' })
                     .then(res => {
                         if (res == 1) {
-                            cargarComponent();
+                            cargarComponenteLocal();
                             swal('Bien!',
                                 'Se ha guardado los cambios correctamente!',
                                 'success')

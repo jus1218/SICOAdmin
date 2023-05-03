@@ -7,6 +7,16 @@
     if (Model.ToList().Count() > 0) {
         flag = true;
     }
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    bool puedeModificar = false;
+
+    if (lstActions.Contains(54)) { puedeModificar = true; }
 }
 
 <table id="tbFilialPerson" class="table table-bordered text-center">
@@ -63,24 +73,27 @@
                     <td>
 
                         <div class="row ml-2 mr-2">
+
+                            @if (puedeModificar) { 
                             <button data-toggle="modal" data-target="#updateFPModal" class="btn btn-warning col" onclick="jsMostrarDatosFP(@FP.Indentification)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                            }
                             <button id="btnBitacora" onclick="jsmostrarBitacora('@FP.Indentification')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
 
 
                         </div>
+                         @if (puedeModificar) { 
+                            <div class="row ml-2 mr-2">
 
-                        <div class="row ml-2 mr-2">
-
-                            @if (FP.Activo)
-                            {
-                                <button id="btnDesactivar" class="btn btn-danger col" onclick="jsModificarEstado('@FP.Indentification', 'Activ')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
-                            }
-                            else
-                            {
-                                <button id="btnActivar" class="btn btn-success col" onclick="jsModificarEstado('@FP.Indentification', 'Activ')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
-                            }
-                        </div>
-
+                                @if (FP.Activo)
+                                {
+                                    <button id="btnDesactivar" class="btn btn-danger col" onclick="jsModificarEstado('@FP.Indentification', 'Activ')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
+                                }
+                                else
+                                {
+                                    <button id="btnActivar" class="btn btn-success col" onclick="jsModificarEstado('@FP.Indentification', 'Activ')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
+                                }
+                            </div>
+                          }
 
                     </td>
                 </tr>

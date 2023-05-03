@@ -3,6 +3,15 @@
 
 
 @{
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    bool puedeModificar = false;
+
+    if (lstActions.Contains(10)) { puedeModificar = true; }
 
 }
 
@@ -39,8 +48,12 @@
                     }
 
                     <td>
-                        <button data-toggle="modal" data-target="#editTypeActionPers" type="button" class="btn btn-warning" onclick="showDataTypeAction('@t.IdTypeActionPers');"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
+                        @if (puedeModificar)
+                        { 
+                        
+                            <button data-toggle="modal" data-target="#editTypeActionPers" type="button" class="btn btn-warning" onclick="showDataTypeAction('@t.IdTypeActionPers');"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
 
+                        }
                         <button data-toggle="modal" data-target="#ModalBitacora" class="btn btn-primary" onclick="viewMoreTypeAction('@t.IdTypeActionPers');"><i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles</button>
 
                     </td>

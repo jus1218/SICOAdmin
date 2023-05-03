@@ -4,6 +4,12 @@
     ViewBag.Title = "Control Aistencia";
     var lstControlAsist = (List<SICOAdmin1._0.Models.ControlAsistencia>)TempData["lstControlAsist"];
     var lstColaboradores = (List<SelectListItem>)TempData["lstColaboradores"];
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
 }
 
 @section styles{
@@ -18,10 +24,10 @@
 }
 @**@
 <div class="container margin-container p-4 glass">
-    /
+    
 
 
-    <div class="row fila">
+    <div class="row justify-content-between fila">
 
         <!--BOTON-->
 
@@ -31,11 +37,12 @@
         <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12"><h3 class="d-flex justify-content-center">Control Asistencia</h3></div>
 
 
-
-        <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 " data-toggle="modal" data-target="#agregarCtrlAsistencia">
-            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-            Agregar
-        </button>
+        @if (lstActions.Contains(23)) { 
+            <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 " data-toggle="modal" data-target="#agregarCtrlAsistencia">
+                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+                Agregar
+            </button>
+        }
 
 
         <!--Barra busqueda-->

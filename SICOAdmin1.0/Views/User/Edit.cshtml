@@ -226,7 +226,7 @@
         //numPagePerfUser
    
 
-        function cargarComponent() {
+        function cargarComponenteLocal() {
             //recarga tabla usuarios
             $("#tableProfile").load("_PerfilesUsuario", {
                 Usuario: idUser,
@@ -367,7 +367,7 @@
                     .then(res => res.ok ? res.json() : null)
                     .then(res => {
                         if (res == 1) {
-                            cargarComponent();
+                            cargarComponenteLocal();
 
                             swal('Bien!',
                                 'Se ha agregado!',
@@ -412,7 +412,7 @@
                 .then(res => res.ok ? res.json() : null)
                 .then(res => {
                     if (res == 1) {
-                        cargarComponent();
+                        cargarComponenteLocal();
                         swal('Bien!',
                             'Se ha eliminado!',
                             'success')

@@ -1,20 +1,25 @@
 ﻿@model List<SICOAdmin1._0.Models.SP_P_UsuariosDelPerfil_Result>
 
-<div class="row">
-    <h4 class="col ps-4">Usuarios del perfil</h4>
-    @*<div class="input-group col">
-        <input type="text"
-               class="form-control"
-               placeholder="Buscar..."
-               aria-label="Buscar..."
-               aria-describedby="button-addon2"
-               id="buscarPerfil" />
 
-    </div>*@
-</div>
+
+
+@{ //int horaR = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    int i = 0;
+
+}
+
+
 <!--TABLE-->
-<div class="row">
-    <div class="col ms-3 scrol-tablex pt-2">
+<div class="col">
+
+    <div class="row ms-3 scrol-tablex pt-2">
         <table id="userss" class="table table-hover">
             <thead>
                 <tr>
@@ -26,6 +31,7 @@
             <tbody id="contentTable">
                 @foreach (var user in Model)
                 {
+                    i++;
                     <tr>
                         <td>
                             @user.Usuario
@@ -34,24 +40,56 @@
                             @user.Nombre
                         </td>
                         <td>
-                            <button onclick="document.location.href = '@Url.Action("Edit","User",new { userName = user.Usuario })'" type="button" class="btn btn-warning">
+                            @if (lstActions.Contains(9)) {
+                            <button onclick="document.location.href = '@Url.Action("Edit", "User", new { userName = user.Usuario })'" type="button" class="btn btn-warning">
                                 <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
                                 Editar
                             </button>
+                            }
 
                             @*<input onclick="js(@user.Usuario);" type="button" value="Eliminar" class="btn btn-danger" data-toggle="modal" data-target="#modalEliminar" id="eliminarU" />*@
-                            <button type="button" onclick="asignar('@user.Usuario')" class="btn btn-danger" >Eliminar</button>
-                            @*<input onclick="document.location.href= '@Url.Content("~/Perfil/eliminarUsuarioPerfil/" + user)'" type="button" value="Eliminar" class="btn btn-danger" data-toggle="modal" data-target="#modalEliminar" />*@
+                            @if (lstActions.Contains(35))
+                            {
+                                <button type="button" onclick="asignar('@user.Usuario')" class="btn btn-danger">Eliminar</button>
+                            }
+                                @*<input onclick="document.location.href= '@Url.Content("~/Perfil/eliminarUsuarioPerfil/" + user)'" type="button" value="Eliminar" class="btn btn-danger" data-toggle="modal" data-target="#modalEliminar" />*@
 
-                        </td>
+                            </td>
                     </tr>
                 }
 
             </tbody>
         </table>
     </div>
-</div>
-<script>
 
-   
-</script>
+    <div class="row ">
+        <div class="col-4 pr-0 ">
+            <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+            <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+        </div>
+
+        <div class="col mr-0">
+
+
+
+            @if (@ViewBag.PagActual > 1)
+            {
+                <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+            }
+            @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+            {
+                <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+            }
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+

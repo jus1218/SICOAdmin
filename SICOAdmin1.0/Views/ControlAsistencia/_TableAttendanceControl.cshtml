@@ -4,6 +4,15 @@
 @{ //int horaR = 0;
 
     int i = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    bool puedeModificar = false;
+    if (lstActions.Contains(24)) { puedeModificar = true; }
 }
 
 
@@ -43,8 +52,9 @@
                     *@
 
                     <td>
+                        @if (puedeModificar) {
                         <button class="btn btn-warning" onclick="llamarModalModCtrlAsist('@ctrlAsistencia.IdAsistencia');"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
-
+                        }
                         <button class="btn btn-primary"  onclick="viewMore('@ctrlAsistencia.IdAsistencia');" ><i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles</button>
                     </td>
 

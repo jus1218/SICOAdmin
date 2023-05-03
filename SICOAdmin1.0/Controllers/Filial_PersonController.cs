@@ -7,6 +7,7 @@ using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.Filial_Persona;
 using System.Data.Entity.Core.Objects;
 using SICOAdmin1._0.Models.User;
+using SICOAdmin1._0.Filters;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -21,6 +22,7 @@ namespace SICOAdmin1._0.Controllers
         const int DEFAULT_NUMBER_PAGE = 1;
 
         // GET: Filial_Persons
+        [AuthorizeUser(pAccion: 55)]
         public ActionResult Index()
         {
             List<SP_C_MostrarFiliales_Result> lstfilialesDB = null;
@@ -59,6 +61,7 @@ namespace SICOAdmin1._0.Controllers
         }
 
         // GET: Filial_Person/Create
+        [AuthorizeUser(pAccion: 53)]
         public ActionResult AddFilialPerson()
         {
             List<SP_C_MostrarFiliales_Result> lstfilialesDB = null;
@@ -88,6 +91,7 @@ namespace SICOAdmin1._0.Controllers
 
         // POST: Filial_Person/Create
         [HttpPost]
+        [AuthorizeUser(pAccion: 53)]
         public ActionResult AddFilialPerson(Filial_Person modelFP)
         {
             ObjectParameter resultado = new ObjectParameter("resultado", false);
@@ -128,6 +132,7 @@ namespace SICOAdmin1._0.Controllers
         }
 
         // POST: Filial_Person/Edit/5
+        [AuthorizeUser(pAccion: 54)]
         [HttpPost]
         public ActionResult UpdateFilialPerson(Filial_Person oFP)
         {
@@ -182,6 +187,7 @@ namespace SICOAdmin1._0.Controllers
             return Json(objU, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeUser(pAccion: 54)]
         public JsonResult ActivFilialPerson(string pIdentification)
         {
             ObjectParameter resultado = new ObjectParameter("resultado", false);

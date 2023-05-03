@@ -10,6 +10,19 @@
     {
         flag = true;
     }
+
+
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+
+    bool puedeModificar = false;
+    if (lstActions.Contains(76)) { puedeModificar = true; }
+
 }
 
 <table id="tbClient" class="table table-bordered text-center table-sortable">
@@ -81,7 +94,9 @@
                     <td>
 
                         <div class="row ml-2 mr-2">
-                            <button id="btnUpClient" data-toggle="modal" data-target="#updateModalClient" class="btn btn-warning col" onclick="jsGetDataClient(@c.Identificacion)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                            @if(puedeModificar){
+                                <button id="btnUpClient" data-toggle="modal" data-target="#updateModalClient" class="btn btn-warning col" onclick="jsGetDataClient(@c.Identificacion)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                            }
                             <button id="btnBitacora" onclick="jsmostrarBitacora('@c.Identificacion')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
                         </div>
                         <div class="row ml-2 mr-2">

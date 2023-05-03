@@ -162,7 +162,7 @@ namespace SICOAdmin1._0.Controllers
             }
         }
 
-
+        [AuthorizeUser(pAccion: 18)]
         public JsonResult ModificarEstado(int idCons)
         {
             int Response = -3;

@@ -3,6 +3,16 @@
 @{ //int horaR = 0;
 
     int i = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    bool puedeModificar = false;
+
+    if (lstActions.Contains(50)) { puedeModificar = true; }
 }
 
 
@@ -11,7 +21,10 @@
         <tr>
             <th scope="col" class="th"># Id</th>
             <th scope="col" class="th">Descripción</th>
+            @if (lstActions.Contains(50)) {
             <th scope="col" class="th">Estado</th>
+            }
+            <th scope="col" class="th">Acciones</th>
         </tr>
     </thead>
     <tbody style="text-align:center;">
@@ -24,37 +37,42 @@
         <tr>
             <td>@filial.IdFilial</td>
             <td>@filial.Descripcion</td>
-              @if (filial.Estado == "1")
-              {
-                  <td>
-                      <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" checked name="stateFilial" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
-                          <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
-                      </div>
-                  </td>
-              }
-              else
-              {
-                 
-                  <td>
-                      <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" name="stateFilial" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
-                          <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
-                      </div>
-                  </td>
-              }
+
+
+            @if (puedeModificar) {
+                if (filial.Estado == "1")
+                {
+                    <td>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" checked name="stateFilial" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
+                            <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
+                        </div>
+                    </td>
+                }
+                else
+                {
+
+                    <td>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" name="stateFilial" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
+                            <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
+                        </div>
+                    </td>
+                }
+            }
 
             <td>
-                <button type="button"
-                        class="btn btn-warning"
-                        id="showEditModel"
-                        data-id="@filial.IdFilial">
-                    <i class="fa fa-pencil mr-2"
-                       aria-hidden="true"></i>Editar
-                </button>
+                @if (puedeModificar) { 
+                    <button type="button"
+                            class="btn btn-warning"
+                            id="showEditModel"
+                            data-id="@filial.IdFilial">
+                        <i class="fa fa-pencil mr-2"
+                           aria-hidden="true"></i>Editar
+                    </button>
+                }
 
                 <button id="btnBitacora"
-                        
                         class="btn btn-primary"
                         name="showMore"
                         data-id="@filial.IdFilial">
@@ -63,9 +81,9 @@
                 </button>
             </td>
 
-        </tr>
-            }
-        }
+            </tr>
+                }
+           }
     </tbody>
 </table>
 
