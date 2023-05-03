@@ -1,18 +1,15 @@
 ﻿@model List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXP_Result>
 
-@{
-    List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result> lstDocuments_CXC = (List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result>)ViewBag.lstDocuments_CXC;
-    List<SelectListItem> lstProviders = (List<SelectListItem>)ViewBag.lstProviders;
-    List<SelectListItem> lstClients = (List<SelectListItem>)ViewBag.lstClients;
+@{ List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result> lstDocuments_CXC = (List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result>)ViewBag.lstDocuments_CXC;
+                List<SelectListItem> lstProviders = (List<SelectListItem>)ViewBag.lstProviders;
+                List<SelectListItem> lstClients = (List<SelectListItem>)ViewBag.lstClients;
 
 
-    List<int?> lstActions = (List<int?>)Session["lstActions"];
-    if (lstActions == null)
-    {
-        lstActions = new List<int?>();
-    }
-
-}
+                List<int?> lstActions = (List<int?>)Session["lstActions"];
+                if (lstActions == null)
+                {
+                    lstActions = new List<int?>();
+                } }
 
 <div class="row fila">
 
@@ -23,13 +20,13 @@
     </div>
 
 
-    @if (lstActions.Contains(70)){
-    <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 "
-            id="CreateDocument_CXP" name="CreateDocument_CXP">
-        <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
-        Agregar
-    </button>
-    }
+    @if (lstActions.Contains(70))
+    {
+<button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 "
+        id="create_deposito_cxc" name="CreateDocument_CXP">
+    <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+    Agregar
+</button>}
 
 
     <!--Barra busqueda-->

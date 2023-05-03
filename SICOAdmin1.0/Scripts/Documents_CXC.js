@@ -405,6 +405,7 @@ $renderBody.addEventListener("submit", (e) => {
         var idCliente = selectClientes.value;
         var verificaForm = true;
         let nuevoDoc;
+
         if (checkBox.checked) {
             DocumentoDebito = selectDocumetosDebito.value;
             DocumentoCredito = selectDocumetosCredito.value;

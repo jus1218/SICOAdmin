@@ -2,10 +2,13 @@
 
 @{
     int i = 0;
-    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    List<int?>
+        lstActions = (List<int?>
+            )Session["lstActions"];
     if (lstActions == null)
     {
-        lstActions = new List<int?>();
+        lstActions = new List<int?>
+            ();
     }
     bool puedeModificar = false;
     if (lstActions.Contains(21)) { puedeModificar = true; }
@@ -101,64 +104,64 @@
 
                 @if (@ViewBag.PagActual > 1)
                 {
-                    <tr>
-                        <td>@e.IdParameter</td>
-                        <td>@Convert.ToDecimal(@e.MonthlyPayment).ToString("C")</td>
-                        <td>@e.IdConsecRecibo</td>
-                        <td>@Convert.ToDecimal(@e.InterestBlackberry).ToString(".00") %</td>
-                        <td>@e.DocumentTypePayment</td>
-                        <td>@e.PaymentCondition.ToString("C")</td>
-                        @if (e.Status == "1")
-                        {
-                            <td>Activado</td>
-                        }
-                        else
-                        {
-                            <td>Desactivado</td>
-                        }
+    <tr>
+        <td>@e.IdParameter</td>
+        <td>@Convert.ToDecimal(@e.MonthlyPayment).ToString("C")</td>
+        <td>@e.IdConsecRecibo</td>
+        <td>@Convert.ToDecimal(@e.InterestBlackberry).ToString(".00") %</td>
+        <td>@e.DocumentTypePayment</td>
+        <td>@e.PaymentCondition.ToString("C")</td>
+        @if (e.Status == "1")
+        {
+        <td>Activado</td>
+        }
+        else
+        {
+        <td>Desactivado</td>
+        }
 
-                        @if (puedeModificar)
-                        {
+        @if (puedeModificar)
+        {
 
-                            <td>
-                                <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
-                                        class="btn btn-warning"
-                                        onclick="showData(@e.IdParameter)">
-                                    <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
-                                </button>
+        <td>
+            <button id="Editar" data-toggle="modal" data-target="#ModalUpdate" type="button" value="Editar"
+                    class="btn btn-warning"
+                    onclick="showData(@e.IdParameter)">
+                <i class="fa fa-pencil mr-1" aria-hidden="true"></i>Editar
+            </button>
 
-                                <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora"
-                                        type="button" onclick="jsShowLog(@e.IdParameter)">
-                                    <i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora
-                                </button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#ModalBitacora"
+                    type="button" onclick="jsShowLog(@e.IdParameter)">
+                <i class="fa fa-book mr-1" aria-hidden="true"></i>Bitacora
+            </button>
 
-                                @if (e.Status == "0")
-                                {
-                                    <button id="btnActivar" class="btn btn-success"
-                                            style="width: 35%;" type="button" onclick="jsChangeStatus(@e.IdParameter)">
-                                        <i class="fa fa-unlock mr-1" aria-hidden="true"></i>Activar
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button id="btnDes" class="btn btn-danger"
-                                            style="width: 35%;" onclick="jsChangeStatus(@e.IdParameter)">
-                                        <i class="fa fa-lock mr-1" aria-hidden="true"></i>Desactivar
-                                    </button>
-                                }
+            @if (e.Status == "0")
+            {
+            <button id="btnActivar" class="btn btn-success"
+                    style="width: 35%;" type="button" onclick="jsChangeStatus(@e.IdParameter)">
+                <i class="fa fa-unlock mr-1" aria-hidden="true"></i>Activar
+            </button>
+            }
+            else
+            {
+            <button id="btnDes" class="btn btn-danger"
+                    style="width: 35%;" onclick="jsChangeStatus(@e.IdParameter)">
+                <i class="fa fa-lock mr-1" aria-hidden="true"></i>Desactivar
+            </button>
+            }
 
-                            </td>
+        </td>
 
-                        }
-                    </tr>
-                }
-                @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
-                {
-                    <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+        }
+    </tr>
+    }
+    @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+    {
+    <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
 
-                }
-            </div>
+    }
+    </div>
 
-        </div>
+    </div>
 
     </div>*@
