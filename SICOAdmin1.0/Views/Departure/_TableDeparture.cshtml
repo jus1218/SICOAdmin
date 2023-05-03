@@ -81,14 +81,12 @@
                                     <label class="custom-control-label" for="customSwitch_@d.IdPartida">Activo</label>
                                 </div>
                             }
-                            else {
+                            else
+                            {
                                 <label>Activo</label>
                             }
                         </td>
-                    }
-                    else
-                    {
-                        <td>
+                    <td>
                             @if (puedeCambiarEstado)
                             {
                                 <div class="custom-control custom-switch">
@@ -96,34 +94,36 @@
                                     <label class="custom-control-label" for="customSwitch_@d.IdPartida">Desactivo</label>
                                 </div>
                             }
-                            else { 
+                            else
+                            {
                                  <label>Desactivo</label>
                             }
                         </td>
-                    }
+                    
 
 
                     <td>
-                        @if(lstActions.Contains(62)) {
+                        @if (lstActions.Contains(62))
+                        {
                         <button id="btnEditar" data-id="@d.IdPartida" type="button" class="btn btn-warning"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
                         }
                         <button class="btn btn-primary" onclick="showaDataDeparture(@d.IdPartida,'Bitacora');"><i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles</button>                       
                     </td>
 
                 </tr>
+                }
+
             }
-
-
         </tbody>
     </table>
 
     </div>
-    <div class="col">
+    <div class="d-flex m-3" >
         <div class="col">
             <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
             <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
 
-            <div class="col mr-0">
+            <div class="row ">
 
 
                 @if (@ViewBag.PagActual > 1)

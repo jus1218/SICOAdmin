@@ -43,56 +43,61 @@
         </thead>
 
 
-    <tbody style="text-align:center;">
-        @if (Model != null && Model.Count > 0)
-        {
-            i++;
-            foreach (var d in Model)
+        <tbody style="text-align:center;">
+            @if (Model != null && Model.Count > 0)
             {
-                <tr>
-                    <td>@d.Documento</td>
-                    <td>@d.Nombre</td>
-                    @if (@d.TipoDocumento == "mens")
-                    {
-                        <td>Mensualidad</td>
-                    }
-                    else if (d.TipoDocumento == "depo")
-                    {
-                        <td>Deposito</td>
-                    }
-                    <td>@Convert.ToDecimal(@d.Monto).ToString("C")</td>
-                    <td>@Convert.ToDecimal(@d.Saldo).ToString("C")</td>
-                    <td>@d.Estado</td>
-                    <td>@d.CondicionPago</td>
-                    <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
-
-                    <td>
-                        @if (puedeModificar) {
-                        <button id="btnEditDoc_cxc" type="button" class="btn btn-warning" data-id="@d.Documento">
-                            <i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar
-                        </button>
+                i++;
+                foreach (var d in Model)
+                {
+                    <tr>
+                        <td>@d.Documento</td>
+                        <td>@d.Nombre</td>
+                        @if (@d.TipoDocumento == "mens")
+                        {
+                            <td>Mensualidad</td>
                         }
-
-                        <button data-id="@d.Documento" id="viewLogDoc_cxc" type="button" class="btn btn-primary">
-                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
-                        </button>
-                        @if (puedeAgregarRecibo) {
-                        <button data-id="@d.Documento" id="add_deposito_cxc" type="button" class="btn btn-outline-dark">
-                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Agregar Deposito
-                        </button>
+                        else if (d.TipoDocumento == "depo")
+                        {
+                            <td>Deposito</td>
                         }
-                        @if (puedeVerRecibos){
-                        <button data-id="@d.Documento" id="show_depositos_cxc" type="button" class="btn btn-outline-info">
-                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Ver Depositos
-                        </button>
-                        }
+                        <td>@Convert.ToDecimal(@d.Monto).ToString("C")</td>
+                        <td>@Convert.ToDecimal(@d.Saldo).ToString("C")</td>
+                        <td>@d.Estado</td>
+                        <td>@d.CondicionPago</td>
+                        <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
+
+                        <td>
+                            @if (puedeModificar)
+                            {
+                                <button id="btnEditDoc_cxc" type="button" class="btn btn-warning" data-id="@d.Documento">
+                                    <i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar
+                                </button>
+                            }
+
+                            <button data-id="@d.Documento" id="viewLogDoc_cxc" type="button" class="btn btn-primary">
+                                <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
+                            </button>
+                            @if (puedeAgregarRecibo)
+                            {
+                                <button data-id="@d.Documento" id="add_deposito_cxc" type="button" class="btn btn-outline-dark">
+                                    <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Agregar Deposito
+                                </button>
+                            }
+                            @if (puedeVerRecibos)
+                            {
+                                <button data-id="@d.Documento" id="show_depositos_cxc" type="button" class="btn btn-outline-info">
+                                    <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Ver Depositos
+                                </button>
+                            }
 
 
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+
+                }
             }
-
         </tbody>
+
     </table>
 </div>
 
@@ -101,7 +106,7 @@
         <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
         <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
 
-        <div class="col-1">
+        <div class="row">
 
             @if (@ViewBag.PagActual > 1)
             {

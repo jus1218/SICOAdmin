@@ -64,7 +64,8 @@
                     <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
 
                     <td>
-                        @if (puedeModificar) {
+                        @if (puedeModificar)
+                        {
                         <button id="btnEditDoc" type="button" class="btn btn-warning" data-id="@d.Documento">
                             <i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar
                         </button>
@@ -73,7 +74,8 @@
                         <button data-id="@d.Documento" id="viewLogDoc" type="button" class="btn btn-primary">
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
                         </button>
-                        @if (puedeAgregarTransaccion){
+                        @if (puedeAgregarTransaccion)
+                        {
                         <button data-id="@d.Documento" id="add_deposito_CXP" type="button" class="btn btn-info">
                             <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Depositar
                         </button>
@@ -81,7 +83,7 @@
                     </td>
                 </tr>
             }
-
+        }
         </tbody>
     </table>
 
@@ -91,7 +93,7 @@
         <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
         <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
 
-        <div class="col mr-0">
+        <div class="row mr-0">
 
             @if (@ViewBag.PagActual > 1)
             {
