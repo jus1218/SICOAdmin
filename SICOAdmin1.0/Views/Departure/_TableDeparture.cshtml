@@ -8,10 +8,10 @@
     {
         lstActions = new List<int?>();
     }
-    bool puedeCambiarEstado = false;
+    bool puedeEditar = false;
 
     if (lstActions.Contains(62)){
-        puedeCambiarEstado = true;
+        puedeEditar = true;
     }
 
 }
@@ -74,7 +74,7 @@
 
 
                         <td>
-                            @if (puedeCambiarEstado)
+                            @if (puedeEditar)
                             {
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" checked name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
@@ -87,7 +87,7 @@
                             }
                         </td>
                     <td>
-                            @if (puedeCambiarEstado)
+                            @if (puedeEditar)
                             {
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
@@ -103,7 +103,7 @@
 
 
                     <td>
-                        @if (lstActions.Contains(62))
+                        @if (puedeEditar)
                         {
                         <button id="btnEditar" data-id="@d.IdPartida" type="button" class="btn btn-warning"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
                         }

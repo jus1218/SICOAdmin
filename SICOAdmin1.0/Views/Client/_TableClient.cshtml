@@ -34,7 +34,7 @@
                 <th scope="col">Telefono 2</th>
                 <th scope="col">Correo electrónico</th>
                 <th scope="col">Condicion de Pago</th>
-                <th scope="col">Activo</th>
+                <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>
             </tr>
         </thead>
@@ -44,74 +44,84 @@
                 foreach (var c in Model)
                 {
                     i++;
-<tr>
-    <td>@c.Nombre</td>
-    <td>@c.IdFilial</td>
-    <td>@c.Identificacion</td>
-    @if (c.Tipo == "Cd")
-    {
-<td>Cliente</td>
- }
-else if (c.Tipo == "In")
-{
-<td>Inquilino</td>
-  }
-    <td>@c.Contacto</td>
-    <td><a href="@("https://wa.me/506" + c.Telefono1)">@c.Telefono1</a></td>
-    @if (c.Telefono2 == null)
-    {
-<td>No se registró</td>
- }
-else
-{
-<td>@c.Telefono2</td>
-}
+            <tr>
+                <td>@c.Nombre</td>
+                <td>@c.IdFilial</td>
+                <td>@c.Identificacion</td>
+                @if (c.Tipo == "Cd")
+                {
+                    <td>Cliente</td>
+                }
+                else if (c.Tipo == "In")
+                {
+                    <td>Inquilino</td>
+                }
+                <td>@c.Contacto</td>
+                <td><a href="@("https://wa.me/506" + c.Telefono1)">@c.Telefono1</a></td>
+                @if (c.Telefono2 == null)
+                {
+                    <td>No se registró</td>
+                }
+                else
+                {
+                    <td>@c.Telefono2</td>
+                }
 
-    <td>@c.CorreoElectronico</td>
-    <td>@c.CondicionPago días</td>
-    <!--SWITCH-->
-    @if (c.Activo)
-    {
-<td>
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@c.IdCliente" data-id="@c.IdCliente" title="hola" onclick="jsModificarEstado('@c.Identificacion')">
-        <label class="custom-control-label" for="customSwitch_@c.IdCliente">Activo</label>
-    </div>
-</td>
- }
-else
-{
-<td>
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@c.IdCliente" data-id="@c.IdCliente" title="hola" onclick="jsModificarEstado('@c.Identificacion')">
-        <label class="custom-control-label" for="customSwitch_@c.IdCliente">Desactivado</label>
-    </div>
-</td>
-               }
-    <td>
+                <td>@c.CorreoElectronico</td>
+                <td>@c.CondicionPago días</td>
+                <!--SWITCH-->
+                @if (c.Activo)
+                {
+                    <td>
+                        @if (puedeModificar)
+                        {
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@c.IdCliente" data-id="@c.IdCliente" title="hola" onclick="jsModificarEstado('@c.Identificacion')">
+                                <label class="custom-control-label" for="customSwitch_@c.IdCliente">Activo</label>
+                            </div>
+                        }else{
+                            <label>Activo</label>
+                        }
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @if (puedeModificar)
+                        {
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@c.IdCliente" data-id="@c.IdCliente" title="hola" onclick="jsModificarEstado('@c.Identificacion')">
+                            <label class="custom-control-label" for="customSwitch_@c.IdCliente">Desactivado</label>
+                        </div>
+                        }else{
+                            <label>Desactivo</label>
+                        }
+                    </td>
+                }
+                <td>
 
-        <div class="row ml-2 mr-2">
-            @if (puedeModificar)
+                    <div class="row ml-2 mr-2">
+                        @if (puedeModificar)
+                        {
+                        <button id="btnUpClient" data-toggle="modal" data-target="#updateModalClient" class="btn btn-warning col" onclick="jsGetDataClient(@c.Identificacion)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>}
+                        <button id="btnBitacora" onclick="jsmostrarBitacora('@c.Identificacion')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+                    </div>
+                    <div class="row ml-2 mr-2">
+                        <button id="btnViewPrint" onclick="window.location.href = '/Print/Report'" class="btn btn-secondary col"><i class="fa fa-eye mr-1" aria-hidden="true"></i> Ver estado de cuenta</button>
+                        <button id="btnPrint" onclick="document.location.href = '@Url.Action("Print","Print", new { pId = @c.Identificacion})'" class="btn btn-secondary col"><i class="fa fa-print mr-1" aria-hidden="true"></i> Descargar estado de cuenta</button>
+                    </div>
+                </td>
+            </tr>
+             }
+            }
+            else
             {
-<button id="btnUpClient" data-toggle="modal" data-target="#updateModalClient" class="btn btn-warning col" onclick="jsGetDataClient(@c.Identificacion)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>}
-            <button id="btnBitacora" onclick="jsmostrarBitacora('@c.Identificacion')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
-        </div>
-        <div class="row ml-2 mr-2">
-            <button id="btnViewPrint" onclick="window.location.href = '/Print/Report'" class="btn btn-secondary col"><i class="fa fa-eye mr-1" aria-hidden="true"></i> Ver estado de cuenta</button>
-            <button id="btnPrint" onclick="document.location.href = '@Url.Action("Print","Print", new { pId = @c.Identificacion})'" class="btn btn-secondary col"><i class="fa fa-print mr-1" aria-hidden="true"></i> Descargar estado de cuenta</button>
-        </div>
-    </td>
-</tr>
- }
-}
-else
-{
-<tr>
-    <td colspan="10">
-        <content>No hay registros en la tabla</content>
-    </td>
-</tr>
-}
+            <tr>
+                <td colspan="10">
+                    <content>No hay registros en la tabla</content>
+                </td>
+            </tr>
+            }
 
         </tbody>
     </table>

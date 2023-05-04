@@ -50,7 +50,7 @@
                     <td>
 
                         <div class="row ml-2 mr-2">
-                            @if (lstActions.Contains(9))
+                            @if (puedeModificar)
                             {
                                 <button onclick="document.location.href = '@Url.Action("Edit", "User", new { userName = user.Usuario })'" class="btn btn-warning col"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
                             }

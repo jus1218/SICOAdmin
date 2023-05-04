@@ -25,10 +25,9 @@
                 <th scope="col">Domento Cobro</th>
                 <th scope="col">Condición Pago</th>
                 <th scope="col">Estado</th>
-                @if (lstActions.Contains(21))
-                {
-                    <th scope="col">Acciones</th>
-                }
+               
+                <th scope="col">Acciones</th>
+                
             </tr>
         </thead>
 
@@ -55,7 +54,7 @@
                             <td>Desactivado</td>
                         }
 
-                        @if (lstActions.Contains(21))
+                        @if (puedeModificar)
                         {
 
                             <td>

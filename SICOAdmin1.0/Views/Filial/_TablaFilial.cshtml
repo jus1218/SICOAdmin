@@ -21,10 +21,9 @@
             <tr>
                 <th scope="col" class="th"># Id</th>
                 <th scope="col" class="th">Descripción</th>
-                @if (lstActions.Contains(50))
-                {
+               
                     <th scope="col" class="th">Estado</th>
-                }
+               
                 <th scope="col" class="th">Acciones</th>
             </tr>
         </thead>
@@ -40,28 +39,41 @@
                         <td>@filial.Descripcion</td>
 
 
-                        @if (puedeModificar)
-                        {
-                            if (filial.Estado == "1")
+                       
+                            @if (filial.Estado == "1")
                             {
                                 <td>
+                                     @if(puedeModificar)
+                                     {
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" checked name="stateFilial" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
                                         <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
                                     </div>
+                                     }
+                                     else { 
+                                     
+                                        <label>Activo</label>
+                                     }
                                 </td>
                             }
                             else
                             {
-
                                 <td>
+                                @if (puedeModificar)
+                                {
+                                
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" name="stateFilial" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
                                         <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
                                     </div>
-                                </td>
+                                
+                                }else { 
+                                     
+                                    <label>Desactivo</label>
+                                }
+                               </td>
                             }
-                        }
+                        
 
                         <td>
                             @if (puedeModificar)

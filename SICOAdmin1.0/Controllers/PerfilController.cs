@@ -115,7 +115,7 @@ namespace SICOAdmin1._0.Controllers
 
             using (SICOAdminEntities db = new SICOAdminEntities())
             {
-                var oPerfil = db.PERFIL.Find(Id); //buscar perfil
+                var oPerfil = db.PERFILs.Find(Id); //buscar perfil
                 model.IdPerfil = oPerfil.IdPerfil;
                 model.Nombre = oPerfil.Nombre;
                 model.Descripcion = oPerfil.Descripcion;

@@ -56,7 +56,7 @@
                             <button id="btnEdit" onclick="document.location.href = '@Url.Action("Update", "Collaborator", new { id = collaborator.Identificacion })'" class="btn btn-warning"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
                         
                             <button id="btnBitacora" onclick="jsmostrarBitacora('@collaborator.Identificacion')" class="btn btn-info" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
-                            <button id="btnDetails" onclick="jsViewDetails('@collaborator.Identificacion')" class="btn btn-primary" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-info-circle mr-1" aria-hidden="true"></i> Detalles</button>
+                            
 
                             if (collaborator.Activo)
                             {
@@ -67,6 +67,8 @@
                                 <button id="btnActivar" class="btn btn-success" onclick="jsModificarEstado('@collaborator.Identificacion')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
                             }
                         }
+                        <button id="btnDetails" onclick="jsViewDetails('@collaborator.Identificacion')" class="btn btn-primary" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-info-circle mr-1" aria-hidden="true"></i> Detalles</button>
+
                     </td>
                 </tr>
             }
