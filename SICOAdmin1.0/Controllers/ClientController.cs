@@ -7,7 +7,6 @@ using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.Client;
 using SICOAdmin1._0.Models.User;
 using System.Data.Entity.Core.Objects;
-using Rotativa;
 
 namespace SICOAdmin1._0.Controllers
 {
@@ -62,11 +61,6 @@ namespace SICOAdmin1._0.Controllers
             return View(lstClients);
         }
 
-        public ActionResult Print(string pId)
-        {
-            return new ActionAsPdf("Index")
-            { FileName = pId + ".pdf" };
-        }
 
         //===========================================JsResults Section================================================
         //Crear Cliente

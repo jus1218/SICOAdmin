@@ -82,10 +82,10 @@
 
                         <div class="row ml-2 mr-2">
                             <button id="btnUpClient" data-toggle="modal" data-target="#updateModalClient" class="btn btn-warning col" onclick="jsGetDataClient(@c.Identificacion)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
-                            <button id="btnBitacora" onclick="jsmostrarBitacora('@c.Identificacion')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+                            <button id="btnBitacora" onclick="jsmostrarBitacora('@c.IdCliente')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
                         </div>
                         <div class="row ml-2 mr-2">
-                            <button id="btnViewPrint" onclick="window.location.href = '/Print/Report'" class="btn btn-secondary col"><i class="fa fa-eye mr-1" aria-hidden="true"></i> Ver estado de cuenta</button>
+                            <button id="btnViewPrint" onclick="window.open('/Print/Report', '_blank')" class="btn btn-secondary col"><i class="fa fa-eye mr-1" aria-hidden="true"></i> Ver estado de cuenta</button>
                             <button id="btnPrint" onclick="document.location.href = '@Url.Action("Print","Print", new { pId = @c.Identificacion})'" class="btn btn-secondary col"><i class="fa fa-print mr-1" aria-hidden="true"></i> Descargar estado de cuenta</button>
                         </div>
                     </td>
@@ -110,7 +110,7 @@
     }
 </style>
 
-<div class="col">
+<div class="col sticky-top">
     <div class="col">
         <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
         <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
