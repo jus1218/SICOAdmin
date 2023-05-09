@@ -64,11 +64,6 @@ namespace SICOAdmin1._0.Controllers
             return View(lstClients);
         }
 
-        public ActionResult Print(string pId)
-        {
-            return new ActionAsPdf("Index")
-            { FileName = pId + ".pdf" };
-        }
 
         //===========================================JsResults Section================================================
         //Crear Cliente

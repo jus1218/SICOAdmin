@@ -1,0 +1,179 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_VerEstadoCuenta_Result>
+@{
+    ViewBag.Title = "Estados de cuenta";
+    List<SelectListItem> lstClients = (List<SelectListItem>)ViewBag.Clients;
+    List<SelectListItem> lstAnios = (List<SelectListItem>)ViewBag.Anios;
+}
+<head>
+    <script src="~/Scripts/jspdf.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<style>
+    /*html, body {
+        height: 100vh;
+    }*/
+
+
+    /*.pre-scrollable {
+        flex-grow: 1;
+        overflow-y: scroll;
+        height: calc(100vh - 240px);*/ /* Ajustar según el tamaño de los otros elementos */
+    /*}*/
+
+
+    /*#GetCuenta {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        box-sizing: border-box;
+        transform-origin: top center;
+    }*/
+</style>
+
+<body>
+    <div class="container margin-container p-4 glass" id="renderLocal">
+        <div class="row fila">
+            <div class="col-xl-2 col-md-3 d-flex justify-content-center">
+                <h3 class="mt-0 p-3">Estados de cuenta</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5>Nombre cliente</h5>
+
+            </div>
+            <div class="col-2">
+                <h5>Año</h5>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-2">
+                <select id="slClient" class="form-control select-item border-light" aria-label="">
+                    <option value="" selected disabled hidden>Seleccionar</option>
+                    @foreach (var e in lstClients)
+                    {
+                        <option value="@e.Value"> @e.Text</option>
+                    }
+                </select>
+
+            </div>
+            <div class="col-2 pb-5">
+                <select id="slAnio" class="select-item form-control border-light" aria-label="Default select example">
+                    <option value="" selected disabled hidden>Seleccionar</option>
+                    @foreach (var e in lstAnios)
+                    {
+                        <option value="@e.Value"> @e.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-auto text-center ">
+                <button id="btnDownloadPrint" onclick="generarPDF()" style="display:none;" class="form-control btn btn-success btn-md"><i class="fa fa-download" aria-hidden="true"></i>  Descargar estado de cuenta</button>
+            </div>
+            @* Estado de cuentaaaaaaaaaaa *@
+            <div id="divBorder" class="col-12 pre-scrollable flex-grow-1">
+                <div id="GetCuenta" class="col-12 bg-white" style="display:block;">
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+
+<script>
+    var idC = document.querySelector('#slClient');
+    var anio = document.querySelector('#slAnio');
+    var btnGetPrint = document.querySelector('#btnGetPrint');
+
+    idC.addEventListener('change', comprobarSelect);
+    anio.addEventListener('change', comprobarSelect);
+    btnGetPrint.addEventListener('click', VerEstadoCuenta);
+
+
+    function VerEstadoCuenta() {
+        var anio = document.querySelector('#slAnio');
+        $.post('/Print/GetStatementAcount', { pId: idC.value, pAnio: anio.value }, function (data) {
+            // Carga la vista parcial en el div correspondiente
+            $('#GetCuenta').html(data).promise().done();
+            document.querySelector('#divBorder').style.border = "solid";
+        });
+    }
+    function comprobarSelect() {
+        var anio = document.querySelector('#slAnio');
+        console.log(idC.value);
+        console.log(anio.value);
+
+        if (idC.value != "" && anio.value != "") {
+            console.log("mostrar boton");
+            document.querySelector('#btnDownloadPrint').style.display = "block";
+            VerEstadoCuenta();
+        } else {
+            document.querySelector('#btnDownloadPrint').style.display = "none";
+        }
+    }
+
+    function generarPDF() {
+        var divContenido = document.getElementById("GetCuenta");
+        html2canvas(divContenido, { scale: 2 }).then(function (canvas) { // aumentar la escala
+            var imgData = canvas.toDataURL('image/png');
+            var pdf = new jsPDF({
+                orientation: 'Portrait',
+                unit: 'mm',
+                format: 'a4' // cambiar a4 por el formato que necesites
+            });
+            var pageSize = pdf.internal.pageSize;
+            var imgWidth = pageSize.width - 20; // ancho de la página en mm (en este caso, A4) menos un margen de 10mm a cada lado
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            if (imgHeight > pageSize.height - 20) { // si la altura de la imagen es mayor que el alto de la página menos un margen de 10mm a cada lado
+                imgHeight = pageSize.height - 20; // ajustar la altura de la imagen para que se ajuste al alto de la página
+                imgWidth = canvas.width * imgHeight / canvas.height; // ajustar el ancho de la imagen para mantener la relación de aspecto original
+            }
+            var margin = (pageSize.width - imgWidth) / 2; // calcular el margen necesario para centrar la imagen horizontalmente
+            //var position = calculatePosition(pdf.internal.pageSize.height, imgHeight);
+            pdf.addImage(imgData, 'PNG', margin, 5, imgWidth, imgHeight); // ajustar el tamaño de la imagen al de la página y agregar un margen de 10mm a cada lado
+            pdf.save('Estado de cuenta_' + idC.options[idC.selectedIndex].text + '_.pdf');
+
+
+            //var pdfData = pdf.output();
+            //var pdfURL = URL.createObjectURL(new Blob([pdfData], { type: "application/pdf" }));
+            //window.open(pdfURL);
+
+        });
+    }
+
+    //function calculatePosition(pageHeight, contentHeight) {
+    //    var margin = (pageHeight - contentHeight) / 2;
+    //    return margin;
+    //}
+
+    //function enviarPorWhatsapp() {
+    //    var divContenido = document.getElementById("GetCuenta");
+    //    html2canvas(divContenido, { scale: 2 }).then(function (canvas) {
+    //        var imgData = canvas.toDataURL('image/png');
+    //        var pdf = new jsPDF({
+    //            orientation: 'landscape',
+    //            unit: 'mm',
+    //            format: 'a4'
+    //        });
+    //        var pageSize = pdf.internal.pageSize;
+    //        var imgWidth = pageSize.width - 20;
+    //        var imgHeight = canvas.height * imgWidth / canvas.width;
+    //        if (imgHeight > pageSize.height - 20) {
+    //            imgHeight = pageSize.height - 20;
+    //            imgWidth = canvas.width * imgHeight / canvas.height;
+    //        }
+    //        var position = calculatePosition(pdf.internal.pageSize.height, imgHeight);
+    //        pdf.addImage(imgData, 'PNG', 3, 0, imgWidth, imgHeight);
+    //        pdf.output('dataurl').then(function (dataurl) {
+    //            var encodedData = encodeURIComponent(btoa(dataurl));
+    //            var message = 'Este es el archivo PDF que solicitaste';
+    //            var origin = 'Mi aplicación';
+    //            var url = 'https://wa.me/50689052050?text=' + encodeURIComponent(message) + '&source=' + encodeURIComponent(origin) + '&data=' + encodedData;
+    //            window.open(url);
+    //        });
+    //    });
+    //}
+
+</script>
