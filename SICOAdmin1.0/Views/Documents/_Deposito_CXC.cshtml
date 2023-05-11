@@ -26,7 +26,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content ">
             <div class="d-flex justify-content-center ">
-                <h5 style="text-align:center" class="modal-title p-3" id="ModalTitleDeposito_CXC">Depositos Relacionados</h5>
+                <h5 style="text-align:center" class="modal-title p-3" id="ModalTitleDeposito_CXC">Depositos Realizados</h5>
 
             </div>
 
@@ -36,7 +36,7 @@
                 <div class="row justify-content-center">
 
                     <div class="col-sm-2">
-                        <label for="numero_documento">Documento</label>
+                        <label id="num_documento" for="numero_documento">Documento</label>
                         <input disabled name="numero_documento" type="text" class="four columns form-control" id="numero_documento" pattern="(?=.+[\w]).{1,50}|(?=.+[\W]).{1,50}" title="Solo se permiten números y letras" required>
                         <label for="numero_documento" class="m-1 msj__label" id="lblNombreError"></label>
 
@@ -46,7 +46,7 @@
                     <div class="col-sm-2">
                         <div class="form-group" id="grupo__monto">
                             <div class="form-group" id="grupo_fecha">
-                                <label for="FechaDocumento_dep">Fecha Documento</label>
+                                <label id="fecha_documento" for="FechaDocumento_dep">Fecha Documento</label>
                                 <input disabled type="text" id="FechaDocumento_dep" required name="FechaDocumento_dep" class="four columns form-control" />
                             </div>
 
@@ -57,7 +57,7 @@
                     <div class="col-sm-3">
 
                         <div class="form-group" id="grupo__usuario">
-                            <label for="usuario">Cliente</label>
+                            <label id="persona_asociada" for="usuario">Cliente</label>
                             <input disabled name="cliente_mens" type="text" class="four columns form-control" id="usuario_dep" pattern="[0-9]+" title="Solo se permiten numeros" required>
                             <label for="usuario_dep" class="m-1 msj__label" id="lbMontoError"></label>
                         </div>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group" id="grupo__monto">
-                            <label for="monto">Monto</label>
+                            <label for="monto">Monto Total</label>
                             <input disabled name="monto_cxc" type="text" class="four columns form-control" id="monto_mens" pattern="[0-9]+" title="Solo se permiten numeros" required>
                             <label for="monto_cxc" class="m-1 msj__label" id="lbMontoError"></label>
                         </div>
@@ -75,7 +75,7 @@
                     <div class="col-sm-2">
 
                         <div class="form-group" id="grupo_saldo">
-                            <label for="saldo">Saldo</label>
+                            <label for="saldo">Saldo Restante</label>
                             <input disabled name="saldo_cxc" type="text" class="four columns form-control" id="saldo_mens" placeholder="Ingrese la Saldo" pattern="[0-9]+" title="Solo se permiten numeros" required>
                             <label for="saldo_cxc" class="m-1 msj__label" id="lblSaldoError"></label>
                         </div>
@@ -84,13 +84,13 @@
                 <div class="col justify-content-center">
 
                     <div class="justify-content-center">
-                        <table id="tbDeposito" class="table table-bordered">
+                        <table id="tbDeposito" class="table table-bordered table-striped">
                             <thead style="text-align:center;">
                                 <tr>
-                                    <th scope="col">Documento Credito</th>
-                                    <th scope="col">Monto</th>
-                                    <th scope="col">Fecha</th>
-                                    <th scope="col"></th>
+                                    <th id="thDepositos" scope="col">Referencia</th>
+                                    <th scope="col">Monto Acreditado</th>
+                                    <th scope="col">Fecha Realizada: </th>
+                                    <th scope="col">Acción</th>
 
                                 </tr>
                             </thead>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="row justify-content-center" >
                         <div class="col-sm-2 form-group" id="grupo_total">
-                            <label for="total_depositos">Total Depositado</label>
+                            <label for="total_depositos">Total Cancelado</label>
                             <input class="form-control" type="text" id="total_depositos" disabled />
                         </div>
                     </div>

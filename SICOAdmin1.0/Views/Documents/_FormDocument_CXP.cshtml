@@ -68,7 +68,7 @@
                                     </select>
 
                                 }
-                                else
+                                <!--else
                                 {
                                     <div class="select-con-botón">
 
@@ -78,7 +78,7 @@
 
                                         </select>
                                         <button class=" btn btn-info" id="btnAddProvider">Agregar</button>
-                                    </div>
+                                    </div>-->
 
                                     @*@Html.DropDownList("Proveedores", Model, "Seleccione el Proveedor", new
                                         {
@@ -91,7 +91,7 @@
                                             required = true
                                         })*@
 
-                                }
+                                <!--}-->
 
 
                             </div>
@@ -101,14 +101,14 @@
                                 <label for="TipoDocumento">Tipo</label>
                                 <select required name="TipoDocumento" class="custom-select" id="tipoDocumento">
                                     <option value="" selected disabled>Seleccione una opcion...</option>
-                                    <option value="fac">Factura</option>
+                                    <option value="fact">Factura</option>
                                     <option value="tran">Transacción</option>
                                 </select>
                             </div>
 
                             <div hidden class="form-group" id="grupo_estado">
                                 <label for="estado">Estado</label>
-                                <select required name="Estado" class="custom-select" id="estado">
+                                <select disabled name="Estado" class="custom-select" id="estado">
                                     <option value="" selected disabled>Seleccione una opcion...</option>
                                     <option value="AD">Adelanto</option>
                                     <option value="PD">Pendiente</option>
@@ -144,7 +144,7 @@
 
                             <div hidden class="form-group" id="grupo_saldo">
                                 <label for="saldo">Saldo</label>
-                                <input name="Saldo" type="number" class="form-control" id="saldo" placeholder="Ingrese la Saldo" pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                <input disabled name="Saldo" type="number" class="form-control" id="saldo" placeholder="Ingrese la Saldo" pattern="[0-9]+" title="Solo se permiten numeros" required>
                                 <label for="saldo" class="m-1 msj__label" id="lblSaldoError"></label>
                             </div>
 
@@ -155,7 +155,13 @@
                                 <label for="pago" class="m-1 msj__label" id="lblPagoError"></label>
                             </div>
 
+                            @*<div class="form-group" id="grupo_partida">
+                                <label for="edit_partida">Partida</label>
+                                <select required id="edit_partida" class="form-control">
+                                    <option value="">Seleccione una Partida</option>
+                                </select>
 
+                            </div>*@
                         </div>
                     </div>
                     <div class="col mt-4 d-flex justify-content-center mb-2">

@@ -40,50 +40,63 @@
         </thead>
 
 
-    <tbody style="text-align:center;">
-        @if (Model != null && Model.Count > 0)
-        {
-            i++;
-            foreach (var d in Model)
+        <tbody style="text-align:center;">
+            @if (Model != null && Model.Count > 0)
+            {
+                i++;
+                foreach (var d in Model)
+                {
+                    <tr>
+                        <td>@d.Documento</td>
+                        <td>@d.Nombre</td>
+                        @if (@d.TipoDocumento == "fact")
+                        {
+                            <td>Factura</td>
+                        }
+                        else
+                        {
+                            <td>Recibo</td>
+                        }
+                        <td>@Convert.ToDecimal(@d.Monto).ToString("C")</td>
+                        <td>@Convert.ToDecimal(@d.Saldo).ToString("C")</td>
+                        <td>@d.Estado</td>
+                        <td>@d.CondicionPago</td>
+                        <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
+
+                        <td>
+
+
+                            <div class="dropdown">
+                                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
+                                    Administrar
+                                </button>
+                                <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                                    @if (puedeModificar)
+                                    {<a id="btnEditDoc_cxp" name="btnEditDoc_cxp" data-id="@d.Documento" class="btn-sm btn-outline-light dropdown-item">Editar Documento</a>}
+                                    <a id="viewLogDoc_cxp" name="viewLogDoc_cxp" data-id="@d.Documento" class="btn-sm btn-outline-success dropdown-item ">Detalles</a>
+
+                                </div>
+                            </div>
+                            @if (d.TipoDocumento == "fact")
+                            {
+
+                                <button data-id="@d.Documento" id="show_depositos_cxp" name="show_depositos_cxp" type="button" class="btn btn-info">
+                                    <i class="fa fa-book  mr-2" aria-hidden="true"></i>Asociaciones
+                                </button>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@d.Documento</td>
-                    <td>@d.Nombre</td>
-                    @if (@d.TipoDocumento == "FA")
-                    {
-                        <td>Factura</td>
-                    }
-                    else
-                    {
-                        <td>Recibo</td>
-                    }
-                    <td>@Convert.ToDecimal(@d.Monto).ToString("C")</td>
-                    <td>@Convert.ToDecimal(@d.Saldo).ToString("C")</td>
-                    <td>@d.Estado</td>
-                    <td>@d.CondicionPago</td>
-                    <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
-
-                    <td>
-                        @if (puedeModificar)
-                        {
-                        <button id="btnEditDoc" type="button" class="btn btn-warning" data-id="@d.Documento">
-                            <i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar
-                        </button>
-                        }
-
-                        <button data-id="@d.Documento" id="viewLogDoc" type="button" class="btn btn-primary">
-                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
-                        </button>
-                        @if (puedeAgregarTransaccion)
-                        {
-                        <button data-id="@d.Documento" id="add_deposito_CXP" type="button" class="btn btn-info">
-                            <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Depositar
-                        </button>
-                        }
-                    </td>
+                    <td colspan="8">No existe registros actualmente</td>
                 </tr>
+
             }
-        }
         </tbody>
     </table>
 
@@ -107,6 +120,6 @@
         </div>
     </div>
 
-   
+
 
 </div>

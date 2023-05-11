@@ -76,31 +76,38 @@
                                 </button>
                                 <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
                                     @if (puedeModificar)
-                                    {<a id="btnEditDoc_cxc" data-id="@d.Documento" class="btn-sm btn-outline-light dropdown-item">Editar Documento</a>}
-                                    <a id="viewLogDoc_cxc" data-id="@d.Documento" class="btn-sm btn-outline-success dropdown-item ">Detalles</a>
+                                    {<a id="btnEditDoc_cxc" name="btnEditDoc_cxc" data-id="@d.Documento" class="btn-sm btn-outline-light dropdown-item">Editar Documento</a>}
+                                    <a id="viewLogDoc_cxc" name="viewLogDoc_cxc" data-id="@d.Documento" class="btn-sm btn-outline-success dropdown-item ">Detalles</a>
 
                                 </div>
                             </div>
                             @*@if (puedeVerRecibos)
-                            {*@
+                        {*@
 
-                                @if (d.TipoDocumento == "mens")
-                                {
+                            @if (d.TipoDocumento == "mens")
+                            {
 
-                                    <button data-id="@d.Documento" id="show_depositos_cxc" type="button" class="btn btn-info">
-                                        <i class="fa fa-book  mr-2" aria-hidden="true"></i>Asociaciones
-                                    </button>
-                                }
+                                <button data-id="@d.Documento" id="show_depositos_cxc" name="show_depositos_cxc" type="button" class="btn btn-info">
+                                    <i class="fa fa-book  mr-2" aria-hidden="true"></i>Asociaciones
+                                </button>
+                            }
 
 
                             @*}*@
-                            
+
 
 
                         </td>
                     </tr>
 
                 }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">No existe registros actualmente</td>
+                </tr>
+
             }
         </tbody>
 

@@ -53,24 +53,6 @@
                         }
 
 
-                        @if (@d.Active)
-                        {
-                            <td>
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" checked name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
-                                    <label class="custom-control-label" for="customSwitch_@d.IdPartida">Activo</label>
-                                </div>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" name="stateDeparture" id="customSwitch_@d.IdPartida" data-id="@d.IdPartida" title="hola">
-                                    <label class="custom-control-label" for="customSwitch_@d.IdPartida">Desactivo</label>
-                                </div>
-                            </td>
-                        }
 
 
                         <td>
@@ -85,8 +67,8 @@
                             {
                                 <label>Activo</label>
                             }
-                        </td>
-                    <td>
+                        
+                    
                             @if (puedeEditar)
                             {
                                 <div class="custom-control custom-switch">

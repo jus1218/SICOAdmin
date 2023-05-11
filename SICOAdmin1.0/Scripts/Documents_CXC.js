@@ -6,17 +6,29 @@ const d = document,
 
 const contenedorTabla = d.getElementById("tableDocument");
 const tabla = d.getElementById("tbDocuments_CXC");
+var limpiarStorage = false;
+//$(document).ready(function () {
+//    setTimeout(function () {
+//        /*if (limpiarStorage) {*/
+//        localStorage.setItem('documentosRecientes_cxc', JSON.stringify([]));
+//        console.log("Reiniciado");
+//        /*}*/
+//    }, 3000);
 
+
+//};
 d.addEventListener('DOMContentLoaded', () => {
     setTimeout(function () {
-        localStorage.clear();
-    }, 300000);
-    //() => {
-    //    const tablePosition = tabla.offsetTop - contenedorTabla.offsetTop;
-    //    contenedorTabla.scrollTop = tablePosition;
-    //};
+        /*if (limpiarStorage) {*/
+        localStorage.setItem('documentosRecientes_cxc', JSON.stringify([]));
+        console.log("Reiniciado");
+        /*}*/
+    }, 9000);
+
 });
-let documentosRecientes = [];
+
+let documentosRecientes_cxc = [];
+let documentosCliente = [];
 let documentosCreditoCliente = [];
 let documentosDebitoCliente = [];
 let lstClientes = [];
@@ -24,29 +36,40 @@ let lstClientes = [];
 //FORMULARIOS ASOCIACION 
 const formularioDocumentoMixto = d.getElementById("formDocumentoMixto");
 const table_added_recent = d.getElementById("added_recently");
+
 //-----------------------------------------------------------
-const optionTable = d.querySelector('#ChoiceDocumentTable').value;
+
 
 //ELEMENTOS  FORMULARIO DEBITO 
-const checkBox = d.getElementById("activeCredito");
-const inputDocumentoDebito = d.getElementById("add_documento_debito");
+const checkBox = d.getElementById("activeCredito_cxc");
+const inputDocumentoDebito = d.getElementById("add_documento_debito_cxc");
 const inputMontoDocumentoDebito = d.getElementById("monto_debito_cxc");
-const inputSaldoDebito = d.getElementById("add_saldo_debito");
+const inputSaldoDebito = d.getElementById("add_saldo_debito_cxc");
 const tipoDocumentoDebito = d.getElementById("add_tipoDocumento_cxc");
 const fechaDocumentoDebito = d.getElementById("fechaDocumento_debito_cxc");
 const condicionPagoDebito = d.getElementById("condicio_pago_cxc");
 const notaMensualidad = d.getElementById("nota_debito_cxc");
 
 
+//LABELS A MODIFICAR
+const titleModalAsociacion_cxc = d.getElementById("title_admin_docs");
+const label_selec_cliente = d.getElementById("lb_cliente_asociacion");
+const label_select_recibos = d.getElementById("lb_select_creditos");
+const label_checkbox_cxc = d.getElementById("lb_activeCredito");
+
+const titleFormularioCredito_cxc = d.getElementById("title_credito");
 //ELEMENTOS CREDITO
 const inputSaldoCredito = d.getElementById("add_saldo_credito");
 const fechaDocumentoCredito = d.getElementById("fechaDocumento_credito_cxc");
 const notaCredito = d.getElementById("nota_credito_cxc");
 //SELECTS FORMULARIOS
-const selectDocumetosDebito = d.getElementById("select_documento_debito");
+const selectDocumetosDebito = d.getElementById("select_documento_debito_cxc");
 const selectDocumetosCredito = d.getElementById("select_documento_credito");
 const selectClientes = d.getElementById("add_cliente_cxc");
 const selectPartida = d.getElementById("partida_credito");
+const selectTipoDocumento_cxc = d.getElementById("add_tipoDocumento_cxc");
+
+
 //===========================================================
 
 //===============================================================================
@@ -84,17 +107,45 @@ $renderBody.addEventListener("click", (e) => {
     //=========== A DOCUMENTO ESPECIFICO ================
     //=========== O CREAR Y RELACIONAR DOC ==============
     //===================================================
-    if (e.target.id === "create_deposito_cxc") {
+
+
+    if (e.target.name === "create_deposito_cxc") {
+        cambiarNombresInputs_CXC();
 
         const selectPartida = d.getElementById("partida_credito");
         const selectCliente = d.getElementById("add_cliente_cxc");
+
+        d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
+        d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
+        inputMontoDocumentoDebito.removeAttribute("required");
+
         limpiarFormularioDebito();
         limpiarFormularioCredito();
-        llenarSelectPartidas(selectPartida);
+        llenarSelectPartidas(selectPartida,"IG");
         llenarSelectCliente(selectCliente);
-        llenarSelectDocumentosDebitos("", selectDocumetosDebito);
-        llenarSelectDocumentosCreditos("", selectDocumetosCredito)
+
+        llenarSelectTipoDocumento_cxc(selectTipoDocumento_cxc);
+
+        obtenerDocumentos_ClienteCXC("");
+        /*llenarSelectDocumentosDebitos("", "", selectDocumetosDebito);*/
+
+        /*llenarSelectDocumentosCreditos("", selectDocumetosCredito)*/
         table_added_recent.setAttribute("hidden", "");
+
+        if (checkBox.checked) {
+            d.getElementById("grupo__monto_debito").removeAttribute("hidden");
+            d.getElementById("grupo_saldo_debito").removeAttribute("hidden");
+            inputMontoDocumentoDebito.removeAttribute("required");
+
+        } else {
+
+            d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
+            d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
+            inputDocumentoDebito.setAttribute("required", "");
+            
+        }
+
+
         $("#crear_documento_asociar_deposito").modal("show");
 
         return false;
@@ -127,7 +178,7 @@ $renderBody.addEventListener("click", (e) => {
     //===================================================
     //=============  BOTON BITACORA   ===================
     //===================================================
-    else if (e.target.id == "viewLogDoc_cxc") {
+    else if (e.target.name == "viewLogDoc_cxc") {
         let doc = e.target.dataset.id;
 
         showDataDocument_cxc(doc, "Bitacora");
@@ -139,7 +190,7 @@ $renderBody.addEventListener("click", (e) => {
     //========  BOTON AGREGAR CLIENTE   ================
     //===================================================
 
-    else if (e.target.id === "btnAddCliente") {
+    else if (e.target.name === "btnAddCliente") {
 
         $("#ModalDocument_CXC").modal("hide");
 
@@ -201,30 +252,34 @@ $renderBody.addEventListener("click", (e) => {
     //===================================================
     //===========  BOTON VER DEPOSITOS CXC  =============
     //===================================================
-    else if (e.target.id === "show_depositos_cxc") {
+    else if (e.target.name === "show_depositos_cxc") {
         var modalDepositos = d.getElementById("crear_documento_asociar_deposito");
-
+        d.getElementById("ModalTitleDeposito_CXC").textContent = "Depositos Realizados";
+        d.getElementById("thDepositos").textContent = "Documento #";
+        d.getElementById("persona_asociada").textContent = "Nombre Cliente";
+        d.getElementById("num_documento").textContent = "Mensualidad #";
+        d.getElementById("fecha_documento").textContent = "Fecha De La Mensualidad";
         let pDoc = e.target.dataset.id;
-        
+
         const table = d.getElementById("tbDepositos");
 
         limpiarHtml(table);
 
-        showHeaderDeposit(pDoc);
+        showHeaderDeposit_cxc(pDoc);
         mostrarRecibosxMensualidad(pDoc);
         return false;
     }
     //===================================================
     //===========  BOTON ELIMINAR DEPOSITOS CXC  ========
     //===================================================
-    else if (e.target.id === "remove_deposito_cxc") {
+    else if (e.target.id === "remove_deposito") {
         const DocumentoDebito = d.getElementById("numero_documento").value;
         const DocumentoCredito = e.target.dataset.id;
 
 
         swal({
-            title: "Retirar Recibo!",
-            text: "Seguro que quiere Retirar el Recibo?",
+            title: "¿Retirar Recibo?",
+            text: "¿Seguro que quiere Retirar el Recibo?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -232,12 +287,11 @@ $renderBody.addEventListener("click", (e) => {
             closeOnConfirm: false
         },
             function () {
-
                 fetchMethod({
 
                     url: "Documents/removeDeposit",
                     body: {
-
+                        NombreTablaAuxiliar: "AUXILIAR_CXC",
 
                         DocumentoDebito: DocumentoDebito,
 
@@ -256,7 +310,7 @@ $renderBody.addEventListener("click", (e) => {
                                 container: "renderLocalDoc",
                                 url: "Documents/_ShowDocuments_CXC",
                             })
-                            showHeaderDeposit(DocumentoDebito);
+                            showHeaderDeposit_cxc(DocumentoDebito);
                             mostrarRecibosxMensualidad(DocumentoDebito);
 
                         }
@@ -269,10 +323,8 @@ $renderBody.addEventListener("click", (e) => {
                     }
 
                 });
-
-
-
-            });
+            }
+        );
         return false;
     }
 
@@ -280,14 +332,14 @@ $renderBody.addEventListener("click", (e) => {
     //========  BOTON MUESTRA DEPOSITOS CREADOS  ========
     //===================================================
 
-    else if (e.target.id === "recientes_agregados") {
+    else if (e.target.name === "recientes_agregados_cxc") {
         const btnVerRecientes = d.getElementById("recientes_agregados");
 
         if (btnVerRecientes.value == "1") {
-            table_added_recent.scrollIntoView({ behavior: "smooth" });
+
             table_added_recent.removeAttribute("hidden");
             btnVerRecientes.value = "0";
-            llenarTablaDocumentosRecientes();
+            llenarTablaDocumentosRecientes_cxc();
         }
         else {
             table_added_recent.setAttribute("hidden", "");
@@ -297,7 +349,6 @@ $renderBody.addEventListener("click", (e) => {
     }
 
 });
-
 
 //submit
 $renderBody.addEventListener("submit", (e) => {
@@ -322,7 +373,7 @@ $renderBody.addEventListener("submit", (e) => {
             body: {
 
                 Documento: d.getElementById("documento_cxc").value,
-                IdProveedor: d.getElementById("IdCliente").value,
+                IdCliente: d.getElementById("IdCliente").value,
                 TipoDocumento: d.getElementById("tipoDocumento_cxc").value,
                 Monto: d.getElementById("monto_cxc").value,
                 Saldo: d.getElementById("saldo_cxc").value,
@@ -358,7 +409,7 @@ $renderBody.addEventListener("submit", (e) => {
     //============= METODDO AGREGAR PROVEEDOR ===========
     //===================================================
 
-    else if (e.target.id === "createProveedor") {
+    else if (e.target.name === "createProveedor") {
 
         fetchMethod({
             url: "Proveedor/CrearProveedor",
@@ -399,90 +450,94 @@ $renderBody.addEventListener("submit", (e) => {
     //========= RELACIONA O AGREGAR DOCUMENTO ===========
     //===================================================
 
-    else if (e.target.id === "formDocumentoMixto") {
-        var DocumentoDebito = "";
-        var DocumentoCredito = "";
-        var idCliente = selectClientes.value;
-        var verificaForm = true;
-        let nuevoDoc;
+    else if (e.target.name === "formDocumentoMixto_cxc") {
+        
+        crearDocumento_CXC();
+        
+        //var DocumentoDebito = "";
+        //var DocumentoCredito = "";
+        
+        //var verificaForm = true;
+        //let nuevoDoc;
 
-        if (checkBox.checked) {
-            DocumentoDebito = selectDocumetosDebito.value;
-            DocumentoCredito = selectDocumetosCredito.value;
-            if ((DocumentoCredito == "" && DocumentoDebito == "") || DocumentoCredito == "") {
-                verificaForm = false;
-            }
-        } else {
-            nuevoDoc = true;
-            DocumentoDebito = inputDocumentoDebito.value;
-            if (DocumentoDebito == "") {
-                verificaForm = false;
-            }
-        }
-        if (verificaForm) {
+        //if (checkBox.checked) {
+        //    DocumentoDebito = selectDocumetosDebito.value;
+        //    DocumentoCredito = selectDocumetosCredito.value;
+        //    if ((DocumentoCredito == "" && DocumentoDebito == "") || DocumentoCredito == "") {
+        //        verificaForm = false;
+        //    }
+        //} else {
+        //    nuevoDoc = true;
+        //    DocumentoDebito = inputDocumentoDebito.value;
+        //    if (DocumentoDebito == "") {
+        //        verificaForm = false;
+        //    }
+        //}
+        //if (verificaForm) {
 
-            fetchMethod({
-                url: "Documents/AddMixedDocuments",
-                body: {
-                    NuevoDocumento: nuevoDoc,
-                    DocumentoDebito: DocumentoDebito,
-                    MontoDebito: inputMontoDocumentoDebito.value,
-                    SaldoDebito: inputSaldoDebito.value,
+        //    fetchMethod({
+        //        url: "Documents/AddMixedDocuments",
+        //        body: {
+        //            NuevoDocumento: nuevoDoc,
+        //            DocumentoDebito: DocumentoDebito,
+        //            MontoDebito: inputMontoDocumentoDebito.value,
+        //            SaldoDebito: inputSaldoDebito.value,
 
-                    TipoDocumento: tipoDocumentoDebito.value,
-                    FechaDocumentoDebito: fechaDocumentoDebito.value,
-                    // CondicionPago: condicionPagoDebito.value,
-                    NotaDebito: notaMensualidad.value,
-                    IdCliente: selectClientes.value,
+        //            TipoDocumento: tipoDocumentoDebito.value,
+        //            FechaDocumentoDebito: fechaDocumentoDebito.value,
+        //            // CondicionPago: condicionPagoDebito.value,
+        //            NotaDebito: notaMensualidad.value,
+        //            IdCliente: selectClientes.value,
 
-                    DocumentoCredito: selectDocumetosCredito.value,
+        //            DocumentoCredito: selectDocumetosCredito.value,
 
-                    SaldoCredito: inputSaldoCredito,
-                    FechaDocumentoAsociacion: fechaDocumentoCredito.value,
-                    IdPartida: selectPartida.value,
-                },
-                cbSuccess: (res) => {
-                    if (res.resp == 1) {
+        //            SaldoCredito: inputSaldoCredito,
+        //            FechaDocumentoAsociacion: fechaDocumentoCredito.value,
+        //            IdPartida: selectPartida.value,
+        //        },
+        //        cbSuccess: (res) => {
+        //            if (res.resp == 1) {
 
 
-                        swal('Bien!',
-                            res.msj,
-                            'success')
+        //                swal('Bien!',
+        //                    res.msj,
+        //                    'success')
 
-                        var objNew = {
-                            DocDebito: DocumentoDebito,
-                            DocCredito: DocumentoCredito,
-                            Cliente: selectClientes.value
-                        };
-                        AgregarDocumentosRecientes(objNew);
+        //                var objNew = {
+        //                    DocDebito: DocumentoDebito,
+        //                    DocCredito: DocumentoCredito,
+        //                    Cliente: selectClientes.value
+        //                };
+        //                AgregarDocumentosRecientes_cxc(objNew);
 
-                        cargarComponent({
-                            container: "renderLocalDoc",
-                            url: "Documents/_ShowDocuments_CXC",
-                        })
+        //                cargarComponent({
+        //                    container: "renderLocalDoc",
+        //                    url: "Documents/_ShowDocuments_CXC",
+        //                })
+        //                var idCliente = selectClientes.value;
+        //                obtenerDocumentos_ClienteCXC(idCliente);
 
-                        llenarSelectDocumentosDebitos(idCliente, selectDocumetosDebito);
 
-                        llenarSelectDocumentosCreditos(idCliente, selectDocumetosCredito);
-                        removerRequieredRecibos(true);
-                    }
-                    else {
-                        swal('Opps!',
-                            res.msj,
-                            'error')
-                    }
-                }
-            })
-            limpiarFormularioDebito();
-            limpiarFormularioCredito();
+        //                /*llenarSelectDocumentosCreditos(idCliente, selectDocumetosCredito);*/
+        //                removerRequieredRecibos(true);
+        //            }
+        //            else {
+        //                swal('Opps!',
+        //                    res.msj,
+        //                    'error')
+        //            }
+        //        }
+        //    })
+        //    limpiarFormularioDebito();
+        //    limpiarFormularioCredito();
 
-        }
-        else {
+        //}
+        //else {
 
-            swal('Opps!',
-                'Faltan Datos Importantes',
-                'error')
-        }
+        //    swal('Opps!',
+        //        'Faltan Datos Importantes',
+        //        'error')
+        //}
         return false;
 
     }
@@ -499,8 +554,7 @@ $renderBody.addEventListener("change", (e) => {
 
     if (e.target.id === "tamanoPagina") {
 
-
-
+        const optionTable = d.querySelector('#ChoiceDocumentTable').value;
         if (optionTable == "DOCUMENTS_CXC") {
 
 
@@ -522,7 +576,7 @@ $renderBody.addEventListener("change", (e) => {
     //===========  CAMBIA LA TABLA A MOSTRAR  ===========
     //===================================================
 
-    else if (e.target.id === "ChoiceDocumentTable") {
+    else if (e.target.name === "ChoiceDocumentTable") {
 
         const optionTable = d.querySelector('#ChoiceDocumentTable').value;
 
@@ -543,12 +597,16 @@ $renderBody.addEventListener("change", (e) => {
     //===================== DEL CLIENTE  =======================
     //==========================================================
 
-    else if (e.target.id === "add_cliente_cxc") {
+    else if (e.target.name === "add_cliente_cxc") {
         const pIdCliente = selectClientes.value;
+        limpiarFormularioDebito();
+        limpiarFormularioCredito;
 
-        llenarSelectDocumentosDebitos(pIdCliente, selectDocumetosDebito);
+        obtenerDocumentos_ClienteCXC(pIdCliente);
 
-        llenarSelectDocumentosCreditos(pIdCliente, selectDocumetosCredito);
+        /*llenarSelectDocumentosDebitos(pIdCliente, selectDocumetosDebito);*/
+
+        /*llenarSelectDocumentosCreditos(pIdCliente, selectDocumetosCredito);*/
 
 
         return false;
@@ -558,7 +616,7 @@ $renderBody.addEventListener("change", (e) => {
     //===========  CAMBIA LOS SALDOS DEl   ==============
     //===========  DOCUMENTOS CREDITO  ==================
     //===================================================
-    else if (e.target.id === "select_documento_credito") {
+    else if (e.target.name === "select_documento_credito") {
 
 
         if (selectDocumetosCredito.value != "") {
@@ -569,21 +627,22 @@ $renderBody.addEventListener("change", (e) => {
                 }
             });
 
-            let valorString = obj.Saldo;
-            let valorFloat = parseFloat(valorString);
+            llenarFormularioCredito(obj);
+            //let valorString = obj.Saldo;
+            //let valorFloat = parseFloat(valorString);
 
-            let formatoMoneda = valorFloat.toLocaleString('es-CR', {
-                style: 'currency',
-                currency: 'CRC'
-            });
+            //let formatoMoneda = valorFloat.toLocaleString('es-CR', {
+            //    style: 'currency',
+            //    currency: 'CRC'
+            //});
 
 
-            inputSaldoCredito.textContent = formatoMoneda;
-            inputSaldoCredito.value = formatoMoneda;
+            //inputSaldoCredito.textContent = formatoMoneda;
+            //inputSaldoCredito.value = formatoMoneda;
 
-            notaCredito.value = obj.Notas;
+            //notaCredito.value = obj.Notas;
 
-            removerRequieredRecibos(false);
+            //removerRequieredRecibos(false);
         } else {
             removerRequieredRecibos(true);
             inputSaldoCredito.value = 0;
@@ -596,8 +655,19 @@ $renderBody.addEventListener("change", (e) => {
     //===========  CAMBIA LOS SALDOS DEl   ==============
     //===========  DOCUMENTOS DEBITO  ==================
     //===================================================
-    else if (e.target.id === "select_documento_debito") {
-        actualizarDatosDocumentosDebitosAsociar();
+    else if (e.target.name === "select_documento_debito_cxc") {
+        if (selectDocumetosDebito.value == "") {
+
+            limpiarFormularioDebito();
+
+        } else {
+            const obj = documentosDebitoCliente.find(function (documento) {
+                if (documento.Documento === selectDocumetosDebito.value) {
+                    return documento.Saldo;
+                }
+            });
+            actualizarDatosDocumentosDebitosAsociar(obj);
+        }
     }
     //===================================================
     //===========  Verifica la fecha del Doc  ===========
@@ -614,7 +684,7 @@ $renderBody.addEventListener("change", (e) => {
     //===========  Verifica la fecha de  Ingresar =======
     //===========  Documento Debito Asociacion  =========
     //===================================================
-    else if (e.target.id === "fechaDocumento_debito_cxc") {
+    else if (e.target.name === "fechaDocumento_debito_cxc") {
         verificarFechasDocumentosAsociados();
         return false;
 
@@ -623,7 +693,7 @@ $renderBody.addEventListener("change", (e) => {
     //===========  Verifica la fecha de  Ingresar =======
     //===========  Documento Credito Asociacion  =========
     //===================================================
-    else if (e.target.id === "fechaDocumento_credito_cxc") {
+    else if (e.target.name === "fechaDocumento_credito_cxc") {
 
 
         if (fechaDocumentoCredito.value != "") {
@@ -642,16 +712,27 @@ $renderBody.addEventListener("change", (e) => {
     //=======  MUESTRA LAS MENSUALIDADES PENDIENTES =====
     //=========== DEL CLIENTE SELECCIONADO ==============
     //===================================================
-    else if (e.target.id === "activeCredito") {
+    else if (e.target.name === "activeCredito_cxc") {
         const pIdCliente = selectClientes.value;
 
         if (checkBox.checked) {
             inputDocumentoDebito.removeAttribute("required");
-            llenarSelectDocumentosDebitos(pIdCliente, selectDocumetosDebito);
+            d.getElementById("grupo__monto_debito").removeAttribute("hidden");
+            d.getElementById("grupo_saldo_debito").removeAttribute("hidden");
+
+            inputMontoDocumentoDebito.removeAttribute("required");
+
+
+            obtenerDocumentos_ClienteCXC(pIdCliente);
+
             removerRequieredRecibos(false);
             activarInputsFormularioCredito(true);
         } else {
+
+            d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
+            d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
             inputDocumentoDebito.setAttribute("required", "");
+
             removerRequieredRecibos(true);
         }
 
@@ -663,17 +744,30 @@ $renderBody.addEventListener("change", (e) => {
     //===========  FORMULARIO CREDITO  ==================
     //===========  ACTIVA O DESACTIVA  ==================
     //===================================================
-    else if (e.target.id === "add_tipoDocumento_cxc") {
+    else if (e.target.name === "add_tipoDocumento_cxc") {
 
         if (tipoDocumentoDebito.value == "reci") {
+
+            d.getElementById("grupo__monto_debito").removeAttribute("hidden");
+            d.getElementById("grupo_saldo_debito").removeAttribute("hidden");
+
+            inputMontoDocumentoDebito.setAttribute("required", "");
+
+            
+
             activarInputsFormularioCredito(false);
         } else {
             activarInputsFormularioCredito(true);
+
+            d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
+            d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
+            inputMontoDocumentoDebito.removeAttribute("required");
+
             removerRequieredRecibos(true);
         }
 
     }
-    else if (e.target.id === "partida_credito") {
+    else if (e.target.name === "partida_credito") {
         if (selectPartida.value != "") {
             removerRequieredRecibos(false);
         } else {
@@ -691,6 +785,7 @@ $renderBody.addEventListener("change", (e) => {
 
     $("#buscar").on("keyup", function () {
         var value = $(this).val().toLowerCase();
+        const optionTable = d.querySelector('#ChoiceDocumentTable').value;
         /*var value = d.getElementById("buscar").value;*/
         if (optionTable == "DOCUMENTS_CXC") {
             //if (value.length > 2 || value.length == 0) {
@@ -715,7 +810,99 @@ $renderBody.addEventListener("change", (e) => {
 });
 
 //FUNCIONES
-function AgregarDocumentosRecientes(objDoc) {
+
+function crearDocumento_CXC() {
+    
+    var DocumentoDebito = "";
+    var DocumentoCredito = "";
+
+    var verificaForm = true;
+    let nuevoDoc;
+
+    if (checkBox.checked) {
+        DocumentoDebito = selectDocumetosDebito.value;
+        DocumentoCredito = selectDocumetosCredito.value;
+        if ((DocumentoCredito == "" && inputDocumentoDebito == "") || DocumentoCredito == "") {
+            verificaForm = false;
+        }
+    } else {
+        nuevoDoc = true;
+        DocumentoDebito = inputDocumentoDebito.value;
+        if (DocumentoDebito == "") {
+            verificaForm = false;
+        }
+    }
+    if (verificaForm) {
+        fetchMethod({
+            url: "Documents/AddMixedDocuments",
+            body: {
+                NombreTabla: "DOCUMENTO_CXC",
+                NombreTablaAuxiliar: "AUXILIAR_CXC",
+                NuevoDocumento: nuevoDoc,
+                DocumentoDebito: DocumentoDebito,
+                MontoDebito: inputMontoDocumentoDebito.value,
+                SaldoDebito: inputSaldoDebito.value,
+
+                TipoDocumento: tipoDocumentoDebito.value,
+                FechaDocumentoDebito: fechaDocumentoDebito.value,
+                // CondicionPago: condicionPagoDebito.value,
+                NotaDebito: notaMensualidad.value,
+                IdCliente: selectClientes.value,
+
+                DocumentoCredito: selectDocumetosCredito.value,
+
+                SaldoCredito: inputSaldoCredito,
+                FechaDocumentoAsociacion: fechaDocumentoCredito.value,
+                IdPartida: selectPartida.value,
+            },
+            cbSuccess: (res) => {
+                if (res.resp == 1) {
+
+
+                    swal('Bien!',
+                        res.msj,
+                        'success')
+
+                    var objNew = {
+                        DocDebito: DocumentoDebito,
+                        DocCredito: DocumentoCredito,
+                        Cliente: selectProveedor_cxp.value
+                    };
+                    AgregarDocumentosRecientes_cxc(objNew);
+
+                    cargarComponent({
+                        container: "renderLocalDoc",
+                        url: "Documents/_ShowDocuments_CXC",
+                    })
+                    var idCliente = selectClientes.value;
+                    obtenerDocumentos_ClienteCXC(idCliente);
+
+
+
+                    removerRequieredRecibos(true);
+                }
+                else {
+                    swal('Opps!',
+                        res.msj,
+                        'error')
+                }
+            }
+        })
+        limpiarFormularioDebito();
+        limpiarFormularioCredito();
+
+    }
+    else {
+
+        swal('Opps!',
+            'Faltan Datos Importantes',
+            'error')
+    }
+
+}
+
+
+function AgregarDocumentosRecientes_cxc(objDoc) {
 
 
     const documentoAgregado = lstClientes.find(function (client) {
@@ -727,30 +914,31 @@ function AgregarDocumentosRecientes(objDoc) {
     objDoc.Cliente = documentoAgregado.Text;
 
 
-    documentosRecientes = [documentosRecientes, objDoc];
-    localStorage.setItem('documentosRecientes', JSON.stringify(documentosRecientes));
-
-    llenarTablaDocumentosRecientes();
+    documentosRecientes_cxc = [documentosRecientes_cxc, objDoc];
+    localStorage.setItem('documentosRecientes_cxc', JSON.stringify(documentosRecientes_cxc));
+    limpiarStorage_cxc= true;
+    llenarTablaDocumentosRecientes_cxc();
 
 }
 
-function llenarTablaDocumentosRecientes() {
+function llenarTablaDocumentosRecientes_cxc() {
     const tableDepositosRecientes = d.getElementById("tbDepositosRecientes");
     limpiarHtml(tableDepositosRecientes);
-    documentosRecientes = JSON.parse(localStorage.getItem('documentosRecientes')) || [];
+    documentosRecientes_cxc = JSON.parse(localStorage.getItem('documentosRecientes_cxc')) || [];
 
-    if (documentosRecientes.length > 0) {
-        for (var i = 0; i < documentosRecientes.length; i++) {
-            var { DocDebito, DocCredito, Cliente } = documentosRecientes[i];
-            
-            var datos = `
+    if (documentosRecientes_cxc.length > 0) {
+        for (var i = 0; i < documentosRecientes_cxc.length; i++) {
+            var { DocDebito, DocCredito, Cliente } = documentosRecientes_cxc[i];
+            if (DocCredito != undefined && DocDebito != undefined && Cliente != undefined) {
+                var datos = `
              <tr id="tbDatos">
                  <td>${DocDebito}</td>
                  <td>${DocCredito}</td>
                  <td>${Cliente}</td>
 
              </tr>`;
-            $("#tbDepositosRecientes").append(datos)
+                $("#tbDepositosRecientes").append(datos)
+            }
         }
     } else {
         var mensaje = `
@@ -790,7 +978,7 @@ function mostrarRecibosxMensualidad(pDoc) {
                                     <td id="tbMonto" class="money">${MontoDeposito}</td>
                                     <td id="tbFecha">${FechaAux}</td>
                                     <td>
-                                         <button data-id="${DocumentoCredito}" id="remove_deposito_cxc" type="button" class="btn btn-outline-danger">
+                                         <button data-id="${DocumentoCredito}" id="remove_deposito" type="button" class="btn btn-outline-danger">
                                         <i class="fa fa-remove mr-2" aria-hidden="true"></i>Desasociar Documento
                                         </button>
 
@@ -867,6 +1055,8 @@ function activarInputsFormularioDebito() {
         notaMensualidad.disabled = true;
         inputDocumentoDebito.setAttribute('hidden', '');
         selectDocumetosDebito.removeAttribute('hidden');
+
+        d.getElementById("grupo_pago_debito").removeAttribute('hidden');
     } else {
         //DESACTIVAR ELEMENTOS 
         inputMontoDocumentoDebito.disabled = false;
@@ -877,6 +1067,7 @@ function activarInputsFormularioDebito() {
 
         inputDocumentoDebito.removeAttribute('hidden');
         selectDocumetosDebito.setAttribute('hidden', '');
+        d.getElementById("grupo_pago_debito").setAttribute('hidden', '');
 
         //LIMPIA LOS DATOS MENOS EL SELECT
         limpiarFormularioDebito();
@@ -895,40 +1086,59 @@ function formatCurrency(amount, currencySymbol, decimalSeparator, thousandsSepar
 };
 
 
+function actualizarDatosDocumentosDebitosAsociar(objDebito) {
 
-function actualizarDatosDocumentosDebitosAsociar() {
-    if (selectDocumetosDebito.value == "") {
+    let montoFloat = parseFloat(objDebito.Monto);
 
-        limpiarFormularioDebito();
+    let setDate = convertirFecha_yy_MM_dd(objDebito.FechaDocumento);
 
-    } else {
-        const obj = documentosDebitoCliente.find(function (documento) {
-            if (documento.Documento === selectDocumetosDebito.value) {
-                return documento.Saldo;
-            }
-        });
-        let montoFloat = parseFloat(obj.Monto);
-        let saldoFloat = parseFloat(obj.Saldo);
-        var montoFomateado = formatCurrency(montoFloat, '', '.', ',');
+    inputDocumentoDebito.textContent = objDebito.Documento;
+    inputDocumentoDebito.value = objDebito.Documento;
+
+    inputMontoDocumentoDebito.textContent = objDebito.Monto;
+    inputMontoDocumentoDebito.value = objDebito.Monto;
+
+    fechaDocumentoDebito.valueAsDate = new Date(setDate);
+    condicionPagoDebito.textContent = objDebito.CondicionPago;
+    condicionPagoDebito.value = objDebito.CondicionPago;
+    notaMensualidad.value = objDebito.Notas;
+    inputSaldoDebito.textContent = objDebito.Saldo;
+    inputSaldoDebito.value = objDebito.Saldo;
 
 
-        let setDate = convertirFecha_yy_MM_dd(obj.FechaDocumento);
+}
 
-        inputDocumentoDebito.textContent = obj.Documento;
-        inputDocumentoDebito.value = obj.Documento;
 
-        inputMontoDocumentoDebito.textContent = obj.Monto;
-        inputMontoDocumentoDebito.value = obj.Monto;
+//function actualizarDatosDocumentosDebitosAsociar() {
+//    if (selectDocumetosDebito.value == "") {
 
-        fechaDocumentoDebito.valueAsDate = new Date(setDate);
-        //condicionPagoDebito.textContent = obj.CondicionPago;
-        //condicionPagoDebito.value = obj.CondicionPago;
-        notaMensualidad.value = obj.Notas;
-        inputSaldoDebito.textContent = obj.Saldo;
-        inputSaldoDebito.value = obj.Saldo;
+//        limpiarFormularioDebito();
 
-    }
-};
+//    } else {
+//        const obj = documentosDebitoCliente.find(function (documento) {
+//            if (documento.Documento === selectDocumetosDebito.value) {
+//                return documento.Saldo;
+//            }
+//        });
+//        let montoFloat = parseFloat(obj.Monto);
+
+//        let setDate = convertirFecha_yy_MM_dd(obj.FechaDocumento);
+
+//        inputDocumentoDebito.textContent = obj.Documento;
+//        inputDocumentoDebito.value = obj.Documento;
+
+//        inputMontoDocumentoDebito.textContent = obj.Monto;
+//        inputMontoDocumentoDebito.value = obj.Monto;
+
+//        fechaDocumentoDebito.valueAsDate = new Date(setDate);
+//        condicionPagoDebito.textContent = obj.CondicionPago;
+//        condicionPagoDebito.value = obj.CondicionPago;
+//        notaMensualidad.value = obj.Notas;
+//        inputSaldoDebito.textContent = obj.Saldo;
+//        inputSaldoDebito.value = obj.Saldo;
+
+//    }
+//};
 
 
 function verificarFechasDocumentosAsociados() {
@@ -937,8 +1147,7 @@ function verificarFechasDocumentosAsociados() {
 
     var inputDebitoValido = true;
     var inputCreditoValido = true;
-    console.log("fecha Actual: "+fechaActual);
-    console.log(fechaDocumentoDebito.value);
+
     if (fechaDocumentoDebito.value > fechaActual) {
 
         fechaDocumentoDebito.style.border = '2px solid red';
@@ -1002,6 +1211,7 @@ function limpiarFormularioDebito() {
     /*condicionPagoDebito.value = 0;*/
     notaMensualidad.value = "";
     inputSaldoDebito.value = 0;
+    condicionPagoDebito.value = 0;
     fechaDocumentoDebito.value = "yyyy-MM-dd";
 
 };
@@ -1055,27 +1265,30 @@ function limpiarHtml(elemento) {
 //========== O CUALQUIER SELECT QUE SE REQUIERA ==============
 //============================================================
 
-function llenarSelectPartidas(element) {
+function llenarSelectPartidas(element,tipo) {
     limpiarHtml(element);
     const defaultOption = document.createElement('option');
-
-
+    let Partidas_por_tipo = [];
+    
     fetch("/Departure/showActiveDepartures")
 
         .then(res => res.ok ? res.json() : null)
         .then(res => {
-
-
-            if (res.length > 0) {
+            Partidas_por_tipo = res.filter(partida => partida.Tipo === tipo);
+            
+            
+            if (Partidas_por_tipo.length > 0) {
                 OpcionPorDefectoSelect(element, "Selecciona una Partida");
-                for (var i = 0; i < res.length; i++) {
-                    const { Alias, Descripcion, IdPartida } = res[i];
+                for (var i = 0; i < Partidas_por_tipo.length; i++) {
 
-                    const option = document.createElement('option');
-                    option.value = IdPartida;
-                    option.textContent = Alias + " - " + Descripcion;
+                    const { Alias, Descripcion, IdPartida, Tipo } = Partidas_por_tipo[i];
+                    
+                        const option = document.createElement('option');
+                        option.value = IdPartida;
+                        option.textContent = Alias + " - " + Descripcion;
 
-                    element.appendChild(option);
+                        element.appendChild(option);
+                    
                 }
             } else {
                 defaultOption.text = "No hay Partidas Disponibles";
@@ -1136,109 +1349,86 @@ function llenarSelectCliente(element) {
 //============================================================
 //=========== PINTA LOS DOCUMENTOS EN EL SELECT CREDITO ======
 //============================================================
-function llenarSelectDocumentosCreditos(pIdCliente, element) {
-    limpiarHtml(element);
+
+function llenarSelectDocumentosCreditos(pId, opcion, datos, element) {
+
     const defaultOption = document.createElement('option');
-    if (pIdCliente !== "") {
-        fetch("/Documents/getDocumentosxCliente?pIdCliente=" + pIdCliente)
-            .then(res => res.ok ? res.json() : null)
-            .then(res => {
-                documentosCreditoCliente = res.lstDocumentosDisponiles.filter(doc => doc.TipoDocumento == "reci");
-                OpcionPorDefectoSelect(element, "Recibos");
-                if (documentosCreditoCliente.length > 0) {
+    limpiarHtml(element);
+    if (pId !== "") {
+        if (datos.length > 0) {
+            OpcionPorDefectoSelect(element, opcion);
+            for (let i = 0; i < datos.length; i++) {
 
-                    for (let i = 0; i < documentosCreditoCliente.length; i++) {
+                const { Documento } = datos[i];
+                const option = document.createElement('option');
 
-                        const { Documento, Estado, Notas, Saldo } = documentosCreditoCliente[i];
-                        const option = document.createElement('option');
+                option.value = Documento;
+                option.textContent = Documento;
+                element.appendChild(option);
 
-                        option.value = Documento;
-                        option.textContent = Documento;
-                        element.appendChild(option);
-                    }
-                } else {
-                    defaultOption.text = "Sin Saldos Disponibles";
-                    defaultOption.value = "";
-                    inputSaldoCredito.value = 0;
+            }
+        } else {
+            defaultOption.text = "No hay Disponibles";
+            defaultOption.value = "";
 
-                    defaultOption.disabled = false;
-                    defaultOption.selected = true;
-                    element.appendChild(defaultOption);
 
-                }
-            })
-    } else {
-        defaultOption.value = "";
-        inputSaldoCredito.value = 0;
-        notaCredito.value = ""; 
-        OpcionPorDefectoSelect(element, "Recibos");
-    }
+            defaultOption.disabled = false;
+            defaultOption.selected = true;
+            crearPorDefecto = false;
+            element.appendChild(defaultOption);
+        }
+
+    } else { OpcionPorDefectoSelect(element, opcion); }
 }
+
 //============================================================
 //=========== PINTA LOS DOCUMENTOS EN EL SELECT DEBITO =======
 //============================================================
 
-function OpcionPorDefectoSelect(element, mensaje) {
-    const defaultOption = document.createElement('option');
-    defaultOption.text = mensaje;
-    defaultOption.value = "";
-
-    defaultOption.selected = true;
-    element.appendChild(defaultOption);
-}
-
-
-function llenarSelectDocumentosDebitos(pIdCliente, element) {
+function llenarSelectDocumentosDebitos(pId, opcion, datos, element) {
     const defaultOption = document.createElement('option');
     limpiarHtml(element);
+    if (pId !== "") {
+        if (datos.length > 0) {
+            OpcionPorDefectoSelect(element, opcion);
+            for (let i = 0; i < datos.length; i++) {
 
-    if (pIdCliente !== "") {
-        fetch("/Documents/getDocumentosxCliente?pIdCliente=" + pIdCliente)
-            .then(res => res.ok ? res.json() : null)
-            .then(res => {
+                const { Documento } = datos[i];
+                const option = document.createElement('option');
 
-                documentosDebitoCliente = res.lstDocumentosDisponiles.filter(doc => doc.TipoDocumento == "mens");
-                OpcionPorDefectoSelect(element, "Mensualidades");
-                if (documentosDebitoCliente.length > 0) {
+                option.value = Documento;
+                option.textContent = Documento;
+                element.appendChild(option);
 
-                    for (let i = 0; i < documentosDebitoCliente.length; i++) {
-
-                        const { Documento } = documentosDebitoCliente[i];
-                        const option = document.createElement('option');
-
-                        option.value = Documento;
-                        option.textContent = Documento;
-                        element.appendChild(option);
-
-                    }
-                } else {
-                    defaultOption.text = "No hay Pendientes";
-                    defaultOption.value = "";
+            }
+        } else {
+            defaultOption.text = "No hay Pendientes";
+            defaultOption.value = "";
 
 
-                    defaultOption.disabled = false;
-                    defaultOption.selected = true;
-                    crearPorDefecto = false;
-                    element.appendChild(defaultOption);
+            defaultOption.disabled = false;
+            defaultOption.selected = true;
+            crearPorDefecto = false;
+            element.appendChild(defaultOption);
+        }
 
-                }
-            })
-    } else { OpcionPorDefectoSelect(element, "Mensualidades"); }
+    } else { OpcionPorDefectoSelect(element, opcion); }
+
+
 }
-
 
 //============================================================
 //============== PINTA LOS DATOS EN EL MODAL CXC =============
 //==============   O EN LA TABLA DE DETALLES =================
 //============================================================
 
-function showHeaderDeposit(pDoc) {
+function showHeaderDeposit_cxc(pDoc) {
 
     fetch("/Documents/getDataDocument_CXC?pDoc=" + pDoc)
 
         .then(res => res.ok ? res.json() : null)
         .then(res => {
-            
+
             var { Documento, Monto, Saldo, FechaDocumento, IdCliente, NombreCliente } = res;
             Monto = Monto.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
             Saldo = Saldo.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -1259,4 +1449,195 @@ function showHeaderDeposit(pDoc) {
             d.querySelector('#usuario_dep').value = NombreCliente;
         })
 
+};
+
+
+function OpcionPorDefectoSelect(element, mensaje) {
+    const defaultOption = document.createElement('option');
+    defaultOption.text = mensaje;
+    defaultOption.value = "";
+
+    defaultOption.selected = true;
+    element.appendChild(defaultOption);
+}
+
+//============================================================
+//============= FUNCIONES ASINCRONICAS QUE ===================
+//============ MANIPULAN LOS DOCUMENTOS CXC ==================
+//============================================================
+
+async function obtenerDocumentos_ClienteCXC(pIdCliente) {
+
+    documentosCliente = await getDocumentosXCliente(pIdCliente);
+
+    documentosCreditoCliente = documentosCliente.filter(doc => doc.TipoDocumento == "reci");
+    documentosDebitoCliente = documentosCliente.filter(doc => doc.TipoDocumento == "mens");
+
+    llenarSelectDocumentosDebitos(pIdCliente, "Mensualidades", documentosDebitoCliente, selectDocumetosDebito);
+    llenarSelectDocumentosCreditos(pIdCliente, "Recibos", documentosCreditoCliente, selectDocumetosCredito);
+
+}
+async function getDocumentosXCliente(pIdCliente) {
+    if (pIdCliente !== "") {
+        const response = await fetch("/Documents/getDocumentosxCliente?pIdCliente=" + pIdCliente);
+        const data = await response.json();
+        return data.lstDocumentosDisponiles;
+    } else {
+        return [];
+    }
+}
+
+
+function llenarFormularioCredito(objCredito) {
+    
+    let valorString = objCredito.Saldo;
+    let valorFloat = parseFloat(valorString);
+
+    let formatoMoneda = valorFloat.toLocaleString('es-CR', {
+        style: 'currency',
+        currency: 'CRC'
+    });
+
+
+    inputSaldoCredito.textContent = formatoMoneda;
+    inputSaldoCredito.value = formatoMoneda;
+
+    notaCredito.value = objCredito.Notas;
+
+    removerRequieredRecibos(false);
+}
+
+
+function llenarSelectTipoDocumento_cxc(element) {
+    let opcionesTipoDocumentos = ["mens", "reci"];
+    limpiarHtml(element);
+    OpcionPorDefectoSelect(element, "Selecciona un Tipo");
+    for (var i = 0; i < opcionesTipoDocumentos.length; i++) {
+        const option = document.createElement('option');
+        if (opcionesTipoDocumentos[i] === "mens") {
+            option.value = opcionesTipoDocumentos[i];
+            option.textContent = "Mensualidad";
+        } else {
+            option.value = opcionesTipoDocumentos[i];
+            option.textContent = "Recibo";
+
+        }
+        element.appendChild(option);
+    }
+
+}
+function cambiarNombresInputs_CXC() {
+    formularioDocumentoMixto.name = "formDocumentoMixto_cxc";
+
+    checkBox.name = "activeCredito_cxc";
+    inputDocumentoDebito.name = "add_documento_debito_cxc";
+    inputMontoDocumentoDebito.name = "monto_debito_cxc";
+    inputSaldoDebito.name = "add_saldo_debito_cxc";
+    tipoDocumentoDebito.name = "add_tipoDocumento_cxc";
+    fechaDocumentoDebito.name = "fechaDocumento_debito_cxc";
+    condicionPagoDebito.name = "condicio_pago_cxc";
+    notaMensualidad.name = "nota_debito_cxc";
+
+    inputSaldoCredito.name = "add_saldo_credito";
+    fechaDocumentoCredito.name = "fechaDocumento_credito_cxc";
+    notaCredito.name = "nota_credito_cxc";
+    selectDocumetosDebito.name = "select_documento_debito_cxc";
+    selectDocumetosCredito.name = "select_documento_credito";
+    selectClientes.name = "add_cliente_cxc";
+    selectPartida.name = "partida_credito";
+
+    titleModalAsociacion_cxc.textContent = "Cuentas Por Cobrar";
+    titleFormularioCredito_cxc.textContent = "Recibos del Cliente";
+    label_selec_cliente.textContent = "Cliente";
+    label_select_transaccion.textContent = "Recibos Disponibles";
+
+    label_checkbox_cxp.textContent = "¿Asociar Mensualidades Existentes?";
+
+    d.getElementById("recientes_agregados").name = "recientes_agregados_cxc";
+
+    d.getElementById("formularioDebito").style.borderRadius = "10px";
+    d.getElementById("formularioDebito").style.border = "3px solid green";
+
+    d.getElementById("formularioCredito").style.borderRadius = "10px";
+    d.getElementById("formularioCredito").style.border = "3px solid brown";
+}
+
+//============================================================
+//============== PINTA LOS DATOS EN EL MODAL CXP =============
+//==============   O EN LA TABLA DE DETALLES =================
+//============================================================
+function showDataDocument_cxc(pDoc, pAccion) {
+    //let prove = document.getElementById("IdProveedor").value;
+
+    //'"@Url.Content("~/Document_CXP/getDataDocument")" + "?pDoc="' + pDoc
+    fetch("/Documents/getDataDocument_CXC?pDoc=" + pDoc)
+
+        .then(res => res.ok ? res.json() : null)
+        .then(res => {
+
+            
+            if (pAccion == "Datos") {
+
+                doc.querySelector('#documento_cxc').textContent = res.Documento;
+                doc.querySelector('#documento_cxc').value = res.Documento;
+
+                doc.querySelector('#monto_cxc').textContent = res.Monto;
+                doc.querySelector('#monto_cxc').value = res.Monto;
+
+                doc.querySelector('#saldo_cxc').textContent = res.Saldo;
+                doc.querySelector('#saldo_cxc').value = res.Saldo;
+
+                doc.querySelector('#pago_cxc').textContent - res.CondicionPago;
+                doc.querySelector('#pago_cxc').value = res.CondicionPago;
+
+                doc.querySelector('#nota_cxc').textContent = res.Nota;
+                doc.querySelector('#nota_cxc').value = res.Nota;
+
+                doc.querySelector('#fechaDocumento_cxc').textContent = res.FechaDocumento;
+                doc.querySelector('#fechaDocumento_cxc').value = res.FechaDocumento;
+
+                if (res.TipoDocumento == "mens") {
+                    doc.querySelector('#tipoDocumento_cxc').options.item(1).selected = 'selected';
+                }
+                else {
+                    doc.querySelector('#tipoDocumento_cxc').options.item(2).selected = 'selected';
+                }
+
+                if (res.Estado == "AD") {
+                    doc.querySelector('#estado_cxc').options.item(1).selected = 'selected';
+                } else if (res.Estado == "PD") {
+                    doc.querySelector('#estado_cxc').options.item(2).selected = 'selected';
+                } else if (res.Estado == "FN") {
+                    doc.querySelector('#estado_cxc').options.item(3).selected = 'selected';
+                }
+
+
+                doc.querySelector('#IdCliente').value = res.IdCliente;
+
+    
+
+            }
+            if (pAccion == "Bitacora") {
+
+                tbId_cxc.textContent = res.Documento;
+                tbId_cxc.value = res.Documento;
+                tbUsuarioCreacion_cxc.textContent = res.UserCreation;
+                tbUsuarioCreacion_cxc.value = res.UserCreation;
+
+                tbUsuarioModificacion_cxc.textContent = res.UserModification;
+                tbUsuarioModificacion_cxc.value = res.UserModification;
+
+                tbFechaCreacion_cxc.textContent = res.CreationDate;
+                tbFechaCreacion_cxc.value = res.CreationDate;
+
+                tbFechaModificacion_cxc.textContent = res.ModificationDate;
+                tbFechaModificacion_cxc.value = res.ModificationDate;
+
+                notaLog_cxc.textContent = res.Nota;
+                notaLog_cxc.value = res.Nota;
+                
+                $("#LogDoc_cxc").modal("show");
+            }
+
+        })
 };
