@@ -7,7 +7,6 @@ using SICOAdmin1._0.Models;
 using SICOAdmin1._0.Models.Client;
 using SICOAdmin1._0.Models.User;
 using System.Data.Entity.Core.Objects;
-using Rotativa;
 using SICOAdmin1._0.Filters;
 
 namespace SICOAdmin1._0.Controllers

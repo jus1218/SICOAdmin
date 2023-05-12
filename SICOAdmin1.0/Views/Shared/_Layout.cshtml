@@ -115,6 +115,10 @@
                                             <li><a href="@Url.Action("Index", "Proveedor")">Admin. Proveedor</a></li>
                                         }
 
+                                        @if (@lstActions.Contains(89))
+                                        {
+                                            <li><a href="@Url.Action("Index","Filial")">Filiales</a></li>
+                                        }
                                     </ul>
                                 </li>
 
@@ -162,13 +166,14 @@
                                         {
                                             <li><a href="@Url.Action("Index", "Concepto")">Admin. Concepto</a></li>
                                         }
+
                                         @if (@lstActions.Contains(67) || @lstActions.Contains(71))
                                         {
                                             <li><a href="@Url.Action("Index", "Documents")">Consultar E/S</a></li>
                                         }
-                                        <li><a href="@Url.Action("Index","Home")">Consultar Planilla</a></li>
-                                        @if (@lstActions.Contains(89)) {
-                                            <li><a href="@Url.Action("Index","Filial")">Cuotas por filial</a></li>
+
+                                        @if (@lstActions.Contains(94)) {
+                                            <li><a href="@Url.Action("Index","Print")">Estados de cuenta</a></li>
                                         }
                                     </ul>
                                 </li>

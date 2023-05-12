@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web.Mvc;
+using SICOAdmin1._0.Filters;
 using SICOAdmin1._0.Models;
 
 
@@ -14,6 +15,7 @@ namespace SICOAdmin1._0.Controllers
         ObjectParameter totalPag = new ObjectParameter("totalPag", 0);
 
         // GET: Index
+        [AuthorizeUser(pAccion: 94)]
         public ActionResult Index()
         {
             List<SP_C_MostrarClientes_Result> lstC = null;
