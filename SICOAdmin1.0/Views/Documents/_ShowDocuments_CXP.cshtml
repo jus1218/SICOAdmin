@@ -23,7 +23,7 @@
     @if (lstActions.Contains(70))
     {
 <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 "
-        id="create_deposito_cxc" name="CreateDocument_CXP">
+        id="create_deposito_cxp" name="create_deposito_cxp">
     <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
     Agregar
 </button>}
@@ -45,13 +45,13 @@
 <div class="row m-1 ">
 
     <select class="col-2 form-control select-item border-light"
-            aria-label="Default select example" id="ChoiceDocumentTable">
+            aria-label="Default select example" id="ChoiceDocumentTable" name="ChoiceDocumentTable">
         <option selected value="DOCUMENTS_CXP">Cuentas x Pagar</option>
         <option value="DOCUMENTS_CXC">Cuentas x Cobrar</option>
 
     </select>
 
-    <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamanoPagina">
+    <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamanoPagina" name="tamanoPagina">
         <option value="3">3</option>
         <option value="5">5</option>
         <option value="10">10</option>

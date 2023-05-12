@@ -74,7 +74,7 @@ namespace SICOAdmin1._0.Controllers
             {
                 using (var DB = new SICOAdminEntities())
                 {
-                    DB.SP_P_CrearParametro(mensualidad, pModel.IdConsecRecibo, mora, pModel.DocumentTypePayment, pModel.PaymentCondition, pModel.Status,
+                    DB.SP_P_CrearParametro(mensualidad, pModel.IdConsecRecibo, mora, pModel.DocumentTypePayment, pModel.PaymentCondition, "0",
                                   ((User)Session["User"]).userName, resultSP, mensajeSP);
                     Response = Convert.ToInt32(resultSP.Value);
                     Message = Convert.ToString(mensajeSP.Value);

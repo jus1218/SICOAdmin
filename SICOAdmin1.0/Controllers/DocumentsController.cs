@@ -135,21 +135,23 @@ namespace SICOAdmin1._0.Controllers
               }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getDataDocument(string pDoc)
+        public JsonResult getDataDocument_CXP(string pDoc)
         {
 
-            SP_C_Documento_Result document = new SP_C_Documento_Result();
-            string tableName = "DOCUMENTO_CXP";
+            SP_C__Buscar_Documento_CXP_Result document = new SP_C__Buscar_Documento_CXP_Result();
+            
             using (var db = new SICOAdminEntities())
-                document = db.SP_C_Documento(tableName, pDoc).First();
+                document = db.SP_C__Buscar_Documento_CXP(pDoc).First();
 
             var obj = new
             {
                 Documento = document.Documento,
                 IdProveedor = document.IdProveedor,
+                NombreCliente = document.Nombre,
+                Identificacion = document.Identificacion,
                 TipoDocumento = document.TipoDocumento,
-                Monto = document.Monto.ToString("C"),
-                Saldo = document.Saldo.ToString("C"),
+                Monto = document.Monto,
+                Saldo = document.Saldo,
                 Estado = document.Estado,
                 CondicionPago = document.CondicionPago,
                 FechaDocumento = document.FechaDocumento.ToString("yyyy-MM-dd"),
@@ -167,7 +169,56 @@ namespace SICOAdmin1._0.Controllers
 
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult getDocumentosxProveedor(int pIdProveedor)
+        {
 
+            List<SP_C_Buscar_DocumentosCXP_Por_Proveedor_Result> lstDocumentosDisponiles = new List<SP_C_Buscar_DocumentosCXP_Por_Proveedor_Result>();
+            try
+            {
+                using (var db = new SICOAdminEntities())
+                {
+                    lstDocumentosDisponiles = db.SP_C_Buscar_DocumentosCXP_Por_Proveedor(pIdProveedor).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return Json(
+                new
+                {
+                    lstDocumentosDisponiles
+                }, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult getProviders()
+        {
+            try
+            {
+                selectProviders = getListActiveProviders();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return Json(
+                new
+                {
+                    selectProviders
+                }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getDeposits_CXP(string pDocument)
+        {
+
+            List<SP_C_Mostrar_Facturtas_CXP_Result> depositos = new List<SP_C_Mostrar_Facturtas_CXP_Result>();
+
+            using (var db = new SICOAdminEntities())
+                depositos = db.SP_C_Mostrar_Facturtas_CXP(pDocument).ToList();
+
+            return Json(depositos, JsonRequestBehavior.AllowGet);
+
+        }
         //=============== DOCUMENTOS CXC ======================
         [AuthorizeUser(pAccion: 66)]
         public JsonResult AddDocument_CXC(DOCUMENTO_CXC obj)
@@ -250,8 +301,8 @@ namespace SICOAdmin1._0.Controllers
                 NombreCliente = document_cxc.Nombre,
                 Identificacion = document_cxc.Identificacion,
                 TipoDocumento = document_cxc.TipoDocumento,
-                Monto = document_cxc.Monto.ToString("C"),
-                Saldo = document_cxc.Saldo.ToString("C"),
+                Monto = document_cxc.Monto,
+                Saldo = document_cxc.Saldo,
                 Estado = document_cxc.Estado,
                 CondicionPago = document_cxc.CondicionPago,
                 FechaDocumento = document_cxc.FechaDocumento.ToString("yyyy-MM-dd"),

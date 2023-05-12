@@ -30,7 +30,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="d-flex justify-content-center ">
-                    <h5 style="text-align:center" class="modal-title p-3" id="ModalTitleDeposito_CXC">Crear o Asociar Documentos CXC</h5>
+                    <h5 style="text-align:center" class="modal-title p-3" id="title_admin_docs">Crear o Asociar Documentos</h5>
 
                 </div>
 
@@ -48,11 +48,11 @@
 
                                                 <!--Grupo Debito -->
                                                 <div class="form-group" id="grupo_Doc_debito">
-                                                    <label for="add_documento_debito">Documento Debito</label>
-                                                    <input name="add_documento_debito" type="text" class="form-control" id="add_documento_debito" placeholder="Ingrese el Documento"
+                                                    <label for="add_documento_debito_cxc">Documento Debito</label>
+                                                    <input name="add_documento_debito_cxc" type="text" class="form-control" id="add_documento_debito_cxc" placeholder="Ingrese el Documento"
                                                            pattern="(?=.+[\w]).{1,50}|(?=.+[\W]).{1,50}" title="Solo se permiten números y letras" required>
 
-                                                    <select hidden id="select_documento_debito" name="add_documento_debito" class="custom-select">
+                                                    <select hidden id="select_documento_debito_cxc" name="select_documento_debito_cxc" class="custom-select">
                                                         <option value="" selected disabled>Documento Debito</option>
 
                                                     </select>
@@ -60,15 +60,15 @@
                                                 </div>
                                                 <!--Grupo  Cliente-->
                                                 <div class="form-group" id="grupo_cliente_debito">
-                                                    <label for="add_cliente_cxc">Cliente</label>
-                                                    <select required class="form-control" id="add_cliente_cxc">
+                                                    <label for="add_cliente_cxc" id="lb_cliente_asociacion">Cliente</label>
+                                                    <select required class="form-control" id="add_cliente_cxc" name="add_cliente_cxc">
                                                         <option value="" selected disabled>Asociar Cliente</option>
                                                     </select>
                                                 </div>
 
                                                 <div class="form-group" id="grupo_fecha_debito">
-                                                    <label for="FechaDocumento_debito_cxc">Fecha Documento</label>
-                                                    <input type="date" id="fechaDocumento_debito_cxc" required name="FechaDocumento_debito_cxc" class="form-control" />
+                                                    <label for="fechaDocumento_debito_cxc">Fecha Documento</label>
+                                                    <input type="date" id="fechaDocumento_debito_cxc" required name="fechaDocumento_debito_cxc" class="form-control" />
                                                 </div>
 
                                                 <!--Grupo Notas-->
@@ -83,13 +83,13 @@
                                                 <div class="form-group" id="grupo__monto_debito">
                                                     <label for="monto_debito_cxc">Monto</label>
 
-                                                    <input type="number" class="form-control" id="monto_debito_cxc"
+                                                    <input type="number" class="form-control" id="monto_debito_cxc" name="monto_debito_cxc"
                                                            step="0.001" pattern="[0-9]+" placeholder="Ingrese el Monto" title="Solo se permiten numeros" required>
                                                 </div>
 
                                                 <div class="form-group" id="grupo_saldo_debito">
-                                                    <label for="add_saldo_debito">Saldo Debito</label>
-                                                    <input disabled name="add_saldo_debito" type="number" class="form-control" id="add_saldo_debito"
+                                                    <label for="add_saldo_debito_cxc">Saldo Debito</label>
+                                                    <input disabled name="add_saldo_debito_cxc" type="number" class="form-control" id="add_saldo_debito_cxc"
                                                            step="0.01" placeholder="0.000" pattern="[0-9]+" title="Solo se permiten numeros" required>
                                                 </div>
                                                 <div class="form-group" id="grupo_tipo_debito_cxc">
@@ -102,19 +102,19 @@
 
                                                 </div>
 
-                                                @*<div class="form-group" id="grupo_pago_debito">
+                                                <div hidden class="form-group" id="grupo_pago_debito">
                                                     <label for="condicio_pago_cxc">Condición Pago</label>
-                                                    <input name="condicio_pago_cxc" type="number" class="form-control" id="condicio_pago_cxc" placeholder="Condición de Pago"
-                                                           pattern="[0-9]+" title="Solo se permiten numeros" required>
+                                                    <input disabled name="condicio_pago_cxc" type="number" class="form-control" id="condicio_pago_cxc" placeholder="Condición de Pago"
+                                                           pattern="[0-9]+" title="Solo se permiten numeros" >
 
 
-                                                </div>*@
+                                                </div>
 
 
                                             </div>
                                             <div class="form-group">
-                                                <label class="h6">¿Asociar Mensualidades Existentes?</label>
-                                                <input type="checkbox" id="activeCredito" value="1" class="form-control" />
+                                                <label class="h6" id="lb_activeCredito">¿Asociar Mensualidades Existentes?</label>
+                                                <input type="checkbox" id="activeCredito_cxc" name="activeCredito_cxc" value="1" class="form-control" />
                                             </div>
                                         </div>
                                     </div>
@@ -123,10 +123,10 @@
 
 
                                         <div class="col">
-                                            <h2 class="text-center">Recibos del Cliente</h2>
+                                            <h2 class="text-center" id="title_credito">Recibos del Cliente</h2>
                                             <br />
                                             <div class="form-group" id="grupo_Doc">
-                                                <label for="add_documento_credito">Recibos Disponibles</label>
+                                                <label for="add_documento_credito" id="lb_select_creditos">Recibos Disponibles</label>
 
                                                 <select id="select_documento_credito" name="add_documento_credito" class="custom-select">
                                                     <option value="" selected disabled>Documento Credito</option>
@@ -179,8 +179,8 @@
 
                             <br />
                             
-                            <div hidden id="added_recently" class="col-12">
-                                <h2 class="text-center">Agregados Recientemente</h2>
+                            <div hidden id="added_recently" class="col-12 pre-scrollable">
+                                @*<h2 class="text-center">Agregados Recientemente</h2>*@
                                 <div class="row justify-content-center">
 
                                     <div class="justify-content-center">
