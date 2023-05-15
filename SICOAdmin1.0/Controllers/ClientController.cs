@@ -18,7 +18,7 @@ namespace SICOAdmin1._0.Controllers
 
         //VARIABLES
         ObjectParameter resultado = new ObjectParameter("resultado", 0);
-        ObjectParameter mensaje = new ObjectParameter("mensaje", 0);
+        ObjectParameter mensaje = new ObjectParameter("mensaje", "");
 
         //VARIABLES DE PAGINACION
         ObjectParameter totalPag = new ObjectParameter("totalPag", 0);
@@ -101,14 +101,14 @@ namespace SICOAdmin1._0.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetBitacora(string pIdentification)
+        public JsonResult GetBitacora(int pId)
         {
             SP_C_BuscarCliente_Result ClientDB = new SP_C_BuscarCliente_Result();
             Client objClient = new Client();
 
             using (SICOAdminEntities db = new SICOAdminEntities())
             {
-                ClientDB = db.SP_C_BuscarCliente(pIdentification, mensaje, resultado).FirstOrDefault();
+                ClientDB = db.SP_C_BuscarCliente(pId, mensaje, resultado).FirstOrDefault();
 
                 objClient.UserCreation = ClientDB.UsuarioCreacion;
                 objClient.DateCreation = ClientDB.FechaCreacion;
@@ -151,7 +151,7 @@ namespace SICOAdmin1._0.Controllers
         }
 
         //Cargar datos de un cliente
-        public JsonResult GetInfoClient(String pIdentification)
+        public JsonResult GetInfoClient(int pIdentification)
         {
             SP_C_BuscarCliente_Result clientDB = new SP_C_BuscarCliente_Result();
             Client modelC = null;
@@ -191,7 +191,7 @@ namespace SICOAdmin1._0.Controllers
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
 
-        //VIISTA RENDER
+        //VISTA RENDER
         public PartialViewResult _GetClients()
         {
 

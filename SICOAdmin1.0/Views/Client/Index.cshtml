@@ -179,14 +179,9 @@
 
         //Mostrar Bitacora por usuario
         function jsmostrarBitacora(pIdentification) {
-            console.log("Bitacora");
-            console.log(pIdentification);
-            fetch("@Url.Content("~/Client/getBitacora")" + "?pIdentification=" + pIdentification)
+            fetch("@Url.Content("~/Client/getBitacora")" + "?pId=" + pIdentification)
                     .then(res => res.ok ? res.json() : null)
                     .then(res => {
-                        console.log(res);
-                        console.log("Bitacora");
-
                         tdBUsuarioCrea.textContent = res.UserCreation;
                         tdBFechaCrea.textContent = res.DateCreation;
                         tdBUsuarioModi.textContent = res.UserModification;

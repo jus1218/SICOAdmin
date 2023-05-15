@@ -5,125 +5,131 @@
 @if (Model.Count() > 0)
 {
     <body style="border:solid;">
-        <div id="Dprint" class="container col-12" style="font-size: large;">
-            <div class="row">
-                <div class="col-11 pt-3">
-                    <h4 text-decoration-underline>Condominio Horizontal Residencial Bagatzi</h4>
-                    <label class="h4 font-weight-normal">Estado de cuenta</label>
-                </div>
-                <div class="col-1">
-                    <img src="~/Content/images/LogoTransp - icon.png" style="max-width: 100%; height: auto;">
-                </div>
-            </div>
-            <div class="row col-6 text-left m-0 p-0">
-                <div class="col  pt-4">
-                    <div class="row">
-                        <div class="col text-right">
-                            <label>Filial</label>
-                        </div>
-                        <div class="col text-left">
-                            <label class="font-italic"> @Model.First().Filial</label>
-                        </div>
+        <div id="Dprint" class="container col-12" style="font-size: medium;">
+            <div style="border-left: solid; border-top: solid; border-right: solid;">
+                <div class="row">
+                    <div class="col-11 pt-3">
+                        <h4 text-decoration-underline>Condominio Horizontal Residencial Bagatzi</h4>
+                        <label class="h4 font-weight-normal">Estado de cuenta</label>
                     </div>
-                    <div class="row">
-                        <div class="col text-right">
-                            <label>Propietario</label>
-                        </div>
-                        <div class="col text-left">
-                            <label class="font-italic"> @Model.First().NombreCLiente</label>
-                        </div>
+                    <div class="col-1">
+                        <img src="~/Content/images/LogoTransp - icon.png" style="max-width: 100%; height: auto;">
                     </div>
-
                 </div>
-                <div class="col pt-4">
-                    <div class="row">
-                        <div class="col text-right">
-                            <label>Fecha</label>
-                        </div>
-                        <div class="col">
-                            <label id="current_date" class="font-italic"></label>
-                        </div>
-                    </div>
-                    <div class="col">
+                <div class="row col-12 text-left p-0">
+                    <div class="col pt-4">
                         <div class="row">
                             <div class="col text-right">
-                                <label>Periodo</label>
+                                <label class="font-weight-bold">Filial</label>
+                            </div>
+                            <div class="col text-left">
+                                <label class="font-italic"> @Model.First().Filial</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-right">
+                                <label class="font-weight-bold">Propietario</label>
+                            </div>
+                            <div class="col text-left">
+                                <label class="font-italic"> @Model.First().NombreCLiente </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col pt-4">
+                        <div class="row">
+                            <div class="col text-right">
+                                <label class="font-weight-bold">Fecha</label>
                             </div>
                             <div class="col">
-                                <label id="anio" class="font-italic"></label>
+                                <label id="current_date" class="font-italic"></label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col text-right">
+                                    <label class="font-weight-bold">Periodo</label>
+                                </div>
+                                <div class="col">
+                                    <label id="anio" class="font-italic"></label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col text-center">
-                    <table class="table table-bordered font-weight-bold h5">
-                        <tr class="bg-success table-sm">
-                            <th style="color:white;">Monto Total Adeudado</th>
-                        </tr>
-                        <tr>
-                            <td id="montoAcumulado" class="money"></td>
-                        </tr>
-                    </table>
+                    <div class="col text-center d-flex justify-content-end">
+                        <table class="table table-bordered font-weight-bold h5 w-50">
+                            <tr class="bg-success table-sm">
+                                <th style="color:white;">Monto Total Adeudado</th>
+                            </tr>
+                            <tr>
+                                <td id="montoAcumulado" class="money"></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="row pt-4 m-0">
-                <div class="col">
-                    <h5 class="font-italic">Cuotas de mantenimiento</h5>
-                    <table id="tbCuotasMantenimiento" class="table text-left table-responsive-xl">
+            <div style="border:solid">
+                <div class="row pt-4 m-0">
+                    <div class="col p-0">
+                        <table id="tbCuotasMantenimiento" class="table text-left table-responsive-xl">
 
-                        <tr class="bg-success table-sm sticky-top" style="color: white;">
-                            <th scope="col">Periodo</th>
-                            <th scope="col">Monto</th>
-                            <th scope="col">Fecha máxima</th>
-                            <th scope="col">Fecha Pago</th>
-                            <th scope="col">Pago</th>
-                            <th scope="col">Saldo</th>
-                            <th scope="col">Intereses</th>
-                            <th scope="col">Saldo total</th>
-                            <th scope="col">Notas</th>
-                        </tr>
-                        <tbody id="tabla">
-                            @if (Model != null)
-                            {
-                                foreach (var a in Model)
+                            <tr class="bg-success table-sm sticky-top" style="color: white;">
+                                <th scope="col">Periodo</th>
+                                <th scope="col">Monto</th>
+                                <th scope="col">Fecha máxima</th>
+                                <th scope="col">Fecha Pago</th>
+                                <th scope="col">Pago</th>
+                                <th scope="col">Saldo</th>
+                                <th scope="col">Intereses</th>
+                                <th scope="col">Saldo total</th>
+                                <th scope="col">Notas</th>
+                            </tr>
+                            <tbody id="tabla">
+                                @if (Model != null)
                                 {
+                                    foreach (var a in Model)
+                                    {
+                                        for (int i = 0; i < 24; i++)
+                                        {
+                                            <tr>
+                                                <td class="col-auto">@a.FechaDocumento.ToString("MMM") - @a.FechaDocumento.ToString("yyyy")</td>
+                                                <td class="money monto">@a.Monto</td>
+                                                <td>@a.FechaDocumento.AddDays(a.CondicionPago).ToString("d")</td>
+                                                <td>@a.FechaModificacion.ToString("d")</td>
+                                                <td class="money pago">@a.Pago</td>
+                                                <td class="money saldo">@a.Saldo</td>
+                                                <td class="money">0.00</td>
+                                                <td class="money">@a.Saldo</td>
+                                                <td>@a.Notas</td>
+                                            </tr>
+                                        }
+                                    }
 
+                                }
+                                else
+                                {
                                     <tr>
-                                        <td class="col-auto">@a.FechaDocumento.ToString("MMM") - @a.FechaDocumento.ToString("yyyy")</td>
-                                        <td class="money monto">@a.Monto</td>
-                                        <td>@a.FechaDocumento.AddDays(a.CondicionPago).ToString("d")</td>
-                                        <td>@a.FechaModificacion.ToString("d")</td>
-                                        <td class="money pago">@a.Pago</td>
-                                        <td class="money saldo">@a.Saldo</td>
-                                        <td class="money">0.00</td>
-                                        <td class="money">@a.Saldo</td>
-                                        <td>@a.Notas</td>
+                                        <td colspan="9">
+                                            <content>No hay registros</content>
+                                        </td>
                                     </tr>
                                 }
-
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="9">
-                                        <content>No hay registros</content>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 p-3">
-                <div class="row">
-                    <label for="txtNotes" class="font-weight-bold">Notas:</label>
-                </div>
-                <div class="row">
-                    <textarea id="txtNotes" rows="3" style="border-color: green; width: 50%"></textarea>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
+                <div class="row pl-3">
+                    <div class="col-12 p-3">
+                        <div class="row">
+                            <label for="txtNotes" class="font-weight-bold">Notas:</label>
+                        </div>
+                        <div class="row">
+                            <textarea id="txtNotes" rows="3" style="border-color: green; width: 50%"></textarea>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </body>
