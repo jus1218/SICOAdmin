@@ -58,7 +58,13 @@
                         }
                         else if (d.TipoDocumento == "reci")
                         {
+
+
                             <td>Deposito</td>
+                        }
+                        else
+                        {
+                            <td>Cuota Extraordinaria</td>
                         }
                         <td>@Convert.ToDecimal(@d.Monto).ToString("C")</td>
                         <td>@Convert.ToDecimal(@d.Saldo).ToString("C")</td>
@@ -82,9 +88,9 @@
                                 </div>
                             </div>
                             @*@if (puedeVerRecibos)
-                        {*@
+                                {*@
 
-                            @if (d.TipoDocumento == "mens")
+                            @if (d.TipoDocumento == "mens" || d.TipoDocumento == "extr")
                             {
 
                                 <button data-id="@d.Documento" id="show_depositos_cxc" name="show_depositos_cxc" type="button" class="btn btn-info">

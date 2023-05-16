@@ -6,26 +6,8 @@ const d = document,
 
 const contenedorTabla = d.getElementById("tableDocument");
 const tabla = d.getElementById("tbDocuments_CXC");
-var limpiarStorage = false;
-//$(document).ready(function () {
-//    setTimeout(function () {
-//        /*if (limpiarStorage) {*/
-//        localStorage.setItem('documentosRecientes_cxc', JSON.stringify([]));
-//        console.log("Reiniciado");
-//        /*}*/
-//    }, 3000);
 
 
-//};
-d.addEventListener('DOMContentLoaded', () => {
-    setTimeout(function () {
-        /*if (limpiarStorage) {*/
-        localStorage.setItem('documentosRecientes_cxc', JSON.stringify([]));
-        console.log("Reiniciado");
-        /*}*/
-    }, 9000);
-
-});
 
 let documentosRecientes_cxc = [];
 let documentosCliente = [];
@@ -115,34 +97,27 @@ $renderBody.addEventListener("click", (e) => {
         const selectPartida = d.getElementById("partida_credito");
         const selectCliente = d.getElementById("add_cliente_cxc");
 
-        d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
-        d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
-        inputMontoDocumentoDebito.removeAttribute("required");
+
+        // inputMontoDocumentoDebito.removeAttribute("required");
 
         limpiarFormularioDebito();
         limpiarFormularioCredito();
-        llenarSelectPartidas(selectPartida,"IG");
+        llenarSelectPartidas(selectPartida, "IG");
         llenarSelectCliente(selectCliente);
 
         llenarSelectTipoDocumento_cxc(selectTipoDocumento_cxc);
 
         obtenerDocumentos_ClienteCXC("");
-        /*llenarSelectDocumentosDebitos("", "", selectDocumetosDebito);*/
 
-        /*llenarSelectDocumentosCreditos("", selectDocumetosCredito)*/
         table_added_recent.setAttribute("hidden", "");
 
         if (checkBox.checked) {
-            d.getElementById("grupo__monto_debito").removeAttribute("hidden");
-            d.getElementById("grupo_saldo_debito").removeAttribute("hidden");
+            inputMontoDocumentoDebito.disabled = true;
             inputMontoDocumentoDebito.removeAttribute("required");
 
         } else {
-
-            d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
-            d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
+            inputMontoDocumentoDebito.disabled = false;
             inputDocumentoDebito.setAttribute("required", "");
-            
         }
 
 
@@ -451,93 +426,9 @@ $renderBody.addEventListener("submit", (e) => {
     //===================================================
 
     else if (e.target.name === "formDocumentoMixto_cxc") {
-        
+
         crearDocumento_CXC();
-        
-        //var DocumentoDebito = "";
-        //var DocumentoCredito = "";
-        
-        //var verificaForm = true;
-        //let nuevoDoc;
 
-        //if (checkBox.checked) {
-        //    DocumentoDebito = selectDocumetosDebito.value;
-        //    DocumentoCredito = selectDocumetosCredito.value;
-        //    if ((DocumentoCredito == "" && DocumentoDebito == "") || DocumentoCredito == "") {
-        //        verificaForm = false;
-        //    }
-        //} else {
-        //    nuevoDoc = true;
-        //    DocumentoDebito = inputDocumentoDebito.value;
-        //    if (DocumentoDebito == "") {
-        //        verificaForm = false;
-        //    }
-        //}
-        //if (verificaForm) {
-
-        //    fetchMethod({
-        //        url: "Documents/AddMixedDocuments",
-        //        body: {
-        //            NuevoDocumento: nuevoDoc,
-        //            DocumentoDebito: DocumentoDebito,
-        //            MontoDebito: inputMontoDocumentoDebito.value,
-        //            SaldoDebito: inputSaldoDebito.value,
-
-        //            TipoDocumento: tipoDocumentoDebito.value,
-        //            FechaDocumentoDebito: fechaDocumentoDebito.value,
-        //            // CondicionPago: condicionPagoDebito.value,
-        //            NotaDebito: notaMensualidad.value,
-        //            IdCliente: selectClientes.value,
-
-        //            DocumentoCredito: selectDocumetosCredito.value,
-
-        //            SaldoCredito: inputSaldoCredito,
-        //            FechaDocumentoAsociacion: fechaDocumentoCredito.value,
-        //            IdPartida: selectPartida.value,
-        //        },
-        //        cbSuccess: (res) => {
-        //            if (res.resp == 1) {
-
-
-        //                swal('Bien!',
-        //                    res.msj,
-        //                    'success')
-
-        //                var objNew = {
-        //                    DocDebito: DocumentoDebito,
-        //                    DocCredito: DocumentoCredito,
-        //                    Cliente: selectClientes.value
-        //                };
-        //                AgregarDocumentosRecientes_cxc(objNew);
-
-        //                cargarComponent({
-        //                    container: "renderLocalDoc",
-        //                    url: "Documents/_ShowDocuments_CXC",
-        //                })
-        //                var idCliente = selectClientes.value;
-        //                obtenerDocumentos_ClienteCXC(idCliente);
-
-
-        //                /*llenarSelectDocumentosCreditos(idCliente, selectDocumetosCredito);*/
-        //                removerRequieredRecibos(true);
-        //            }
-        //            else {
-        //                swal('Opps!',
-        //                    res.msj,
-        //                    'error')
-        //            }
-        //        }
-        //    })
-        //    limpiarFormularioDebito();
-        //    limpiarFormularioCredito();
-
-        //}
-        //else {
-
-        //    swal('Opps!',
-        //        'Faltan Datos Importantes',
-        //        'error')
-        //}
         return false;
 
     }
@@ -628,21 +519,7 @@ $renderBody.addEventListener("change", (e) => {
             });
 
             llenarFormularioCredito(obj);
-            //let valorString = obj.Saldo;
-            //let valorFloat = parseFloat(valorString);
 
-            //let formatoMoneda = valorFloat.toLocaleString('es-CR', {
-            //    style: 'currency',
-            //    currency: 'CRC'
-            //});
-
-
-            //inputSaldoCredito.textContent = formatoMoneda;
-            //inputSaldoCredito.value = formatoMoneda;
-
-            //notaCredito.value = obj.Notas;
-
-            //removerRequieredRecibos(false);
         } else {
             removerRequieredRecibos(true);
             inputSaldoCredito.value = 0;
@@ -668,6 +545,7 @@ $renderBody.addEventListener("change", (e) => {
             });
             actualizarDatosDocumentosDebitosAsociar(obj);
         }
+        llenarTablaDocumentosRecientes_cxc();
     }
     //===================================================
     //===========  Verifica la fecha del Doc  ===========
@@ -717,11 +595,11 @@ $renderBody.addEventListener("change", (e) => {
 
         if (checkBox.checked) {
             inputDocumentoDebito.removeAttribute("required");
-            d.getElementById("grupo__monto_debito").removeAttribute("hidden");
+            //d.getElementById("grupo__monto_debito").removeAttribute("hidden");
             d.getElementById("grupo_saldo_debito").removeAttribute("hidden");
 
             inputMontoDocumentoDebito.removeAttribute("required");
-
+            inputMontoDocumentoDebito.disabled = true;
 
             obtenerDocumentos_ClienteCXC(pIdCliente);
 
@@ -729,10 +607,12 @@ $renderBody.addEventListener("change", (e) => {
             activarInputsFormularioCredito(true);
         } else {
 
-            d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
-            d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
+            //d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
+            //d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
+            inputMontoDocumentoDebito.disabled = false;
             inputDocumentoDebito.setAttribute("required", "");
-
+            limpiarFormularioDebito();
+            tipoDocumentoDebito.options.item(0).selected = 'selected';
             removerRequieredRecibos(true);
         }
 
@@ -748,20 +628,32 @@ $renderBody.addEventListener("change", (e) => {
 
         if (tipoDocumentoDebito.value == "reci") {
 
-            d.getElementById("grupo__monto_debito").removeAttribute("hidden");
-            d.getElementById("grupo_saldo_debito").removeAttribute("hidden");
+            //d.getElementById("grupo__monto_debito").removeAttribute("hidden");
+            //d.getElementById("grupo_saldo_debito").removeAttribute("hidden");
 
             inputMontoDocumentoDebito.setAttribute("required", "");
 
-            
+            inputMontoDocumentoDebito.disabled = false;
 
             activarInputsFormularioCredito(false);
-        } else {
-            activarInputsFormularioCredito(true);
 
-            d.getElementById("grupo__monto_debito").setAttribute("hidden", "");
-            d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");
+        } else if (tipoDocumentoDebito.value == "mens") {
+
+            activarInputsFormularioCredito(true);
+            buscarParametroActivo();
+            /*d.getElementById("grupo__monto_debito").setAttribute("hidden", "");*/
+            /*d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");*/
+
+            inputMontoDocumentoDebito.disabled = true;
             inputMontoDocumentoDebito.removeAttribute("required");
+
+            removerRequieredRecibos(true);
+        } else if (tipoDocumentoDebito.value == "extr") {
+
+            activarInputsFormularioCredito(true);
+         
+            inputMontoDocumentoDebito.disabled = false;
+            inputMontoDocumentoDebito.setAttribute("required", "");
 
             removerRequieredRecibos(true);
         }
@@ -812,7 +704,7 @@ $renderBody.addEventListener("change", (e) => {
 //FUNCIONES
 
 function crearDocumento_CXC() {
-    
+
     var DocumentoDebito = "";
     var DocumentoCredito = "";
 
@@ -868,7 +760,8 @@ function crearDocumento_CXC() {
                         DocCredito: DocumentoCredito,
                         Cliente: selectProveedor_cxp.value
                     };
-                    AgregarDocumentosRecientes_cxc(objNew);
+                    
+                    llenarTablaDocumentosRecientes_cxc();
 
                     cargarComponent({
                         container: "renderLocalDoc",
@@ -901,50 +794,85 @@ function crearDocumento_CXC() {
 
 }
 
-
-function AgregarDocumentosRecientes_cxc(objDoc) {
-
-
-    const documentoAgregado = lstClientes.find(function (client) {
-        if (client.Value === objDoc.Cliente) {
-            return client.Text;
-        }
-    });
-
-    objDoc.Cliente = documentoAgregado.Text;
-
-
-    documentosRecientes_cxc = [documentosRecientes_cxc, objDoc];
-    localStorage.setItem('documentosRecientes_cxc', JSON.stringify(documentosRecientes_cxc));
-    limpiarStorage_cxc= true;
-    llenarTablaDocumentosRecientes_cxc();
-
+function buscarParametroActivo() {
+    fetch("Documents/getParameter")
+        .then(res => res.ok ? res.json() : null)
+        .then(res => {
+            
+            const { Mensualidad } = res;
+            inputMontoDocumentoDebito.value = Mensualidad;
+            inputSaldoDebito.value = Mensualidad;
+        });
 }
 
 function llenarTablaDocumentosRecientes_cxc() {
     const tableDepositosRecientes = d.getElementById("tbDepositosRecientes");
     limpiarHtml(tableDepositosRecientes);
-    documentosRecientes_cxc = JSON.parse(localStorage.getItem('documentosRecientes_cxc')) || [];
 
-    if (documentosRecientes_cxc.length > 0) {
-        for (var i = 0; i < documentosRecientes_cxc.length; i++) {
-            var { DocDebito, DocCredito, Cliente } = documentosRecientes_cxc[i];
-            if (DocCredito != undefined && DocDebito != undefined && Cliente != undefined) {
-                var datos = `
-             <tr id="tbDatos">
-                 <td>${DocDebito}</td>
-                 <td>${DocCredito}</td>
-                 <td>${Cliente}</td>
+    var pDoc = selectDocumetosDebito.value;
+    doc.getElementById("doc_debito").textContent = "Mensualidad";
+    doc.getElementById("doc_credito").textContent = "Deposito";
+    doc.getElementById("nombreCliente").textContent = "Cliente";
 
-             </tr>`;
-                $("#tbDepositosRecientes").append(datos)
-            }
-        }
+    if (pDoc != "") {
+        fetch("Documents/getDeposits_CXC" + "?pDocument=" + pDoc)
+            .then(res => res.ok ? res.json() : null)
+            .then(res => {
+                console.log(res);
+                if (res.length > 0) {
+                    let total = 0;
+                    for (var i = 0; i < res.length; i++) {
+
+                        var { Documento, DocumentoCredito, FechaCreacion, MontoDeposito, NombreCliente } = res[i];
+
+                        //MontoDeposito = MontoDeposito.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+
+                        var FechaAux = convertirFecha(FechaCreacion);
+                        total = total + MontoDeposito;
+
+                        /*total = total.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });*/
+                        MontoDeposito = MontoDeposito.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                        var datos = `
+                               <tr id="tbRecientes">
+                                    <td id="tbDocumentoDeb">${Documento}</td>
+                                    <td id="tbDocumentoCred">${DocumentoCredito}</td>
+                                    <td id="tbCliente">${NombreCliente}</td>
+                                    <td id="tbMonto" class="money">${MontoDeposito}</td>
+                                    <td id="tbFecha">${FechaAux}</td>
+
+
+                               </tr>`;
+
+
+
+
+                        $("#tbDepositosRecientes").append(datos)
+                    }
+
+
+                } else {
+
+
+                    var mensaje = `
+                           <tr>
+                                <td colspan="8">No existen registros actualmente</td>
+                         </tr>
+
+                        `;
+                    $("#tbDepositosRecientes").append(mensaje)
+                }
+
+
+            })
     } else {
         var mensaje = `
-             <tr>
-                <td colspan="8">No existe registros actualmente</td>
-             </tr>`;
+                           <tr>
+                                <td colspan="8">No existen registros actualmente</td>
+                         </tr>
+
+                        `;
         $("#tbDepositosRecientes").append(mensaje)
     }
 }
@@ -1002,7 +930,7 @@ function mostrarRecibosxMensualidad(pDoc) {
 
                 var mensaje = `
                            <tr>
-                                <td colspan="8">No existe registros actualmente</td>
+                                <td colspan="8">No existen registros actualmente</td>
                          </tr>
 
                         `;
@@ -1046,7 +974,7 @@ function activarInputsFormularioCredito(flag) {
 function activarInputsFormularioDebito() {
     if (checkBox.checked) {
         //DESACTIVAR ELEMENTOS 
-        tipoDocumentoDebito.options.item(1).selected = 'selected';
+
 
         inputMontoDocumentoDebito.disabled = true;
         tipoDocumentoDebito.disabled = true;
@@ -1088,6 +1016,12 @@ function formatCurrency(amount, currencySymbol, decimalSeparator, thousandsSepar
 
 function actualizarDatosDocumentosDebitosAsociar(objDebito) {
 
+
+    if (objDebito.TipoDocumento == "mens") {
+        tipoDocumentoDebito.options.item(1).selected = 'selected';
+    } else if (objDebito.TipoDocumento == "extr") {
+        tipoDocumentoDebito.options.item(2).selected = 'selected';
+    }
     let montoFloat = parseFloat(objDebito.Monto);
 
     let setDate = convertirFecha_yy_MM_dd(objDebito.FechaDocumento);
@@ -1107,38 +1041,6 @@ function actualizarDatosDocumentosDebitosAsociar(objDebito) {
 
 
 }
-
-
-//function actualizarDatosDocumentosDebitosAsociar() {
-//    if (selectDocumetosDebito.value == "") {
-
-//        limpiarFormularioDebito();
-
-//    } else {
-//        const obj = documentosDebitoCliente.find(function (documento) {
-//            if (documento.Documento === selectDocumetosDebito.value) {
-//                return documento.Saldo;
-//            }
-//        });
-//        let montoFloat = parseFloat(obj.Monto);
-
-//        let setDate = convertirFecha_yy_MM_dd(obj.FechaDocumento);
-
-//        inputDocumentoDebito.textContent = obj.Documento;
-//        inputDocumentoDebito.value = obj.Documento;
-
-//        inputMontoDocumentoDebito.textContent = obj.Monto;
-//        inputMontoDocumentoDebito.value = obj.Monto;
-
-//        fechaDocumentoDebito.valueAsDate = new Date(setDate);
-//        condicionPagoDebito.textContent = obj.CondicionPago;
-//        condicionPagoDebito.value = obj.CondicionPago;
-//        notaMensualidad.value = obj.Notas;
-//        inputSaldoDebito.textContent = obj.Saldo;
-//        inputSaldoDebito.value = obj.Saldo;
-
-//    }
-//};
 
 
 function verificarFechasDocumentosAsociados() {
@@ -1265,30 +1167,30 @@ function limpiarHtml(elemento) {
 //========== O CUALQUIER SELECT QUE SE REQUIERA ==============
 //============================================================
 
-function llenarSelectPartidas(element,tipo) {
+function llenarSelectPartidas(element, tipo) {
     limpiarHtml(element);
     const defaultOption = document.createElement('option');
     let Partidas_por_tipo = [];
-    
+
     fetch("/Departure/showActiveDepartures")
 
         .then(res => res.ok ? res.json() : null)
         .then(res => {
             Partidas_por_tipo = res.filter(partida => partida.Tipo === tipo);
-            
-            
+
+
             if (Partidas_por_tipo.length > 0) {
                 OpcionPorDefectoSelect(element, "Selecciona una Partida");
                 for (var i = 0; i < Partidas_por_tipo.length; i++) {
 
                     const { Alias, Descripcion, IdPartida, Tipo } = Partidas_por_tipo[i];
-                    
-                        const option = document.createElement('option');
-                        option.value = IdPartida;
-                        option.textContent = Alias + " - " + Descripcion;
 
-                        element.appendChild(option);
-                    
+                    const option = document.createElement('option');
+                    option.value = IdPartida;
+                    option.textContent = Alias + " - " + Descripcion;
+
+                    element.appendChild(option);
+
                 }
             } else {
                 defaultOption.text = "No hay Partidas Disponibles";
@@ -1471,9 +1373,9 @@ async function obtenerDocumentos_ClienteCXC(pIdCliente) {
     documentosCliente = await getDocumentosXCliente(pIdCliente);
 
     documentosCreditoCliente = documentosCliente.filter(doc => doc.TipoDocumento == "reci");
-    documentosDebitoCliente = documentosCliente.filter(doc => doc.TipoDocumento == "mens");
-
-    llenarSelectDocumentosDebitos(pIdCliente, "Mensualidades", documentosDebitoCliente, selectDocumetosDebito);
+    documentosDebitoCliente = documentosCliente.filter(doc => doc.TipoDocumento != "reci");// || doc.TipoDocumento == "extr");
+    
+    llenarSelectDocumentosDebitos(pIdCliente, "Pendientes", documentosDebitoCliente, selectDocumetosDebito);
     llenarSelectDocumentosCreditos(pIdCliente, "Recibos", documentosCreditoCliente, selectDocumetosCredito);
 
 }
@@ -1489,7 +1391,7 @@ async function getDocumentosXCliente(pIdCliente) {
 
 
 function llenarFormularioCredito(objCredito) {
-    
+
     let valorString = objCredito.Saldo;
     let valorFloat = parseFloat(valorString);
 
@@ -1509,7 +1411,7 @@ function llenarFormularioCredito(objCredito) {
 
 
 function llenarSelectTipoDocumento_cxc(element) {
-    let opcionesTipoDocumentos = ["mens", "reci"];
+    let opcionesTipoDocumentos = ["mens", "extr", "reci"];
     limpiarHtml(element);
     OpcionPorDefectoSelect(element, "Selecciona un Tipo");
     for (var i = 0; i < opcionesTipoDocumentos.length; i++) {
@@ -1517,7 +1419,12 @@ function llenarSelectTipoDocumento_cxc(element) {
         if (opcionesTipoDocumentos[i] === "mens") {
             option.value = opcionesTipoDocumentos[i];
             option.textContent = "Mensualidad";
-        } else {
+        }
+        else if (opcionesTipoDocumentos[i] === "extr") {
+            option.value = opcionesTipoDocumentos[i];
+            option.textContent = "Cuota Extraordinaria";
+        }
+        else {
             option.value = opcionesTipoDocumentos[i];
             option.textContent = "Recibo";
 
@@ -1551,7 +1458,7 @@ function cambiarNombresInputs_CXC() {
     label_selec_cliente.textContent = "Cliente";
     label_select_transaccion.textContent = "Recibos Disponibles";
 
-    label_checkbox_cxp.textContent = "¿Asociar Mensualidades Existentes?";
+    label_checkbox_cxp.textContent = "¿Asociar Documentos Existentes?";
 
     d.getElementById("recientes_agregados").name = "recientes_agregados_cxc";
 
@@ -1575,7 +1482,7 @@ function showDataDocument_cxc(pDoc, pAccion) {
         .then(res => res.ok ? res.json() : null)
         .then(res => {
 
-            
+
             if (pAccion == "Datos") {
 
                 doc.querySelector('#documento_cxc').textContent = res.Documento;
@@ -1614,7 +1521,7 @@ function showDataDocument_cxc(pDoc, pAccion) {
 
                 doc.querySelector('#IdCliente').value = res.IdCliente;
 
-    
+
 
             }
             if (pAccion == "Bitacora") {
@@ -1635,7 +1542,7 @@ function showDataDocument_cxc(pDoc, pAccion) {
 
                 notaLog_cxc.textContent = res.Nota;
                 notaLog_cxc.value = res.Nota;
-                
+
                 $("#LogDoc_cxc").modal("show");
             }
 

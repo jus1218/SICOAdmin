@@ -1,18 +1,6 @@
 ﻿const doc = document,
     $rendBody = doc.getElementById("renderBody");
-var limpiarStorage_cxp = false;
 
-doc.addEventListener('DOMContentLoaded', () => {
-    setTimeout(function () {
-        //if (limpiarStorage_cxp) {
-        localStorage.setItem('documentosRecientes_cxp', JSON.stringify([]));
-        //}
-    }, 300000);
-    //() => {
-    //    const tablePosition = tabla.offsetTop - contenedorTabla.offsetTop;
-    //    contenedorTabla.scrollTop = tablePosition;
-    //};
-});
 
 //LISTAS A MANEJAR
 
@@ -141,9 +129,6 @@ $rendBody.addEventListener("click", (e) => {
     else if (e.target.id === "btnEditDoc_cxp") {
         let doc = e.target.dataset.id;
 
-
-        llenarSelectPartidas(selectEditPartida, "SL");
-
         btnModal.value = "Editar Documento";
         modalTitle.textContent = "Editar Documento  CXP";
 
@@ -205,7 +190,7 @@ $rendBody.addEventListener("click", (e) => {
     else if (e.target.id === "regresarr") {
 
 
-        
+
         let objP = JSON.parse(localStorage.getItem("objPaginacion"));
 
 
@@ -275,7 +260,7 @@ $rendBody.addEventListener("click", (e) => {
         d.getElementById("persona_asociada").textContent = "Nombre Proveedor";
         d.getElementById("fecha_documento").textContent = "Fecha De La Factura";
 
-        d.getElementById("ModalTitleDeposito_CXC").textContent ="Transacciones Realizadas";
+        d.getElementById("ModalTitleDeposito_CXC").textContent = "Transacciones Realizadas";
         mostrarFacturasxRecibos(pDoc);
         limpiarHtml(table);
         showHeaderDeposit_cxp(pDoc);
@@ -507,7 +492,7 @@ $rendBody.addEventListener("submit", (e) => {
         var DocumentoDebito = "";
         var DocumentoCredito = "";
         var idProveedor = selectProveedor_cxp.value;
-        
+
         var verificaForm = true;
         let nuevoDoc;
 
@@ -561,7 +546,8 @@ $rendBody.addEventListener("submit", (e) => {
                             Proveedor: selectProveedor_cxp.value
                         };
 
-                        AgregarDocumentosRecientes_cxp(objNew);
+                        
+                        llenarTablaDocumentosRecientes_cxp();
 
                         cargarComponent({
                             container: "renderLocalDoc",
@@ -701,12 +687,14 @@ $rendBody.addEventListener("change", (e) => {
             });
 
             llenarFormularioCredito(obj);
+            
         }
         else {
             removerRequieredRecibos(true);
             inputSaldoCredito.value = 0;
             notaCredito.value = "";
         }
+        llenarTablaDocumentosRecientes_cxp();
         return false;
     }
     //===================================================
@@ -828,28 +816,70 @@ function AgregarDocumentosRecientes_cxp(objDoc) {
 
 function llenarTablaDocumentosRecientes_cxp() {
     const tableDepositosRecientes = d.getElementById("tbDepositosRecientes");
+    var pDoc = selectDocumetosCredito_cxp.value;
     limpiarHtml(tableDepositosRecientes);
-    documentosRecientes_cxp = JSON.parse(localStorage.getItem('documentosRecientes_cxp')) || [];
-    
-    if (documentosRecientes_cxp.length > 0) {
-        for (var i = 0; i < documentosRecientes_cxp.length; i++) {
-            var { DocDebito, DocCredito, Proveedor } = documentosRecientes_cxp[i];
-            if (DocCredito != undefined && DocDebito != undefined && Proveedor != undefined) {
-                var datos = `
-             <tr id="tbDatos">
-                 <td>${DocDebito}</td>
-                 <td>${DocCredito}</td>
-                 <td>${Proveedor}</td>
+    doc.getElementById("doc_debito").textContent = "Trasacción";
+    doc.getElementById("doc_credito").textContent = "Factura";
+    doc.getElementById("nombreCliente").textContent = "Proveedor";
+    if (pDoc != "") {
+        fetch("Documents/getDeposits_CXP" + "?pDocument=" + pDoc)
+            .then(res => res.ok ? res.json() : null)
+            .then(res => {
+                console.log(res);
+                if (res.length > 0) {
+                    let total = 0;
+                    for (var i = 0; i < res.length; i++) {
 
-             </tr>`;
-                $("#tbDepositosRecientes").append(datos)
-            }
-        }
+                        var { DocumentoDebito, DocumentoCredito, FechaCreacion, FechaDocumento, MontoAux, NombreProveedor } = res[i];
+
+                        //MontoDeposito = MontoDeposito.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+
+                        var FechaAux = convertirFecha(FechaCreacion);
+                        total = total + MontoAux;
+
+                        /*total = total.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });*/
+                        MontoAux = MontoAux.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                        var datos = `
+                               <tr id="tbRecientes">
+                                    <td id="tbDocumentoDeb">${DocumentoCredito}</td>
+                                    <td id="tbDocumentoCred">${DocumentoDebito}</td>
+                                    <td id="tbCliente">${NombreProveedor}</td>
+                                    <td id="tbMonto" class="money">${MontoAux}</td>
+                                    <td id="tbFecha">${FechaAux}</td>
+
+
+                               </tr>`;
+
+
+
+
+                        $("#tbDepositosRecientes").append(datos)
+                    }
+
+
+                } else {
+
+
+                    var mensaje = `
+                           <tr>
+                                <td colspan="8">No existen registros actualmente</td>
+                         </tr>
+
+                        `;
+                    $("#tbDepositosRecientes").append(mensaje)
+                }
+
+
+            })
     } else {
         var mensaje = `
-             <tr>
-                <td colspan="8">No existe registros actualmente</td>
-             </tr>`;
+                           <tr>
+                                <td colspan="8">No existen registros actualmente</td>
+                         </tr>
+
+                        `;
         $("#tbDepositosRecientes").append(mensaje)
     }
 }
@@ -861,7 +891,7 @@ function mostrarFacturasxRecibos(pDoc) {
     fetch("Documents/getDeposits_CXP" + "?pDocument=" + pDoc)
         .then(res => res.ok ? res.json() : null)
         .then(res => {
-            
+
 
             if (res.length > 0) {
                 let total = 0;
@@ -871,7 +901,7 @@ function mostrarFacturasxRecibos(pDoc) {
 
                     //MontoDeposito = MontoDeposito.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-                    
+
                     var FechaAux = convertirFecha(FechaCreacion);
                     total = total + MontoAux;
 
@@ -963,7 +993,7 @@ async function obtenerDocumentos_Proveedor_cxp(pIdProveedor) {
 
 }
 async function getDocumentosXProveedor(pIdProveedor) {
-    
+
     if (pIdProveedor !== "") {
         const response = await fetch("/Documents/getDocumentosxProveedor?pIdProveedor=" + pIdProveedor);
         const data = await response.json();
@@ -1054,7 +1084,7 @@ function showDataDocument_cxp(pDoc, pAccion) {
 
         .then(res => res.ok ? res.json() : null)
         .then(res => {
-            
+
             if (pAccion == "Datos") {
 
                 doc.querySelector('#documento').textContent = res.Documento;
@@ -1130,7 +1160,7 @@ function cambiarNombresInputs_CXP() {
 
     titleFormularioCredito_cxp.textContent = "Trasacciones del Proveedor";
     label_selec_proveedor.textContent = "Proveedor";
-    label_select_transaccion.textContent = "Trasacciones Disponibles";
+    label_select_transaccion.textContent = "Facturas Pendientes";
     label_checkbox_cxp.textContent = "¿Asociar Facturas Existentes?";
 
     checkBox.name = "activeCredito_cxp";

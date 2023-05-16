@@ -30,7 +30,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="d-flex justify-content-center ">
-                    <h5 style="text-align:center" class="modal-title p-3" id="title_admin_docs">Crear o Asociar Documentos</h5>
+                    <h5 style="text-align:center" class="modal-title p-0" id="title_admin_docs">Crear o Asociar Documentos</h5>
 
                 </div>
 
@@ -168,7 +168,7 @@
                                 </div>
 
                                 <div class="row justify-content-center pt-3">
-                                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                                     <button class="btn btn-warning" type="button" id="recientes_agregados" value="1">Ver Recientes</button>
                                     <button id="asociar_documento_cxc" type="submit" class="btn btn-success">Guardar</button>
                                 </div>
@@ -187,9 +187,11 @@
                                         <table id="tbDepositoRecientes" class="table table-bordered">
                                             <thead style="text-align:center;">
                                                 <tr>
-                                                    <th scope="col">Documento Debito</th>
-                                                    <th scope="col">Documento Credito</th>
-                                                    <th scope="col">Nombre Cliente</th>
+                                                    <th id="doc_credito" scope="col">Documento Credito</th>
+                                                    <th id="doc_debito" scope="col">Documento Debito</th>                                                    
+                                                    <th id="nombreCliente" scope="col">Nombre Cliente</th>
+                                                    <th scope="col">Monto Acreditado</th>
+                                                    <th scope="col">Fecha </th>
 
 
                                                 </tr>

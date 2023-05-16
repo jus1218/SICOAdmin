@@ -284,6 +284,18 @@ namespace SICOAdmin1._0.Controllers
                     msj = msj.Value
                 }, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult getParameter() {
+
+
+            SP_C_BuscarParametroActivo_Result parametro = new SP_C_BuscarParametroActivo_Result();
+
+                using (var db = new SICOAdminEntities())
+                parametro = db.SP_C_BuscarParametroActivo().First();
+
+                return Json(parametro, JsonRequestBehavior.AllowGet);
+
+            
+        }
 
         public JsonResult getDataDocument_CXC(string pDoc)
         {
