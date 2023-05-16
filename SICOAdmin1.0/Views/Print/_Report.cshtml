@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-@if (Model.Count() > 0)
+@if (Model.Count() > 0 && Model != null)
 {
     <body style="border:solid;">
         <div id="Dprint" class="container col-12" style="font-size: medium;">
@@ -89,20 +89,25 @@
                                 {
                                     foreach (var a in Model)
                                     {
-                                        for (int i = 0; i < 24; i++)
-                                        {
-                                            <tr>
-                                                <td class="col-auto">@a.FechaDocumento.ToString("MMM") - @a.FechaDocumento.ToString("yyyy")</td>
-                                                <td class="money monto">@a.Monto</td>
-                                                <td>@a.FechaDocumento.AddDays(a.CondicionPago).ToString("d")</td>
-                                                <td>@a.FechaModificacion.ToString("d")</td>
-                                                <td class="money pago">@a.Pago</td>
-                                                <td class="money saldo">@a.Saldo</td>
-                                                <td class="money">0.00</td>
-                                                <td class="money">@a.Saldo</td>
-                                                <td>@a.Notas</td>
-                                            </tr>
-                                        }
+                                        <tr>
+                                            <td class="col-auto">@a.FechaDocumento.ToString("MMM") - @a.FechaDocumento.ToString("yyyy")</td>
+                                            <td class="money monto">@a.Monto</td>
+                                            <td>@a.FechaDocumento.AddDays(a.CondicionPago).ToString("d")</td>
+                                            @if (a.FechaPago != null)
+                                            {
+                                                <td>@(a.FechaPago != null ? a.FechaPago.Value.ToString("d") : "")</td>
+                                            }
+                                            else
+                                            {
+                                                <td>-</td>
+                                            }
+
+                                            <td class="money pago">@a.Pago</td>
+                                            <td class="money saldo">@a.Saldo</td>
+                                            <td class="money">0.00</td>
+                                            <td class="money">@a.Saldo</td>
+                                            <td>@a.Notas</td>
+                                        </tr>
                                     }
 
                                 }

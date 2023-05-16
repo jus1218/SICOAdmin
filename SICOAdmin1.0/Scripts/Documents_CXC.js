@@ -187,7 +187,7 @@ $renderBody.addEventListener("click", (e) => {
     //========  BOTON SIGUIENTE PAGINA  =================
     //===================================================
     else if (e.target.name === "nextPage") {
-        // const optionTable = document.querySelector('#ChoiceDocumentTable').value;
+         const optionTable = document.querySelector('#ChoiceDocumentTable').value;
 
         //AVANZA DE PAGINA EN LA TABLA CUENTAS POR COBRAR
         //DEPENDIENDO DE LA TABLA SELECCIONADA
@@ -208,7 +208,7 @@ $renderBody.addEventListener("click", (e) => {
     //===========  BOTON PAGINA ANTERIOR   ==============
     //===================================================
     else if (e.target.name === "previousPage") {
-        /*const optionTable = document.querySelector('#ChoiceDocumentTable').value;*/
+        const optionTable = document.querySelector('#ChoiceDocumentTable').value;
 
         //RETROCEDE DE PAGINA EN LA TABLA CUENTAS POR COBRAR
         //DEPENDIENDO DE LA TABLA SELECCIONADA

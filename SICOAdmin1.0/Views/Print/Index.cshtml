@@ -133,7 +133,8 @@
             var margin = (pageSize.width - imgWidth) / 2; // calcular el margen necesario para centrar la imagen horizontalmente
             //var position = calculatePosition(pdf.internal.pageSize.height, imgHeight);
             pdf.addImage(imgData, 'PNG', margin, 5, imgWidth, imgHeight); // ajustar el tamaño de la imagen al de la página y agregar un margen de 10mm a cada lado
-            pdf.save('Estado de cuenta_' + idC.options[idC.selectedIndex].text + '_.pdf');
+            var fechaActual = new Date().toLocaleDateString("es-ES", { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, "-");
+            pdf.save('Estado de cuenta_' + idC.options[idC.selectedIndex].text + '_' + fechaActual + '_.pdf');
 
 
             //var pdfData = pdf.output();

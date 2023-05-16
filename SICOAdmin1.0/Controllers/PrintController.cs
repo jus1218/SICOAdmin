@@ -18,24 +18,24 @@ namespace SICOAdmin1._0.Controllers
         [AuthorizeUser(pAccion: 94)]
         public ActionResult Index()
         {
-            List<SP_C_MostrarClientes_Result> lstC = null;
+            List<SP_C_MostrarFiliales_Result> lstF = null;
             List<int> anios = null;
 
 
             using (SICOAdminEntities db = new SICOAdminEntities())
             {
-                lstC = db.SP_C_MostrarClientes(0, 20, "", totalPag).ToList();
+                lstF = db.SP_C_MostrarFiliales().ToList();
                 var result = from DOCUMENTO_CXC in db.DOCUMENTO_CXC select DOCUMENTO_CXC.FechaModificacion.Year;
                 anios = result.ToList();
             }
 
-            List<SelectListItem> Clients = lstC.ConvertAll(
+            List<SelectListItem> Clients = lstF.ConvertAll(
                 d =>
                 {
                     return new SelectListItem()
                     {
-                        Value = d.IdCliente.ToString(),
-                        Text = d.Nombre,
+                        Value = d.IdFilial.ToString(),
+                        Text = d.Descripcion,
                         Selected = false
                     };
                 });
