@@ -495,11 +495,6 @@ $renderBody.addEventListener("change", (e) => {
 
         obtenerDocumentos_ClienteCXC(pIdCliente);
 
-        /*llenarSelectDocumentosDebitos(pIdCliente, selectDocumetosDebito);*/
-
-        /*llenarSelectDocumentosCreditos(pIdCliente, selectDocumetosCredito);*/
-
-
         return false;
     }
 
@@ -625,12 +620,13 @@ $renderBody.addEventListener("change", (e) => {
     //===========  ACTIVA O DESACTIVA  ==================
     //===================================================
     else if (e.target.name === "add_tipoDocumento_cxc") {
-
+        inputMontoDocumentoDebito.value = 0;
+        inputSaldoDebito.value = 0;
         if (tipoDocumentoDebito.value == "reci") {
 
             //d.getElementById("grupo__monto_debito").removeAttribute("hidden");
             //d.getElementById("grupo_saldo_debito").removeAttribute("hidden");
-
+        
             inputMontoDocumentoDebito.setAttribute("required", "");
 
             inputMontoDocumentoDebito.disabled = false;
@@ -641,9 +637,6 @@ $renderBody.addEventListener("change", (e) => {
 
             activarInputsFormularioCredito(true);
             buscarParametroActivo();
-            /*d.getElementById("grupo__monto_debito").setAttribute("hidden", "");*/
-            /*d.getElementById("grupo_saldo_debito").setAttribute("hidden", "");*/
-
             inputMontoDocumentoDebito.disabled = true;
             inputMontoDocumentoDebito.removeAttribute("required");
 
@@ -678,9 +671,9 @@ $renderBody.addEventListener("change", (e) => {
     $("#buscar").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         const optionTable = d.querySelector('#ChoiceDocumentTable').value;
-        /*var value = d.getElementById("buscar").value;*/
+        
         if (optionTable == "DOCUMENTS_CXC") {
-            //if (value.length > 2 || value.length == 0) {
+            
             $("#tableDocument").load("Documents/_TableDocument_CXC",
                 {
 
@@ -689,7 +682,7 @@ $renderBody.addEventListener("change", (e) => {
                     estaBuscando: true,
                     accion: 'n', //n -> no pasar de pagina
                     CantRegistros: document.getElementById("tamanoPagina").value,
-                    //CantRegistros: document.getElementById("tamPaginacion").value
+                    
 
                 }, function (res) {
                     $("#tableDocument").html(res);
@@ -825,13 +818,13 @@ function llenarTablaDocumentosRecientes_cxc() {
 
                         var { Documento, DocumentoCredito, FechaCreacion, MontoDeposito, NombreCliente } = res[i];
 
-                        //MontoDeposito = MontoDeposito.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        
 
 
                         var FechaAux = convertirFecha(FechaCreacion);
                         total = total + MontoDeposito;
 
-                        /*total = total.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });*/
+                        
                         MontoDeposito = MontoDeposito.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
                         var datos = `
@@ -891,13 +884,13 @@ function mostrarRecibosxMensualidad(pDoc) {
 
                     var { DocumentoCredito, FechaCreacion, FechaDocumento, MontoDeposito } = res[i];
 
-                    //MontoDeposito = MontoDeposito.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    
 
                     var FechaDoc = convertirFecha(FechaDocumento);
                     var FechaAux = convertirFecha(FechaCreacion);
                     total = total + MontoDeposito;
 
-                    /*total = total.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });*/
+                    
                     MontoDeposito = MontoDeposito.toLocaleString("es-CR", { style: "currency", currency: "CRC", minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
                     var datos = `
@@ -979,7 +972,7 @@ function activarInputsFormularioDebito() {
         inputMontoDocumentoDebito.disabled = true;
         tipoDocumentoDebito.disabled = true;
         fechaDocumentoDebito.disabled = true;
-        /*condicionPagoDebito.disabled = true;*/
+        
         notaMensualidad.disabled = true;
         inputDocumentoDebito.setAttribute('hidden', '');
         selectDocumetosDebito.removeAttribute('hidden');
@@ -990,7 +983,7 @@ function activarInputsFormularioDebito() {
         inputMontoDocumentoDebito.disabled = false;
         tipoDocumentoDebito.disabled = false;
         fechaDocumentoDebito.disabled = false;
-        /*condicionPagoDebito.disabled = false;*/
+        
         notaMensualidad.disabled = false;
 
         inputDocumentoDebito.removeAttribute('hidden');
@@ -1110,12 +1103,14 @@ function limpiarFormularioDebito() {
     inputDocumentoDebito.value = "";
 
     inputMontoDocumentoDebito.value = "";
-    /*condicionPagoDebito.value = 0;*/
+    
     notaMensualidad.value = "";
     inputSaldoDebito.value = 0;
+    inputMontoDocumentoDebito.value = 0;
+    selectTipoDocumento_cxc.value = "";
+    
     condicionPagoDebito.value = 0;
     fechaDocumentoDebito.value = "yyyy-MM-dd";
-
 };
 
 function limpiarFormularioCredito() {
