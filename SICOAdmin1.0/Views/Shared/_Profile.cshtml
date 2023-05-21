@@ -3,6 +3,7 @@
     User us = (User)Session["User"];
     if (us == null)
     {
+        us = new User();
         us.userName = " ";
         us.type = TypesU.Consulta;
         us.name = " ";
