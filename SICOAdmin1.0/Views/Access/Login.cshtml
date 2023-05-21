@@ -15,7 +15,7 @@
     <link href="~/Content/css/access.css" rel="stylesheet" />
 
     <!--LOGO EN LA PESTAÑA-->
-    <link rel="website icon" type="png" href="~/Content/images/Logo.png" style="border-radius:100px;" />
+    <link rel="website icon" type="png" href="~/Content/images/Logo.png" />
 </head>
 
 <body>
@@ -43,50 +43,9 @@
     </div>
 
 </body>
-<!-- Modal cambio de contraseña -->
-<div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Cambiar contrasena</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <form id="frmChangePass">
-
-                    <div class="form-group">
-                        <label>Nombre de usuario</label>
-                        <input id="CPuserName" required name="password" type="text" @*pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$*@ class="form-control" placeholder="(Ejm: UsuarioEjemplo)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
-                    </div>
-                    <div class="form-group">
-                        <label>Contrasena actual</label>
-                        <input id="CPpassAct" required name="password" type="password" @*pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$*@ class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
-                    </div>
-                    <div class="form-group">
-                        <label>Contrasena nueva</label>
-                        <input id="CPpassNew" required name="password" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
-                    </div>
-                    <div class="form-group">
-                        <label class="mt-4 h6">Confirmar contrasena</label>
-                        <input id="CPpassConfirm" required name="password" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
-
-                        <span id="messagePass" class="mt-4 h7"></span> <!-- Aquí se mostrará el mensaje -->
-                        <br />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                        <button id="btnSubmitCP" disabled type="button" class="btn btn-success">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 
+@Html.Partial("_ChangePass")
 
 @section scripts{
 }
@@ -183,6 +142,7 @@
             }
         })
     }
+    //Función para iniciar sesión
     function loged(e) {
         e.preventDefault();
 
@@ -238,31 +198,21 @@
                 cbSuccess: (res) => {
                     if (res) {
                         console.log("Sí");
-                        c@*argarComponent({
-                                container: "renderLocal",
-                                url: "@Url.Content("~/Access/Login")",
-                        })
                         Swal.fire({
-                            icon: 'info',
-                            title: 'Ingreso correcto',
-                            text: res.Message,
-                            allowEscapeKey: false,
-                            allowOutsideClick: false,
-                            showConfirmButton: false,
-                            didOpen: () => {
-                                Swal.showLoading()
-                            }
-                        })*@
+                            icon: 'success',
+                            title: 'Correcto!',
+                            text: res.message,
+                            confirmButtonText: 'Aceptar'
+                        })
                     }
                     else {
                         console.log("No");
-                        //console.log("Error al ingresar");
-                        //Swal.fire({
-                        //    icon: 'error',
-                        //    title: 'Ha ocurrido un error',
-                        //    text: res.Message,
-                        //    confirmButtonText: 'Aceptar'
-                        //})
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ha ocurrido un error...',
+                            text: res.message,
+                            confirmButtonText: 'Aceptar'
+                        })
                     }
                 }
             })

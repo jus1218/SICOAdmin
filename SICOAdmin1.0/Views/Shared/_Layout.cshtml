@@ -1,4 +1,3 @@
-
 @using SICOAdmin1._0.Models.User
 @{
     User UserLog = (User)Session["User"];
@@ -28,26 +27,22 @@
         mess = "No tiene notificaciones nuevas";
         flag = false;
     }
-
-
 }
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" dir="ltr">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>@ViewBag.Title - SICOAdmin</title>
-    <link rel="website icon" type="png" href="~/Content/images/Logo.png" style="border-radius:50px;" />
 
-
+    <link rel="website icon" type="png" href="~/Content/images/Logo.png" />
     @Styles.Render("~/Vendors/css")
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
-
-
 </head>
 <body class="nav-md">
 
@@ -71,7 +66,6 @@
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido, </span>
-                            @*<h2 id="usuarioLog" style="font-size:medium;">@userNameLog</h2> <br />*@
                             <h2 id="usuarioName" style="font-size:medium;">@name</h2>
                         </div>
                     </div>
@@ -103,7 +97,7 @@
                                         }
                                         @if (lstActions.Contains(55))
                                         {
-                                            <li><a href="@Url.Action("Index", "Filial_Person")">Condominos</a></li>
+                                            <li><a href="@Url.Action("Index", "Filial_Person")">Cond&oacute;minos</a></li>
                                         }
                                         @if (lstActions.Contains(75))
                                         {
@@ -138,7 +132,7 @@
                                         @if (@lstActions.Contains(29))
                                         {
 
-                                            <li><a href="@Url.Action("Index", "Payroll")">Admin. Nominas</a></li>
+                                            <li><a href="@Url.Action("Index", "Payroll")">Admin. Nóminas</a></li>
                                         }
                                         @if (@lstActions.Contains(19))
                                         {
@@ -153,14 +147,15 @@
                                             <li><a href="@Url.Action("Index", "TypeActionPersonal")">Admin. Tipo Accion Personal</a></li>
                                         }
 
-                                        @if (@lstActions.Contains(39)) { 
+                                        @if (@lstActions.Contains(39))
+                                        {
                                             <li><a href="@Url.Action("Index", "Job")">Admin. Puestos</a></li>
                                         }
 
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-clone"></i> Reporte Consulta <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-clone"></i> Reportes/Consultas <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         @if (@lstActions.Contains(79))
                                         {
@@ -169,10 +164,11 @@
 
                                         @if (@lstActions.Contains(67) || @lstActions.Contains(71))
                                         {
-                                            <li><a href="@Url.Action("Index", "Documents")">Consultar E/S</a></li>
+                                            <li><a href="@Url.Action("Index", "Documents")">Admin. Entradas/Salidas</a></li>
                                         }
 
-                                        @if (@lstActions.Contains(94)) {
+                                        @if (@lstActions.Contains(94))
+                                        {
                                             <li><a href="@Url.Action("Index","Print")">Estados de cuenta</a></li>
                                         }
                                     </ul>
@@ -191,7 +187,7 @@
 
                             @if (@lstActions.Contains(22))
                             {
-                                <a href="@Url.Action("Index", "Parameters")" data-toggle="tooltip" data-placement="top" title="Parámetros">
+                                <a href="@Url.Action("Index", "Parameters")" data-toggle="tooltip" data-placement="top" title="Par&aacute;metros del sistema">
                                     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                                 </a>
                             }
@@ -201,7 +197,7 @@
                                 <span class="glyphicon glyphicon-fullscreen" aria-hidden="true" onclick="launchFullScreen(document.documentElement);cancelFullScreen();"></span>
                             </a>
 
-                            <a data-toggle="tooltip" data-placement="top" title="Cerrar sesión" href="@Url.Action("Logout","Home")">
+                            <a data-toggle="tooltip" data-placement="top" title="Cerrar sesi&oacute;n" href="@Url.Action("Logout","Home")">
                                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                             </a>
 
@@ -225,16 +221,15 @@
                                     <img src="~/Content/images/sinFotoPerfil.png" alt="">@userNameLog
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#exampleModalLong"> Perfil</a>
+                                    <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#profileModal"> Perfil</a>
                                     @if (@lstActions.Contains(22))
                                     {
                                         <a href="@Url.Action("Index", "Parameters")" class="dropdown-item">
-                                            @*<span class="badge bg-red pull-right">50%</span>*@
-                                            <span>Parametros</span>
+                                            <span>Par&aacute;metros del sistema</span>
                                         </a>
                                     }
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#changePassModal">Cambiar contrasena</a>
-                                    <a class="dropdown-item" href="@Url.Action("Logout","Home")"><i class="fa fa-sign-out pull-right"></i> Cerrar sesión</a>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#changePassModal">Cambiar contrase&ntilde;a</a>
+                                    <a class="dropdown-item" href="@Url.Action("Logout","Home")"><i class="fa fa-sign-out pull-right"></i> Cerrar sesi&oacute;n</a>
                                 </div>
                             </li>
 
@@ -245,10 +240,6 @@
                                     {
                                         <span class="badge bg-green">1</span>
                                     }
-                                    else
-                                    {
-
-                                    }
                                 </a>
                                 <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                                     @if (flag)
@@ -257,7 +248,7 @@
                                             <a class="dropdown-item">
                                                 <span class="image"><img src="https://images.vexels.com/media/users/3/131139/isolated/preview/ff49ce17e1541baa9298514ce6ad37ae-icono-de-circulo-de-informacion.png" alt="Profile Image" /></span>
                                                 <span>
-                                                    <span style="font-size:medium">Notificacion</span>
+                                                    <span style="font-size:medium">Notificaci&oacute;n</span>
                                                     <span id="gMinute" class="time"></span>
                                                 </span>
                                                 <span class="message" style="font-size:small">
@@ -276,50 +267,6 @@
                                             </a>
                                         </li>
                                     }
-                                    @*<li class="nav-item">
-                                            <a class="dropdown-item">
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="dropdown-item">
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="dropdown-item">
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <div class="text-center">
-                                                <a class="dropdown-item">
-                                                    <strong>See All Alerts</strong>
-                                                    <i class="fa fa-angle-right"></i>
-                                                </a>
-                                            </div>
-                                        </li>*@
                                 </ul>
                             </li>
                         </ul>
@@ -344,44 +291,8 @@
         </div>
     </div>
 
-    <!--/MODAL PARA CAMBIO DE CONTRASEÑA-->
-    <!-- Modal cambio de contraseña -->
-    <div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Cambiar contrasena</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <form id="frmChangePass">
-                        <div class="form-group">
-                            <label class="mt-4 h6">Contrasena actual</label>
-                            <input id="CPpassAct" required name="password" type="password" @*pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$*@ class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
-                        </div>
-                        <div class="form-group">
-                            <label class="mt-4 h6">Contrasena nueva</label>
-                            <input id="CPpassNew" required name="password" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
-                        </div>
-                        <div class="form-group">
-                            <label class="mt-4 h6">Confirmar contrasena</label>
-                            <input id="CPpassConfirm" required name="password1" type="password" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" class="form-control" placeholder="(Ejm: Example12)" title="Debe ingresar al menos una mayúscula, una minúscula, un digito y tener entre 8 y 16 caracteres." />
-
-                            <span id="messagePass" class="mt-4 h7"></span> <!-- Aquí se mostrará el mensaje -->
-                            <br />
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                            <button id="btnSubmitCP" type="button" class="btn btn-success">Guardar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    @Html.Partial("_ChangePass")
+    @Html.Partial("_Profile")
     <script>
         //Variables de confirmar contraseña
         // Obtener los inputs y el span -- Cambio de contraseña
@@ -426,46 +337,57 @@
         }
 
         function changePass(e) {
-        e.preventDefault();
+            e.preventDefault();
+            if (CPpassAct.value.trim() === '' || CPpassNew.value.trim() === '' || CPpassConfirm.value.trim() === '') {
 
-            fetchMethod({
-                url: "@Url.Content("~/User/CambiarContrasena")",
-                body: {
-                    PassAct: document.querySelector('#CPpassAct').value,
-                    PassNew: document.querySelector('#CPpassNew').value,
-                },
-                cbSuccess: (res) => {
-                    if (res.result) {
-                        console.log("Sí");
-                        cargarComponent({
+                // Mostrar mensaje de error o tomar la acción necesaria
+                swal({
+                    title: "Ha ocurrido un error...", text: "No pueden quedar campos vacios", type: "error",
+                    showConfirmButton: true
+                }
+                );
+                return; // Detener la ejecución de la función
+            } else {
+                const passActPattern = new RegExp(document.querySelector('#CPpassAct').pattern);
+                const passNewPattern = new RegExp(document.querySelector('#CPpassNew').pattern);
+
+                if (!passActPattern.test(CPpassAct.value) || !passNewPattern.test(CPpassNew.value)) {
+                    swal({
+                        title: "Ha ocurrido un error...", text: "Los campos de contrase\u00F1a no cumplen con el formato requerido...\n (Debe ingresar al menos una may\u00FAscula, una min\u00FAscula, un n\u00EDmero y tener entre 8 y 16 caracteres)", type: "error",
+                        showConfirmButton: true
+                    });
+                    return;
+                }
+                fetchMethod({
+                    url: "@Url.Content("~/User/CambiarContrasena")",
+                    body: {
+                        PassAct: document.querySelector('#CPpassAct').value,
+                        PassNew: document.querySelector('#CPpassNew').value,
+                    },
+                    cbSuccess: (res) => {
+                        if (res.result) {
+                            cargarComponent({
                                 container: "renderLocal",
                                 url: "@Url.Content("~/Access/Login")",
-                        })
-                        swal({
-                            title: "Correcto!", text: res.message + ", por favor ingrese de nuevo...", type: "success",
-                            showConfirmButton: false
-                        }
-                        );
-                        setTimeout( function() { document.location.href = "@Url.Action("Logout","Home")" }, 2500);
-                        //swal('Correcto!',
-                        //    res.message + ', por favor ingrese de nuevo...',
-                        //    'success',
-                        //    didOpen: () => {
-                        //        Swal.showLoading()
-                        //    }
-                        //)
-                        //setTimeout( function() { document.location.href = "Url.Content("~/")" }, 2500);
+                            })
+                            swal({
+                                title: "Correcto!", text: res.message + ", por favor ingrese de nuevo...", type: "success",
+                                showConfirmButton: false
+                            }
+                            );
+                            setTimeout(function () { document.location.href = "@Url.Action("Logout","Home")" }, 2500);
 
+                        }
+                        else {
+                            console.log("No");
+                            swal('Ha ocurrido un error!',
+                                res.message + ', por favor intente de nuevo',
+                                'error')
+                        }
                     }
-                    else {
-                        console.log("No");
-                        swal('Ha ocurrido un error!',
-                            res.message + ', por favor ingrese de nuevo...',
-                            'error')
-                    }
-                }
-            })
-    }
+                })
+            }
+        }
 
         //Confirmar cambio de contraseña
         function submitForm(form) {
@@ -484,20 +406,6 @@
                     changePass();
                 }
             })
-            //Swal.fire({
-            //    title: 'Seguro de cambiar su contraseña?',
-            //    text: "No podrás revertir este cambio!",
-            //    icon: 'warning',
-            //    showCancelButton: true,
-            //    confirmButtonColor: '#3085d6',
-            //    cancelButtonColor: '#d33',
-            //    confirmButtonText: 'Sí, cambiar la contraseña!'
-            //}).then((result) => {
-            //    if (result.isConfirmed) {
-            //        changePass();
-            //    }
-            //})
-            //return false;
         }
     //Función para activar boton de cambiar contraseña
     function enabledBtnSubmit() {
@@ -537,22 +445,6 @@
             }
         }
     }
-
-        //Minutos notificación
-        @*cargarEventListener();
-        function cargarEventListener() {
-            notifi.addEventListener('click', time);
-        }
-        function time(e) {
-            e.preventDefault();
-            console.log("entra");
-            let time = new Date().getMinutes();
-            console.log(time);
-            let time1 = @min;
-            console.log(time1);
-            gMinute.textContent = 'Hace ' + (time - time1) + ' minutos';
-
-        }*@
     </script>
 
     @Scripts.Render("~/Vendors/js")
