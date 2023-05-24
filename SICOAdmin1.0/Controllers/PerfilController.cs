@@ -115,7 +115,7 @@ namespace SICOAdmin1._0.Controllers
 
             using (SICOAdminEntities db = new SICOAdminEntities())
             {
-                var oPerfil = db.PERFIL.Find(Id); //buscar perfil
+                var oPerfil = db.PERFILs.Find(Id); //buscar perfil
                 model.IdPerfil = oPerfil.IdPerfil;
                 model.Nombre = oPerfil.Nombre;
                 model.Descripcion = oPerfil.Descripcion;
@@ -423,7 +423,28 @@ namespace SICOAdmin1._0.Controllers
             return Json(objP, JsonRequestBehavior.AllowGet);
         }
 
+
+
+        public JsonResult verificarContrasenaAdmin(String contrasena)
+        {
+            ObjectParameter msj = new ObjectParameter("msj", 0);
+            ObjectParameter tienePermiso = new ObjectParameter("tienePermiso", 0);
+
+            using (SICOAdminEntities db = new SICOAdminEntities()) db.SP_P_VerificarContrasenaAdmin(contrasena, msj, tienePermiso);
+
+            var objP = new {
+                tienePermiso = tienePermiso.Value,
+                mensaje = msj.Value
+            };
+
+            return Json(objP, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 
     #endregion
+
+
 }
+

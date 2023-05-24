@@ -203,6 +203,8 @@
                         <input type="submit"
                                value="Guardar cambios"
                                class="btn btn-success col-xl-2 col-md-3 col-12"
+                               data-toggle="modal" 
+                               data-target="#modalSave"
                                id="btnSave" />
                     </div>
 
@@ -234,6 +236,38 @@
     </div>
 </div>
 <!-- END Modal -->
+
+
+
+
+<div class="modal fade" id="modalSave" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Guardar cambios</h5>
+                
+
+            </div>
+            <div class="modal-body">
+                <form id="fomrGuardarAccionesPerfil">
+                    <p>Ingrese la contraseña del administrador para guardar los cambios</p>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Contraseña</label>
+                        <input type="password" class="form-control" id="contrasenaAdmin" placeholder="Contraseña">
+                    </div>
+
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Aceptar</button>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts{
 
@@ -433,8 +467,10 @@
     </script>
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     @* FUNCION TREE VIEW *@
-    <script>
-        console.log("Hola mundo");
+<script>
+
+        const formValidarPermiso = document.getElementById('fomrGuardarAccionesPerfil');
+
         const idPerfil2 = document.getElementById("idPerfil").value;
         $(document).ready(function () {
             var tree = $('#tree').tree({
@@ -443,27 +479,69 @@
                 dataSource: '/Perfil/Get' + '?id=' + idPerfil2,
                 checkboxes: true
             });
-            $('#btnSave').on('click', function () {
-                var checkedIds = tree.getCheckedNodes();
-                $.ajax({ url: '/Perfil/SaveCheckedNodes', data: { checkedIds: checkedIds, idPerfil: idPerfil2 }, method: 'POST' })
-                    .then(res => {
-                        if (res == 1) {
-                            cargarComponenteLocal();
-                            swal('Bien!',
-                                'Se ha guardado los cambios correctamente!',
-                                'success')
-                        } else {
-                            swal('Opps!',
-                                'No se guardo correctamente las relaciones acciones a perfil!',
-                                'error'
-                            )
-                        }
-                    })
-                    .fail(function () {
-                        alert('Failed to save.');
-                    });
+
+            formValidarPermiso.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                verificarContrasenaAdmin(e);
+                formValidarPermiso.reset();
             });
+
+            //$('#guardarAccionesPerfil').on('click', verificarContrasenaAdmin());
+            function verificarContrasenaAdmin(e) {
+
+                const contrasena = document.getElementById('contrasenaAdmin').value;
+
+                fetchMethod({
+                    url: "@Url.Content("~/Perfil/verificarContrasenaAdmin")",
+                    body: {
+                        contrasena: contrasena
+                    }
+                    , cbSuccess: (res) => {
+                        if (res.tienePermiso === 1) {
+
+                            guardarAcciones();
+                            $("#modalSave").modal("hide");
+
+                        }
+                        else {
+
+                            swal('Opps!',
+                                res.mensaje,
+                                'error')
+                        }
+
+                    }
+                });
+
+
+        }
+
+        function guardarAcciones() {
+
+            var checkedIds = tree.getCheckedNodes();
+            $.ajax({ url: '/Perfil/SaveCheckedNodes', data: { checkedIds: checkedIds, idPerfil: idPerfil2 }, method: 'POST' })
+                .then(res => {
+                    if (res == 1) {
+                        cargarComponenteLocal();
+                        swal('Bien!',
+                            'Se ha guardado los cambios correctamente!',
+                            'success')
+                    } else {
+                        swal('Opps!',
+                            'No se guardo correctamente las relaciones acciones a perfil!',
+                            'error'
+                        )
+                    }
+                })
+                .fail(function () {
+                    alert('Failed to save.');
+                });
+        }
+
         });
-    </script>
+
+
+</script>
 
 }
