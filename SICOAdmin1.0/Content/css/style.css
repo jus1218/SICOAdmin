@@ -51,7 +51,7 @@ body {
 }
 
 .margin-container {
-    margin-top:80px;
+    margin-top:40px;
 }
 .select-item {
     display:flex;
@@ -89,6 +89,9 @@ button.close {
 a {
     color:white
 }
+
+
+
 @media screen and (min-width: 768px) {
     /*Tamaño tablet*/
     .select-item {
@@ -101,4 +104,39 @@ a {
     .select-item {
         width: 300px;
     }
+}
+
+.tm {
+    /*
+   
+        overflow-y: auto;
+    */
+
+
+
+    background-color: cornflowerblue;
+}
+
+
+.f {
+    min-height: 1px !important;
+    height: calc(87vh);
+    /* height: calc(94vh);*/
+    overflow-y: auto;
+
+    top:-10px;
+    position:relative;
+    margin-bottom:-10px;
+    padding-bottom:2rem !important;
+    
+}
+
+.f-2 {
+    min-height: 1px !important;
+    /*
+                 
+    overflow-y: auto;
+         height: calc(85vh);
+        height: calc(85vh);*/
+    
 }
