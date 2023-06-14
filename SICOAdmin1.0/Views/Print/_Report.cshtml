@@ -1,183 +1,198 @@
 ﻿@model List<SICOAdmin1._0.Models.SP_C_VerEstadoCuenta_Result>
 @{
     Layout = null;
-}
-@if (Model.Count() > 0 && Model != null)
-{
-    <body style="border:solid;">
-        <div id="Dprint" class="container col-12" style="font-size: medium;">
-            <div style="border-left: solid; border-top: solid; border-right: solid;">
-                <div class="row">
-                    <div class="col-11 pt-3">
-                        <h4 text-decoration-underline>Condominio Horizontal Residencial Bagatzi</h4>
-                        <label class="h4 font-weight-normal">Estado de cuenta</label>
-                    </div>
-                    <div class="col-1">
-                        <img src="~/Content/images/LogoTransp - icon.png" style="max-width: 100%; height: auto;">
-                    </div>
-                </div>
-                <div class="row col-12 text-left p-0">
-                    <div class="col pt-4">
-                        <div class="row">
-                            <div class="col text-right">
-                                <label class="font-weight-bold">Filial</label>
-                            </div>
-                            <div class="col text-left">
-                                <label class="font-italic"> @Model.First().Filial</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col text-right">
-                                <label class="font-weight-bold">Propietario</label>
-                            </div>
-                            <div class="col text-left">
-                                <label class="font-italic"> @Model.First().NombreCLiente </label>
-                            </div>
-                        </div>
 
-                    </div>
-                    <div class="col pt-4">
+
+}
+@{ try
+    {
+        if (Model.Count() > 0 && Model != null)
+        {
+            <body style="border:solid;">
+                <div id="Dprint" class="container col-12" style="font-size: medium;">
+                    <div style="border-left: solid; border-top: solid; border-right: solid;">
                         <div class="row">
-                            <div class="col text-right">
-                                <label class="font-weight-bold">Fecha</label>
+                            <div class="col-11 pt-3">
+                                <h4 text-decoration-underline>Condominio Horizontal Residencial Bagatzi</h4>
+                                <label class="h4 font-weight-normal">Estado de cuenta</label>
                             </div>
-                            <div class="col">
-                                <label id="current_date" class="font-italic"></label>
+                            <div class="col-1">
+                                <img src="~/Content/images/LogoTransp - icon.png" style="max-width: 100%; height: auto;">
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="row">
-                                <div class="col text-right">
-                                    <label class="font-weight-bold">Periodo</label>
+                        <div class="row col-12 text-left p-0">
+                            <div class="col pt-4">
+                                <div class="row">
+                                    <div class="col text-right">
+                                        <label class="font-weight-bold">Filial</label>
+                                    </div>
+                                    <div class="col text-left">
+                                        <label class="font-italic"> @Model.First().Filial</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col text-right">
+                                        <label class="font-weight-bold">Propietario</label>
+                                    </div>
+                                    <div class="col text-left">
+                                        <label class="font-italic"> @Model.First().NombreCLiente </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col pt-4">
+                                <div class="row">
+                                    <div class="col text-right">
+                                        <label class="font-weight-bold">Fecha</label>
+                                    </div>
+                                    <div class="col">
+                                        <label id="current_date" class="font-italic"></label>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    <label id="anio" class="font-italic"></label>
+                                    <div class="row">
+                                        <div class="col text-right">
+                                            <label class="font-weight-bold">Periodo</label>
+                                        </div>
+                                        <div class="col">
+                                            <label id="anio" class="font-italic"></label>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="col text-center d-flex justify-content-end">
+                                <table class="table table-bordered font-weight-bold h5 w-50">
+                                    <tr class="bg-success table-sm">
+                                        <th style="color:white;">Monto Total Adeudado</th>
+                                    </tr>
+                                    <tr>
+                                        <td id="montoAcumulado" class="money"></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <div class="col text-center d-flex justify-content-end">
-                        <table class="table table-bordered font-weight-bold h5 w-50">
-                            <tr class="bg-success table-sm">
-                                <th style="color:white;">Monto Total Adeudado</th>
-                            </tr>
-                            <tr>
-                                <td id="montoAcumulado" class="money"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div style="border:solid">
-                <div class="row pt-4 m-0">
-                    <div class="col p-0">
-                        <table id="tbCuotasMantenimiento" class="table text-left table-responsive-xl">
+                    <div style="border:solid">
+                        <div class="row pt-4 m-0">
+                            <div class="col p-0">
+                                <table id="tbCuotasMantenimiento" class="table text-left table-responsive-xl">
 
-                            <tr class="bg-success table-sm sticky-top" style="color: white;">
-                                <th scope="col">Periodo</th>
-                                <th scope="col">Monto</th>
-                                <th scope="col">Fecha máxima</th>
-                                <th scope="col">Fecha Pago</th>
-                                <th scope="col">Pago</th>
-                                <th scope="col">Saldo</th>
-                                <th scope="col">Intereses</th>
-                                <th scope="col">Saldo total</th>
-                                <th scope="col">Notas</th>
-                            </tr>
-                            <tbody id="tabla">
-                                @if (Model != null)
-                                {
-                                    foreach (var a in Model)
-                                    {
-                                        <tr>
-                                            <td class="col-auto">@a.FechaDocumento.ToString("MMM") - @a.FechaDocumento.ToString("yyyy")</td>
-                                            <td class="money monto">@a.Monto</td>
-                                            <td>@a.FechaDocumento.AddDays(a.CondicionPago).ToString("d")</td>
-                                            @if (a.FechaPago != null)
-                                            {
-                                                <td>@(a.FechaPago != null ? a.FechaPago.Value.ToString("d") : "")</td>
-                                            }
-                                            else
-                                            {
-                                                <td>-</td>
-                                            }
-
-                                            <td class="money pago">@a.Pago</td>
-                                            <td class="money saldo">@a.Saldo</td>
-                                            <td class="money">0.00</td>
-                                            <td class="money">@a.Saldo</td>
-                                            <td>@a.Notas</td>
-                                        </tr>
-                                    }
-
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="9">
-                                            <content>No hay registros</content>
-                                        </td>
+                                    <tr class="bg-success table-sm sticky-top" style="color: white;">
+                                        <th scope="col">Periodo</th>
+                                        <th scope="col">Monto</th>
+                                        <th scope="col">Fecha máxima</th>
+                                        <th scope="col">Fecha Pago</th>
+                                        <th scope="col">Pago</th>
+                                        <th scope="col">Saldo</th>
+                                        <th scope="col">Intereses</th>
+                                        <th scope="col">Saldo total</th>
+                                        <th scope="col">Notas</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                    <tbody id="tabla">
+                                        @if (Model != null)
+                                        {
+                                            foreach (var a in Model)
+                                            {
+                                                <tr>
+                                                    <td class="col-auto">@a.FechaDocumento.ToString("MMM") - @a.FechaDocumento.ToString("yyyy")</td>
+                                                    <td class="money monto">@a.Monto</td>
+                                                    <td>@a.FechaDocumento.AddDays(a.CondicionPago).ToString("d")</td>
+                                                    @if (a.FechaPago != null)
+                                                    {
+                                                        <td>@(a.FechaPago != null ? a.FechaPago.Value.ToString("d") : "")</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>-</td>
+                                                    }
+
+                                                    <td class="money pago">@a.Pago</td>
+                                                    <td class="money saldo">@a.Saldo</td>
+                                                    <td class="money">0.00</td>
+                                                    <td class="money">@a.Saldo</td>
+                                                    <td>@a.Notas</td>
+                                                </tr>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="9">
+                                                    <content>No hay registros</content>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row pl-3">
+                            <div class="col-12 p-3">
+                                <div class="row">
+                                    <label for="txtNotes" class="font-weight-bold">Notas:</label>
+                                </div>
+                                <div class="row">
+                                    <textarea id="txtNotes" rows="3" style="border-color: green; width: 50%"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </body>
+            <script>
 
-                <div class="row pl-3">
-                    <div class="col-12 p-3">
-                        <div class="row">
-                            <label for="txtNotes" class="font-weight-bold">Notas:</label>
-                        </div>
-                        <div class="row">
-                            <textarea id="txtNotes" rows="3" style="border-color: green; width: 50%"></textarea>
-                        </div>
+                const tbCtasMantenimiento = document.querySelector('#tbCuotasMantenimiento');
+                const current_date = document.getElementById("current_date");
+                const anio = document.getElementById("anio");
+                const cells = document.querySelectorAll('.money');
+                var totalMonto = 0;
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
-    <script>
+                $(document).ready(function () {
+                    // Agregar controlador de eventos a las celdas de monto y pago de cada fila
+                    $('#tabla tr').each(function () {
+                        const fila = $(this);
+                        fila.find('.monto, .pago').on('input', function () {
+                            const monto = parseFloat(fila.find('.monto').text().replace(/[^\d.-]/g, ''));
+                            const pago = parseFloat(fila.find('.pago').text().replace(/[^\d.-]/g, ''));
+                            const resultado = monto - pago;
+                            fila.find('.resultado').text(resultado.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' }));
+                        });
+                    });
 
-        const tbCtasMantenimiento = document.querySelector('#tbCuotasMantenimiento');
-        const current_date = document.getElementById("current_date");
-        const anio = document.getElementById("anio");
-        const cells = document.querySelectorAll('.money');
-        var totalMonto = 0;
-
-        $(document).ready(function () {
-            // Agregar controlador de eventos a las celdas de monto y pago de cada fila
-            $('#tabla tr').each(function () {
-                const fila = $(this);
-                fila.find('.monto, .pago').on('input', function () {
-                    const monto = parseFloat(fila.find('.monto').text().replace(/[^\d.-]/g, ''));
-                    const pago = parseFloat(fila.find('.pago').text().replace(/[^\d.-]/g, ''));
-                    const resultado = monto - pago;
-                    fila.find('.resultado').text(resultado.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' }));
+                    console.log('montoTotal' + totalMonto);
+                    for (var i = 1; i < tbCtasMantenimiento.rows.length; i++) {
+                        totalMonto += parseInt(tbCtasMantenimiento.rows[i].cells[7].innerHTML);
+                    }
+                    document.querySelector('#montoAcumulado').textContent = totalMonto;
+                    console.log('montoTotal' + totalMonto);
                 });
-            });
 
-            console.log('montoTotal' + totalMonto);
-            for (var i = 1; i < tbCtasMantenimiento.rows.length; i++) {
-                totalMonto += parseInt(tbCtasMantenimiento.rows[i].cells[7].innerHTML);
-            }
-            document.querySelector('#montoAcumulado').textContent = totalMonto;
-            console.log('montoTotal' + totalMonto);
-        });
+                cells.forEach(function (cell) {
+                    const value = parseFloat(cell.textContent);
+                    cell.textContent = value.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' });
+                });
 
-        cells.forEach(function (cell) {
-            const value = parseFloat(cell.textContent);
-            cell.textContent = value.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' });
-        });
+                current_date.textContent = new Date().toLocaleDateString("es-ES");
+                anio.textContent = new Date().getFullYear();
+            </script>
+        }
+        else
+        {
+            <div class="col-12 text-center"><h3>No hay registros</h3></div>
+        }
 
-        current_date.textContent = new Date().toLocaleDateString("es-ES");
-        anio.textContent = new Date().getFullYear();
-    </script>
+    }
+    catch (Exception ex)
+    {
+        <script>
+            console.error('@ex.Message');
+        </script>
+        <div class="col-12 text-center"><h3>No hay registros</h3></div>
+    }
 }
-else
-{
-    <div class="col-12 text-center"><h3>No hay registros</h3></div>
-}
+
 
 

@@ -21,12 +21,18 @@ namespace SICOAdmin1._0.Controllers
             List<SP_C_MostrarFiliales_Result> lstF = null;
             List<int> anios = null;
 
-
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                lstF = db.SP_C_MostrarFiliales().ToList();
-                var result = from DOCUMENTO_CXC in db.DOCUMENTO_CXC select DOCUMENTO_CXC.FechaModificacion.Year;
-                anios = result.ToList();
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    lstF = db.SP_C_MostrarFiliales().ToList();
+                    var result = from DOCUMENTO_CXC in db.DOCUMENTO_CXC select DOCUMENTO_CXC.FechaModificacion.Year;
+                    anios = result.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             List<SelectListItem> Clients = lstF.ConvertAll(

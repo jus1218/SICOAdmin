@@ -36,7 +36,7 @@ namespace SICOAdmin1._0.Controllers
                 using (var db = new SICOAdminEntities()) lstClients = db.SP_C_MostrarClientes(PagActual, DEFAULT_NUMBER_PAGE, "", totalPag).ToList();
                 using (SICOAdminEntities db = new SICOAdminEntities())
                 {
-                    lstfilialesDB = db.SP_C_MostrarFiliales().OrderBy(e=>e.Descripcion).ToList();
+                    lstfilialesDB = db.SP_C_MostrarFiliales().OrderBy(e => e.Descripcion).ToList();
                 }
             }
             catch (Exception ex)
@@ -69,13 +69,20 @@ namespace SICOAdmin1._0.Controllers
         [AuthorizeUser(pAccion: 74)]
         public JsonResult AddClient(Client objClient)
         {
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                db.SP_P_CrearCliente((byte)objClient.IdFilial, objClient.Name, objClient.Identification, objClient.Type, objClient.Contact,
-                    objClient.Telephone1, objClient.Telephone2, objClient.Email, objClient.ConditionPay, objClient.Active, ((User)Session["User"]).userName, DateTime.Now,
-                    resultado, mensaje);
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    db.SP_P_CrearCliente((byte)objClient.IdFilial, objClient.Name, objClient.Identification, objClient.Type, objClient.Contact,
+                        objClient.Telephone1, objClient.Telephone2, objClient.Email, objClient.ConditionPay, objClient.Active, ((User)Session["User"]).userName, DateTime.Now,
+                        resultado, mensaje);
+                }
             }
-
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
+            }
             return Json(new
             {
                 result = resultado.Value,
@@ -87,11 +94,19 @@ namespace SICOAdmin1._0.Controllers
         [AuthorizeUser(pAccion: 76)]
         public JsonResult UpdateClient(Client objClient)
         {
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                db.SP_P_ModificarCliente(objClient.Identification, objClient.Type, objClient.Contact,
-                    objClient.Telephone1, objClient.Telephone2, objClient.Email, objClient.ConditionPay, objClient.Active, 
-                    ((User)Session["User"]).userName, DateTime.Now, resultado, mensaje);
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    db.SP_P_ModificarCliente(objClient.Identification, objClient.Type, objClient.Contact,
+                        objClient.Telephone1, objClient.Telephone2, objClient.Email, objClient.ConditionPay, objClient.Active,
+                        ((User)Session["User"]).userName, DateTime.Now, resultado, mensaje);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
             }
 
             return Json(new
@@ -106,14 +121,22 @@ namespace SICOAdmin1._0.Controllers
             SP_C_BuscarCliente_Result ClientDB = new SP_C_BuscarCliente_Result();
             Client objClient = new Client();
 
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                ClientDB = db.SP_C_BuscarCliente(pId, mensaje, resultado).FirstOrDefault();
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    ClientDB = db.SP_C_BuscarCliente(pId, mensaje, resultado).FirstOrDefault();
 
-                objClient.UserCreation = ClientDB.UsuarioCreacion;
-                objClient.DateCreation = ClientDB.FechaCreacion;
-                objClient.UserModification = ClientDB.UsuarioModificacion;
-                objClient.DateModification = ClientDB.FechaModificacion;
+                    objClient.UserCreation = ClientDB.UsuarioCreacion;
+                    objClient.DateCreation = ClientDB.FechaCreacion;
+                    objClient.UserModification = ClientDB.UsuarioModificacion;
+                    objClient.DateModification = ClientDB.FechaModificacion;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
             }
 
             var objC = new
@@ -134,18 +157,26 @@ namespace SICOAdmin1._0.Controllers
             string message = "";
             bool result = false;
 
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                db.SP_P_ActivarDesactivarCliente(pIdentification, ((User)Session["User"]).userName, DateTime.Now, resultado, mensaje);
-                result = Convert.ToBoolean(resultado.Value);
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    db.SP_P_ActivarDesactivarCliente(pIdentification, ((User)Session["User"]).userName, DateTime.Now, resultado, mensaje);
+                    result = Convert.ToBoolean(resultado.Value);
+                }
+                if (result)
+                {
+                    message = "1";
+                }
+                else
+                {
+                    message = "2";
+                }
             }
-            if (result)
+            catch (Exception ex)
             {
-                message = "1";
-            }
-            else
-            {
-                message = "2";
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
             }
             return Json(message, JsonRequestBehavior.AllowGet);
         }
@@ -156,23 +187,31 @@ namespace SICOAdmin1._0.Controllers
             SP_C_BuscarCliente_Result clientDB = new SP_C_BuscarCliente_Result();
             Client modelC = null;
 
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                clientDB = db.SP_C_BuscarCliente(pIdentification, mensaje, resultado).First();
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    clientDB = db.SP_C_BuscarCliente(pIdentification, mensaje, resultado).First();
+                }
+
+                modelC = new Client();
+
+                modelC.IdFilial = clientDB.IdFilial;
+                modelC.Name = clientDB.Nombre;
+                modelC.Identification = clientDB.Identificacion;
+                modelC.Type = clientDB.Tipo;
+                modelC.Contact = clientDB.Contacto;
+                modelC.Telephone1 = clientDB.Telefono1;
+                modelC.Telephone2 = clientDB.Telefono2;
+                modelC.Email = clientDB.CorreoElectronico;
+                modelC.ConditionPay = clientDB.CondicionPago;
+                modelC.Active = clientDB.Activo;
             }
-
-            modelC = new Client();
-
-            modelC.IdFilial = clientDB.IdFilial;
-            modelC.Name = clientDB.Nombre;
-            modelC.Identification = clientDB.Identificacion;
-            modelC.Type = clientDB.Tipo;
-            modelC.Contact = clientDB.Contacto;
-            modelC.Telephone1 = clientDB.Telefono1;
-            modelC.Telephone2 = clientDB.Telefono2;
-            modelC.Email = clientDB.CorreoElectronico;
-            modelC.ConditionPay = clientDB.CondicionPago;
-            modelC.Active = clientDB.Activo;
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
+            }
 
             var obj = new
             {

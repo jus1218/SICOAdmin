@@ -116,6 +116,7 @@ namespace SICOAdmin.Controllers
         [AuthorizeUser(pAccion: 9)]
         public ActionResult Edit(string userName)
         {
+            try { 
             List<SP_C_BuscarUsuario_Result> lst = null;
 
 
@@ -183,6 +184,12 @@ namespace SICOAdmin.Controllers
             ViewBag.viewPerfiles = ddlperfiles;
 
             return View(objM);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
+            }
         }
 
         [AuthorizeUser(pAccion: 9)]

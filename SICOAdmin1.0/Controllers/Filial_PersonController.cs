@@ -68,11 +68,19 @@ namespace SICOAdmin1._0.Controllers
 
 
 
-
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                lstfilialesDB = db.SP_C_MostrarFiliales().ToList();
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    lstfilialesDB = db.SP_C_MostrarFiliales().ToList();
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
+            }
+
 
             List<SelectListItem> filials = lstfilialesDB.ConvertAll(
                  d =>
@@ -84,7 +92,6 @@ namespace SICOAdmin1._0.Controllers
                          Selected = false
                      };
                  });
-
             ViewBag.Filials = filials;
             return View();
         }
@@ -165,14 +172,22 @@ namespace SICOAdmin1._0.Controllers
             SP_C_MostrarFilialPersona_Result FilialPersonDB = new SP_C_MostrarFilialPersona_Result();
             Filial_Person oFP = new Filial_Person();
 
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                FilialPersonDB = db.SP_C_MostrarFilialPersona(pIdentification, "one").FirstOrDefault();
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    FilialPersonDB = db.SP_C_MostrarFilialPersona(pIdentification, "one").FirstOrDefault();
 
-                oFP.UserCreation = FilialPersonDB.UsuarioCreacion;
-                oFP.DateCreation = FilialPersonDB.FechaCreacion;
-                oFP.UserModification = FilialPersonDB.UsuarioModificacion;
-                oFP.DateModification = FilialPersonDB.FechaModificacion;
+                    oFP.UserCreation = FilialPersonDB.UsuarioCreacion;
+                    oFP.DateCreation = FilialPersonDB.FechaCreacion;
+                    oFP.UserModification = FilialPersonDB.UsuarioModificacion;
+                    oFP.DateModification = FilialPersonDB.FechaModificacion;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
             }
 
             var objU = new
@@ -196,18 +211,26 @@ namespace SICOAdmin1._0.Controllers
             string message = "";
             bool result = false;
 
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                db.SP_P_ActivarDesactivarFilialPersona(pIdentification, ((User)Session["User"]).userName, DateTime.Now, resultado, mensaje);
-                result = Convert.ToBoolean(resultado.Value);
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    db.SP_P_ActivarDesactivarFilialPersona(pIdentification, ((User)Session["User"]).userName, DateTime.Now, resultado, mensaje);
+                    result = Convert.ToBoolean(resultado.Value);
+                }
+                if (result)
+                {
+                    message = "1";
+                }
+                else
+                {
+                    message = "2";
+                }
             }
-            if (result)
+            catch (Exception ex)
             {
-                message = "1";
-            }
-            else
-            {
-                message = "2";
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
             }
             return Json(message, JsonRequestBehavior.AllowGet);
         }
@@ -217,25 +240,32 @@ namespace SICOAdmin1._0.Controllers
             SP_C_MostrarFilialPersona_Result FP_DB = new SP_C_MostrarFilialPersona_Result();
             Filial_Person modelFP = null;
 
-            using (SICOAdminEntities db = new SICOAdminEntities())
+            try
             {
-                FP_DB = db.SP_C_MostrarFilialPersona(pIdentification, "one").First();
+                using (SICOAdminEntities db = new SICOAdminEntities())
+                {
+                    FP_DB = db.SP_C_MostrarFilialPersona(pIdentification, "one").First();
+                }
+
+                modelFP = new Filial_Person();
+
+                modelFP.Identification = FP_DB.Indentification;
+                modelFP.IdFilial = FP_DB.IdFilial;
+                modelFP.Name = FP_DB.Nombre;
+                modelFP.Active = FP_DB.Activo;
+                modelFP.Responsable = FP_DB.Responsable;
+                modelFP.Type = FP_DB.Tipo;
+                modelFP.Email = FP_DB.CorreoElectronico;
+                modelFP.Telephone1 = FP_DB.Telefono1;
+                modelFP.Telephone2 = FP_DB.Telefono2;
+                modelFP.WhatsApp = FP_DB.WhatsApp;
+                modelFP.Treatment = FP_DB.Trato;
             }
-
-            modelFP = new Filial_Person();
-
-            modelFP.Identification = FP_DB.Indentification;
-            modelFP.IdFilial = FP_DB.IdFilial;
-            modelFP.Name = FP_DB.Nombre;
-            modelFP.Active = FP_DB.Activo;
-            modelFP.Responsable = FP_DB.Responsable;
-            modelFP.Type = FP_DB.Tipo;
-            modelFP.Email = FP_DB.CorreoElectronico;
-            modelFP.Telephone1 = FP_DB.Telefono1;
-            modelFP.Telephone2 = FP_DB.Telefono2;
-            modelFP.WhatsApp = FP_DB.WhatsApp;
-            modelFP.Treatment = FP_DB.Trato;
-
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                throw;
+            }
             var obj = new
             {
                 modelFP.Identification,

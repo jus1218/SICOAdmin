@@ -2,6 +2,8 @@
     Layout = null;
 }
 <head>
+    <meta name="viewport" content="width=device-width">
+
     <title>Inicio de sesión - SICOAdmin</title>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -21,7 +23,7 @@
 <body>
     <div class="wrapper">
         <div class="logo">
-            <img src="~/Content/images/Logo.png">
+            <img src="~/Content/images/Logo.png" alt="Logo SICOAdmin">
         </div>
         <div class="p-3 text-center mt-3 name">
             <label style="text-align:center;">SICOAdmin</label>
@@ -29,16 +31,16 @@
         <form class="p-3 mt-3" id="frm">
             <div class="form-field d-flex align-items-center">
                 <span class="far fa-user"></span>
-                <input type="text" name="userName" id="userName" placeholder="Nombre de usuario" required>
+                <input type="text" name="userName" id="userName" placeholder="Nombre de usuario" title="Nombre de usuario" required>
             </div>
             <div class="form-field d-flex align-items-center">
                 <span class="fas fa-key"></span>
-                <input type="password" name="password" id="pwd" placeholder="Contraseña" required>
+                <input type="password" name="password" id="pwd" placeholder="Contraseña" title="Contraseña" required>
             </div>
-            <button id="btnSubmit" class="btn mt-3" type="submit">Iniciar sesión</button>
+            <button id="btnSubmit" class="btn mt-3 font-weight-bold" type="submit" title="Iniciar sesión">Iniciar sesión</button>
         </form>
         <div class="text-center mt-6">
-            <span><a href="" data-toggle="modal" data-target="#changePassModal">Cambiar contraseña</a></span>
+            <span><a href="" style="text-decoration: underline; color:black;" data-toggle="modal" data-target="#changePassModal" title="Cambiar contraseña">Cambiar contraseña</a></span>
         </div>
     </div>
 
