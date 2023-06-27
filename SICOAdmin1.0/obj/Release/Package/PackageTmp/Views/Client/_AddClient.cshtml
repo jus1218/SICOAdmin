@@ -1,0 +1,77 @@
+﻿
+@{
+    Layout = null;
+    List<SelectListItem> lstFilials = (List<SelectListItem>)ViewBag.Filials;
+}
+
+<div class="modal fade" id="AddModalClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Agregar cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createClient" method="post">
+                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
+
+                        <div class="col-xl-3 col-xl-6 col-sm-12 me-5">
+                            <label class="mt-4 h6">Número de filial</label>
+                            <select required name="IdFilial" id="cIdFilial" class="form-control">
+                                <option value="" selected disabled hidden>Seleccionar</option>
+                                @foreach (var e in lstFilials)
+                                {
+                                    <option value="@e.Value"> @e.Text</option>
+                                }
+                            </select>
+
+                            <label class="mt-4 h6">Tipo</label>
+                            <select id="cType" required name="Type" class="form-control h6">
+                                <option value="" selected disabled hidden>Seleccionar</option>
+                                <option value="Cd">Condomino</option>
+                                <option value="In">Inquilino</option>
+                            </select>
+
+                            <label class="mt-4 h6">Nombre</label>
+                            <input id="cName" required type="text" name="Name" class="form-control" autofocus />
+
+                            <label class="mt-4 h6">Identificacion</label>
+                            <input id="cIdentification" required name="Identification" type="text" class="form-control" placeholder="(Números y letras)" />
+
+                            <label class="mt-4 h6">Contacto</label>
+                            <input id="cContact" required type="text" name="Contact" class="form-control" placeholder="(Nombre de contacto)" />
+                        </div><br />
+
+                              <div class="col-xl-3 col-xl-6 col-sm-12 me-5">
+                                  <label class="mt-4 h6">Teléfono 1</label>
+                                  <input id="cTel1" required type="number" name="Telephone1" class="form-control" placeholder="(Solo números)" />
+
+                                  <label class="mt-4 h6">Teléfono 2 (Opcional)</label>
+                                  <input id="cTel2" type="number"name="Telephone2" class="form-control" placeholder="(Solo números)" />
+
+                                  <label class="mt-4 h6">Correo electrónico</label>
+                                  <input id="cEmail" required type="text" name="Email" class="form-control" placeholder="ejemplo@ejemplo.com" />
+
+                                  <label class="mt-4 h6">Condición de pago</label>
+                                  <input id="cConditionPay" required type="number" min="0" name="ConditionPay" class="form-control" placeholder="(Solo números)" />
+
+                                  <label class="mt-4 h6">Estado del cliente</label>
+                                  <div class="custom-control custom-switch">
+                                      <input type="checkbox" class="custom-control-input" id="cActive" data-id="" onclick="switchClick(this)">
+                                      <label id="labelSwitchAdd" title="Cambie el estado del cliente." class="custom-control-label" for="cActive">Desactivado</label>
+                                  </div>
+                              </div><br />
+                    </div><br />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,130 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarFilial_Result>
+
+@{ //int horaR = 0;
+
+    int i = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    bool puedeModificar = false;
+
+    if (lstActions.Contains(50)) { puedeModificar = true; }
+}
+
+<div class="pre-scrollable col-12">
+    <table id="tFilial" class="table table-bordered table-striped ">
+        <thead class="">
+            <tr>
+                <th scope="col" class="th"># Id</th>
+                <th scope="col" class="th">Descripción</th>
+               
+                    <th scope="col" class="th">Estado</th>
+               
+                <th scope="col" class="th">Acciones</th>
+            </tr>
+        </thead>
+        <tbody style="text-align:center;">
+
+            @if (Model != null)
+            {
+                foreach (var filial in Model)
+                {
+                    i++;
+                    <tr>
+                        <td>@filial.IdFilial</td>
+                        <td>@filial.Descripcion</td>
+
+
+                       
+                            @if (filial.Estado == "1")
+                            {
+                                <td>
+                                     @if(puedeModificar)
+                                     {
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" checked name="stateFilial" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
+                                        <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
+                                    </div>
+                                     }
+                                     else { 
+                                     
+                                        <label>Activo</label>
+                                     }
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                @if (puedeModificar)
+                                {
+                                
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" name="stateFilial" id="customSwitch_@filial.IdFilial" data-id="@filial.IdFilial" title="hola">
+                                        <label class="custom-control-label" for="customSwitch_@filial.IdFilial"></label>
+                                    </div>
+                                
+                                }else { 
+                                     
+                                    <label>Desactivo</label>
+                                }
+                               </td>
+                            }
+                        
+
+                        <td>
+                            @if (puedeModificar)
+                            {
+                                <button type="button"
+                                        class="btn btn-warning"
+                                        id="showEditModel"
+                                        data-id="@filial.IdFilial">
+                                    <i class="fa fa-pencil mr-2"
+                                       aria-hidden="true"></i>Editar
+                                </button>
+                            }
+
+                            <button id="btnBitacora"
+                                    class="btn btn-primary"
+                                    name="showMore"
+                                    data-id="@filial.IdFilial">
+                                <i class="fa fa-info-circle  mr-2"
+                                   aria-hidden="true"></i>Detalles
+                            </button>
+                        </td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="d-flex">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+        <div class="row mr-0">
+
+
+
+            @if (@ViewBag.PagActual > 1)
+            {
+                <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+            }
+            @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+            {
+                <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+            }
+
+        </div>
+    </div>
+
+    
+
+
+
+</div>

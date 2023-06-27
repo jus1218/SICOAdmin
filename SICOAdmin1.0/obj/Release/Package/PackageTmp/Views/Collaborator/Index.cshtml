@@ -1,0 +1,202 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarColaboradoresPag_Result>
+
+@{
+    ViewBag.Title = "Colaboradores";
+
+}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+</head>
+
+<div class="container margin-container p-4 glass" id="renderLocal">
+
+    @Html.Partial("_GetCollaborators", Model)
+</div>
+
+@Html.Partial("_Bitacora")
+
+@section scripts{
+    <script>
+
+        //Paginación
+         const d = document,
+            $renderBody = d.getElementById("renderBody")
+        $renderBody.addEventListener("click",  (e) => {
+            let page = e.target.dataset.value || "";
+            if (e.target.name === "regresar") {
+                //let btn = d.getElementById("regresarr");
+                //btn.setAttribute("disabled", "disabled");
+                cargarComponent({
+                    container: "renderLocal", url: "@Url.Content("~/Collaborator/_GetCollaborators")",
+                })
+               /* btn.removeAttribute("disabled");*/
+            }
+            else if (e.target.name === "nextPage") {
+                console.log("entra");
+                siguientePagina({
+                    sig: page,
+                    totalPage: d.getElementById("totalPag").textContent,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/Collaborator/_TableCollaborators")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                })
+            }
+            else if (e.target.name === "previousPage") {
+
+
+                retrocederPagina({
+                   ant: page,
+                   totalPage: d.getElementById("totalPag").textContent,
+                   tamanoPagina: d.getElementById("tamanoPagina").value,
+                   url: "@Url.Content("~/Collaborator/_TableCollaborators")",
+                   container: "content-table",
+                   palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+               })
+            }
+        })
+        //Paginación
+        // CHANGE
+        $renderBody.addEventListener("change", (e) => {
+            if (!(e.target.id === "tamanoPagina")) return false;
+            console.log(d.getElementById("totalPag").textContent);
+            console.log(e.target.value);
+            console.log("@Url.Content("~/Collaborator/_TableCollaborators")");
+            console.log(d.getElementById("buscar").value.toLowerCase());
+            cambioTamanoPagina({
+                totalPage:d.getElementById("totalPag").textContent,
+                tamanoPagina: e.target.value,
+                url:"@Url.Content("~/Collaborator/_TableCollaborators")",
+                container: "content-table",
+                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+            });
+        })
+
+        $renderBody.addEventListener("keyup", (e) => {
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+                console.log(palabraBuscar.toLowerCase());
+                buscarPalabra({
+                    url: "@Url.Content("~/Collaborator/_TableCollaborators")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+        })
+
+
+
+        //Mostrar Bitacora por colaborador
+        function jsmostrarBitacora(pId) {
+            console.log("Bitacora");
+            console.log(pId);
+            fetch("@Url.Content("~/Collaborator/GetBitacora")" + "?id=" + pId)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        console.log(res);
+                        console.log("Bitacora");
+
+                        tdBUsuarioCrea.textContent = res.UserCreation;
+                        tdBFechaCrea.textContent = res.DateCreation;
+                        tdBUsuarioModi.textContent = res.UserModification;
+                        tdBFechaModi.textContent = res.DateModification;
+                    })
+        }
+
+        //Mostrar detalles por colaborador
+        function jsViewDetails(pId) {
+            console.log("Bitacora");
+            console.log(pId);
+            fetch("@Url.Content("~/Collaborator/GetDetails")" + "?id=" + pId)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+                    console.log(res);
+
+                    tdBName.textContent = res.Name;
+                    tdBGender.textContent = res.Gender;
+                    tdBActive.textContent = res.Active;
+                    tdBState.textContent = res.State;
+                    tdBAddress.textContent = res.Address;
+                    tdBTelephone1.textContent = res.Telephone1;
+                    tdBTelephone2.textContent = res.Telephone2;
+                    tdBIdentification.textContent = res.Identification;
+                    tdNationality.textContent = res.Nationality;
+                    tdBDateBirth.textContent = res.DateBirth;
+                    tdBDateEntry.textContent = res.DateEntry;
+                    tdBDateDeparture.textContent = res.DateDeparture;
+                    tdBIdNomina.textContent = res.IdNomina;
+                    tdBCivilStatus.textContent = res.CivilStatus;
+                    tdBVacationBalance.textContent = res.VacationBalance;
+                    tdBLastVacationCalc.textContent = res.LastVacationCalc;
+                    tdBIdPuesto.textContent = res.IdPuesto;
+                    tdBFormPayment.textContent = res.FormPayment;
+                    tdBBankAccount.textContent = res.BankAccount;
+                    tdBBank.textContent = res.Bank;
+                    tdBEmail.textContent = res.Email;
+                    tdBEmergencyContact.textContent = res.EmergencyContact;
+                    tdBTelephoneContact.textContent = res.TelephoneContact;
+                    tdBReferenceSalary.textContent = res.ReferenceSalary;
+                    tdBUsuarioCrea.textContent = res.UserCreation;
+                    tdBFechaCrea.textContent = res.DateCreation;
+                    tdBUsuarioModi.textContent = res.UserModification;
+                    tdBFechaModi.textContent = res.DateModification;
+                })
+        }
+
+        //Activar - desactivar
+        function jsModificarEstado(pId) {
+            console.log(pId);
+            fetch("@Url.Content("~/Collaborator/ModificarEstado")" + "?idCol=" + pId)
+              .then(res => res.ok ? res.json() : null)
+                .then(res => {
+                  console.log(res);
+                    if (res == "1") {
+                        swal({
+                            title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                            showConfirmButton: false
+                        }
+                        );
+                        $("#tbCollaborators").load(" #tbCollaborators");
+                    } else {
+                        swal({
+                            title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                        $("#tbCollaborators").load(" #tbCollaborators");
+                    }
+             })
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        console.log('@TempData["Message"]');
+        console.log('@TempData["Message"]');
+        @if (TempData["Resultado"] != null) {
+
+            if (TempData["Resultado"].ToString() == "1")
+            {
+                 <text>
+            $(document).ready(function() {
+                swal({ title: "¡¡Exitoso!!", text: ('@TempData["Message"]'), type: "success", timer: 2000, showConfirmButton: false });
+            })
+                </text>
+            }
+            else {
+                <text>
+            $(document).ready(function () {
+                swal({ title: "¡¡Error!!", text: ('@TempData["Message"]'), type: "error", timer: 2000, showConfirmButton: false });
+            })
+                </text>
+
+            }
+
+            TempData.Clear();
+        }
+    </script>
+}

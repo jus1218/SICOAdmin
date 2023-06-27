@@ -1,0 +1,72 @@
+﻿@model List<SICOAdmin1._0.Models.Departure.Departure>
+@{
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+
+}
+
+<div class="row fila">
+    <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12">
+        <h3 class="d-flex justify-content-center">Partidas</h3>
+    </div>
+
+    @if (lstActions.Contains(61)) {
+    <button id="btnAgregar" type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 ">
+        <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+        Agregar
+    </button>
+    }
+    @*onclick="levantarModal(1,0);"*@
+
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
+        <div class="input-group ">
+            <input type="text" ssssss
+                   class="form-control"
+                   placeholder="Buscar..."
+                   aria-label="Buscar..."
+                   aria-describedby="button-search"
+                   id="buscar" value="@ViewBag.palabraBuscar" />
+
+        </div>
+    </div>
+</div>
+<div class="row m-1 ">
+    <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamanoPagina">
+        @if (@ViewBag.CantRegistros == null)
+        {
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+
+        }
+        else if (@ViewBag.CantRegistros == 1)
+        {
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+
+        }
+        else if (@ViewBag.CantRegistros == 2)
+        {
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+        }
+        else if (@ViewBag.CantRegistros == 3)
+        {
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+        }
+    </select>
+
+</div>
+
+
+<div class="row fila   scrol-tablex" id="tableDeparture">
+    @Html.Partial("_TableDeparture", Model);
+</div>

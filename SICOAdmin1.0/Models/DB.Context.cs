@@ -53,11 +53,12 @@ namespace SICOAdmin1._0.Models
         public virtual DbSet<PLANILLA_DETALLE> PLANILLA_DETALLE { get; set; }
         public virtual DbSet<PROVEEDOR> PROVEEDOR { get; set; }
         public virtual DbSet<PUESTO> PUESTO { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TIPO_ACCION_PERS> TIPO_ACCION_PERS { get; set; }
+        public virtual DbSet<TIPO_PROVEEDOR> TIPO_PROVEEDOR { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
         public virtual DbSet<USUARIO_PERFIL> USUARIO_PERFIL { get; set; }
-        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<Audit_ControlAsistencia> Audit_ControlAsistencia { get; set; }
+        public virtual DbSet<Audit_Parametros> Audit_Parametros { get; set; }
     
         [DbFunction("SICOAdminEntities", "f_opcionesPerfilesUsuario")]
         public virtual IQueryable<f_opcionesPerfilesUsuario_Result> f_opcionesPerfilesUsuario(string usuario)
@@ -79,25 +80,27 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<f_opcionesUsuariosPerfil_Result>("[SICOAdminEntities].[f_opcionesUsuariosPerfil](@IdPerfil)", idPerfilParameter);
         }
     
-        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        public virtual ObjectResult<SP_Buscar_Partidas_Activas_Result> SP_Buscar_Partidas_Activas()
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Buscar_Partidas_Activas_Result>("SP_Buscar_Partidas_Activas");
+        }
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
+        public virtual ObjectResult<SP_C__Buscar_Documento_CXC_Result> SP_C__Buscar_Documento_CXC(string idDocumento)
+        {
+            var idDocumentoParameter = idDocumento != null ?
+                new ObjectParameter("idDocumento", idDocumento) :
+                new ObjectParameter("idDocumento", typeof(string));
     
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C__Buscar_Documento_CXC_Result>("SP_C__Buscar_Documento_CXC", idDocumentoParameter);
+        }
     
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
+        public virtual ObjectResult<SP_C__Buscar_Documento_CXP_Result> SP_C__Buscar_Documento_CXP(string idDocumento)
+        {
+            var idDocumentoParameter = idDocumento != null ?
+                new ObjectParameter("idDocumento", idDocumento) :
+                new ObjectParameter("idDocumento", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C__Buscar_Documento_CXP_Result>("SP_C__Buscar_Documento_CXP", idDocumentoParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> SP_C_AuthorizeUser(string usuario)
@@ -118,6 +121,116 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BItacoraPuesto_Result>("SP_C_BItacoraPuesto", idPuestoParameter, resultado);
         }
     
+        public virtual ObjectResult<SP_C_Buscar_Documentos_CXC_Result> SP_C_Buscar_Documentos_CXC(Nullable<int> nPag, Nullable<int> cantReg, string nombre, string identificacion, string documento, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin, Nullable<decimal> monto, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("identificacion", identificacion) :
+                new ObjectParameter("identificacion", typeof(string));
+    
+            var documentoParameter = documento != null ?
+                new ObjectParameter("documento", documento) :
+                new ObjectParameter("documento", typeof(string));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("fechaInicio", fechaInicio) :
+                new ObjectParameter("fechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("monto", monto) :
+                new ObjectParameter("monto", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Buscar_Documentos_CXC_Result>("SP_C_Buscar_Documentos_CXC", nPagParameter, cantRegParameter, nombreParameter, identificacionParameter, documentoParameter, fechaInicioParameter, fechaFinParameter, montoParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_Buscar_Documentos_CXP_Result> SP_C_Buscar_Documentos_CXP(Nullable<int> nPag, Nullable<int> cantReg, string nombre, string identificacion, string documento, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin, Nullable<decimal> monto, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("identificacion", identificacion) :
+                new ObjectParameter("identificacion", typeof(string));
+    
+            var documentoParameter = documento != null ?
+                new ObjectParameter("documento", documento) :
+                new ObjectParameter("documento", typeof(string));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("fechaInicio", fechaInicio) :
+                new ObjectParameter("fechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("monto", monto) :
+                new ObjectParameter("monto", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Buscar_Documentos_CXP_Result>("SP_C_Buscar_Documentos_CXP", nPagParameter, cantRegParameter, nombreParameter, identificacionParameter, documentoParameter, fechaInicioParameter, fechaFinParameter, montoParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_Buscar_DocumentosCXC_Por_Cliente_Result> SP_C_Buscar_DocumentosCXC_Por_Cliente(Nullable<int> cliente)
+        {
+            var clienteParameter = cliente.HasValue ?
+                new ObjectParameter("cliente", cliente) :
+                new ObjectParameter("cliente", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Buscar_DocumentosCXC_Por_Cliente_Result>("SP_C_Buscar_DocumentosCXC_Por_Cliente", clienteParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_Buscar_DocumentosCXP_Por_Proveedor_Result> SP_C_Buscar_DocumentosCXP_Por_Proveedor(Nullable<int> proveedor)
+        {
+            var proveedorParameter = proveedor.HasValue ?
+                new ObjectParameter("proveedor", proveedor) :
+                new ObjectParameter("proveedor", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Buscar_DocumentosCXP_Por_Proveedor_Result>("SP_C_Buscar_DocumentosCXP_Por_Proveedor", proveedorParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_BuscarCliente_Result> SP_C_BuscarCliente(Nullable<int> idCliente, ObjectParameter mensaje, ObjectParameter resultado)
+        {
+            var idClienteParameter = idCliente.HasValue ?
+                new ObjectParameter("IdCliente", idCliente) :
+                new ObjectParameter("IdCliente", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BuscarCliente_Result>("SP_C_BuscarCliente", idClienteParameter, mensaje, resultado);
+        }
+    
+        public virtual ObjectResult<SP_C_BuscarConcepto_Result> SP_C_BuscarConcepto(Nullable<int> idConcepto)
+        {
+            var idConceptoParameter = idConcepto.HasValue ?
+                new ObjectParameter("idConcepto", idConcepto) :
+                new ObjectParameter("idConcepto", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BuscarConcepto_Result>("SP_C_BuscarConcepto", idConceptoParameter);
+        }
+    
         public virtual ObjectResult<SP_C_BuscarConsecutivo_Result> SP_C_BuscarConsecutivo(Nullable<int> idConsecutivo)
         {
             var idConsecutivoParameter = idConsecutivo.HasValue ?
@@ -136,6 +249,65 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BuscarControlAsistencia_Result>("SP_C_BuscarControlAsistencia", idAsistenciaParameter);
         }
     
+        public virtual ObjectResult<SP_C_BuscarDocumentos_Result> SP_C_BuscarDocumentos(Nullable<int> nPag, Nullable<int> cantReg, string nombreTabla, string nombre, string identificacion, string documento, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin, Nullable<decimal> monto, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var nombreTablaParameter = nombreTabla != null ?
+                new ObjectParameter("nombreTabla", nombreTabla) :
+                new ObjectParameter("nombreTabla", typeof(string));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("identificacion", identificacion) :
+                new ObjectParameter("identificacion", typeof(string));
+    
+            var documentoParameter = documento != null ?
+                new ObjectParameter("documento", documento) :
+                new ObjectParameter("documento", typeof(string));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("fechaInicio", fechaInicio) :
+                new ObjectParameter("fechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("fechaFin", fechaFin) :
+                new ObjectParameter("fechaFin", typeof(System.DateTime));
+    
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("monto", monto) :
+                new ObjectParameter("monto", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BuscarDocumentos_Result>("SP_C_BuscarDocumentos", nPagParameter, cantRegParameter, nombreTablaParameter, nombreParameter, identificacionParameter, documentoParameter, fechaInicioParameter, fechaFinParameter, montoParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_BuscarFilial_Result> SP_C_BuscarFilial(Nullable<int> identificacion, Nullable<bool> verId)
+        {
+            var identificacionParameter = identificacion.HasValue ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(int));
+    
+            var verIdParameter = verId.HasValue ?
+                new ObjectParameter("VerId", verId) :
+                new ObjectParameter("VerId", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BuscarFilial_Result>("SP_C_BuscarFilial", identificacionParameter, verIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_BuscarParametroActivo_Result> SP_C_BuscarParametroActivo()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BuscarParametroActivo_Result>("SP_C_BuscarParametroActivo");
+        }
+    
         public virtual ObjectResult<SP_C_BuscarPerfil_Result> SP_C_BuscarPerfil(Nullable<int> idPerfil)
         {
             var idPerfilParameter = idPerfil.HasValue ?
@@ -143,6 +315,19 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("IdPerfil", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BuscarPerfil_Result>("SP_C_BuscarPerfil", idPerfilParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_BuscarProveedor_Result> SP_C_BuscarProveedor(Nullable<int> identificacion, Nullable<bool> verId)
+        {
+            var identificacionParameter = identificacion.HasValue ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(int));
+    
+            var verIdParameter = verId.HasValue ?
+                new ObjectParameter("VerId", verId) :
+                new ObjectParameter("VerId", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_BuscarProveedor_Result>("SP_C_BuscarProveedor", identificacionParameter, verIdParameter);
         }
     
         public virtual ObjectResult<SP_C_BuscarUsuario_Result> SP_C_BuscarUsuario(string usuario)
@@ -159,6 +344,37 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_ConsecutivosActivos_Result>("SP_C_ConsecutivosActivos");
         }
     
+        public virtual ObjectResult<SP_C_Documento_Result> SP_C_Documento(string nombreTabla, string idDocumento)
+        {
+            var nombreTablaParameter = nombreTabla != null ?
+                new ObjectParameter("nombreTabla", nombreTabla) :
+                new ObjectParameter("nombreTabla", typeof(string));
+    
+            var idDocumentoParameter = idDocumento != null ?
+                new ObjectParameter("idDocumento", idDocumento) :
+                new ObjectParameter("idDocumento", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Documento_Result>("SP_C_Documento", nombreTablaParameter, idDocumentoParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_GetPartida_Result> SP_C_GetPartida(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_GetPartida_Result>("SP_C_GetPartida", idParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_GetTipoAccionPers_Result> SP_C_GetTipoAccionPers(Nullable<int> idAccion)
+        {
+            var idAccionParameter = idAccion.HasValue ?
+                new ObjectParameter("idAccion", idAccion) :
+                new ObjectParameter("idAccion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_GetTipoAccionPers_Result>("SP_C_GetTipoAccionPers", idAccionParameter);
+        }
+    
         public virtual ObjectResult<SP_C_MostarNominas_Result> SP_C_MostarNominas(string opcion, Nullable<int> nomina)
         {
             var opcionParameter = opcion != null ?
@@ -172,9 +388,80 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostarNominas_Result>("SP_C_MostarNominas", opcionParameter, nominaParameter);
         }
     
+        public virtual ObjectResult<SP_C_Mostrar_Clientes_Activos_Result> SP_C_Mostrar_Clientes_Activos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Mostrar_Clientes_Activos_Result>("SP_C_Mostrar_Clientes_Activos");
+        }
+    
+        public virtual ObjectResult<SP_C_Mostrar_Depositos_CXC_Result> SP_C_Mostrar_Depositos_CXC(string documento)
+        {
+            var documentoParameter = documento != null ?
+                new ObjectParameter("documento", documento) :
+                new ObjectParameter("documento", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Mostrar_Depositos_CXC_Result>("SP_C_Mostrar_Depositos_CXC", documentoParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_Mostrar_Documentos_CXC_Result> SP_C_Mostrar_Documentos_CXC(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Mostrar_Documentos_CXC_Result>("SP_C_Mostrar_Documentos_CXC", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_Mostrar_Documentos_CXP_Result> SP_C_Mostrar_Documentos_CXP(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Mostrar_Documentos_CXP_Result>("SP_C_Mostrar_Documentos_CXP", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_Mostrar_Facturtas_CXP_Result> SP_C_Mostrar_Facturtas_CXP(string documento)
+        {
+            var documentoParameter = documento != null ?
+                new ObjectParameter("documento", documento) :
+                new ObjectParameter("documento", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Mostrar_Facturtas_CXP_Result>("SP_C_Mostrar_Facturtas_CXP", documentoParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_Mostrar_Proveedores_Activos_Result> SP_C_Mostrar_Proveedores_Activos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_Mostrar_Proveedores_Activos_Result>("SP_C_Mostrar_Proveedores_Activos");
+        }
+    
         public virtual ObjectResult<SP_C_MostrarAcciones_Result> SP_C_MostrarAcciones()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarAcciones_Result>("SP_C_MostrarAcciones");
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarAuditControlAsistencia_Result> SP_C_MostrarAuditControlAsistencia(Nullable<int> idAsistencia)
+        {
+            var idAsistenciaParameter = idAsistencia.HasValue ?
+                new ObjectParameter("idAsistencia", idAsistencia) :
+                new ObjectParameter("idAsistencia", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarAuditControlAsistencia_Result>("SP_C_MostrarAuditControlAsistencia", idAsistenciaParameter);
         }
     
         public virtual ObjectResult<SP_C_MostrarAuditParametro_Result> SP_C_MostrarAuditParametro(Nullable<int> idParametro)
@@ -184,6 +471,23 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("idParametro", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarAuditParametro_Result>("SP_C_MostrarAuditParametro", idParametroParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarClientes_Result> SP_C_MostrarClientes(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarClientes_Result>("SP_C_MostrarClientes", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
         }
     
         public virtual ObjectResult<SP_C_MostrarColaboradores_Result> SP_C_MostrarColaboradores(string identificacion, string opcion)
@@ -199,14 +503,133 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarColaboradores_Result>("SP_C_MostrarColaboradores", identificacionParameter, opcionParameter);
         }
     
+        public virtual ObjectResult<SP_C_MostrarColaboradoresPag_Result> SP_C_MostrarColaboradoresPag(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarColaboradoresPag_Result>("SP_C_MostrarColaboradoresPag", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarConceptos_Result> SP_C_MostrarConceptos(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarConceptos_Result>("SP_C_MostrarConceptos", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
         public virtual ObjectResult<SP_C_MostrarConsecutivos_Result> SP_C_MostrarConsecutivos()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarConsecutivos_Result>("SP_C_MostrarConsecutivos");
         }
     
-        public virtual ObjectResult<SP_C_MostrarControlAsistencia_Result> SP_C_MostrarControlAsistencia()
+        public virtual ObjectResult<SP_C_MostrarControlAsistencia_Result> SP_C_MostrarControlAsistencia(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarControlAsistencia_Result>("SP_C_MostrarControlAsistencia");
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarControlAsistencia_Result>("SP_C_MostrarControlAsistencia", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarDocumentos_Result> SP_C_MostrarDocumentos(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, string nombreTabla, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            var nombreTablaParameter = nombreTabla != null ?
+                new ObjectParameter("nombreTabla", nombreTabla) :
+                new ObjectParameter("nombreTabla", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarDocumentos_Result>("SP_C_MostrarDocumentos", nPagParameter, cantRegParameter, palabraBuscParameter, nombreTablaParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarFilial_Result> SP_C_MostrarFilial(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarFilial_Result>("SP_C_MostrarFilial", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarFiliales_Result> SP_C_MostrarFiliales()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarFiliales_Result>("SP_C_MostrarFiliales");
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarFilialPersona_Result> SP_C_MostrarFilialPersona(string identificacion, string opcion)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var opcionParameter = opcion != null ?
+                new ObjectParameter("Opcion", opcion) :
+                new ObjectParameter("Opcion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarFilialPersona_Result>("SP_C_MostrarFilialPersona", identificacionParameter, opcionParameter);
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarFilialPersonasPag_Result> SP_C_MostrarFilialPersonasPag(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarFilialPersonasPag_Result>("SP_C_MostrarFilialPersonasPag", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
         }
     
         public virtual ObjectResult<SP_C_MostrarParametros_Result> SP_C_MostrarParametros(string opc, Nullable<int> id)
@@ -222,6 +645,23 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarParametros_Result>("SP_C_MostrarParametros", opcParameter, idParameter);
         }
     
+        public virtual ObjectResult<SP_C_MostrarPartidas_Result> SP_C_MostrarPartidas(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarPartidas_Result>("SP_C_MostrarPartidas", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
         public virtual ObjectResult<SP_C_MostrarPerfil_Result> SP_C_MostrarPerfil(string opcion, Nullable<int> id)
         {
             var opcionParameter = opcion != null ?
@@ -235,9 +675,48 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarPerfil_Result>("SP_C_MostrarPerfil", opcionParameter, idParameter);
         }
     
+        public virtual ObjectResult<SP_C_MostrarProveedores_Result> SP_C_MostrarProveedores(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarProveedores_Result>("SP_C_MostrarProveedores", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
         public virtual ObjectResult<SP_C_MostrarPuestos_Result> SP_C_MostrarPuestos()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarPuestos_Result>("SP_C_MostrarPuestos");
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarTipoAccionPers_Result> SP_C_MostrarTipoAccionPers(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
+        {
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarTipoAccionPers_Result>("SP_C_MostrarTipoAccionPers", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
+        }
+    
+        public virtual ObjectResult<SP_C_MostrarTiposProveedores_Result> SP_C_MostrarTiposProveedores()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarTiposProveedores_Result>("SP_C_MostrarTiposProveedores");
         }
     
         public virtual ObjectResult<SP_C_MostrarUsuarios_Result> SP_C_MostrarUsuarios(string opcion, string usuario)
@@ -253,38 +732,34 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarUsuarios_Result>("SP_C_MostrarUsuarios", opcionParameter, usuarioParameter);
         }
     
-        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        public virtual ObjectResult<SP_C_MostrarUsuariosPag_Result> SP_C_MostrarUsuariosPag(Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
     
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
     
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_MostrarUsuariosPag_Result>("SP_C_MostrarUsuariosPag", nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
         }
     
-        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        public virtual ObjectResult<SP_C_VerEstadoCuenta_Result> SP_C_VerEstadoCuenta(Nullable<int> idFilial, string anio)
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            var idFilialParameter = idFilial.HasValue ?
+                new ObjectParameter("IdFilial", idFilial) :
+                new ObjectParameter("IdFilial", typeof(int));
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
+            var anioParameter = anio != null ?
+                new ObjectParameter("Anio", anio) :
+                new ObjectParameter("Anio", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_C_VerEstadoCuenta_Result>("SP_C_VerEstadoCuenta", idFilialParameter, anioParameter);
         }
     
         public virtual int SP_Get_Next_Consecutivo(string psValorConsecutivo, string psMascara, ObjectParameter psNuevoConsecutivo)
@@ -300,30 +775,38 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Get_Next_Consecutivo", psValorConsecutivoParameter, psMascaraParameter, psNuevoConsecutivo);
         }
     
-        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
+        public virtual int SP_P_ActivarDesactivarCliente(string identificacion, string usuarioModificacion, Nullable<System.DateTime> fechaModificacion, ObjectParameter resultado, ObjectParameter mensaje)
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
+            var fechaModificacionParameter = fechaModificacion.HasValue ?
+                new ObjectParameter("FechaModificacion", fechaModificacion) :
+                new ObjectParameter("FechaModificacion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ActivarDesactivarCliente", identificacionParameter, usuarioModificacionParameter, fechaModificacionParameter, resultado, mensaje);
         }
     
-        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
+        public virtual int SP_P_ActivarDesactivarFilialPersona(string identificacion, string usuarioModificacion, Nullable<System.DateTime> fechaModificacion, ObjectParameter resultado, ObjectParameter mensaje)
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
+            var fechaModificacionParameter = fechaModificacion.HasValue ?
+                new ObjectParameter("FechaModificacion", fechaModificacion) :
+                new ObjectParameter("FechaModificacion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ActivarDesactivarFilialPersona", identificacionParameter, usuarioModificacionParameter, fechaModificacionParameter, resultado, mensaje);
         }
     
         public virtual int SP_P_ActualizarConsecutivo(Nullable<int> idConsecutivo, string alias, string mascara, string proximoValor, Nullable<bool> activo, string usuarioModificacion, ObjectParameter resultado, ObjectParameter mensaje)
@@ -426,6 +909,71 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ActualizarProximoValorConsecutivo", idConsecutivoParameter);
         }
     
+        public virtual int SP_P_AddPlanilla(string consecutivo, Nullable<int> idNomina, string estado, Nullable<System.DateTime> fechaInicial, Nullable<System.DateTime> fechaFinal, string periodo, Nullable<int> anio, Nullable<decimal> montoTotal, Nullable<decimal> beneficioTotal, Nullable<decimal> deduccionTotal, Nullable<decimal> proyeccionTotal, string usuarioCreacion, Nullable<System.DateTime> fechaCreacion, string usuarioModificacion, Nullable<System.DateTime> fechaModificacion, ObjectParameter resultado, ObjectParameter mensaje)
+        {
+            var consecutivoParameter = consecutivo != null ?
+                new ObjectParameter("Consecutivo", consecutivo) :
+                new ObjectParameter("Consecutivo", typeof(string));
+    
+            var idNominaParameter = idNomina.HasValue ?
+                new ObjectParameter("IdNomina", idNomina) :
+                new ObjectParameter("IdNomina", typeof(int));
+    
+            var estadoParameter = estado != null ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(string));
+    
+            var fechaInicialParameter = fechaInicial.HasValue ?
+                new ObjectParameter("FechaInicial", fechaInicial) :
+                new ObjectParameter("FechaInicial", typeof(System.DateTime));
+    
+            var fechaFinalParameter = fechaFinal.HasValue ?
+                new ObjectParameter("FechaFinal", fechaFinal) :
+                new ObjectParameter("FechaFinal", typeof(System.DateTime));
+    
+            var periodoParameter = periodo != null ?
+                new ObjectParameter("Periodo", periodo) :
+                new ObjectParameter("Periodo", typeof(string));
+    
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("Anio", anio) :
+                new ObjectParameter("Anio", typeof(int));
+    
+            var montoTotalParameter = montoTotal.HasValue ?
+                new ObjectParameter("MontoTotal", montoTotal) :
+                new ObjectParameter("MontoTotal", typeof(decimal));
+    
+            var beneficioTotalParameter = beneficioTotal.HasValue ?
+                new ObjectParameter("BeneficioTotal", beneficioTotal) :
+                new ObjectParameter("BeneficioTotal", typeof(decimal));
+    
+            var deduccionTotalParameter = deduccionTotal.HasValue ?
+                new ObjectParameter("DeduccionTotal", deduccionTotal) :
+                new ObjectParameter("DeduccionTotal", typeof(decimal));
+    
+            var proyeccionTotalParameter = proyeccionTotal.HasValue ?
+                new ObjectParameter("ProyeccionTotal", proyeccionTotal) :
+                new ObjectParameter("ProyeccionTotal", typeof(decimal));
+    
+            var usuarioCreacionParameter = usuarioCreacion != null ?
+                new ObjectParameter("UsuarioCreacion", usuarioCreacion) :
+                new ObjectParameter("UsuarioCreacion", typeof(string));
+    
+            var fechaCreacionParameter = fechaCreacion.HasValue ?
+                new ObjectParameter("FechaCreacion", fechaCreacion) :
+                new ObjectParameter("FechaCreacion", typeof(System.DateTime));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
+    
+            var fechaModificacionParameter = fechaModificacion.HasValue ?
+                new ObjectParameter("FechaModificacion", fechaModificacion) :
+                new ObjectParameter("FechaModificacion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_AddPlanilla", consecutivoParameter, idNominaParameter, estadoParameter, fechaInicialParameter, fechaFinalParameter, periodoParameter, anioParameter, montoTotalParameter, beneficioTotalParameter, deduccionTotalParameter, proyeccionTotalParameter, usuarioCreacionParameter, fechaCreacionParameter, usuarioModificacionParameter, fechaModificacionParameter, resultado, mensaje);
+        }
+    
         public virtual int SP_P_AddUser(string usuario, string nombre, string tipo, Nullable<bool> activo, Nullable<bool> bloqueado, string contrasena, string correoElectronico, Nullable<int> diasCambioContrasena, Nullable<byte> intentosFallidos, string usuarioCreacion, string usuarioModificacion, ObjectParameter resultado, ObjectParameter mensaje)
         {
             var usuarioParameter = usuario != null ?
@@ -493,6 +1041,15 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CambiarEstadoColaborador", identificacionParameter, resultado, mensaje);
         }
     
+        public virtual int SP_P_CambiarEstadoProveedor(Nullable<int> idProveedor, ObjectParameter msj, ObjectParameter seModifico)
+        {
+            var idProveedorParameter = idProveedor.HasValue ?
+                new ObjectParameter("idProveedor", idProveedor) :
+                new ObjectParameter("idProveedor", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CambiarEstadoProveedor", idProveedorParameter, msj, seModifico);
+        }
+    
         public virtual int SP_P_CambioContrasena(string usuario, string contrasenaActual, string contrasenaNueva, ObjectParameter resultado, ObjectParameter mensaje)
         {
             var usuarioParameter = usuario != null ?
@@ -529,6 +1086,84 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("usuarioCreacionModificacion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearAccion", aliasParameter, descipcionParameter, tipoParameter, usuarioCreacionModificacionParameter);
+        }
+    
+        public virtual int SP_P_CrearAuxiliar(string nombreTablaAuxiliar, string documentoCredito, string documentoDebito, Nullable<int> idPartida, string usuario, ObjectParameter res, ObjectParameter msj)
+        {
+            var nombreTablaAuxiliarParameter = nombreTablaAuxiliar != null ?
+                new ObjectParameter("nombreTablaAuxiliar", nombreTablaAuxiliar) :
+                new ObjectParameter("nombreTablaAuxiliar", typeof(string));
+    
+            var documentoCreditoParameter = documentoCredito != null ?
+                new ObjectParameter("documentoCredito", documentoCredito) :
+                new ObjectParameter("documentoCredito", typeof(string));
+    
+            var documentoDebitoParameter = documentoDebito != null ?
+                new ObjectParameter("documentoDebito", documentoDebito) :
+                new ObjectParameter("documentoDebito", typeof(string));
+    
+            var idPartidaParameter = idPartida.HasValue ?
+                new ObjectParameter("idPartida", idPartida) :
+                new ObjectParameter("idPartida", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearAuxiliar", nombreTablaAuxiliarParameter, documentoCreditoParameter, documentoDebitoParameter, idPartidaParameter, usuarioParameter, res, msj);
+        }
+    
+        public virtual int SP_P_CrearCliente(Nullable<byte> idFilial, string nombre, string identificacion, string tipo, string contacto, string telefono1, string telefono2, string correoElectronico, Nullable<int> condicionPago, Nullable<bool> activo, string usuarioCreacion, Nullable<System.DateTime> fechaCreacion, ObjectParameter resultado, ObjectParameter mensaje)
+        {
+            var idFilialParameter = idFilial.HasValue ?
+                new ObjectParameter("IdFilial", idFilial) :
+                new ObjectParameter("IdFilial", typeof(byte));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var contactoParameter = contacto != null ?
+                new ObjectParameter("Contacto", contacto) :
+                new ObjectParameter("Contacto", typeof(string));
+    
+            var telefono1Parameter = telefono1 != null ?
+                new ObjectParameter("Telefono1", telefono1) :
+                new ObjectParameter("Telefono1", typeof(string));
+    
+            var telefono2Parameter = telefono2 != null ?
+                new ObjectParameter("Telefono2", telefono2) :
+                new ObjectParameter("Telefono2", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var condicionPagoParameter = condicionPago.HasValue ?
+                new ObjectParameter("CondicionPago", condicionPago) :
+                new ObjectParameter("CondicionPago", typeof(int));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("Activo", activo) :
+                new ObjectParameter("Activo", typeof(bool));
+    
+            var usuarioCreacionParameter = usuarioCreacion != null ?
+                new ObjectParameter("UsuarioCreacion", usuarioCreacion) :
+                new ObjectParameter("UsuarioCreacion", typeof(string));
+    
+            var fechaCreacionParameter = fechaCreacion.HasValue ?
+                new ObjectParameter("FechaCreacion", fechaCreacion) :
+                new ObjectParameter("FechaCreacion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearCliente", idFilialParameter, nombreParameter, identificacionParameter, tipoParameter, contactoParameter, telefono1Parameter, telefono2Parameter, correoElectronicoParameter, condicionPagoParameter, activoParameter, usuarioCreacionParameter, fechaCreacionParameter, resultado, mensaje);
         }
     
         public virtual int SP_P_CrearColaborador(string nombre, string genero, Nullable<bool> activo, string estado, string direccion, string telefono1, string telefono2, string identificacion, string nacionalidad, Nullable<System.DateTime> fechaNacimiento, Nullable<System.DateTime> fechaIngreso, Nullable<System.DateTime> fechaSalida, Nullable<int> idNomina, string estadoCivil, Nullable<decimal> saldoVacaciones, Nullable<System.DateTime> ultCalculoVacaciones, Nullable<int> idPuesto, string formaPago, string cuentaBancaria, string banco, string correoElectronico, string contactoEmergencia, string telefonoContacto, Nullable<decimal> salarioReferencia, string usuarioCreacion, string usuarioModificacion, ObjectParameter resultado, ObjectParameter mensaje)
@@ -706,6 +1341,129 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearControlAsistencia", idColaboradorParameter, fechaHoraIngresoParameter, fechaHoraSalidaParameter, tipoJornadaParameter, horasRegularesParameter, horasExtrasParameter, horaDoblesParameter, horasExtrasDoblesParameter, usuarioCreaModifParameter, msj);
         }
     
+        public virtual int SP_P_CrearDocumento(string nombreTabla, string documento, Nullable<int> idRelacion, string tipoDocumento, Nullable<decimal> monto, Nullable<int> condicionPago, Nullable<System.DateTime> fechaDocumento, string notas, string usuario, ObjectParameter res, ObjectParameter msj)
+        {
+            var nombreTablaParameter = nombreTabla != null ?
+                new ObjectParameter("nombreTabla", nombreTabla) :
+                new ObjectParameter("nombreTabla", typeof(string));
+    
+            var documentoParameter = documento != null ?
+                new ObjectParameter("documento", documento) :
+                new ObjectParameter("documento", typeof(string));
+    
+            var idRelacionParameter = idRelacion.HasValue ?
+                new ObjectParameter("idRelacion", idRelacion) :
+                new ObjectParameter("idRelacion", typeof(int));
+    
+            var tipoDocumentoParameter = tipoDocumento != null ?
+                new ObjectParameter("tipoDocumento", tipoDocumento) :
+                new ObjectParameter("tipoDocumento", typeof(string));
+    
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("monto", monto) :
+                new ObjectParameter("monto", typeof(decimal));
+    
+            var condicionPagoParameter = condicionPago.HasValue ?
+                new ObjectParameter("condicionPago", condicionPago) :
+                new ObjectParameter("condicionPago", typeof(int));
+    
+            var fechaDocumentoParameter = fechaDocumento.HasValue ?
+                new ObjectParameter("fechaDocumento", fechaDocumento) :
+                new ObjectParameter("fechaDocumento", typeof(System.DateTime));
+    
+            var notasParameter = notas != null ?
+                new ObjectParameter("notas", notas) :
+                new ObjectParameter("notas", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearDocumento", nombreTablaParameter, documentoParameter, idRelacionParameter, tipoDocumentoParameter, montoParameter, condicionPagoParameter, fechaDocumentoParameter, notasParameter, usuarioParameter, res, msj);
+        }
+    
+        public virtual int SP_P_CrearFilial(string descripcion, string estado, string usuarioModificacion, ObjectParameter msj, ObjectParameter seAgrego)
+        {
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            var estadoParameter = estado != null ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(string));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearFilial", descripcionParameter, estadoParameter, usuarioModificacionParameter, msj, seAgrego);
+        }
+    
+        public virtual int SP_P_CrearFilialPersona(Nullable<byte> idFilial, string nombre, string identificacion, Nullable<bool> activo, Nullable<bool> responsable, string tipo, string trato, string correoElectronico, string telefono1, string telefono2, string whatsApp, string usuarioCreacion, Nullable<System.DateTime> fechaCreacion, string usuarioModificacion, Nullable<System.DateTime> fechaModificacion, ObjectParameter resultado, ObjectParameter mensaje)
+        {
+            var idFilialParameter = idFilial.HasValue ?
+                new ObjectParameter("IdFilial", idFilial) :
+                new ObjectParameter("IdFilial", typeof(byte));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("Activo", activo) :
+                new ObjectParameter("Activo", typeof(bool));
+    
+            var responsableParameter = responsable.HasValue ?
+                new ObjectParameter("Responsable", responsable) :
+                new ObjectParameter("Responsable", typeof(bool));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var tratoParameter = trato != null ?
+                new ObjectParameter("Trato", trato) :
+                new ObjectParameter("Trato", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var telefono1Parameter = telefono1 != null ?
+                new ObjectParameter("Telefono1", telefono1) :
+                new ObjectParameter("Telefono1", typeof(string));
+    
+            var telefono2Parameter = telefono2 != null ?
+                new ObjectParameter("Telefono2", telefono2) :
+                new ObjectParameter("Telefono2", typeof(string));
+    
+            var whatsAppParameter = whatsApp != null ?
+                new ObjectParameter("WhatsApp", whatsApp) :
+                new ObjectParameter("WhatsApp", typeof(string));
+    
+            var usuarioCreacionParameter = usuarioCreacion != null ?
+                new ObjectParameter("UsuarioCreacion", usuarioCreacion) :
+                new ObjectParameter("UsuarioCreacion", typeof(string));
+    
+            var fechaCreacionParameter = fechaCreacion.HasValue ?
+                new ObjectParameter("FechaCreacion", fechaCreacion) :
+                new ObjectParameter("FechaCreacion", typeof(System.DateTime));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
+    
+            var fechaModificacionParameter = fechaModificacion.HasValue ?
+                new ObjectParameter("FechaModificacion", fechaModificacion) :
+                new ObjectParameter("FechaModificacion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearFilialPersona", idFilialParameter, nombreParameter, identificacionParameter, activoParameter, responsableParameter, tipoParameter, tratoParameter, correoElectronicoParameter, telefono1Parameter, telefono2Parameter, whatsAppParameter, usuarioCreacionParameter, fechaCreacionParameter, usuarioModificacionParameter, fechaModificacionParameter, resultado, mensaje);
+        }
+    
         public virtual int SP_P_CrearNomina(string descripcion, string frecuencia, Nullable<int> idConsecutivo, string usuarioCreacion, ObjectParameter resultado, ObjectParameter mensage)
         {
             var descripcionParameter = descripcion != null ?
@@ -777,6 +1535,31 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearParentesco", idAccionParameter, padreParameter, usuarioCreacionModfParameter);
         }
     
+        public virtual int SP_P_CrearPartida(string alias, string descripcion, string tipo, Nullable<bool> activo, string usuarioCreacion, ObjectParameter res, ObjectParameter msj)
+        {
+            var aliasParameter = alias != null ?
+                new ObjectParameter("alias", alias) :
+                new ObjectParameter("alias", typeof(string));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("activo", activo) :
+                new ObjectParameter("activo", typeof(bool));
+    
+            var usuarioCreacionParameter = usuarioCreacion != null ?
+                new ObjectParameter("usuarioCreacion", usuarioCreacion) :
+                new ObjectParameter("usuarioCreacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearPartida", aliasParameter, descripcionParameter, tipoParameter, activoParameter, usuarioCreacionParameter, res, msj);
+        }
+    
         public virtual int SP_P_CrearPerfil(string nombre, string descripcion, Nullable<bool> activo, string usuarioCreacion, string usuarioModificacion, ObjectParameter resultado)
         {
             var nombreParameter = nombre != null ?
@@ -800,6 +1583,59 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("UsuarioModificacion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearPerfil", nombreParameter, descripcionParameter, activoParameter, usuarioCreacionParameter, usuarioModificacionParameter, resultado);
+        }
+    
+        public virtual int SP_P_CrearProveedor(string nombre, string identificacion, string tipo, string contacto, string telefono1, string telefono2, string correoElectronico, Nullable<int> condicionPago, string cuentaBancaria, string banco, Nullable<bool> activo, string usuarioModificacion, ObjectParameter msj, ObjectParameter seAgrego)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var contactoParameter = contacto != null ?
+                new ObjectParameter("Contacto", contacto) :
+                new ObjectParameter("Contacto", typeof(string));
+    
+            var telefono1Parameter = telefono1 != null ?
+                new ObjectParameter("Telefono1", telefono1) :
+                new ObjectParameter("Telefono1", typeof(string));
+    
+            var telefono2Parameter = telefono2 != null ?
+                new ObjectParameter("Telefono2", telefono2) :
+                new ObjectParameter("Telefono2", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var condicionPagoParameter = condicionPago.HasValue ?
+                new ObjectParameter("CondicionPago", condicionPago) :
+                new ObjectParameter("CondicionPago", typeof(int));
+    
+            var cuentaBancariaParameter = cuentaBancaria != null ?
+                new ObjectParameter("CuentaBancaria", cuentaBancaria) :
+                new ObjectParameter("CuentaBancaria", typeof(string));
+    
+            var bancoParameter = banco != null ?
+                new ObjectParameter("Banco", banco) :
+                new ObjectParameter("Banco", typeof(string));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("Activo", activo) :
+                new ObjectParameter("Activo", typeof(bool));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearProveedor", nombreParameter, identificacionParameter, tipoParameter, contactoParameter, telefono1Parameter, telefono2Parameter, correoElectronicoParameter, condicionPagoParameter, cuentaBancariaParameter, bancoParameter, activoParameter, usuarioModificacionParameter, msj, seAgrego);
         }
     
         public virtual int SP_P_CrearPuesto(string descripcion, Nullable<decimal> salarioMinimo, Nullable<decimal> salarioPromedio, Nullable<decimal> salarioMaximo, string codigoCCSS, string codigoINS, string usuarioCreacion, string usuarioModificacion, ObjectParameter resultado)
@@ -839,6 +1675,31 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearPuesto", descripcionParameter, salarioMinimoParameter, salarioPromedioParameter, salarioMaximoParameter, codigoCCSSParameter, codigoINSParameter, usuarioCreacionParameter, usuarioModificacionParameter, resultado);
         }
     
+        public virtual int SP_P_CrearTipoAccionPers(string descripcion, string tipo, string estado_empleado, Nullable<bool> restablece_estado, string usuarioCreacion, ObjectParameter msg)
+        {
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            var estado_empleadoParameter = estado_empleado != null ?
+                new ObjectParameter("estado_empleado", estado_empleado) :
+                new ObjectParameter("estado_empleado", typeof(string));
+    
+            var restablece_estadoParameter = restablece_estado.HasValue ?
+                new ObjectParameter("restablece_estado", restablece_estado) :
+                new ObjectParameter("restablece_estado", typeof(bool));
+    
+            var usuarioCreacionParameter = usuarioCreacion != null ?
+                new ObjectParameter("usuarioCreacion", usuarioCreacion) :
+                new ObjectParameter("usuarioCreacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearTipoAccionPers", descripcionParameter, tipoParameter, estado_empleadoParameter, restablece_estadoParameter, usuarioCreacionParameter, msg);
+        }
+    
         public virtual int SP_P_CrearUsuarioPerfil(string usuario, Nullable<int> idPerfil, string usuarioCreacion)
         {
             var usuarioParameter = usuario != null ?
@@ -854,6 +1715,80 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("UsuarioCreacion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CrearUsuarioPerfil", usuarioParameter, idPerfilParameter, usuarioCreacionParameter);
+        }
+    
+        public virtual int SP_P_CreateConcept(Nullable<int> idConcepto, string alias, string descripcion, string tipo, string unidad, Nullable<bool> salarial, Nullable<bool> fijo, Nullable<bool> liquidable, Nullable<bool> cantEditable, Nullable<bool> montoEditable, string periodicidad, Nullable<bool> activo, string usuarioCreacionModif, ObjectParameter msj, ObjectParameter seAgrego)
+        {
+            var idConceptoParameter = idConcepto.HasValue ?
+                new ObjectParameter("idConcepto", idConcepto) :
+                new ObjectParameter("idConcepto", typeof(int));
+    
+            var aliasParameter = alias != null ?
+                new ObjectParameter("alias", alias) :
+                new ObjectParameter("alias", typeof(string));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            var unidadParameter = unidad != null ?
+                new ObjectParameter("unidad", unidad) :
+                new ObjectParameter("unidad", typeof(string));
+    
+            var salarialParameter = salarial.HasValue ?
+                new ObjectParameter("salarial", salarial) :
+                new ObjectParameter("salarial", typeof(bool));
+    
+            var fijoParameter = fijo.HasValue ?
+                new ObjectParameter("fijo", fijo) :
+                new ObjectParameter("fijo", typeof(bool));
+    
+            var liquidableParameter = liquidable.HasValue ?
+                new ObjectParameter("liquidable", liquidable) :
+                new ObjectParameter("liquidable", typeof(bool));
+    
+            var cantEditableParameter = cantEditable.HasValue ?
+                new ObjectParameter("CantEditable", cantEditable) :
+                new ObjectParameter("CantEditable", typeof(bool));
+    
+            var montoEditableParameter = montoEditable.HasValue ?
+                new ObjectParameter("MontoEditable", montoEditable) :
+                new ObjectParameter("MontoEditable", typeof(bool));
+    
+            var periodicidadParameter = periodicidad != null ?
+                new ObjectParameter("periodicidad", periodicidad) :
+                new ObjectParameter("periodicidad", typeof(string));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("activo", activo) :
+                new ObjectParameter("activo", typeof(bool));
+    
+            var usuarioCreacionModifParameter = usuarioCreacionModif != null ?
+                new ObjectParameter("UsuarioCreacionModif", usuarioCreacionModif) :
+                new ObjectParameter("UsuarioCreacionModif", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_CreateConcept", idConceptoParameter, aliasParameter, descripcionParameter, tipoParameter, unidadParameter, salarialParameter, fijoParameter, liquidableParameter, cantEditableParameter, montoEditableParameter, periodicidadParameter, activoParameter, usuarioCreacionModifParameter, msj, seAgrego);
+        }
+    
+        public virtual int SP_P_DesasociarDocumentoCredito(string nombreTablaAuxiliar, string documentoCredito, string documentoDebito, ObjectParameter resp, ObjectParameter mensaje)
+        {
+            var nombreTablaAuxiliarParameter = nombreTablaAuxiliar != null ?
+                new ObjectParameter("nombreTablaAuxiliar", nombreTablaAuxiliar) :
+                new ObjectParameter("nombreTablaAuxiliar", typeof(string));
+    
+            var documentoCreditoParameter = documentoCredito != null ?
+                new ObjectParameter("documentoCredito", documentoCredito) :
+                new ObjectParameter("documentoCredito", typeof(string));
+    
+            var documentoDebitoParameter = documentoDebito != null ?
+                new ObjectParameter("documentoDebito", documentoDebito) :
+                new ObjectParameter("documentoDebito", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_DesasociarDocumentoCredito", nombreTablaAuxiliarParameter, documentoCreditoParameter, documentoDebitoParameter, resp, mensaje);
         }
     
         public virtual ObjectResult<SP_P_DibujarArbol_Result> SP_P_DibujarArbol(Nullable<int> idPerfil)
@@ -892,6 +1827,23 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_EliminarNomina", idNominaParameter);
         }
     
+        public virtual int SP_P_EliminarRelacionAuxiliarDocumento(string nombreTablaAuxiliar, string documentoCredito, string documentoDebito, ObjectParameter res, ObjectParameter msj)
+        {
+            var nombreTablaAuxiliarParameter = nombreTablaAuxiliar != null ?
+                new ObjectParameter("nombreTablaAuxiliar", nombreTablaAuxiliar) :
+                new ObjectParameter("nombreTablaAuxiliar", typeof(string));
+    
+            var documentoCreditoParameter = documentoCredito != null ?
+                new ObjectParameter("documentoCredito", documentoCredito) :
+                new ObjectParameter("documentoCredito", typeof(string));
+    
+            var documentoDebitoParameter = documentoDebito != null ?
+                new ObjectParameter("documentoDebito", documentoDebito) :
+                new ObjectParameter("documentoDebito", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_EliminarRelacionAuxiliarDocumento", nombreTablaAuxiliarParameter, documentoCreditoParameter, documentoDebitoParameter, res, msj);
+        }
+    
         public virtual int SP_P_EliminarUsuarioPerfil(string usuario, Nullable<int> idPerfil)
         {
             var usuarioParameter = usuario != null ?
@@ -903,6 +1855,51 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("idPerfil", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_EliminarUsuarioPerfil", usuarioParameter, idPerfilParameter);
+        }
+    
+        public virtual int SP_P_GenerarPago(string nombreTablaDocumento, string documentoCredito, Nullable<decimal> monto, Nullable<int> condicionPago, Nullable<System.DateTime> fechaDocumento, string notas, string usuario, string nombreTablaAuxiliar, string documentoDebito, Nullable<int> idPartida, ObjectParameter res, ObjectParameter msj)
+        {
+            var nombreTablaDocumentoParameter = nombreTablaDocumento != null ?
+                new ObjectParameter("nombreTablaDocumento", nombreTablaDocumento) :
+                new ObjectParameter("nombreTablaDocumento", typeof(string));
+    
+            var documentoCreditoParameter = documentoCredito != null ?
+                new ObjectParameter("documentoCredito", documentoCredito) :
+                new ObjectParameter("documentoCredito", typeof(string));
+    
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("monto", monto) :
+                new ObjectParameter("monto", typeof(decimal));
+    
+            var condicionPagoParameter = condicionPago.HasValue ?
+                new ObjectParameter("condicionPago", condicionPago) :
+                new ObjectParameter("condicionPago", typeof(int));
+    
+            var fechaDocumentoParameter = fechaDocumento.HasValue ?
+                new ObjectParameter("fechaDocumento", fechaDocumento) :
+                new ObjectParameter("fechaDocumento", typeof(System.DateTime));
+    
+            var notasParameter = notas != null ?
+                new ObjectParameter("notas", notas) :
+                new ObjectParameter("notas", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var nombreTablaAuxiliarParameter = nombreTablaAuxiliar != null ?
+                new ObjectParameter("nombreTablaAuxiliar", nombreTablaAuxiliar) :
+                new ObjectParameter("nombreTablaAuxiliar", typeof(string));
+    
+            var documentoDebitoParameter = documentoDebito != null ?
+                new ObjectParameter("documentoDebito", documentoDebito) :
+                new ObjectParameter("documentoDebito", typeof(string));
+    
+            var idPartidaParameter = idPartida.HasValue ?
+                new ObjectParameter("idPartida", idPartida) :
+                new ObjectParameter("idPartida", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_GenerarPago", nombreTablaDocumentoParameter, documentoCreditoParameter, montoParameter, condicionPagoParameter, fechaDocumentoParameter, notasParameter, usuarioParameter, nombreTablaAuxiliarParameter, documentoDebitoParameter, idPartidaParameter, res, msj);
         }
     
         public virtual int SP_P_GuardarCheck(string idAccion, Nullable<int> idPerfil, string usuCreacion)
@@ -958,6 +1955,51 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("usuarioModificacion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarAccion", idAccionParameter, aliasParameter, descripcionParameter, tipoParameter, usuarioModificacionParameter);
+        }
+    
+        public virtual int SP_P_ModificarCliente(string identificacion, string tipo, string contacto, string telefono1, string telefono2, string correoElectronico, Nullable<int> condicionPago, Nullable<bool> activo, string usuarioModificacion, Nullable<System.DateTime> fechaModificacion, ObjectParameter resultado, ObjectParameter mensaje)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var contactoParameter = contacto != null ?
+                new ObjectParameter("Contacto", contacto) :
+                new ObjectParameter("Contacto", typeof(string));
+    
+            var telefono1Parameter = telefono1 != null ?
+                new ObjectParameter("Telefono1", telefono1) :
+                new ObjectParameter("Telefono1", typeof(string));
+    
+            var telefono2Parameter = telefono2 != null ?
+                new ObjectParameter("Telefono2", telefono2) :
+                new ObjectParameter("Telefono2", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var condicionPagoParameter = condicionPago.HasValue ?
+                new ObjectParameter("CondicionPago", condicionPago) :
+                new ObjectParameter("CondicionPago", typeof(int));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("Activo", activo) :
+                new ObjectParameter("Activo", typeof(bool));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
+    
+            var fechaModificacionParameter = fechaModificacion.HasValue ?
+                new ObjectParameter("FechaModificacion", fechaModificacion) :
+                new ObjectParameter("FechaModificacion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarCliente", identificacionParameter, tipoParameter, contactoParameter, telefono1Parameter, telefono2Parameter, correoElectronicoParameter, condicionPagoParameter, activoParameter, usuarioModificacionParameter, fechaModificacionParameter, resultado, mensaje);
         }
     
         public virtual int SP_P_ModificarColaborador(string identificacion, string estado, string direccion, string telefono1, string telefono2, string nacionalidad, Nullable<System.DateTime> fechaIngreso, Nullable<System.DateTime> fechaSalida, Nullable<int> idNomina, string estadoCivil, Nullable<decimal> saldoVacaciones, Nullable<System.DateTime> ultCalculoVacaciones, Nullable<int> idPuesto, string formaPago, string cuentaBancaria, string banco, string correoElectronico, string contactoEmergencia, string telefonoContacto, Nullable<decimal> salarioReferencia, string usuarioModificacion, ObjectParameter resultado, ObjectParameter mensaje)
@@ -1049,6 +2091,63 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarColaborador", identificacionParameter, estadoParameter, direccionParameter, telefono1Parameter, telefono2Parameter, nacionalidadParameter, fechaIngresoParameter, fechaSalidaParameter, idNominaParameter, estadoCivilParameter, saldoVacacionesParameter, ultCalculoVacacionesParameter, idPuestoParameter, formaPagoParameter, cuentaBancariaParameter, bancoParameter, correoElectronicoParameter, contactoEmergenciaParameter, telefonoContactoParameter, salarioReferenciaParameter, usuarioModificacionParameter, resultado, mensaje);
         }
     
+        public virtual int SP_P_ModificarConcepto(Nullable<int> idConcepto, string alias, string descripcion, string tipo, string unidad, Nullable<bool> salarial, Nullable<bool> fijo, Nullable<bool> liquidable, Nullable<bool> cantEditable, Nullable<bool> montoEditable, string periodicidad, Nullable<bool> activo, string usuarioCreacionModif, ObjectParameter msj, ObjectParameter seModifico)
+        {
+            var idConceptoParameter = idConcepto.HasValue ?
+                new ObjectParameter("idConcepto", idConcepto) :
+                new ObjectParameter("idConcepto", typeof(int));
+    
+            var aliasParameter = alias != null ?
+                new ObjectParameter("alias", alias) :
+                new ObjectParameter("alias", typeof(string));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            var unidadParameter = unidad != null ?
+                new ObjectParameter("unidad", unidad) :
+                new ObjectParameter("unidad", typeof(string));
+    
+            var salarialParameter = salarial.HasValue ?
+                new ObjectParameter("salarial", salarial) :
+                new ObjectParameter("salarial", typeof(bool));
+    
+            var fijoParameter = fijo.HasValue ?
+                new ObjectParameter("fijo", fijo) :
+                new ObjectParameter("fijo", typeof(bool));
+    
+            var liquidableParameter = liquidable.HasValue ?
+                new ObjectParameter("liquidable", liquidable) :
+                new ObjectParameter("liquidable", typeof(bool));
+    
+            var cantEditableParameter = cantEditable.HasValue ?
+                new ObjectParameter("CantEditable", cantEditable) :
+                new ObjectParameter("CantEditable", typeof(bool));
+    
+            var montoEditableParameter = montoEditable.HasValue ?
+                new ObjectParameter("MontoEditable", montoEditable) :
+                new ObjectParameter("MontoEditable", typeof(bool));
+    
+            var periodicidadParameter = periodicidad != null ?
+                new ObjectParameter("periodicidad", periodicidad) :
+                new ObjectParameter("periodicidad", typeof(string));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("activo", activo) :
+                new ObjectParameter("activo", typeof(bool));
+    
+            var usuarioCreacionModifParameter = usuarioCreacionModif != null ?
+                new ObjectParameter("UsuarioCreacionModif", usuarioCreacionModif) :
+                new ObjectParameter("UsuarioCreacionModif", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarConcepto", idConceptoParameter, aliasParameter, descripcionParameter, tipoParameter, unidadParameter, salarialParameter, fijoParameter, liquidableParameter, cantEditableParameter, montoEditableParameter, periodicidadParameter, activoParameter, usuarioCreacionModifParameter, msj, seModifico);
+        }
+    
         public virtual int SP_P_ModificarControlAsistencia(Nullable<int> idAsistencia, Nullable<int> idColaborador, Nullable<System.DateTime> fechaHoraIngreso, Nullable<System.DateTime> fechaHoraSalida, string tipoJornada, Nullable<decimal> horasRegulares, Nullable<decimal> horasExtras, Nullable<decimal> horaDobles, Nullable<decimal> horasExtrasDobles, string usuarioCreaModif, ObjectParameter msj)
         {
             var idAsistenciaParameter = idAsistencia.HasValue ?
@@ -1094,6 +2193,47 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarControlAsistencia", idAsistenciaParameter, idColaboradorParameter, fechaHoraIngresoParameter, fechaHoraSalidaParameter, tipoJornadaParameter, horasRegularesParameter, horasExtrasParameter, horaDoblesParameter, horasExtrasDoblesParameter, usuarioCreaModifParameter, msj);
         }
     
+        public virtual int SP_P_ModificarDocumento(string nombreTabla, string documento, Nullable<int> idDueno, string tipoDocumentoNuevo, Nullable<decimal> monto, Nullable<int> condicionPago, Nullable<System.DateTime> fechaDocumento, string notas, string usuario, ObjectParameter res, ObjectParameter msj)
+        {
+            var nombreTablaParameter = nombreTabla != null ?
+                new ObjectParameter("nombreTabla", nombreTabla) :
+                new ObjectParameter("nombreTabla", typeof(string));
+    
+            var documentoParameter = documento != null ?
+                new ObjectParameter("documento", documento) :
+                new ObjectParameter("documento", typeof(string));
+    
+            var idDuenoParameter = idDueno.HasValue ?
+                new ObjectParameter("idDueno", idDueno) :
+                new ObjectParameter("idDueno", typeof(int));
+    
+            var tipoDocumentoNuevoParameter = tipoDocumentoNuevo != null ?
+                new ObjectParameter("tipoDocumentoNuevo", tipoDocumentoNuevo) :
+                new ObjectParameter("tipoDocumentoNuevo", typeof(string));
+    
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("monto", monto) :
+                new ObjectParameter("monto", typeof(decimal));
+    
+            var condicionPagoParameter = condicionPago.HasValue ?
+                new ObjectParameter("condicionPago", condicionPago) :
+                new ObjectParameter("condicionPago", typeof(int));
+    
+            var fechaDocumentoParameter = fechaDocumento.HasValue ?
+                new ObjectParameter("fechaDocumento", fechaDocumento) :
+                new ObjectParameter("fechaDocumento", typeof(System.DateTime));
+    
+            var notasParameter = notas != null ?
+                new ObjectParameter("notas", notas) :
+                new ObjectParameter("notas", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarDocumento", nombreTablaParameter, documentoParameter, idDuenoParameter, tipoDocumentoNuevoParameter, montoParameter, condicionPagoParameter, fechaDocumentoParameter, notasParameter, usuarioParameter, res, msj);
+        }
+    
         public virtual int SP_P_ModificarEstadoConsecutivo(Nullable<int> idConsecutivo, ObjectParameter resultado)
         {
             var idConsecutivoParameter = idConsecutivo.HasValue ?
@@ -1103,6 +2243,15 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarEstadoConsecutivo", idConsecutivoParameter, resultado);
         }
     
+        public virtual int SP_P_ModificarEstadoFilial(Nullable<int> idFilial, ObjectParameter msj, ObjectParameter seModifico)
+        {
+            var idFilialParameter = idFilial.HasValue ?
+                new ObjectParameter("IdFilial", idFilial) :
+                new ObjectParameter("IdFilial", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarEstadoFilial", idFilialParameter, msj, seModifico);
+        }
+    
         public virtual int SP_P_ModificarEstadoParametro(Nullable<int> idParametro, ObjectParameter resultado)
         {
             var idParametroParameter = idParametro.HasValue ?
@@ -1110,6 +2259,19 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("idParametro", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarEstadoParametro", idParametroParameter, resultado);
+        }
+    
+        public virtual int SP_P_ModificarEstadoPartida(Nullable<int> id, string usuarioMod, ObjectParameter res, ObjectParameter msj)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var usuarioModParameter = usuarioMod != null ?
+                new ObjectParameter("usuarioMod", usuarioMod) :
+                new ObjectParameter("usuarioMod", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarEstadoPartida", idParameter, usuarioModParameter, res, msj);
         }
     
         public virtual int SP_P_ModificarEstadoPerfil(Nullable<int> idPerfil, ObjectParameter resultado)
@@ -1138,6 +2300,97 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarEstadosUsuario", usuarioParameter, usuarioModificacionParameter, opcionParameter, resultado, mensaje);
         }
     
+        public virtual int SP_P_ModificarFilial(Nullable<int> idFilial, string descricion, string usuario_Modificacion, ObjectParameter msj, ObjectParameter seModifico)
+        {
+            var idFilialParameter = idFilial.HasValue ?
+                new ObjectParameter("IdFilial", idFilial) :
+                new ObjectParameter("IdFilial", typeof(int));
+    
+            var descricionParameter = descricion != null ?
+                new ObjectParameter("Descricion", descricion) :
+                new ObjectParameter("Descricion", typeof(string));
+    
+            var usuario_ModificacionParameter = usuario_Modificacion != null ?
+                new ObjectParameter("Usuario_Modificacion", usuario_Modificacion) :
+                new ObjectParameter("Usuario_Modificacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarFilial", idFilialParameter, descricionParameter, usuario_ModificacionParameter, msj, seModifico);
+        }
+    
+        public virtual int SP_P_ModificarFilialPersona(string identificacion, Nullable<bool> responsable, string tipo, string trato, string correoElectronico, string telefono1, string telefono2, string whatsApp, string usuarioModificacion, Nullable<System.DateTime> fechaModificacion, ObjectParameter resultado, ObjectParameter mensaje)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var responsableParameter = responsable.HasValue ?
+                new ObjectParameter("Responsable", responsable) :
+                new ObjectParameter("Responsable", typeof(bool));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var tratoParameter = trato != null ?
+                new ObjectParameter("Trato", trato) :
+                new ObjectParameter("Trato", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var telefono1Parameter = telefono1 != null ?
+                new ObjectParameter("Telefono1", telefono1) :
+                new ObjectParameter("Telefono1", typeof(string));
+    
+            var telefono2Parameter = telefono2 != null ?
+                new ObjectParameter("Telefono2", telefono2) :
+                new ObjectParameter("Telefono2", typeof(string));
+    
+            var whatsAppParameter = whatsApp != null ?
+                new ObjectParameter("WhatsApp", whatsApp) :
+                new ObjectParameter("WhatsApp", typeof(string));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
+    
+            var fechaModificacionParameter = fechaModificacion.HasValue ?
+                new ObjectParameter("FechaModificacion", fechaModificacion) :
+                new ObjectParameter("FechaModificacion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarFilialPersona", identificacionParameter, responsableParameter, tipoParameter, tratoParameter, correoElectronicoParameter, telefono1Parameter, telefono2Parameter, whatsAppParameter, usuarioModificacionParameter, fechaModificacionParameter, resultado, mensaje);
+        }
+    
+        public virtual int SP_P_ModificarPartida(Nullable<int> id, string alias, string descripcion, string tipo, Nullable<bool> activo, string usuarioMod, ObjectParameter res, ObjectParameter msj)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var aliasParameter = alias != null ?
+                new ObjectParameter("alias", alias) :
+                new ObjectParameter("alias", typeof(string));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("activo", activo) :
+                new ObjectParameter("activo", typeof(bool));
+    
+            var usuarioModParameter = usuarioMod != null ?
+                new ObjectParameter("usuarioMod", usuarioMod) :
+                new ObjectParameter("usuarioMod", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarPartida", idParameter, aliasParameter, descripcionParameter, tipoParameter, activoParameter, usuarioModParameter, res, msj);
+        }
+    
         public virtual int SP_P_ModificarPerfil(Nullable<int> idPerfil, string nombre, string descripcion, Nullable<bool> activo, string usuarioModificacion, ObjectParameter resultado)
         {
             var idPerfilParameter = idPerfil.HasValue ?
@@ -1161,6 +2414,63 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("UsuarioModificacion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarPerfil", idPerfilParameter, nombreParameter, descripcionParameter, activoParameter, usuarioModificacionParameter, resultado);
+        }
+    
+        public virtual int SP_P_ModificarProveedor(Nullable<int> idProveedor, string nombre, string identificacion, string tipo, string contacto, string telefono1, string telefono2, string correoElectronico, Nullable<int> condicionPago, string cuentaBancaria, string banco, Nullable<bool> activo, string usuarioModificacion, ObjectParameter msj, ObjectParameter seModifico)
+        {
+            var idProveedorParameter = idProveedor.HasValue ?
+                new ObjectParameter("IdProveedor", idProveedor) :
+                new ObjectParameter("IdProveedor", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var contactoParameter = contacto != null ?
+                new ObjectParameter("Contacto", contacto) :
+                new ObjectParameter("Contacto", typeof(string));
+    
+            var telefono1Parameter = telefono1 != null ?
+                new ObjectParameter("Telefono1", telefono1) :
+                new ObjectParameter("Telefono1", typeof(string));
+    
+            var telefono2Parameter = telefono2 != null ?
+                new ObjectParameter("Telefono2", telefono2) :
+                new ObjectParameter("Telefono2", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var condicionPagoParameter = condicionPago.HasValue ?
+                new ObjectParameter("CondicionPago", condicionPago) :
+                new ObjectParameter("CondicionPago", typeof(int));
+    
+            var cuentaBancariaParameter = cuentaBancaria != null ?
+                new ObjectParameter("CuentaBancaria", cuentaBancaria) :
+                new ObjectParameter("CuentaBancaria", typeof(string));
+    
+            var bancoParameter = banco != null ?
+                new ObjectParameter("Banco", banco) :
+                new ObjectParameter("Banco", typeof(string));
+    
+            var activoParameter = activo.HasValue ?
+                new ObjectParameter("Activo", activo) :
+                new ObjectParameter("Activo", typeof(bool));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarProveedor", idProveedorParameter, nombreParameter, identificacionParameter, tipoParameter, contactoParameter, telefono1Parameter, telefono2Parameter, correoElectronicoParameter, condicionPagoParameter, cuentaBancariaParameter, bancoParameter, activoParameter, usuarioModificacionParameter, msj, seModifico);
         }
     
         public virtual int SP_P_ModificarPuesto(Nullable<int> idPuesto, string descripcion, Nullable<decimal> salarioMinimo, Nullable<decimal> salarioPromedio, Nullable<decimal> salarioMaximo, string codigoCCSS, string codigoINS, string usuarioModificacion, ObjectParameter resultado)
@@ -1198,6 +2508,35 @@ namespace SICOAdmin1._0.Models
                 new ObjectParameter("UsuarioModificacion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarPuesto", idPuestoParameter, descripcionParameter, salarioMinimoParameter, salarioPromedioParameter, salarioMaximoParameter, codigoCCSSParameter, codigoINSParameter, usuarioModificacionParameter, resultado);
+        }
+    
+        public virtual int SP_P_ModificarTipoAccionPers(Nullable<int> id, string descripcion, string tipo, string estado_empleado, Nullable<bool> restablece_estado, string usuarioModificacion, ObjectParameter msg)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            var estado_empleadoParameter = estado_empleado != null ?
+                new ObjectParameter("estado_empleado", estado_empleado) :
+                new ObjectParameter("estado_empleado", typeof(string));
+    
+            var restablece_estadoParameter = restablece_estado.HasValue ?
+                new ObjectParameter("restablece_estado", restablece_estado) :
+                new ObjectParameter("restablece_estado", typeof(bool));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("usuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("usuarioModificacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_ModificarTipoAccionPers", idParameter, descripcionParameter, tipoParameter, estado_empleadoParameter, restablece_estadoParameter, usuarioModificacionParameter, msg);
         }
     
         public virtual int SP_P_ModificarUsuario(string usuario, string nombre, string tipo, Nullable<bool> activo, Nullable<bool> bloqueado, string contrasena, string correoElectronico, Nullable<int> diasCambioContrasena, Nullable<byte> iNTentosFallidos, string usuarioModificacion, Nullable<System.DateTime> fechaModificacion, ObjectParameter resultado, ObjectParameter mensaje)
@@ -1270,35 +2609,95 @@ namespace SICOAdmin1._0.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_P_PerfilesDelUsuario_Result>("SP_P_PerfilesDelUsuario", usuarioParameter, nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
         }
     
-        public virtual ObjectResult<SP_P_UsuariosDelPerfil_Result> SP_P_UsuariosDelPerfil(Nullable<int> idPerfil)
+        public virtual int SP_P_UpdatePlanilla(string consecutivo, string estado, Nullable<System.DateTime> fechaInicial, Nullable<System.DateTime> fechaFinal, string periodo, Nullable<int> anio, Nullable<decimal> montoTotal, Nullable<decimal> beneficioTotal, Nullable<decimal> deduccionTotal, Nullable<decimal> proyeccionTotal, string usuarioCreacion, Nullable<System.DateTime> fechaCreacion, string usuarioModificacion, Nullable<System.DateTime> fechaModificacion, ObjectParameter resultado, ObjectParameter mensaje)
+        {
+            var consecutivoParameter = consecutivo != null ?
+                new ObjectParameter("Consecutivo", consecutivo) :
+                new ObjectParameter("Consecutivo", typeof(string));
+    
+            var estadoParameter = estado != null ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(string));
+    
+            var fechaInicialParameter = fechaInicial.HasValue ?
+                new ObjectParameter("FechaInicial", fechaInicial) :
+                new ObjectParameter("FechaInicial", typeof(System.DateTime));
+    
+            var fechaFinalParameter = fechaFinal.HasValue ?
+                new ObjectParameter("FechaFinal", fechaFinal) :
+                new ObjectParameter("FechaFinal", typeof(System.DateTime));
+    
+            var periodoParameter = periodo != null ?
+                new ObjectParameter("Periodo", periodo) :
+                new ObjectParameter("Periodo", typeof(string));
+    
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("Anio", anio) :
+                new ObjectParameter("Anio", typeof(int));
+    
+            var montoTotalParameter = montoTotal.HasValue ?
+                new ObjectParameter("MontoTotal", montoTotal) :
+                new ObjectParameter("MontoTotal", typeof(decimal));
+    
+            var beneficioTotalParameter = beneficioTotal.HasValue ?
+                new ObjectParameter("BeneficioTotal", beneficioTotal) :
+                new ObjectParameter("BeneficioTotal", typeof(decimal));
+    
+            var deduccionTotalParameter = deduccionTotal.HasValue ?
+                new ObjectParameter("DeduccionTotal", deduccionTotal) :
+                new ObjectParameter("DeduccionTotal", typeof(decimal));
+    
+            var proyeccionTotalParameter = proyeccionTotal.HasValue ?
+                new ObjectParameter("ProyeccionTotal", proyeccionTotal) :
+                new ObjectParameter("ProyeccionTotal", typeof(decimal));
+    
+            var usuarioCreacionParameter = usuarioCreacion != null ?
+                new ObjectParameter("UsuarioCreacion", usuarioCreacion) :
+                new ObjectParameter("UsuarioCreacion", typeof(string));
+    
+            var fechaCreacionParameter = fechaCreacion.HasValue ?
+                new ObjectParameter("FechaCreacion", fechaCreacion) :
+                new ObjectParameter("FechaCreacion", typeof(System.DateTime));
+    
+            var usuarioModificacionParameter = usuarioModificacion != null ?
+                new ObjectParameter("UsuarioModificacion", usuarioModificacion) :
+                new ObjectParameter("UsuarioModificacion", typeof(string));
+    
+            var fechaModificacionParameter = fechaModificacion.HasValue ?
+                new ObjectParameter("FechaModificacion", fechaModificacion) :
+                new ObjectParameter("FechaModificacion", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_UpdatePlanilla", consecutivoParameter, estadoParameter, fechaInicialParameter, fechaFinalParameter, periodoParameter, anioParameter, montoTotalParameter, beneficioTotalParameter, deduccionTotalParameter, proyeccionTotalParameter, usuarioCreacionParameter, fechaCreacionParameter, usuarioModificacionParameter, fechaModificacionParameter, resultado, mensaje);
+        }
+    
+        public virtual ObjectResult<SP_P_UsuariosDelPerfil_Result> SP_P_UsuariosDelPerfil(Nullable<int> idPerfil, Nullable<int> nPag, Nullable<int> cantReg, string palabraBusc, ObjectParameter totalPag)
         {
             var idPerfilParameter = idPerfil.HasValue ?
                 new ObjectParameter("IdPerfil", idPerfil) :
                 new ObjectParameter("IdPerfil", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_P_UsuariosDelPerfil_Result>("SP_P_UsuariosDelPerfil", idPerfilParameter);
+            var nPagParameter = nPag.HasValue ?
+                new ObjectParameter("NPag", nPag) :
+                new ObjectParameter("NPag", typeof(int));
+    
+            var cantRegParameter = cantReg.HasValue ?
+                new ObjectParameter("CantReg", cantReg) :
+                new ObjectParameter("CantReg", typeof(int));
+    
+            var palabraBuscParameter = palabraBusc != null ?
+                new ObjectParameter("palabraBusc", palabraBusc) :
+                new ObjectParameter("palabraBusc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_P_UsuariosDelPerfil_Result>("SP_P_UsuariosDelPerfil", idPerfilParameter, nPagParameter, cantRegParameter, palabraBuscParameter, totalPag);
         }
     
-        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        public virtual int SP_P_VerificarContrasenaAdmin(string contrasenaIngresada, ObjectParameter msj, ObjectParameter tienePermiso)
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            var contrasenaIngresadaParameter = contrasenaIngresada != null ?
+                new ObjectParameter("contrasenaIngresada", contrasenaIngresada) :
+                new ObjectParameter("contrasenaIngresada", typeof(string));
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var new_diagramnameParameter = new_diagramname != null ?
-                new ObjectParameter("new_diagramname", new_diagramname) :
-                new ObjectParameter("new_diagramname", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
-        }
-    
-        public virtual int sp_upgraddiagrams()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_P_VerificarContrasenaAdmin", contrasenaIngresadaParameter, msj, tienePermiso);
         }
     }
 }

@@ -1,0 +1,203 @@
+﻿
+@model List<SICOAdmin1._0.Models.SP_C_MostrarFilialPersonasPag_Result>
+
+@{
+    ViewBag.Title = "Condominos";
+}
+
+<div class="container margin-container p-4 glass" id="renderLocal">
+
+    @Html.Partial("_GetFilialPersons", Model)
+</div>
+
+
+@Html.Partial("_Bitacora")
+@Html.Partial("_AddFilialPerson")
+@Html.Partial("_UpdateFilialPerson")
+@* ============================================================================================================ *@
+
+@section scripts{
+    <script>
+         const d = document,
+            $renderBody = d.getElementById("renderBody")
+        $renderBody.addEventListener("click",  (e) => {
+            let page = e.target.dataset.value || "";
+            if (e.target.name === "regresar") {
+                //let btn = d.getElementById("regresarr");
+                //btn.setAttribute("disabled", "disabled");
+                cargarComponent({
+                    container: "renderLocal", url: "@Url.Content("~/Filial_Person/_GetFilialPersons")",
+                })
+               /* btn.removeAttribute("disabled");*/
+            }
+            else if (e.target.name === "nextPage") {
+                console.log("entra");
+                siguientePagina({
+                    sig: page,
+                    totalPage: d.getElementById("totalPag").textContent,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/Filial_Person/_TableFilialPerson")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                })
+            }
+            else if (e.target.name === "previousPage") {
+
+
+                retrocederPagina({
+                   ant: page,
+                   totalPage: d.getElementById("totalPag").textContent,
+                   tamanoPagina: d.getElementById("tamanoPagina").value,
+                   url: "@Url.Content("~/Filial_Person/_TableFilialPerson")",
+                   container: "content-table",
+                   palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+               })
+            }
+        })
+
+        //Función para modificar el valor a guardar del checkbox "Responsable" del UpdateFilialPerson
+        function handleClick(checkbox) {
+            if (checkbox.checked) {
+                console.log("True");
+                checkbox.value = true;
+            } else {
+                console.log("False");
+                checkbox.value = false;
+            }
+        }
+
+        //Mostrar Bitacora por usuario
+        function jsmostrarBitacora(pIdentification) {
+            console.log("Bitacora");
+            console.log(pIdentification);
+            fetch("@Url.Content("~/Filial_Person/getBitacora")" + "?pIdentification=" + pIdentification)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        console.log(res);
+                        console.log("Bitacora");
+
+                        tdBUsuarioCrea.textContent = res.UserCreation;
+                        tdBFechaCrea.textContent = res.DateCreation;
+                        tdBUsuarioModi.textContent = res.UserModification;
+                        tdBFechaModi.textContent = res.DateModification;
+                    })
+        }
+
+        //Activar - desactivar
+        function jsModificarEstado(pIdentification, pAction) {
+            console.log(pIdentification);
+            console.log(pAction);
+            if (pAction === 'Activ') {
+                fetch("@Url.Content("~/Filial_Person/ActivFilialPerson")" + "?pIdentification=" + pIdentification)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        console.log(res);
+                        if (res == "1") {
+                            swal({
+                                title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $("#tbCondominiums").load(" #tbCondominiums");
+                        } else {
+                            swal({
+                                title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $("#tbCondominiums").load(" #tbCondominiums");
+                        }
+                    })
+            }
+        }
+
+        //Cargar datos
+        function jsMostrarDatosFP(pId) {
+
+            fetch("@Url.Content("~/Filial_Person/GetInfoFP")" + "?pIdentification=" + pId)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+
+                    lbName.textContent = res.Name;
+
+                    txtId.textContent = res.Identification;
+                    txtId.value = res.Identification;
+
+                    txtName.textContent = res.Name;
+                    txtName.value = res.Name;
+
+                    txtEmail.textContent = res.Email;
+                    txtEmail.value = res.Email;
+
+                    txtTelephone1.textContent = res.Telephone1;
+                    txtTelephone1.value = res.Telephone1;
+
+                    txtTelephone2.textContent = res.Telephone2;
+                    txtTelephone2.value = res.Telephone2;
+
+                    txtWhatsApp.textContent = res.WhatsApp;
+                    txtWhatsApp.value = res.WhatsApp;
+
+                    if (res.Responsable == true) {
+                        cbResponsable.checked = true;
+                    } else {
+                        cbResponsable.checked = false;
+                    }
+
+                    if (res.Treatment === "Sr") {
+                        slTreatment.selectedIndex = 0;
+                    }
+                    if (res.Treatment === "Sra") {
+                        slTreatment.selectedIndex = 1;
+                    }
+                    if (res.Treatment === "Srta") {
+                        slTreatment.selectedIndex = 2;
+                    }
+
+                    if (res.Type === "P") {
+                        slType.selectedIndex = 0;
+                    }
+                    if (res.Type === "I") {
+                        slType.selectedIndex = 1;
+                    }
+                    if (res.Type === " ") {
+                        slType.selectedIndex = 2;
+                    }
+
+                    slIdFilial.value = res.IdFilial;
+                })
+        }
+
+        //Paginación
+        // CHANGE
+        $renderBody.addEventListener("change", (e) => {
+            if (!(e.target.id === "tamanoPagina")) return false;
+            console.log(d.getElementById("totalPag").textContent);
+            console.log(e.target.value);
+            console.log("@Url.Content("~/Filial_Person/_TableFilialPerson")");
+            console.log(d.getElementById("buscar").value.toLowerCase());
+            cambioTamanoPagina({
+                totalPage:d.getElementById("totalPag").textContent,
+                tamanoPagina: e.target.value,
+                url:"@Url.Content("~/Filial_Person/_TableFilialPerson")",
+                container: "content-table",
+                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+            });
+        })
+
+        $renderBody.addEventListener("keyup", (e) => {
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+                console.log(palabraBuscar.toLowerCase());
+                buscarPalabra({
+                    url: "@Url.Content("~/Filial_Person/_TableFilialPerson")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+        })
+    </script>
+
+
+}

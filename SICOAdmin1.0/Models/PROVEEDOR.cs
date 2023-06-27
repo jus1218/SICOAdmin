@@ -32,12 +32,13 @@ namespace SICOAdmin1._0.Models
         public string CuentaBancaria { get; set; }
         public string Banco { get; set; }
         public Nullable<bool> Activo { get; set; }
+        public string UsuarioCreacion { get; set; }
         public System.DateTime FechaCreacion { get; set; }
-        public Nullable<System.DateTime> UsuarioModificacion { get; set; }
-        public Nullable<System.DateTime> FechaModificacion { get; set; }
+        public string UsuarioModificacion { get; set; }
+        public System.DateTime FechaModificacion { get; set; }
     
-        public virtual COLABORADOR COLABORADOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DOCUMENTO_CXP> DOCUMENTO_CXP { get; set; }
+        public virtual TIPO_PROVEEDOR TIPO_PROVEEDOR { get; set; }
     }
 }

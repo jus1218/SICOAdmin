@@ -49,7 +49,7 @@ namespace SICOAdmin1._0.Controllers
         ObjectParameter res = new ObjectParameter("res", 0);
 
 
-        //[AuthorizeUser(pAccion: 67)]
+        [AuthorizeUser(pAccion: 67)]
         public ActionResult Index()
         {
             try

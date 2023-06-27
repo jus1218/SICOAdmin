@@ -1,0 +1,151 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarFilialPersonasPag_Result>
+@{ int i = 0;
+
+    //Si no existen registros a mostrar
+    bool flag = false;
+    if (Model.ToList().Count() > 0)
+    {
+        flag = true;
+    }
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    bool puedeModificar = false;
+
+    if (lstActions.Contains(54)) { puedeModificar = true; } }
+<div class="col-12 pre-scrollable">
+
+    <table id="tbFilialPerson" class="table table-bordered text-center table-striped">
+        <thead>
+            <tr class="text-center">
+                <th scope="col"># Filial</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Identificacion</th>
+                <th scope="col">Responsable</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Trato</th>
+                <th scope="col">Correo electrónico</th>
+                <th scope="col">Telefono 1</th>
+                <th scope="col">Telefono 2</th>
+                <th scope="col">WhatsApp</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (flag)
+            {
+                foreach (var FP in Model)
+                {
+                    i++;
+                    <tr>
+                        <td>@FP.IdFilial</td>
+                        <td>@FP.Nombre</td>
+                        <td>@FP.Indentification</td>
+                        @if (FP.Responsable)
+                        {
+                            <td><input type="checkbox" disabled checked /></td>
+                        }
+                        else
+                        {
+                            <td><input type="checkbox" disabled /></td>
+                        }
+                        @if (FP.Tipo == "I")
+                        {
+                            <td>Inquilino</td>
+                        }
+                        else if (FP.Tipo == "P")
+                        {
+                            <td>Propietario</td>
+                        }
+                        else if (FP.Tipo == " ")
+                        {
+                            <td>Sin definir</td>
+                        }
+                        <td>@FP.Trato</td>
+                        <td>@FP.CorreoElectronico</td>
+                        <td>@FP.Telefono1</td>
+                        <td>@FP.Telefono2</td>
+                        <td><a title="Click para enviar un mensaje" href="@("https://wa.me/506" + FP.WhatsApp)" target="_blank">@FP.WhatsApp</a></td>
+
+                        <!--SWITCH-->
+                        @if (FP.Activo)
+                        {
+                            <td>
+                                @if (puedeModificar)
+                                {
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@FP.IdPersona" data-id="@FP.IdPersona" title="hola"onclick="jsModificarEstado('@FP.Indentification', 'Activ')">
+                                        <label class="custom-control-label" for="customSwitch_@FP.IdPersona">Activado</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <label>Activo</label>
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @if (puedeModificar)
+                                {
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@FP.IdPersona" data-id="@FP.IdPersona" onclick="jsModificarEstado('@FP.Indentification', 'Activ')">
+                                        <label class="custom-control-label" for="customSwitch_@FP.IdPersona">Desactivado</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <label>Desactivo</label>
+                                }
+                            </td>
+                        }
+                        <td>
+
+                            <div class="row ml-2 mr-2">
+
+                                @if (puedeModificar)
+                                {
+                                    <button data-toggle="modal" data-target="#updateFPModal" class="btn btn-warning col" onclick="jsMostrarDatosFP(@FP.Indentification)"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                                }
+                                <button id="btnBitacora" onclick="jsmostrarBitacora('@FP.Indentification')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="11">
+                        <content>No hay registros en la tabla</content>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<div class="d-flex">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+        <div class="row mr-0">
+            @if (@ViewBag.PagActual > 1)
+            {
+                <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />}
+            @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+            {
+                <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />}
+        </div>
+    </div>
+
+
+</div>

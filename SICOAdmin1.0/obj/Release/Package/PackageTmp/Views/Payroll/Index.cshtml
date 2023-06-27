@@ -1,0 +1,215 @@
+﻿
+@model SICOAdmin1._0.Models.Payroll.Payroll
+@using SICOAdmin1._0.Models.Payroll
+
+@{
+    ViewBag.Title = "Nomina";
+
+    List<Payroll> lstPayrolls = (List<Payroll>)ViewBag.Payrolls;
+    List<SelectListItem> lstConsecutivos = (List<SelectListItem>)ViewBag.lstConsecutivos;
+
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+} 
+
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+</head>
+
+@section styles{
+
+
+}
+
+
+<div class="container margin-container p-4 glass">
+
+    <div class="row fila">
+
+        <!--TEXTO-->
+        <div class="col-xl-2 col-md-3 d-flex justify-content-center">
+            <h3 class="mt-0">Nóminas</h3>
+        </div>
+        <!--BOTON-->
+
+        <div class="col-xl-2 col-md-2 mb-3 ">
+
+            @if (lstActions.Contains(27))
+            {
+                <button id="Crear" data-toggle="modal" data-target="#Modal" type="button" class="btn btn-primary col-12">
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar
+                </button>
+            }
+        </div>
+        <!--Barra busqueda-->
+        @*<div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
+                <div class="input-group mb-2">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Buscar..."
+                           aria-label="Buscar..."
+                           aria-describedby="button-search"
+                           id="buscar" />
+                    <button class="btn btn-outline-secondary"
+                            type="button"
+                            disabled="disabled"
+                            id="button-search">
+                        Buscar
+                    </button>
+                </div>
+            </div>*@
+
+        <!-- FILA TABLE row tablePayroll-->
+        <div class="col-lg-12 row fila scrol-tablex" id="tablePayroll">
+            @Html.Partial("_TablePayroll", lstPayrolls);
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Agregar-->
+
+@Html.Partial("_AddPayroll", lstConsecutivos);
+
+
+
+<!-- Modal Update-->
+@Html.Partial("_EditPayroll", lstConsecutivos);
+
+<!-- Modal Bitacora-->
+@Html.Partial("_PayrollLog");
+
+
+<!-- Script para la muestra de los Menjases-->
+@section scripts{
+
+    <script type="text/javascript">
+        console.log('@TempData["Message"]');
+        console.log('@TempData["Message"]');
+        @if (TempData["Resultado"] != null)
+        {
+            if (TempData["Resultado"].ToString() == "1")
+            {
+                 <text>
+                    $(document).ready(function () {
+                        swal({
+                            title: "¡¡Exitoso!!", text: ('@TempData["Message"]'), type: "success", timer: 3000, showConfirmButton: false });
+                        })
+                </text>
+            }
+            else
+            {
+                <text>
+                $(document).ready(function () {
+                        swal({ title: "¡¡Error!!", text: ('@TempData["Message"]'), type: "error",timer: 3000, showConfirmButton: false});
+                        })
+
+                </text>
+            }
+
+        }
+    </script>
+
+
+
+}
+<script>
+    //================================= OBTECION DE ELEMENTOS DEL DOM =====================================
+
+    //------------------ ELEMENTOS DE EDITAR ------------------------------
+
+    const idNom = document.getElementById("upId");
+
+    //El tipo de variable LET se utiliza para los select
+    //lo unico que cambia al hacerlo con let y const, es el tipo de variable
+    let idCons = document.getElementById("upIdConsecutivo");
+
+    const idDesc = document.getElementById("upDescripcion");
+    const idFrec = document.getElementById("upFrecuencia");
+
+    //------------------ ELEMENTOS DE BITACORA ------------------------------
+
+    const tbId = document.getElementById("tbIdNomina");
+    const tbUsuarioCreacion = document.getElementById("tbUsuarioCreacion");
+    const tbUsuarioModificacion = document.getElementById("tbUsuarioModificacion")
+
+    const tbFechaCreacion = document.getElementById("tbFechaCreacion");
+    const tbFechaModificacion = document.getElementById("tbFechaModificacion");
+
+
+    //===================================== FUNCIONES =======================================
+
+    function cargarComponentPayrrol() {
+        $("#tablePayroll").load("Payroll/_TablePayroll", function (res) {
+            $("#tablePayroll").html(res);
+        })
+    }
+
+    function jsBitacora(pId) {
+        fetch("@Url.Content("~/Payroll/pintarDatos")" + "?pId=" + pId)
+            .then(res => res.ok ? res.json() : null)
+            .then(res => {
+
+
+                console.log(res);
+                tbId.textContent = res.IdNomina;
+                tbId.value = res.IdNomina;
+
+                tbUsuarioCreacion.textContent = res.UsuarioCreacion;
+                tbUsuarioCreacion.value = res.UsuarioCreacion;
+
+                tbUsuarioModificacion.textContent = res.UsuarioModificacion;
+                tbUsuarioModificacion.value = res.UsuarioModificacion;
+
+                tbFechaCreacion.textContent = res.FechaCreacion;
+                tbFechaCreacion.value = res.FechaCreacion;
+
+                tbFechaModificacion.textContent = res.FechaModificacion;
+                tbFechaModificacion.value = res.FechaModificacion;
+
+            })
+
+    }
+
+
+    function jsmostrarDatos(pId) {
+
+          fetch("@Url.Content("~/Payroll/pintarDatos")" + "?pId=" + pId)
+            .then(res => res.ok ? res.json() : null)
+            .then(res => {
+                idDesc.textContent = res.Descripcion;
+                idDesc.value = res.Descripcion;
+
+                idNom.textContent = res.IdNomina;
+                idNom.value = res.IdNomina;
+
+                if (res.Frecuencia == "SM") {
+                    idFrec.options.item(0).selected = 'selected';
+                } else if (res.Frecuencia == "BSM") {
+                    idFrec.options.item(1).selected = 'selected';
+                } else if (res.Frecuencia == "QUIN") {
+                    idFrec.options.item(2).selected = 'selected';
+                } else if (res.Frecuencia == "MEN") {
+                    idFrec.options.item(3).selected = 'selected';
+                }
+                //Aqui selecciono el valor en la lista del select
+                idCons.value = res.IdConsecutivo;
+            })
+
+    }
+    //$(document).ready(function () {
+    //    $("#buscar").on("keyup", function () {
+    //        var value = $(this).val().toLowerCase();
+    //        $("#tbConsecutivo tbody tr").filter(function () {
+    //            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //        });
+    //    });
+    //});
+</script>
+

@@ -1,0 +1,143 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result>
+
+@{
+    //List<SelectListItem> lstProviders = (List<SelectListItem>)ViewBag.lstProviders;
+    int i = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+
+    bool puedeModificar = false, puedeAgregarRecibo = false, puedeVerRecibos = false;
+
+
+
+    if (lstActions.Contains(68)) { puedeModificar = true; }
+    if (lstActions.Contains(90)) { puedeAgregarRecibo = true; }
+    if (lstActions.Contains(92)) { puedeVerRecibos = true; }
+
+}
+
+
+
+<div class="pre-scrollable col-12">
+
+    <table id="tbDocuments_CXC" class="table table-bordered table-striped ">
+
+        <thead class="">
+            <tr>
+                <th scope="col" class="th"># Documento</th>
+                <th scope="col" class="th">Cliente</th>
+                <th scope="col" class="th">Tipo</th>
+                <th scope="col" class="th">Monto</th>
+                <th scope="col" class="th">Saldo</th>
+                <th scope="col" class="th">Estado</th>
+                <th scope="col" class="th">Condición Pago</th>
+                <th scope="col" class="th">Fecha Documento</th>
+                @*<th scope="col" class="th">Acciones</th>*@
+            </tr>
+
+        </thead>
+
+
+        <tbody style="text-align:center;">
+            @if (Model != null && Model.Count > 0)
+            {
+                i++;
+                foreach (var d in Model)
+                {
+                    <tr>
+                        <td>@d.Documento</td>
+                        <td>@d.Nombre</td>
+                        @if (@d.TipoDocumento == "mens")
+                        {
+                            <td>Mensualidad</td>
+                        }
+                        else if (d.TipoDocumento == "reci")
+                        {
+
+
+                            <td>Deposito</td>
+                        }
+                        else
+                        {
+                            <td>Cuota Extraordinaria</td>
+                        }
+                        <td>@Convert.ToDecimal(@d.Monto).ToString("C")</td>
+                        <td>@Convert.ToDecimal(@d.Saldo).ToString("C")</td>
+                        <td>@d.Estado</td>
+                        <td>@d.CondicionPago</td>
+                        <td>@d.FechaDocumento.ToString("yyyy-MM-dd")</td>
+
+                        <td>
+
+
+                            <div class="dropdown">
+                                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
+                                    Administrar
+                                </button>
+                                <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                                    @if (puedeModificar)
+                                    {<a id="btnEditDoc_cxc" name="btnEditDoc_cxc" data-id="@d.Documento" class="btn-sm btn-outline-light dropdown-item">Editar Documento</a>}
+                                    <a id="viewLogDoc_cxc" name="viewLogDoc_cxc" data-id="@d.Documento" class="btn-sm btn-outline-success dropdown-item ">Detalles</a>
+
+                                </div>
+                            </div>
+                            @*@if (puedeVerRecibos)
+                                {*@
+
+                            @if (d.TipoDocumento == "mens" || d.TipoDocumento == "extr")
+                            {
+
+                                <button data-id="@d.Documento" id="show_depositos_cxc" name="show_depositos_cxc" type="button" class="btn btn-info">
+                                    <i class="fa fa-book  mr-2" aria-hidden="true"></i>Asociaciones
+                                </button>
+                            }
+
+
+                            @*}*@
+
+
+
+                        </td>
+                    </tr>
+
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">No existe registros actualmente</td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<div class="d-flex m-3 ">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+
+        <div class="row">
+
+            @if (@ViewBag.PagActual > 1)
+            {
+                <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+            }
+            @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+            {
+                <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+            }
+        </div>
+
+    </div>
+
+</div>

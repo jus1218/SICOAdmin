@@ -1,0 +1,311 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarClientes_Result>
+
+
+@{
+    ViewBag.Title = "Clientes";
+}
+
+<div class="container margin-container p-4 glass" id="renderLocal">
+
+    @Html.Partial("_GetClients", Model)
+</div>
+
+@Html.Partial("_Bitacora")
+@Html.Partial("_AddClient")
+@Html.Partial("_UpdateClient")
+
+@section scripts
+{
+    <script>
+        //Print
+        function jsPrint(id) {
+            event.preventDefault();
+            fetch("@Url.Content("~/Print/Print")" + "?pId=" + id)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+                    console.log(res);
+                    if (res == "1") {
+                        swal({
+                            title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                            showConfirmButton: false
+                        });
+                        $("#tbClient").load(" #tbClient");
+                    } else {
+                        swal({
+                            title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                        $("#tbClient").load(" #tbClient");
+                    }
+                })
+        }
+
+        //Agregar cliente
+        document.querySelector('#createClient').addEventListener('submit', jsCreateClient)
+        function jsCreateClient(e)
+        {
+            e.preventDefault(),
+            console.log("entrajsSubmitClient");
+                fetchMethod({
+                    url: "@Url.Content("~/Client/AddClient")",
+                    body: {
+                        IdFilial: document.querySelector('#cIdFilial').value,
+                        Name: document.querySelector('#cName').value,
+                        Identification: document.querySelector('#cIdentification').value,
+                        Type: document.querySelector('#cType').value,
+                        Contact: document.querySelector('#cContact').value,
+                        Telephone1: document.querySelector('#cTel1').value,
+                        Telephone2: document.querySelector('#cTel2').value,
+                        Email: document.querySelector('#cEmail').value,
+                        ConditionPay: document.querySelector('#cConditionPay').value,
+                        Active: document.querySelector('#cActive').checked,
+                    },
+                    cbSuccess: (res) => {
+                        if (res.result) {
+                            console.log("correcto");
+                            $('#AddModalClient').modal('hide');
+                            $("#tbClient").load(" #tbClient");
+                            swal
+                            ({
+                                title: 'Correcto!',
+                                text: res.message,
+                                type: 'success',
+                                timer: 3000,
+                                showConfirmButton: false
+                            })
+                        }
+                        else {
+                            swal('Ha ocurrido un error',
+                                res.mensaje,
+                                'error')
+                        }
+                    }
+                })
+        }
+
+        //Editar cliente
+        document.querySelector('#updateClient').addEventListener('submit', jsUpdateClient)
+        function jsUpdateClient(e)
+        {
+            e.preventDefault(),
+                console.log("entrajsUpdateClient");
+                fetchMethod({
+                    url: "@Url.Content("~/Client/UpdateClient")",
+                    body: {
+                        //IdFilial: document.querySelector('#slIdFilial').value,
+                        Identification: document.querySelector('#txtIdentification').value,
+                        Type: document.querySelector('#slType').value,
+                        Contact: document.querySelector('#txtContact').value,
+                        Telephone1: document.querySelector('#txtTel1').value,
+                        Telephone2: document.querySelector('#txtTel2').value,
+                        Email: document.querySelector('#txtEmail').value,
+                        ConditionPay: document.querySelector('#txtConditionPay').value,
+                        Active: document.querySelector('#stActive').checked,
+                    },
+                    cbSuccess: (res) => {
+                        if (res.result) {
+                            console.log("correcto");
+                            $('#updateModalClient').modal('hide');
+                            swal
+                            ({
+                                title: 'Correcto!',
+                                text: res.message,
+                                type: 'success',
+                                timer: 3000,
+                                showConfirmButton: false
+                            })
+                            $("#tbClient").load(" #tbClient");
+                        }
+                        else {
+                            swal('Ha ocurrido un error',
+                                res.message,
+                                'error')
+                        }
+                    }
+                })
+        }
+
+        //Cargar datos
+        function jsGetDataClient(pId) {
+
+
+            fetch("@Url.Content("~/Client/GetInfoClient")" + "?pIdentification=" + pId)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+
+                    lbName.textContent = res.Name;
+
+                    txtIdentification.textContent = res.Identification;
+                    txtIdentification.value = res.Identification;
+
+                    //falta filial
+                    //slIdFilial.value = res.IdFilial;
+
+                    if (res.Type === "Cl") {
+                        slType.selectedIndex = 0;
+                    }
+                    if (res.Type === "In") {
+                        slType.selectedIndex = 1;
+                    }
+
+                    txtContact.textContent = res.Contact;
+                    txtContact.value = res.Contact;
+
+                    txtTel1.textContent = res.Telephone1;
+                    txtTel1.value = res.Telephone1;
+
+                    txtTel2.textContent = res.Telephone2;
+                    txtTel2.value = res.Telephone2;
+
+                    txtEmail.textContent = res.Email;
+                    txtEmail.value = res.Email;
+
+                    txtConditionPay.textContent = res.ConditionPay;
+                    txtConditionPay.value = res.ConditionPay;
+
+                    if (res.Active == true) {
+                        stActive.checked = true;
+                        stActive.value = true;
+                        labelSwitch.textContent = "Activado"
+                    } else {
+                        stActive.checked = false;
+                        stActive.value = false;
+                        labelSwitch.textContent = "Desactivado"
+                    }
+
+                })
+        }
+
+        //Mostrar Bitacora por usuario
+        function jsmostrarBitacora(pIdentification) {
+            fetch("@Url.Content("~/Client/getBitacora")" + "?pId=" + pIdentification)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        tdBUsuarioCrea.textContent = res.UserCreation;
+                        tdBFechaCrea.textContent = res.DateCreation;
+                        tdBUsuarioModi.textContent = res.UserModification;
+                        tdBFechaModi.textContent = res.DateModification;
+                    })
+        }
+
+        //Activar - desactivar
+        function jsModificarEstado(pIdentification, pAction) {
+            event.preventDefault();
+            fetch("@Url.Content("~/Client/ActivClient")" + "?pIdentification=" + pIdentification)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+                    console.log(res);
+                    if (res == "1") {
+                        swal({
+                            title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                            showConfirmButton: false
+                        });
+                        $("#tbClient").load(" #tbClient");
+                        cambioTamanoPagina({
+                        totalPage: d.getElementById("totalPag").textContent,
+                        tamanoPagina: e.target.value,
+                        url: "@Url.Content("~/Client/_TableClient")",
+                        container: "content-table",
+                        palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                        });
+                    } else {
+                        swal({
+                            title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                        $("#tbClient").load(" #tbClient");
+                        cambioTamanoPagina({
+                        totalPage: d.getElementById("totalPag").textContent,
+                        tamanoPagina: e.target.value,
+                        url: "@Url.Content("~/Client/_TableClient")",
+                        container: "content-table",
+                        palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                        });
+                    }
+                })
+
+        }
+
+        //Función para modificar el valor a guardar de un checkbox
+        function switchClick(checkbox) {
+            if (checkbox.checked) {
+                labelSwitchAdd.textContent = "Activado";
+                labelSwitch.textContent = "Activado";
+            } else {
+                labelSwitchAdd.textContent = "Desactivado";
+                labelSwitch.textContent = "Desactivado";
+            }
+        }
+
+        //PAGINACIÓN
+        const d = document,
+            $renderBody = d.getElementById("renderBody")
+        $renderBody.addEventListener("click",  (e) => {
+                let page = e.target.dataset.value || "";
+                if (e.target.name === "regresar") {
+                    //let btn = d.getElementById("regresarr");
+                    //btn.setAttribute("disabled", "disabled");
+                    cargarComponent({
+                        container: "renderLocal", url: "@Url.Content("~/Client/_GetClients")",
+                    })
+                    /* btn.removeAttribute("disabled");*/
+                }
+                else if (e.target.name === "nextPage") {
+                    console.log("entra");
+                    siguientePagina({
+                        sig: page,
+                        totalPage: d.getElementById("totalPag").textContent,
+                        CantRegistros: d.getElementById("tamanoPagina").value,
+                        url: "@Url.Content("~/Client/_TableClient")",
+                        container: "content-table",
+                        palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                    })
+                }
+                else if (e.target.name === "previousPage") {
+
+
+                    retrocederPagina({
+                        ant: page,
+                        totalPage: d.getElementById("totalPag").textContent,
+                        tamanoPagina: d.getElementById("tamanoPagina").value,
+                        url: "@Url.Content("~/Client/_TableClient")",
+                        container: "content-table",
+                        palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                    })
+                }
+        })
+
+        // CHANGE - PAGINACIÓN
+        $renderBody.addEventListener("change", (e) => {
+                if (!(e.target.id === "tamanoPagina")) return false;
+                console.log(d.getElementById("totalPag").textContent);
+                console.log(e.target.value);
+                console.log("@Url.Content("~/Client/_TableClient")");
+                console.log(d.getElementById("buscar").value.toLowerCase());
+                cambioTamanoPagina({
+                    totalPage: d.getElementById("totalPag").textContent,
+                    tamanoPagina: e.target.value,
+                    url: "@Url.Content("~/Client/_TableClient")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                });
+        })
+
+        $renderBody.addEventListener("keyup", (e) => {
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+                console.log(palabraBuscar.toLowerCase());
+                buscarPalabra({
+                    url: "@Url.Content("~/Client/_TableClient")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+        })
+    </script>
+
+}

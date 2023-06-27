@@ -1,0 +1,344 @@
+﻿@model SICOAdmin1._0.Models.ActionType.TypeActionPers
+
+@{ ViewBag.Title = "Tipo Accion Personal";
+
+    var lstTypeActionPers = (List<SICOAdmin1._0.Models.ActionType.TypeActionPers>)ViewBag.lstTypeActionPersonal;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    } }
+
+@section styles{
+
+    <style>
+        .th {
+            text-align: center;
+        }
+    </style>
+
+}
+<div class="container margin-container p-4 glass">
+
+    <div class="row fila">
+        <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12">
+            <h3 class="d-flex justify-content-center">Tipo Acción Personal</h3>
+        </div>
+
+
+        @if (lstActions.Contains(41))
+        { 
+            <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 " data-toggle="modal" data-target="#agregarTypeActionPers">
+                <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+                Agregar
+            </button>
+        }
+
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
+            <div class="input-group ">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Buscar..."
+                       aria-label="Buscar..."
+                       aria-describedby="button-search"
+                       id="buscar" />
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row m-1 ">
+        <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamPaginacion" onchange="cambTam(@ViewBag.totalPag.Value)">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="10">10</option>
+        </select>
+
+    </div>
+
+    <div class="row fila   scrol-tablex" id="tableTypeActionPers">
+        @Html.Partial("_TableTypeActionPers", lstTypeActionPers);
+    </div>
+</div>
+
+
+
+<!-- VISTAS PARCIALES-->
+@Html.Partial("_AddTypeActionPers");
+
+@Html.Partial("_EditTypeActionPersonal");
+
+@Html.Partial("_ActionLog");
+
+<script>
+
+        //================================ OBTENCION DE ELEMENTOS DEL DOM ================================
+        //--------------------- ELEMENTOS DE FORMULARIOS --------------------------------------
+   let formCrearCtrl = document.getElementById("formCrearTipoAccion");
+   let formEditarCtrl = document.getElementById("formEditarTipoAccion");
+        //--------------------- ELEMENTOS DE AGREGAR --------------------------------------
+    let description = document.getElementById("addDescription");
+    let typeAction = document.getElementById("addAction");
+    let statusEmployed = document.getElementById("addStatus");
+    let resetStatus = document.getElementById("addResetState");
+
+
+        //--------------------- ELEMENTOS DE EDITAR--------------------------------------
+
+    let edId = document.getElementById("edIdAction");
+    let edDescription = document.getElementById("editDescription");
+    let edtypeAction = document.getElementById("editAction");
+    let edStatusEmployed = document.getElementById("editStatus");
+    let edResetStatus = document.getElementById("editResetState");
+
+
+    //------------------ ELEMENTOS DE BITACORA ------------------------------
+
+    const tbId = document.getElementById("tbIdAction");
+    const tbUsuarioCreacion = document.getElementById("tbUsuarioCreacion");
+    const tbUsuarioModificacion = document.getElementById("tbUsuarioModificacion")
+
+    const tbFechaCreacion = document.getElementById("tbFechaCreacion");
+    const tbFechaModificacion = document.getElementById("tbFechaModificacion");
+
+        //--------------------- FUNCIONES --------------------------------------
+
+        function cargarComponentAction() {
+            $("#tableTypeActionPers").load("TypeActionPersonal/_TableTypeActionPers", function (res) {
+                $("#tableTypeActionPers").html(res);
+            })
+        }
+
+
+
+
+
+          //--------------------- FUNCIONES FETCH --------------------------------------
+
+    function crearTypeActionPers() {
+
+            fetch("@Url.Content("~/TypeActionPersonal/AgregarTypeActionPersonal")" , {
+                method: "POST",
+                body: JSON.stringify({
+
+                    Description: description.value,
+                    TypeAction: typeAction.value,
+                    StatusEmployed: statusEmployed.value,
+                    ResetState: resetStatus.value,
+
+                }),
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+
+            }).then(res => res.ok ? res.json() : null)
+                .then(res => {
+                    console.log(res);
+                    if (res.resp == 1) {
+
+                        cargarComponentAction();
+                        swal('Bien!',
+                            res.mensaje,
+                            'success')
+                    } else {
+                        console.log("error agregar");
+                        swal('Opps!',
+                            res.mensaje,
+                            'error'
+                        )
+                    }
+                }).catch(res => console.log("Algo paso"))
+
+    }
+
+    function editarTypeActionPers() {
+
+
+            fetch("@Url.Content("~/TypeActionPersonal/EditarTypeActionPersonal")" , {
+                method: "POST",
+                body: JSON.stringify({
+
+                    IdTypeActionPers: edId.value,
+                    Description: edDescription.value,
+                    TypeAction: edtypeAction.value,
+                    StatusEmployed: edStatusEmployed.value,
+                    ResetState: edResetStatus.value,
+
+
+                }),
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+
+            }).then(res => res.ok ? res.json() : null)
+                .then(res => {
+                    console.log(res);
+                    if (res.resp == 1) {
+
+                       cargarComponentAction();
+                        swal('Bien!',
+                            res.mensaje,
+                            'success')
+                    } else {
+                        console.log("error actulizar");
+                        swal('Opps!',
+                            res.mensaje,
+                            'error'
+                        )
+                    }
+                }).catch(res => console.log("Algo paso"))
+    }
+
+        function showDataTypeAction(pId){
+
+            fetch("@Url.Content("~/TypeActionPersonal/showDataTypeAction")" + "?pId=" + pId)
+
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+                    console.log(res);
+                    /*edId.textContent = res.IdTypeActionPers;*/
+                    edId.value = res.IdTypeActionPers;
+
+                    edDescription.textContent = res.Description;
+                    edDescription.value = res.Description;
+
+                    edtypeAction.textContent = res.TypeAction;
+                    edtypeAction.value = res.TypeAction;
+
+                    edStatusEmployed.textContent = res.StatusEmployed;
+                    edStatusEmployed.value = res.StatusEmployed;
+                    if (res.ResetState) {
+                        edResetStatus.options.item(1).selected = 'selected';
+                    } else {
+                        edResetStatus.options.item(2).selected = 'selected';
+                    }
+
+                })
+        }
+
+
+    function viewMoreTypeAction(pId) {
+
+        fetch("@Url.Content("~/TypeActionPersonal/showDataTypeAction")" + "?pId=" + pId)
+
+            .then(res => res.ok ? res.json() : null)
+            .then(res => {
+                console.log(res);
+                edId.textContent = res.IdTypeActionPers;
+                edId.value = res.IdTypeActionPers;
+
+                tbUsuarioCreacion.textContent = res.UserCreation;
+                tbUsuarioCreacion.value = res.UserCreation;
+
+                tbUsuarioModificacion.textContent = res.UserModification;
+                tbUsuarioModificacion.value = res.UserModification;
+
+                tbFechaCreacion.textContent = res.CreationDate;
+                tbFechaCreacion.value = res.CreationDate;
+
+                tbFechaModificacion.textContent = res.ModificationDate;
+                tbFechaModificacion.value = res.ModificationDate;
+
+
+            })
+    }
+        //===================================== VALIDACION DE FORMULARIO ======================
+
+
+
+        //===================================== BOTONES DE LAS TABLAS =============================
+
+
+
+
+        //Pasar a la pagina siguiente
+        const jsSiguiente = (sig, totalPage) => {
+
+            var siguiente = sig - 1;//Limpiamos el valor que viene de la vista
+            $("#tableTypeActionPers").load("TypeActionPersonal/_TableTypeActionPers",
+                {
+
+                    NumPagina: siguiente,
+                    palabraBuscar: $("#buscar").val().toLowerCase(),//"",
+                    //estaBuscando: false,
+                    accion: 'S',
+                    totalPaginas: totalPage,
+                    CantRegistros: document.getElementById("tamPaginacion").value
+                }, function (res) {
+                    $("#tableTypeActionPers").html(res);
+                })
+
+        }
+
+
+        //Pasar a la pagina anterior
+        const jsRetroceder = (ant, totalPage) => {
+
+            var anterior = ant - 1;//Limpiamos el valor que viene de la vista
+            $("#tableTypeActionPers").load("TypeActionPersonal/_TableTypeActionPers",
+                {
+
+                    NumPagina: anterior,
+                    palabraBuscar: $("#buscar").val().toLowerCase(),//buscarPerfil.textContent,
+                    accion: 'N',
+                    totalPaginas: totalPage,
+                    CantRegistros: document.getElementById("tamPaginacion").value
+                }, function (res) {
+                    $("#tableTypeActionPers").html(res);
+                })
+
+        }
+
+        // Cambio de tamaño de paginacion
+        const cambTam = (totalPage) => {
+
+            $("#tableTypeActionPers").load("TypeActionPersonal/_TableTypeActionPers",
+                {
+
+                    //NumPagina: numPagePerfUser,
+                    palabraBuscar: $("#buscar").val().toLowerCase(),
+                    CantRegistros: document.getElementById("tamPaginacion").value,
+                    //buscarPerfil.textContent
+                    //estaBuscando: false
+                    totalPaginas: totalPage
+                }, function (res) {
+                    $("#tableTypeActionPers").html(res);
+                })
+            //
+        }
+
+
+
+    //$("#buscar").on("keyup", function () {
+    //    var value = $(this).val().toLowerCase();
+
+    //    //if (value.length > 2 || value.length == 0) {
+    //    $("#tableTypeActionPers").load("TypeActionPersonal/_TableTypeActionPers",
+    //        {
+
+    //            NumPagina: 0,
+    //            palabraBuscar: value,
+    //            estaBuscando: true,
+    //            accion: 'n', //n -> no pasar de pagina
+    //            CantRegistros: document.getElementById("tamPaginacion").value,
+    //            //CantRegistros: document.getElementById("tamPaginacion").value
+
+    //        }, function (res) {
+    //            $("#tableTypeActionPers").html(res);
+    //        })
+
+    //    //}
+
+
+    //});
+
+
+
+
+</script>
+
+

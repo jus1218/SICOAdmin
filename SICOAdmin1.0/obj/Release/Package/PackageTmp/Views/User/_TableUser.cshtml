@@ -1,0 +1,124 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarUsuariosPag_Result>
+
+@{
+    int i = 0;
+
+    //Si no existen registros a mostrar
+    bool flag = false;
+    if (Model.ToList().Count() > 0)
+    {
+        flag = true;
+    }
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    bool puedeModificar = false;
+
+    if (lstActions.Contains(9)) { puedeModificar = true; }
+
+}
+
+<table id="tbUsers" class="table table-bordered table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">Usuario</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Dias cambio contraseña</th>
+            <th scope="col">Intentos fallidos permitidos</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody style="text-align:center;">
+        @if (flag)
+        {
+            foreach (var user in Model)
+            {
+                i++;
+                <tr>
+                    <td>@user.Usuario</td>
+                    <td>@user.Nombre</td>
+                    <td>@user.CorreoElectronico</td>
+                    <td>@user.Tipo</td>
+                    <td>@user.DiasCambioContrasena</td>
+                    <td>@user.IntentosFallidos</td>
+                    <td>
+
+                        <div class="row ml-2 mr-2">
+                            @if (puedeModificar)
+                            {
+                                <button onclick="document.location.href = '@Url.Action("Edit", "User", new { userName = user.Usuario })'" class="btn btn-warning col"><i class="fa fa-pencil mr-1" aria-hidden="true"></i> Editar</button>
+                            }
+                            <button id="btnBitacora" onclick="jsmostrarBitacora('@user.Usuario')" class="btn btn-info col" data-toggle="modal" data-target="#modalBitacora"><i class="fa fa-book mr-1" aria-hidden="true"></i> Bitácora</button>
+
+
+                        </div>
+
+                        <div class="row ml-2 mr-2">
+                            @if (puedeModificar) { 
+
+                                if (user.Activo)
+                                {
+                                    <button id="btnDesactivar" class="btn btn-danger col" onclick="jsModificarEstado('@user.Usuario', 'Activ')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desactivar</button>
+                                }
+                                else
+                                {
+                                    <button id="btnActivar" class="btn btn-success col" onclick="jsModificarEstado('@user.Usuario', 'Activ')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Activar</button>
+                                }
+                                if (user.Bloqueado)
+                                {
+                                    <button id="btnDesbloquear" class="btn btn-success col" onclick="jsModificarEstado('@user.Usuario', 'lock')"><i class="fa fa-lock mr-1" aria-hidden="true"></i> Desbloquear</button>
+                                }
+                                else
+                                {
+                                    <button id="btnBloquear" class="btn btn-danger col" onclick="jsModificarEstado('@user.Usuario', 'lock')"><i class="fa fa-unlock mr-1" aria-hidden="true"></i> Bloquear</button>
+                                }
+                            }
+                        </div>
+
+
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">
+                    <content>No hay registros en la tabla</content>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+
+
+
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+        }
+
+    </div>
+
+
+
+</div>

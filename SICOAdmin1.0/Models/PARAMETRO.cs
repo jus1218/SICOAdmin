@@ -24,6 +24,6 @@ namespace SICOAdmin1._0.Models
         public string UsuarioCreacion { get; set; }
         public System.DateTime FechaCreacion { get; set; }
         public string UsuarioModificacion { get; set; }
-        public System.DateTime FechaModificacion { get; set; }
+        public Nullable<System.DateTime> FechaModificacion { get; set; }
     }
 }

@@ -1,0 +1,61 @@
+﻿@using SICOAdmin1._0.Models.User
+@{
+    User us = (User)Session["User"];
+    if (us == null)
+    {
+        us = new User();
+        us.userName = " ";
+        us.type = TypesU.Consulta;
+        us.name = " ";
+        us.email = " ";
+        us.lastChangedPassword = DateTime.Now;
+        us.daysChangePassword = 0;
+        us.failesAttempts = 0;
+        us.lastEntry = DateTime.Now;
+    }
+}
+
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Perfil de usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center" style="font-size:medium">
+                <div class="form-group text-center">
+                    <img src="~/Content/images/sinFotoPerfil.png" alt="imagen de usuario" class="img-circle profile_img mt-2" style="width:25%; margin-left:0px;" />
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Usuario: <label class="font-weight-normal">@us.userName</label></label>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Tipo de usuario: <label class="font-weight-normal">@us.type</label></label>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold"> Nombre: <label class="font-weight-normal">@us.name</label></label>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Correo electrónico: <label class="font-weight-normal">@us.email</label></label>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Último cambio de contraseña: <label class="font-weight-normal">@us.lastChangedPassword.ToString("d")</label></label>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Vigencia de contraseña: <label class="font-weight-normal">@us.daysChangePassword días</label></label>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Intentos permitidos: <label class="font-weight-normal">@us.failesAttempts</label></label>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Último ingreso: <label class="font-weight-normal">@us.lastEntry.ToString("d")</label></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

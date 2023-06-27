@@ -1,0 +1,73 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarClientes_Result>
+@{
+    List<SelectListItem> lstFilials = (List<SelectListItem>)ViewBag.Filials;
+    //Si no existen registros a mostrar
+    bool flag = false;
+    if (lstFilials.ToList().Count() > 0)
+    {
+        flag = true;
+    }
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+}
+
+<div class="row fila">
+    <div class="col-xl-2 col-md-3 d-flex justify-content-center">
+        <h3 class="mt-0">Clientes</h3>
+    </div>
+    <!--BOTON-->
+    <div class="col-xl-2 col-md-2 mb-3">
+
+
+        @if (lstActions.Contains(74)){
+
+            if (flag)
+            {
+                <button type="button" class="btn btn-primary col-12 " data-toggle="modal" data-target="#AddModalClient" title="Agregar cliente">
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"> Agregar</i>
+                </button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary col-12 " title="Debe agregar una filial" disabled>
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"> Agregar</i>
+                </button>
+            }
+
+        }
+
+    </div>
+    <!--Barra busqueda-->
+    <div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
+        <div class="input-group mb-2">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Buscar..."
+                   aria-label="Buscar..."
+                   aria-describedby="button-search"
+                   id="buscar" />
+            <button class="btn btn-outline-secondary"
+                    type="button"
+                    disabled="disabled"
+                    id="button-search">
+                <i class="fa fa-search mr-1" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row m-1 ">
+    <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamanoPagina">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="10">10</option>
+    </select>
+</div>
+<!--FILA TABLE   row       tableAttendanceControl -->
+<div class="row fila scrol-tablex" id="content-table">
+    @Html.Partial("_TableClient", Model)
+</div>

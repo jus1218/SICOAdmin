@@ -26,7 +26,7 @@
         @using (Html.BeginForm("Editar", "Perfil", FormMethod.Post, new { role = "form", @class = "row-12" }))
         {
             @Html.HiddenFor(d => d.IdPerfil)//Se va en la peticion
-            @Html.HiddenFor(d => d.Nombre)//S e va el nombre en la peticion
+            @*@Html.HiddenFor(d => d.Nombre)//S e va el nombre en la peticion*@
 
             <div class="col-12 d-xl-flex d-md-flex justify-content-between">
                 <!--Nombre perfil-->
@@ -38,7 +38,7 @@
                 <!--Nombre perfil-->
                 <div class="col-xl-3 col-md-3 col-sm-12 me-4">
                     @Html.LabelFor(d => d.Nombre)
-                    @Html.TextBoxFor(d => d.Nombre, new { @class = "form-control", required = "required", id = "Nombres", HtmlAttributes = new { Type = "text" } })
+                    @Html.TextBoxFor(d => d.Nombre, new { @class = "form-control", required = "required", id = "Nombre", HtmlAttributes = new { Type = "text" } })
                     @Html.ValidationMessage("Nombre", null, new { @class = "text-danger" })
                 </div>
 

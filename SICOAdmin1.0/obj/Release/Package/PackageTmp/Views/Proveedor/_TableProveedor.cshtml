@@ -1,0 +1,155 @@
+﻿
+
+@model List<SICOAdmin1._0.Models.SP_C_MostrarProveedores_Result>
+
+
+@{ //int horaR = 0;
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    int i = 0;
+
+    //Boolean puedeCambiarEstado = false;
+    bool puedeModificar = false;
+
+
+    if (lstActions.Contains(58))
+    {
+
+        puedeModificar = true;
+    }
+}
+
+<div class="pre-scrollable col-12">
+    <table id="tColaboradores" class="table table-bordered table-striped">
+        <thead class="">
+            <tr>
+                <th scope="col" class="th"># Proveedor</th>
+                <th scope="col" class="th">Nombre</th>
+                <th scope="col" class="th">Identificacion</th>
+                <th scope="col" class="th">Tipo</th>
+                <th scope="col" class="th">Contacto</th>
+                <th scope="col" class="th">Telefono 1</th>
+                <th scope="col" class="th">CorreoElectronico</th>
+
+                <th scope="col" class="th">Estado</th>
+                <th scope="col" class="th">Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody style="text-align:center;" class="">
+
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var proveedor in Model)
+                {
+                    i++;
+                    <tr>
+                        <td>@proveedor.IdProveedor</td>
+                        <td>@proveedor.Nombre</td>
+                        <td>@proveedor.Identificacion</td>
+                        <td>@proveedor.Tipo</td>
+                        <td>@proveedor.Contacto</td>
+                        <td>@proveedor.Telefono1</td>
+                        <td>@proveedor.CorreoElectronico</td>
+
+                        @if (proveedor.Activo == true)
+                        {
+
+                            <!--   proveedor.IdProveedor-->
+
+
+
+                            <td>
+                                @if (puedeModificar)
+                                {
+                                    <div class="custom-control custom-switch">
+
+                                        <input type="checkbox" class="custom-control-input" checked name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
+                                        <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Activo</label>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <label>Activo</label>
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <!--  proveedor.IdProveedor"  -->
+                            <td>
+
+                                @if (puedeModificar)
+                                {
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" name="stateProvider" id="customSwitch_@proveedor.IdProveedor" data-id="@proveedor.IdProveedor" title="hola">
+                                        <label class="custom-control-label" for="customSwitch_@proveedor.IdProveedor">Desactivo</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <label class="d-flex justify-content-center">Desactivo</label>
+                                }
+                            </td>
+                        }
+
+
+
+                        @*
+                            data-toggle="modal" data-target="#editCtrlAsistencia"
+                            data-toggle="modal" data-target="#viewMore"
+                        *@
+
+                        <td>
+                            @if (puedeModificar)
+                            {
+                                <button type="button" class="btn btn-warning" name="viewEditPage" data-id="@proveedor.IdProveedor"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Editar</button>
+                            }
+                            <button type="button" class="btn btn-primary" name="detalle" data-id="@proveedor.IdProveedor">
+                                <i class="fa fa-info-circle  mr-2" aria-hidden="true"></i>Detalles
+                            </button>
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">No existe registros actualmente</td>
+                </tr>
+            }
+
+    </table>
+</div>
+<div class="d-flex m-3">
+    <div class="col">
+        <label>Pagina Actual: <span id="pagActual">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span id="totalPag">@ViewBag.totalPag.Value</span></label>
+
+        <div class="row mr-0">
+
+            @if (@ViewBag.PagActual > 1)
+            {
+                <input type="button" class="btn btn-outline-primary" value="<" data-value="@ViewBag.PagActual" name="previousPage" />
+            }
+            @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+            {
+                <input type="button" class="btn btn-outline-primary" value=">" data-value="@ViewBag.PagActual" name="nextPage" />
+
+            }
+
+        </div>
+    </div>
+
+
+
+
+
+</div>

@@ -1,0 +1,91 @@
+﻿@model List<SICOAdmin1._0.Models.SP_P_PerfilesDelUsuario_Result>
+
+@{
+    byte i = 0;
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+}
+
+<!--TABLE-->
+
+<div class="col-12 ms-3 scrol-tablex pt-2 pre-scrollable">
+    <table id="profiles" class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Accion</th>
+            </tr>
+        </thead>
+        <tbody id="contentTable">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var perfil in Model)// ViewBag.userPerfil
+                {
+                    i++;
+                    <tr>
+                        <td>
+                            @perfil.IdPerfil
+                        </td>
+                        <td>
+                            @perfil.Nombre
+                        </td>
+                        <td>
+                            @if (@lstActions.Contains(12))
+                            {
+                                <button onclick="document.location.href = '@Url.Action("Editar", "Perfil", new { Id = perfil.IdPerfil })'" type="button" class="btn btn-warning">
+                                    <i class="fa fa-pencil mr-1" aria-hidden="true"></i>
+                                    Editar
+                                </button>
+
+                            }
+                            @if (lstActions.Contains(35)) {
+                                <input onclick="jsDeletePerf('@perfil.IdPerfil');" type="button" value="Eliminar" class="btn btn-outline-danger" data-toggle="modal" data-target="#modalEliminar" />
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+
+                <tr>
+                    <td colspan="3">No existe registros actualmente</td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+<div class="col">
+    <div class="col">
+        <label>Pagina Actual: <span id="numPagePerfUser">@ViewBag.PagActual</span></label>
+        <label>Total de paginas: <span>@ViewBag.totalPag.Value</span></label>
+    </div>
+
+    <div class="col mr-0">
+
+
+
+        @if (@ViewBag.PagActual > 1)
+        {
+            <input type="button" class="btn btn-outline-primary" value="<" onclick="jsRetroceder(@ViewBag.PagActual,@ViewBag.totalPag.Value)" />
+        }
+        @if (@ViewBag.PagActual != @ViewBag.totalPag.Value && i != 0)
+        {
+            <input type="button" class="btn btn-outline-primary" onclick="jsSiguiente(@ViewBag.PagActual,@ViewBag.totalPag.Value);" value=">" />
+
+        }
+
+    </div>
+
+
+
+</div>
+

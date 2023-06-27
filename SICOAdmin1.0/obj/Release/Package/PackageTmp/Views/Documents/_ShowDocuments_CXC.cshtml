@@ -1,0 +1,112 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result>
+
+@{
+    List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result> lstDocuments_CXC = (List<SICOAdmin1._0.Models.SP_C_Mostrar_Documentos_CXC_Result>)ViewBag.lstDocuments_CXC;
+
+    List<SelectListItem> lstClients = (List<SelectListItem>)ViewBag.lstClients;
+
+
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+}
+
+<style>
+
+    .my-custom-scrollbar {
+        /*position: relative;
+        overflow: auto;*/
+        height: 400px;
+        display: block;
+    }
+
+    .table-wrapper-scroll-y {
+        /*display: block;*/
+    }
+</style>
+<div class="row fila">
+
+    <!--BOTON-->
+
+    <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12">
+        <h3 class="d-flex justify-content-center">Documentos CXC</h3>
+    </div>
+
+
+    @if (lstActions.Contains(66)) { 
+        <button type="button" class="btn btn-primary col-xl-2 col-lg-2 col-md-2 col-sm-12 "
+                id="create_deposito_cxc" name="create_deposito_cxc">
+            <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+            Agregar
+        </button>
+    }
+
+
+    <!--Barra busqueda-->
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  offset-xl-2 ">
+        <div class="input-group ">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Buscar..."
+                   aria-label="Buscar..."
+                   aria-describedby="button-search"
+                   id="buscar" value="@ViewBag.palabraBuscar" />
+
+        </div>
+    </div>
+</div>
+<div class="row m-1 ">
+
+    <select class="col-2 form-control select-item border-light"
+            aria-label="Default select example" id="ChoiceDocumentTable">
+        <option value="DOCUMENTS_CXP">Cuentas x Pagar</option>
+        <option selected value="DOCUMENTS_CXC">Cuentas x Cobrar</option>
+
+    </select>
+
+    <select class="col-xl-1 col-lg-1 col-md-2 col-sm-2 form-control select-item border-light" aria-label="Default select example" id="tamanoPagina">
+        <option value="3">3</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        @*@if (@ViewBag.CantRegistros == null)
+            {
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+
+            }
+            else if (@ViewBag.CantRegistros == 1)
+            {
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+
+            }
+            else if (@ViewBag.CantRegistros == 2)
+            {
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+            }
+            else if (@ViewBag.CantRegistros == 3)
+            {
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+            }*@
+    </select>
+
+
+</div>
+
+
+<!--FILA TABLE   row       tableAttendanceControl -->
+    <div class="row fila scrol-tablex " id="tableDocument">
+        @Html.Partial("_TableDocument_CXC", Model)
+
+
+    </div>

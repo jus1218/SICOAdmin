@@ -1,0 +1,62 @@
+﻿
+<div class="modal fade" id="ModalDeparture" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="text-align:center" class="modal-title" id="ModalTitle"> Partida</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="formCrearDeparture">
+                    <div class="col-12 d-xl-flex d-md-flex justify-content-md-between justify-content-xl-center">
+
+                        <div class="form-group">
+                            <label hidden>#</label>
+                            <input hidden name="IdPartida" class="mt-4" type="text" id="IdPartida"/>
+                          
+                            <label class="mt-4 h6">Descripción</label>
+                            <input required type="text" class="form-control" id="addDescription" name="Description" pattern="(?=.+[\w]).{1,50}|(?=.+[\W]).{1,50}" />
+
+                            <label class="mt-4 h6">Alias</label>
+                            <input required type="text" class="form-control" id="addAlias" name="Alias" pattern="(?=.+[\w]).{1,25}|(?=.+[\W]).{1,25}" />
+
+
+                            <div class="form-group">
+                                <label class="mt-4 h6">Tipo Partida</label>
+                                @*<input required type="text" name="TypeDep" id="addType" class="form-control h6 " pattern="(?=.+[\w]).{1,2}" />*@
+                                <select required name="`TypeDep" class="form-control h6 custom-select" id="addType">
+                                    <option disabled value="" selected hidden>Seleccione una opción</option>
+                                    <option value="IG">Ingreso</option>
+                                    <option value="SL">Salida</option>
+
+                                </select>
+
+
+                                <label class="mt-4 h6">Activo</label>
+                                <select required name="Active" class="form-control h6 custom-select" id="addActive">
+                                    <option disabled value="" selected hidden>Seleccione una opción</option>
+                                    <option value="true">Sí</option>
+                                    <option value="false">No</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col mt-4 d-flex justify-content-center mb-2">
+                        <input id="btnModal" type="submit" class="btn btn-success" value="Guardar" />
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+

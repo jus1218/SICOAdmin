@@ -15,18 +15,5 @@ namespace SICOAdmin1._0.Models
     {
         public string Usuario { get; set; }
         public string Nombre { get; set; }
-        public string Tipo { get; set; }
-        public bool Activo { get; set; }
-        public bool Bloqueado { get; set; }
-        public string Contrasena { get; set; }
-        public string CorreoElectronico { get; set; }
-        public int DiasCambioContrasena { get; set; }
-        public byte IntentosFallidos { get; set; }
-        public Nullable<System.DateTime> UltCambioContrasena { get; set; }
-        public System.DateTime UltIngreso { get; set; }
-        public string UsuarioCreacion { get; set; }
-        public System.DateTime FechaCreacion { get; set; }
-        public string UsuarioModificacion { get; set; }
-        public Nullable<System.DateTime> FechaModificacion { get; set; }
     }
 }

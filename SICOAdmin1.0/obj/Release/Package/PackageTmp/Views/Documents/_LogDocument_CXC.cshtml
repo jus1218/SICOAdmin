@@ -1,0 +1,58 @@
+﻿<!-- Modal Bitacora-->
+<div class="modal fade" id="LogDoc_cxc" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="text-align:center" class="modal-title" id="ModalTitle">Bitacora Nómina</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!--FILA TABLE-->
+                <div class="row fila scrol-tablex">
+                    <div class="col">
+                        <table id="tbBitacora_CXC" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Usuario Creacion</th>
+                                    <th scope="col">Fecha Creacion</th>
+                                    <th scope="col">Usuario Modificacion</th>
+                                    <th scope="col">Fecha Modificacion</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align:center;">
+
+                                <tr id="tableBitacora">
+                                    <td id="tbDoc_cxc"> </td>
+                                    <td id="tbUsuarioCreacion_cxc"> </td>
+                                    <td id="tbFechaCreacion_cxc"> </td>
+                                    <td id="tbUsuarioModificacion_cxc"> </td>
+                                    <td id="tbFechaModificacion_cxc"> </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <label for="notaLog_cxc">Nota</label>
+                        <textarea class="form-control" disabled id="notaLog_cxc" rows="2"></textarea>
+                    </div>
+
+                    @*<div class="row-1 justify-content-center">
+                        <div class="col-sm-12 col-md-4"></div>
+                        <div class=" col-sm-12 col-md-4 d-flex  justify-content-center">*@
+                 
+                            @*<button  type="button" class="col-2 btn btn-secondary" data-dismiss="modal">Cerrar</button>*@
+
+                        @*</div>
+                        <div class="col-sm-12 col-md-4"></div>*@
+                    <!--</div>-->
+                    
+                </div>
+                <!-- -->
+            </div>
+        </div>
+    </div>
+</div>
+

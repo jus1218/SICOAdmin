@@ -29,7 +29,7 @@ namespace SICOAdmin1._0.Models
         public string UsuarioCreacion { get; set; }
         public System.DateTime FechaCreacion { get; set; }
         public string UsuarioModificacion { get; set; }
-        public Nullable<System.DateTime> FechaModificacion { get; set; }
+        public System.DateTime FechaModificacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AUXILIAR_CXC> AUXILIAR_CXC { get; set; }

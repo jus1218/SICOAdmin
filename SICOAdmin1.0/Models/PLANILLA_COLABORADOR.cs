@@ -14,12 +14,6 @@ namespace SICOAdmin1._0.Models
     
     public partial class PLANILLA_COLABORADOR
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PLANILLA_COLABORADOR()
-        {
-            this.DOCUMENTO_CXP = new HashSet<DOCUMENTO_CXP>();
-        }
-    
         public string Liquidacion { get; set; }
         public string Consecutivo { get; set; }
         public int IdNomina { get; set; }
@@ -34,8 +28,6 @@ namespace SICOAdmin1._0.Models
         public Nullable<System.DateTime> UsuarioModificacion { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DOCUMENTO_CXP> DOCUMENTO_CXP { get; set; }
         public virtual PLANILLA_DETALLE PLANILLA_DETALLE { get; set; }
     }
 }

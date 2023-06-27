@@ -76,7 +76,7 @@
           <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
           <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
-          <ScalarProperty Name="FecahaModificacion" ColumnName="FecahaModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -450,6 +450,7 @@
           <ScalarProperty Name="CuentaBancaria" ColumnName="CuentaBancaria" />
           <ScalarProperty Name="Banco" ColumnName="Banco" />
           <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
           <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
           <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
@@ -473,17 +474,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="SICOAdminModel.sysdiagrams">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TIPO_ACCION_PERS">
       <EntityTypeMapping TypeName="SICOAdminModel.TIPO_ACCION_PERS">
         <MappingFragment StoreEntitySet="TIPO_ACCION_PERS">
@@ -495,6 +485,18 @@
           <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
           <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TIPO_PROVEEDOR">
+      <EntityTypeMapping TypeName="SICOAdminModel.TIPO_PROVEEDOR">
+        <MappingFragment StoreEntitySet="TIPO_PROVEEDOR">
+          <ScalarProperty Name="IdTipoProveedor" ColumnName="IdTipoProveedor" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
           <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -530,15 +532,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="database_firewall_rules">
-      <EntityTypeMapping TypeName="SICOAdminModel.database_firewall_rules">
-        <MappingFragment StoreEntitySet="database_firewall_rules">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
-          <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
-          <ScalarProperty Name="create_date" ColumnName="create_date" />
-          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+    <EntitySetMapping Name="Audit_ControlAsistencia">
+      <EntityTypeMapping TypeName="SICOAdminModel.Audit_ControlAsistencia">
+        <MappingFragment StoreEntitySet="Audit_ControlAsistencia">
+          <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
+          <ScalarProperty Name="AccionRealizada" ColumnName="AccionRealizada" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Parametros">
+      <EntityTypeMapping TypeName="SICOAdminModel.Audit_Parametros">
+        <MappingFragment StoreEntitySet="Audit_Parametros">
+          <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+          <ScalarProperty Name="AccionRealizada" ColumnName="AccionRealizada" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -565,11 +579,178 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="SICOAdminModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="SP_Buscar_Partidas_Activas" FunctionName="SICOAdminModel.Store.SP_Buscar_Partidas_Activas">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_Buscar_Partidas_Activas_Result">
+          <ScalarProperty Name="IdPartida" ColumnName="IdPartida" />
+          <ScalarProperty Name="Alias" ColumnName="Alias" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C__Buscar_Documento_CXC" FunctionName="SICOAdminModel.Store.SP_C__Buscar_Documento_CXC">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C__Buscar_Documento_CXC_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C__Buscar_Documento_CXP" FunctionName="SICOAdminModel.Store.SP_C__Buscar_Documento_CXP">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C__Buscar_Documento_CXP_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_C_AuthorizeUser" FunctionName="SICOAdminModel.Store.SP_C_AuthorizeUser" />
     <FunctionImportMapping FunctionImportName="SP_C_BItacoraPuesto" FunctionName="SICOAdminModel.Store.SP_C_BItacoraPuesto">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_BItacoraPuesto_Result">
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Buscar_Documentos_CXC" FunctionName="SICOAdminModel.Store.SP_C_Buscar_Documentos_CXC">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Buscar_Documentos_CXC_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Buscar_Documentos_CXP" FunctionName="SICOAdminModel.Store.SP_C_Buscar_Documentos_CXP">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Buscar_Documentos_CXP_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Buscar_DocumentosCXC_Por_Cliente" FunctionName="SICOAdminModel.Store.SP_C_Buscar_DocumentosCXC_Por_Cliente">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Buscar_DocumentosCXC_Por_Cliente_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Buscar_DocumentosCXP_Por_Proveedor" FunctionName="SICOAdminModel.Store.SP_C_Buscar_DocumentosCXP_Por_Proveedor">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Buscar_DocumentosCXP_Por_Proveedor_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_BuscarCliente" FunctionName="SICOAdminModel.Store.SP_C_BuscarCliente">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_BuscarCliente_Result">
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+          <ScalarProperty Name="IdFilial" ColumnName="IdFilial" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_BuscarConcepto" FunctionName="SICOAdminModel.Store.SP_C_BuscarConcepto">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_BuscarConcepto_Result">
+          <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+          <ScalarProperty Name="Alias" ColumnName="Alias" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+          <ScalarProperty Name="Salarial" ColumnName="Salarial" />
+          <ScalarProperty Name="Fijo" ColumnName="Fijo" />
+          <ScalarProperty Name="Liquidable" ColumnName="Liquidable" />
+          <ScalarProperty Name="CantEditable" ColumnName="CantEditable" />
+          <ScalarProperty Name="MontoEditable" ColumnName="MontoEditable" />
+          <ScalarProperty Name="Periodicidad" ColumnName="Periodicidad" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
           <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
@@ -612,12 +793,84 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_BuscarDocumentos" FunctionName="SICOAdminModel.Store.SP_C_BuscarDocumentos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_BuscarDocumentos_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_BuscarFilial" FunctionName="SICOAdminModel.Store.SP_C_BuscarFilial">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_BuscarFilial_Result">
+          <ScalarProperty Name="IdFilial" ColumnName="IdFilial" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_BuscarParametroActivo" FunctionName="SICOAdminModel.Store.SP_C_BuscarParametroActivo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_BuscarParametroActivo_Result">
+          <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+          <ScalarProperty Name="Mensualidad" ColumnName="Mensualidad" />
+          <ScalarProperty Name="IdConsecRecibo" ColumnName="IdConsecRecibo" />
+          <ScalarProperty Name="InteresMora" ColumnName="InteresMora" />
+          <ScalarProperty Name="TipoDocumentoCobro" ColumnName="TipoDocumentoCobro" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_C_BuscarPerfil" FunctionName="SICOAdminModel.Store.SP_C_BuscarPerfil">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_BuscarPerfil_Result">
           <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_BuscarProveedor" FunctionName="SICOAdminModel.Store.SP_C_BuscarProveedor">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_BuscarProveedor_Result">
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="CuentaBancaria" ColumnName="CuentaBancaria" />
+          <ScalarProperty Name="Banco" ColumnName="Banco" />
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
@@ -662,6 +915,55 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Documento" FunctionName="SICOAdminModel.Store.SP_C_Documento">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Documento_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_GetPartida" FunctionName="SICOAdminModel.Store.SP_C_GetPartida">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_GetPartida_Result">
+          <ScalarProperty Name="IdPartida" ColumnName="IdPartida" />
+          <ScalarProperty Name="Alias" ColumnName="Alias" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_GetTipoAccionPers" FunctionName="SICOAdminModel.Store.SP_C_GetTipoAccionPers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_GetTipoAccionPers_Result">
+          <ScalarProperty Name="IdTipoAccionPers" ColumnName="IdTipoAccionPers" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="EstadoEmpleado" ColumnName="EstadoEmpleado" />
+          <ScalarProperty Name="RestableceEstado" ColumnName="RestableceEstado" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_C_MostarNominas" FunctionName="SICOAdminModel.Store.SP_C_MostarNominas">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostarNominas_Result">
@@ -673,6 +975,115 @@
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
           <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
           <ScalarProperty Name="Fecha_Modificacion" ColumnName="Fecha_Modificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Mostrar_Clientes_Activos" FunctionName="SICOAdminModel.Store.SP_C_Mostrar_Clientes_Activos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Mostrar_Clientes_Activos_Result">
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+          <ScalarProperty Name="IdFilial" ColumnName="IdFilial" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Mostrar_Depositos_CXC" FunctionName="SICOAdminModel.Store.SP_C_Mostrar_Depositos_CXC">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Mostrar_Depositos_CXC_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="MontoMensualidad" ColumnName="MontoMensualidad" />
+          <ScalarProperty Name="SaldoMensualidad" ColumnName="SaldoMensualidad" />
+          <ScalarProperty Name="DocumentoCredito" ColumnName="DocumentoCredito" />
+          <ScalarProperty Name="MontoDeposito" ColumnName="MontoDeposito" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Mostrar_Documentos_CXC" FunctionName="SICOAdminModel.Store.SP_C_Mostrar_Documentos_CXC">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Mostrar_Documentos_CXC_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Mostrar_Documentos_CXP" FunctionName="SICOAdminModel.Store.SP_C_Mostrar_Documentos_CXP">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Mostrar_Documentos_CXP_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Mostrar_Facturtas_CXP" FunctionName="SICOAdminModel.Store.SP_C_Mostrar_Facturtas_CXP">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Mostrar_Facturtas_CXP_Result">
+          <ScalarProperty Name="DocumentoDebito" ColumnName="DocumentoDebito" />
+          <ScalarProperty Name="DocumentoCredito" ColumnName="DocumentoCredito" />
+          <ScalarProperty Name="MontoAux" ColumnName="MontoAux" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="NombreProveedor" ColumnName="NombreProveedor" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_Mostrar_Proveedores_Activos" FunctionName="SICOAdminModel.Store.SP_C_Mostrar_Proveedores_Activos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_Mostrar_Proveedores_Activos_Result">
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="CuentaBancaria" ColumnName="CuentaBancaria" />
+          <ScalarProperty Name="Banco" ColumnName="Banco" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -690,11 +1101,44 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarAuditControlAsistencia" FunctionName="SICOAdminModel.Store.SP_C_MostrarAuditControlAsistencia">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarAuditControlAsistencia_Result">
+          <ScalarProperty Name="IdAsistencia" ColumnName="IdAsistencia" />
+          <ScalarProperty Name="AccionRealizada" ColumnName="AccionRealizada" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_C_MostrarAuditParametro" FunctionName="SICOAdminModel.Store.SP_C_MostrarAuditParametro">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarAuditParametro_Result">
           <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
           <ScalarProperty Name="AccionRealizada" ColumnName="AccionRealizada" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarClientes" FunctionName="SICOAdminModel.Store.SP_C_MostrarClientes">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarClientes_Result">
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+          <ScalarProperty Name="IdFilial" ColumnName="IdFilial" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
           <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
@@ -737,6 +1181,63 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarColaboradoresPag" FunctionName="SICOAdminModel.Store.SP_C_MostrarColaboradoresPag">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarColaboradoresPag_Result">
+          <ScalarProperty Name="IdColaborador" ColumnName="IdColaborador" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Genero" ColumnName="Genero" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Nacionalidad" ColumnName="Nacionalidad" />
+          <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+          <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+          <ScalarProperty Name="FechaSalida" ColumnName="FechaSalida" />
+          <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
+          <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
+          <ScalarProperty Name="SaldoVacaciones" ColumnName="SaldoVacaciones" />
+          <ScalarProperty Name="UltCalculoVacaciones" ColumnName="UltCalculoVacaciones" />
+          <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+          <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
+          <ScalarProperty Name="CuentaBancaria" ColumnName="CuentaBancaria" />
+          <ScalarProperty Name="Banco" ColumnName="Banco" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="ContactoEmergencia" ColumnName="ContactoEmergencia" />
+          <ScalarProperty Name="TelefonoContacto" ColumnName="TelefonoContacto" />
+          <ScalarProperty Name="SalarioReferencia" ColumnName="SalarioReferencia" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarConceptos" FunctionName="SICOAdminModel.Store.SP_C_MostrarConceptos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarConceptos_Result">
+          <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+          <ScalarProperty Name="Alias" ColumnName="Alias" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+          <ScalarProperty Name="Salarial" ColumnName="Salarial" />
+          <ScalarProperty Name="Fijo" ColumnName="Fijo" />
+          <ScalarProperty Name="Liquidable" ColumnName="Liquidable" />
+          <ScalarProperty Name="CantEditable" ColumnName="CantEditable" />
+          <ScalarProperty Name="MontoEditable" ColumnName="MontoEditable" />
+          <ScalarProperty Name="Periodicidad" ColumnName="Periodicidad" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_C_MostrarConsecutivos" FunctionName="SICOAdminModel.Store.SP_C_MostrarConsecutivos">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarConsecutivos_Result">
@@ -772,6 +1273,96 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarDocumentos" FunctionName="SICOAdminModel.Store.SP_C_MostrarDocumentos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarDocumentos_Result">
+          <ScalarProperty Name="Documento" ColumnName="Documento" />
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarFilial" FunctionName="SICOAdminModel.Store.SP_C_MostrarFilial">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarFilial_Result">
+          <ScalarProperty Name="IdFilial" ColumnName="IdFilial" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarFiliales" FunctionName="SICOAdminModel.Store.SP_C_MostrarFiliales">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarFiliales_Result">
+          <ScalarProperty Name="IdFilial" ColumnName="IdFilial" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarFilialPersona" FunctionName="SICOAdminModel.Store.SP_C_MostrarFilialPersona">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarFilialPersona_Result">
+          <ScalarProperty Name="IdFilial" ColumnName="IdFilial" />
+          <ScalarProperty Name="IdPersona" ColumnName="IdPersona" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Indentification" ColumnName="Indentification" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="Responsable" ColumnName="Responsable" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Trato" ColumnName="Trato" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="WhatsApp" ColumnName="WhatsApp" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarFilialPersonasPag" FunctionName="SICOAdminModel.Store.SP_C_MostrarFilialPersonasPag">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarFilialPersonasPag_Result">
+          <ScalarProperty Name="IdFilial" ColumnName="IdFilial" />
+          <ScalarProperty Name="IdPersona" ColumnName="IdPersona" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Indentification" ColumnName="Indentification" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="Responsable" ColumnName="Responsable" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Trato" ColumnName="Trato" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="WhatsApp" ColumnName="WhatsApp" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_C_MostrarParametros" FunctionName="SICOAdminModel.Store.SP_C_MostrarParametros">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarParametros_Result">
@@ -789,12 +1380,49 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarPartidas" FunctionName="SICOAdminModel.Store.SP_C_MostrarPartidas">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarPartidas_Result">
+          <ScalarProperty Name="IdPartida" ColumnName="IdPartida" />
+          <ScalarProperty Name="Alias" ColumnName="Alias" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_C_MostrarPerfil" FunctionName="SICOAdminModel.Store.SP_C_MostrarPerfil">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarPerfil_Result">
           <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarProveedores" FunctionName="SICOAdminModel.Store.SP_C_MostrarProveedores">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarProveedores_Result">
+          <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="CuentaBancaria" ColumnName="CuentaBancaria" />
+          <ScalarProperty Name="Banco" ColumnName="Banco" />
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
@@ -820,6 +1448,29 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarTipoAccionPers" FunctionName="SICOAdminModel.Store.SP_C_MostrarTipoAccionPers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarTipoAccionPers_Result">
+          <ScalarProperty Name="IdTipoAccionPers" ColumnName="IdTipoAccionPers" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="EstadoEmpleado" ColumnName="EstadoEmpleado" />
+          <ScalarProperty Name="RestableceEstado" ColumnName="RestableceEstado" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarTiposProveedores" FunctionName="SICOAdminModel.Store.SP_C_MostrarTiposProveedores">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarTiposProveedores_Result">
+          <ScalarProperty Name="IdTipoProveedor" ColumnName="IdTipoProveedor" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_C_MostrarUsuarios" FunctionName="SICOAdminModel.Store.SP_C_MostrarUsuarios">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarUsuarios_Result">
@@ -841,85 +1492,9 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="SICOAdminModel.Store.sp_creatediagram" />
-    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="SICOAdminModel.Store.sp_dropdiagram" />
-    <FunctionImportMapping FunctionImportName="SP_Get_Next_Consecutivo" FunctionName="SICOAdminModel.Store.SP_Get_Next_Consecutivo" />
-    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="SICOAdminModel.Store.sp_helpdiagramdefinition">
+    <FunctionImportMapping FunctionImportName="SP_C_MostrarUsuariosPag" FunctionName="SICOAdminModel.Store.SP_C_MostrarUsuariosPag">
       <ResultMapping>
-        <ComplexTypeMapping TypeName="SICOAdminModel.sp_helpdiagramdefinition_Result">
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="SICOAdminModel.Store.sp_helpdiagrams">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="SICOAdminModel.sp_helpdiagrams_Result">
-          <ScalarProperty Name="Database" ColumnName="Database" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Owner" ColumnName="Owner" />
-          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_P_ActualizarConsecutivo" FunctionName="SICOAdminModel.Store.SP_P_ActualizarConsecutivo" />
-    <FunctionImportMapping FunctionImportName="SP_P_ActualizarNomina" FunctionName="SICOAdminModel.Store.SP_P_ActualizarNomina" />
-    <FunctionImportMapping FunctionImportName="SP_P_ActualizarParametro" FunctionName="SICOAdminModel.Store.SP_P_ActualizarParametro" />
-    <FunctionImportMapping FunctionImportName="SP_P_ActualizarProximoValorConsecutivo" FunctionName="SICOAdminModel.Store.SP_P_ActualizarProximoValorConsecutivo" />
-    <FunctionImportMapping FunctionImportName="SP_P_AddUser" FunctionName="SICOAdminModel.Store.SP_P_AddUser" />
-    <FunctionImportMapping FunctionImportName="SP_P_BloquearUsuario" FunctionName="SICOAdminModel.Store.SP_P_BloquearUsuario" />
-    <FunctionImportMapping FunctionImportName="SP_P_CambiarEstadoColaborador" FunctionName="SICOAdminModel.Store.SP_P_CambiarEstadoColaborador" />
-    <FunctionImportMapping FunctionImportName="SP_P_CambioContrasena" FunctionName="SICOAdminModel.Store.SP_P_CambioContrasena" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearAccion" FunctionName="SICOAdminModel.Store.SP_P_CrearAccion" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearColaborador" FunctionName="SICOAdminModel.Store.SP_P_CrearColaborador" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearConsecutivo" FunctionName="SICOAdminModel.Store.SP_P_CrearConsecutivo" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearControlAsistencia" FunctionName="SICOAdminModel.Store.SP_P_CrearControlAsistencia" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearNomina" FunctionName="SICOAdminModel.Store.SP_P_CrearNomina" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearParametro" FunctionName="SICOAdminModel.Store.SP_P_CrearParametro" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearParentesco" FunctionName="SICOAdminModel.Store.SP_P_CrearParentesco" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearPerfil" FunctionName="SICOAdminModel.Store.SP_P_CrearPerfil" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearPuesto" FunctionName="SICOAdminModel.Store.SP_P_CrearPuesto" />
-    <FunctionImportMapping FunctionImportName="SP_P_CrearUsuarioPerfil" FunctionName="SICOAdminModel.Store.SP_P_CrearUsuarioPerfil" />
-    <FunctionImportMapping FunctionImportName="SP_P_DibujarArbol" FunctionName="SICOAdminModel.Store.SP_P_DibujarArbol">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="SICOAdminModel.SP_P_DibujarArbol_Result">
-          <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
-          <ScalarProperty Name="Padre" ColumnName="Padre" />
-          <ScalarProperty Name="NumeroHermano" ColumnName="NumeroHermano" />
-          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-          <ScalarProperty Name="check" ColumnName="check" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_P_EliminarAccion" FunctionName="SICOAdminModel.Store.SP_P_EliminarAccion" />
-    <FunctionImportMapping FunctionImportName="SP_P_EliminarAll_AccionPerfil" FunctionName="SICOAdminModel.Store.SP_P_EliminarAll_AccionPerfil" />
-    <FunctionImportMapping FunctionImportName="SP_P_EliminarNomina" FunctionName="SICOAdminModel.Store.SP_P_EliminarNomina" />
-    <FunctionImportMapping FunctionImportName="SP_P_EliminarUsuarioPerfil" FunctionName="SICOAdminModel.Store.SP_P_EliminarUsuarioPerfil" />
-    <FunctionImportMapping FunctionImportName="SP_P_GuardarCheck" FunctionName="SICOAdminModel.Store.SP_P_GuardarCheck" />
-    <FunctionImportMapping FunctionImportName="SP_P_Logeo" FunctionName="SICOAdminModel.Store.SP_P_Logeo" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarAccion" FunctionName="SICOAdminModel.Store.SP_P_ModificarAccion" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarColaborador" FunctionName="SICOAdminModel.Store.SP_P_ModificarColaborador" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarControlAsistencia" FunctionName="SICOAdminModel.Store.SP_P_ModificarControlAsistencia" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadoConsecutivo" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadoConsecutivo" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadoParametro" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadoParametro" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadoPerfil" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadoPerfil" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadosUsuario" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadosUsuario" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarPerfil" FunctionName="SICOAdminModel.Store.SP_P_ModificarPerfil" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarPuesto" FunctionName="SICOAdminModel.Store.SP_P_ModificarPuesto" />
-    <FunctionImportMapping FunctionImportName="SP_P_ModificarUsuario" FunctionName="SICOAdminModel.Store.SP_P_ModificarUsuario" />
-    <FunctionImportMapping FunctionImportName="SP_P_PerfilesDelUsuario" FunctionName="SICOAdminModel.Store.SP_P_PerfilesDelUsuario">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="SICOAdminModel.SP_P_PerfilesDelUsuario_Result">
-          <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_P_UsuariosDelPerfil" FunctionName="SICOAdminModel.Store.SP_P_UsuariosDelPerfil">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="SICOAdminModel.SP_P_UsuariosDelPerfil_Result">
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_MostrarUsuariosPag_Result">
           <ScalarProperty Name="Usuario" ColumnName="Usuario" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Tipo" ColumnName="Tipo" />
@@ -938,7 +1513,112 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="SICOAdminModel.Store.sp_renamediagram" />
-    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="SICOAdminModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="SP_C_VerEstadoCuenta" FunctionName="SICOAdminModel.Store.SP_C_VerEstadoCuenta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_C_VerEstadoCuenta_Result">
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="CondicionPago" ColumnName="CondicionPago" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Pago" ColumnName="Pago" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+          <ScalarProperty Name="Notas" ColumnName="Notas" />
+          <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+          <ScalarProperty Name="NombreCLiente" ColumnName="NombreCLiente" />
+          <ScalarProperty Name="Filial" ColumnName="Filial" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Get_Next_Consecutivo" FunctionName="SICOAdminModel.Store.SP_Get_Next_Consecutivo" />
+    <FunctionImportMapping FunctionImportName="SP_P_ActivarDesactivarCliente" FunctionName="SICOAdminModel.Store.SP_P_ActivarDesactivarCliente" />
+    <FunctionImportMapping FunctionImportName="SP_P_ActivarDesactivarFilialPersona" FunctionName="SICOAdminModel.Store.SP_P_ActivarDesactivarFilialPersona" />
+    <FunctionImportMapping FunctionImportName="SP_P_ActualizarConsecutivo" FunctionName="SICOAdminModel.Store.SP_P_ActualizarConsecutivo" />
+    <FunctionImportMapping FunctionImportName="SP_P_ActualizarNomina" FunctionName="SICOAdminModel.Store.SP_P_ActualizarNomina" />
+    <FunctionImportMapping FunctionImportName="SP_P_ActualizarParametro" FunctionName="SICOAdminModel.Store.SP_P_ActualizarParametro" />
+    <FunctionImportMapping FunctionImportName="SP_P_ActualizarProximoValorConsecutivo" FunctionName="SICOAdminModel.Store.SP_P_ActualizarProximoValorConsecutivo" />
+    <FunctionImportMapping FunctionImportName="SP_P_AddPlanilla" FunctionName="SICOAdminModel.Store.SP_P_AddPlanilla" />
+    <FunctionImportMapping FunctionImportName="SP_P_AddUser" FunctionName="SICOAdminModel.Store.SP_P_AddUser" />
+    <FunctionImportMapping FunctionImportName="SP_P_BloquearUsuario" FunctionName="SICOAdminModel.Store.SP_P_BloquearUsuario" />
+    <FunctionImportMapping FunctionImportName="SP_P_CambiarEstadoColaborador" FunctionName="SICOAdminModel.Store.SP_P_CambiarEstadoColaborador" />
+    <FunctionImportMapping FunctionImportName="SP_P_CambiarEstadoProveedor" FunctionName="SICOAdminModel.Store.SP_P_CambiarEstadoProveedor" />
+    <FunctionImportMapping FunctionImportName="SP_P_CambioContrasena" FunctionName="SICOAdminModel.Store.SP_P_CambioContrasena" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearAccion" FunctionName="SICOAdminModel.Store.SP_P_CrearAccion" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearAuxiliar" FunctionName="SICOAdminModel.Store.SP_P_CrearAuxiliar" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearCliente" FunctionName="SICOAdminModel.Store.SP_P_CrearCliente" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearColaborador" FunctionName="SICOAdminModel.Store.SP_P_CrearColaborador" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearConsecutivo" FunctionName="SICOAdminModel.Store.SP_P_CrearConsecutivo" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearControlAsistencia" FunctionName="SICOAdminModel.Store.SP_P_CrearControlAsistencia" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearDocumento" FunctionName="SICOAdminModel.Store.SP_P_CrearDocumento" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearFilial" FunctionName="SICOAdminModel.Store.SP_P_CrearFilial" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearFilialPersona" FunctionName="SICOAdminModel.Store.SP_P_CrearFilialPersona" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearNomina" FunctionName="SICOAdminModel.Store.SP_P_CrearNomina" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearParametro" FunctionName="SICOAdminModel.Store.SP_P_CrearParametro" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearParentesco" FunctionName="SICOAdminModel.Store.SP_P_CrearParentesco" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearPartida" FunctionName="SICOAdminModel.Store.SP_P_CrearPartida" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearPerfil" FunctionName="SICOAdminModel.Store.SP_P_CrearPerfil" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearProveedor" FunctionName="SICOAdminModel.Store.SP_P_CrearProveedor" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearPuesto" FunctionName="SICOAdminModel.Store.SP_P_CrearPuesto" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearTipoAccionPers" FunctionName="SICOAdminModel.Store.SP_P_CrearTipoAccionPers" />
+    <FunctionImportMapping FunctionImportName="SP_P_CrearUsuarioPerfil" FunctionName="SICOAdminModel.Store.SP_P_CrearUsuarioPerfil" />
+    <FunctionImportMapping FunctionImportName="SP_P_CreateConcept" FunctionName="SICOAdminModel.Store.SP_P_CreateConcept" />
+    <FunctionImportMapping FunctionImportName="SP_P_DesasociarDocumentoCredito" FunctionName="SICOAdminModel.Store.SP_P_DesasociarDocumentoCredito" />
+    <FunctionImportMapping FunctionImportName="SP_P_DibujarArbol" FunctionName="SICOAdminModel.Store.SP_P_DibujarArbol">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_P_DibujarArbol_Result">
+          <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+          <ScalarProperty Name="Padre" ColumnName="Padre" />
+          <ScalarProperty Name="NumeroHermano" ColumnName="NumeroHermano" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="check" ColumnName="check" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_P_EliminarAccion" FunctionName="SICOAdminModel.Store.SP_P_EliminarAccion" />
+    <FunctionImportMapping FunctionImportName="SP_P_EliminarAll_AccionPerfil" FunctionName="SICOAdminModel.Store.SP_P_EliminarAll_AccionPerfil" />
+    <FunctionImportMapping FunctionImportName="SP_P_EliminarNomina" FunctionName="SICOAdminModel.Store.SP_P_EliminarNomina" />
+    <FunctionImportMapping FunctionImportName="SP_P_EliminarRelacionAuxiliarDocumento" FunctionName="SICOAdminModel.Store.SP_P_EliminarRelacionAuxiliarDocumento" />
+    <FunctionImportMapping FunctionImportName="SP_P_EliminarUsuarioPerfil" FunctionName="SICOAdminModel.Store.SP_P_EliminarUsuarioPerfil" />
+    <FunctionImportMapping FunctionImportName="SP_P_GenerarPago" FunctionName="SICOAdminModel.Store.SP_P_GenerarPago" />
+    <FunctionImportMapping FunctionImportName="SP_P_GuardarCheck" FunctionName="SICOAdminModel.Store.SP_P_GuardarCheck" />
+    <FunctionImportMapping FunctionImportName="SP_P_Logeo" FunctionName="SICOAdminModel.Store.SP_P_Logeo" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarAccion" FunctionName="SICOAdminModel.Store.SP_P_ModificarAccion" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarCliente" FunctionName="SICOAdminModel.Store.SP_P_ModificarCliente" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarColaborador" FunctionName="SICOAdminModel.Store.SP_P_ModificarColaborador" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarConcepto" FunctionName="SICOAdminModel.Store.SP_P_ModificarConcepto" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarControlAsistencia" FunctionName="SICOAdminModel.Store.SP_P_ModificarControlAsistencia" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarDocumento" FunctionName="SICOAdminModel.Store.SP_P_ModificarDocumento" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadoConsecutivo" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadoConsecutivo" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadoFilial" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadoFilial" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadoParametro" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadoParametro" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadoPartida" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadoPartida" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadoPerfil" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadoPerfil" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarEstadosUsuario" FunctionName="SICOAdminModel.Store.SP_P_ModificarEstadosUsuario" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarFilial" FunctionName="SICOAdminModel.Store.SP_P_ModificarFilial" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarFilialPersona" FunctionName="SICOAdminModel.Store.SP_P_ModificarFilialPersona" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarPartida" FunctionName="SICOAdminModel.Store.SP_P_ModificarPartida" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarPerfil" FunctionName="SICOAdminModel.Store.SP_P_ModificarPerfil" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarProveedor" FunctionName="SICOAdminModel.Store.SP_P_ModificarProveedor" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarPuesto" FunctionName="SICOAdminModel.Store.SP_P_ModificarPuesto" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarTipoAccionPers" FunctionName="SICOAdminModel.Store.SP_P_ModificarTipoAccionPers" />
+    <FunctionImportMapping FunctionImportName="SP_P_ModificarUsuario" FunctionName="SICOAdminModel.Store.SP_P_ModificarUsuario" />
+    <FunctionImportMapping FunctionImportName="SP_P_PerfilesDelUsuario" FunctionName="SICOAdminModel.Store.SP_P_PerfilesDelUsuario">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_P_PerfilesDelUsuario_Result">
+          <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_P_UpdatePlanilla" FunctionName="SICOAdminModel.Store.SP_P_UpdatePlanilla" />
+    <FunctionImportMapping FunctionImportName="SP_P_UsuariosDelPerfil" FunctionName="SICOAdminModel.Store.SP_P_UsuariosDelPerfil">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SICOAdminModel.SP_P_UsuariosDelPerfil_Result">
+          <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_P_VerificarContrasenaAdmin" FunctionName="SICOAdminModel.Store.SP_P_VerificarContrasenaAdmin" />
   </EntityContainerMapping>
 </Mapping>

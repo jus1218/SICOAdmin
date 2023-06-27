@@ -62,8 +62,8 @@
     <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
     <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
     <NavigationProperty Name="PARTIDA" Relationship="Self.FK_AUXILIARCXC_PARTIDA" FromRole="AUXILIAR_CXC" ToRole="PARTIDA" />
-    <NavigationProperty Name="DOCUMENTO_CXC" Relationship="Self.FK_AUXILIARCXCBEB_DOCUMENTOCXC" FromRole="AUXILIAR_CXC" ToRole="DOCUMENTO_CXC" />
-    <NavigationProperty Name="DOCUMENTO_CXC1" Relationship="Self.FK_AUXILIARCXCCRED_DOCUMENTOCXC" FromRole="AUXILIAR_CXC" ToRole="DOCUMENTO_CXC" />
+    <NavigationProperty Name="DOCUMENTO_CXC" Relationship="Self.FK_AUXILIARCXCCRED_DOCUMENTOCXC" FromRole="AUXILIAR_CXC" ToRole="DOCUMENTO_CXC" />
+    <NavigationProperty Name="DOCUMENTO_CXC1" Relationship="Self.FK_AUXILIARCXCDEB_DOCUMENTOCXC" FromRole="AUXILIAR_CXC" ToRole="DOCUMENTO_CXC" />
   </EntityType>
   <EntityType Name="AUXILIAR_CXP">
     <Key>
@@ -82,8 +82,8 @@
     <Property Name="Monto" Type="Decimal" Precision="28" Scale="8" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-    <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="PARTIDA" Relationship="Self.FK_AUXILIARCXP_PARTIDA" FromRole="AUXILIAR_CXP" ToRole="PARTIDA" />
     <NavigationProperty Name="DOCUMENTO_CXP" Relationship="Self.FK_AUXILIARCXPCREDITO_DOCUMENTOCXP" FromRole="AUXILIAR_CXP" ToRole="DOCUMENTO_CXP" />
     <NavigationProperty Name="DOCUMENTO_CXP1" Relationship="Self.FK_AUXILIARCXPDEBITO_DOCUMENTOCXP" FromRole="AUXILIAR_CXP" ToRole="DOCUMENTO_CXP" />
@@ -92,7 +92,7 @@
     <Key>
       <PropertyRef Name="IdCliente" />
     </Key>
-    <Property Name="IdCliente" Type="Int32" Nullable="false" />
+    <Property Name="IdCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdFilial" Type="Byte" Nullable="false" />
     <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
@@ -106,7 +106,7 @@
     <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="FecahaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="FILIAL" Relationship="Self.FK_CLIENTE_FILIAL" FromRole="CLIENTE" ToRole="FILIAL" />
     <NavigationProperty Name="DOCUMENTO_CXC" Relationship="Self.FK_DOCUMENTOCXC_CLIENTE" FromRole="CLIENTE" ToRole="DOCUMENTO_CXC" />
   </EntityType>
@@ -148,7 +148,6 @@
     <NavigationProperty Name="COLABORADOR_ACCION_PERSONAL" Relationship="Self.FK_COLABORADORACCIONPERSONAL_COLABORADOR" FromRole="COLABORADOR" ToRole="COLABORADOR_ACCION_PERSONAL" />
     <NavigationProperty Name="CONCEPTO_COLABORADOR" Relationship="Self.FK_CONCEPTOCOLABORADOR_COLABORADOR" FromRole="COLABORADOR" ToRole="CONCEPTO_COLABORADOR" />
     <NavigationProperty Name="CONTROL_ASISTENCIA" Relationship="Self.FK_CONTROLASIST_COLABORADOR" FromRole="COLABORADOR" ToRole="CONTROL_ASISTENCIA" />
-    <NavigationProperty Name="PROVEEDOR" Relationship="Self.FK_PROVEEDOR_COLABORADOR" FromRole="COLABORADOR" ToRole="PROVEEDOR" />
   </EntityType>
   <EntityType Name="COLABORADOR_ACCION_PERSONAL">
     <Key>
@@ -294,8 +293,8 @@
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="AUXILIAR_CXC" Relationship="Self.FK_AUXILIARCXCBEB_DOCUMENTOCXC" FromRole="DOCUMENTO_CXC" ToRole="AUXILIAR_CXC" />
-    <NavigationProperty Name="AUXILIAR_CXC1" Relationship="Self.FK_AUXILIARCXCCRED_DOCUMENTOCXC" FromRole="DOCUMENTO_CXC" ToRole="AUXILIAR_CXC" />
+    <NavigationProperty Name="AUXILIAR_CXC" Relationship="Self.FK_AUXILIARCXCCRED_DOCUMENTOCXC" FromRole="DOCUMENTO_CXC" ToRole="AUXILIAR_CXC" />
+    <NavigationProperty Name="AUXILIAR_CXC1" Relationship="Self.FK_AUXILIARCXCDEB_DOCUMENTOCXC" FromRole="DOCUMENTO_CXC" ToRole="AUXILIAR_CXC" />
     <NavigationProperty Name="CLIENTE" Relationship="Self.FK_DOCUMENTOCXC_CLIENTE" FromRole="DOCUMENTO_CXC" ToRole="CLIENTE" />
   </EntityType>
   <EntityType Name="DOCUMENTO_CXP">
@@ -315,18 +314,17 @@
     <Property Name="Notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="UsuarioModificacion" Type="DateTime" Precision="3" />
-    <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="AUXILIAR_CXP" Relationship="Self.FK_AUXILIARCXPCREDITO_DOCUMENTOCXP" FromRole="DOCUMENTO_CXP" ToRole="AUXILIAR_CXP" />
     <NavigationProperty Name="AUXILIAR_CXP1" Relationship="Self.FK_AUXILIARCXPDEBITO_DOCUMENTOCXP" FromRole="DOCUMENTO_CXP" ToRole="AUXILIAR_CXP" />
-    <NavigationProperty Name="PLANILLA_COLABORADOR" Relationship="Self.FK_DOCUMENTOCXP_PLANILLA_COLABORADOR" FromRole="DOCUMENTO_CXP" ToRole="PLANILLA_COLABORADOR" />
     <NavigationProperty Name="PROVEEDOR" Relationship="Self.FK_DOCUMENTOCXP_PROVEEDOR" FromRole="DOCUMENTO_CXP" ToRole="PROVEEDOR" />
   </EntityType>
   <EntityType Name="FILIAL">
     <Key>
       <PropertyRef Name="IdFilial" />
     </Key>
-    <Property Name="IdFilial" Type="Byte" Nullable="false" />
+    <Property Name="IdFilial" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Estado" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
@@ -342,7 +340,7 @@
       <PropertyRef Name="IdPersona" />
     </Key>
     <Property Name="IdFilial" Type="Byte" Nullable="false" />
-    <Property Name="IdPersona" Type="Int32" Nullable="false" />
+    <Property Name="IdPersona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Indentification" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
@@ -389,8 +387,8 @@
     <Property Name="Estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="PARENTESCO">
     <Key>
@@ -410,14 +408,14 @@
       <PropertyRef Name="IdPartida" />
     </Key>
     <Property Name="IdPartida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Alias" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Alias" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Tipo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-    <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="AUXILIAR_CXC" Relationship="Self.FK_AUXILIARCXC_PARTIDA" FromRole="PARTIDA" ToRole="AUXILIAR_CXC" />
     <NavigationProperty Name="AUXILIAR_CXP" Relationship="Self.FK_AUXILIARCXP_PARTIDA" FromRole="PARTIDA" ToRole="AUXILIAR_CXP" />
   </EntityType>
@@ -476,7 +474,6 @@
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="UsuarioModificacion" Type="DateTime" Precision="3" />
     <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="DOCUMENTO_CXP" Relationship="Self.FK_DOCUMENTOCXP_PLANILLA_COLABORADOR" FromRole="PLANILLA_COLABORADOR" ToRole="DOCUMENTO_CXP" />
     <NavigationProperty Name="PLANILLA_DETALLE" Relationship="Self.FK_PLANILLACOLAB_PLANILLADET" FromRole="PLANILLA_COLABORADOR" ToRole="PLANILLA_DETALLE" />
   </EntityType>
   <EntityType Name="PLANILLA_DETALLE">
@@ -516,11 +513,12 @@
     <Property Name="CuentaBancaria" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Banco" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Activo" Type="Boolean" />
+    <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="UsuarioModificacion" Type="DateTime" Precision="3" />
-    <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="COLABORADOR" Relationship="Self.FK_PROVEEDOR_COLABORADOR" FromRole="PROVEEDOR" ToRole="COLABORADOR" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="DOCUMENTO_CXP" Relationship="Self.FK_DOCUMENTOCXP_PROVEEDOR" FromRole="PROVEEDOR" ToRole="DOCUMENTO_CXP" />
+    <NavigationProperty Name="TIPO_PROVEEDOR" Relationship="Self.FK_PROVEEDOR_TIPO_PROVEEDOR" FromRole="PROVEEDOR" ToRole="TIPO_PROVEEDOR" />
   </EntityType>
   <EntityType Name="PUESTO">
     <Key>
@@ -539,16 +537,6 @@
     <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="COLABORADOR" Relationship="Self.FK_COLABORADOR_PUESTO" FromRole="PUESTO" ToRole="COLABORADOR" />
   </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
   <EntityType Name="TIPO_ACCION_PERS">
     <Key>
       <PropertyRef Name="IdTipoAccionPers" />
@@ -563,6 +551,18 @@
     <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="COLABORADOR_ACCION_PERSONAL" Relationship="Self.FK_COLABORADORACCIONPERSONAL_TIPOACCIONPERS" FromRole="TIPO_ACCION_PERS" ToRole="COLABORADOR_ACCION_PERSONAL" />
+  </EntityType>
+  <EntityType Name="TIPO_PROVEEDOR">
+    <Key>
+      <PropertyRef Name="IdTipoProveedor" />
+    </Key>
+    <Property Name="IdTipoProveedor" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="PROVEEDOR" Relationship="Self.FK_PROVEEDOR_TIPO_PROVEEDOR" FromRole="TIPO_PROVEEDOR" ToRole="PROVEEDOR" />
   </EntityType>
   <EntityType Name="USUARIO">
     <Key>
@@ -597,21 +597,36 @@
     <NavigationProperty Name="PERFIL" Relationship="Self.FK_USUARIOPER_PERFIL" FromRole="USUARIO_PERFIL" ToRole="PERFIL" />
     <NavigationProperty Name="USUARIO1" Relationship="Self.FK_USUARIOPER_USUARIO" FromRole="USUARIO_PERFIL" ToRole="USUARIO" />
   </EntityType>
-  <EntityType Name="database_firewall_rules">
+  <EntityType Name="Audit_ControlAsistencia">
     <Key>
-      <PropertyRef Name="id" />
-      <PropertyRef Name="name" />
-      <PropertyRef Name="start_ip_address" />
-      <PropertyRef Name="end_ip_address" />
-      <PropertyRef Name="create_date" />
-      <PropertyRef Name="modify_date" />
+      <PropertyRef Name="IdAsistencia" />
+      <PropertyRef Name="AccionRealizada" />
+      <PropertyRef Name="UsuarioCreacion" />
+      <PropertyRef Name="FechaCreacion" />
+      <PropertyRef Name="UsuarioModificacion" />
+      <PropertyRef Name="FechaModificacion" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="start_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="end_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IdAsistencia" Type="Int32" Nullable="false" />
+    <Property Name="AccionRealizada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="Audit_Parametros">
+    <Key>
+      <PropertyRef Name="AccionRealizada" />
+      <PropertyRef Name="UsuarioCreacion" />
+      <PropertyRef Name="FechaCreacion" />
+      <PropertyRef Name="UsuarioModificacion" />
+      <PropertyRef Name="FechaModificacion" />
+    </Key>
+    <Property Name="IdParametro" Type="Int32" />
+    <Property Name="AccionRealizada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UsuarioCreacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
   </EntityType>
   <Association Name="FK_PARENTESCO_ACCION">
     <End Role="ACCION" Type="Self.ACCION" Multiplicity="1" />
@@ -661,22 +676,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_AUXILIARCXCBEB_DOCUMENTOCXC">
-    <End Role="DOCUMENTO_CXC" Type="Self.DOCUMENTO_CXC" Multiplicity="1" />
-    <End Role="AUXILIAR_CXC" Type="Self.AUXILIAR_CXC" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="DOCUMENTO_CXC">
-        <PropertyRef Name="Documento" />
-        <PropertyRef Name="TipoDocumento" />
-        <PropertyRef Name="IdCliente" />
-      </Principal>
-      <Dependent Role="AUXILIAR_CXC">
-        <PropertyRef Name="DocumentoDebito" />
-        <PropertyRef Name="TipoDocumentoDebito" />
-        <PropertyRef Name="IdCliente" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_AUXILIARCXCCRED_DOCUMENTOCXC">
     <End Role="DOCUMENTO_CXC" Type="Self.DOCUMENTO_CXC" Multiplicity="1" />
     <End Role="AUXILIAR_CXC" Type="Self.AUXILIAR_CXC" Multiplicity="*" />
@@ -689,6 +688,22 @@
       <Dependent Role="AUXILIAR_CXC">
         <PropertyRef Name="DocumentoCredito" />
         <PropertyRef Name="TipoDocumentoCredito" />
+        <PropertyRef Name="IdCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AUXILIARCXCDEB_DOCUMENTOCXC">
+    <End Role="DOCUMENTO_CXC" Type="Self.DOCUMENTO_CXC" Multiplicity="1" />
+    <End Role="AUXILIAR_CXC" Type="Self.AUXILIAR_CXC" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DOCUMENTO_CXC">
+        <PropertyRef Name="Documento" />
+        <PropertyRef Name="TipoDocumento" />
+        <PropertyRef Name="IdCliente" />
+      </Principal>
+      <Dependent Role="AUXILIAR_CXC">
+        <PropertyRef Name="DocumentoDebito" />
+        <PropertyRef Name="TipoDocumentoDebito" />
         <PropertyRef Name="IdCliente" />
       </Dependent>
     </ReferentialConstraint>
@@ -733,7 +748,7 @@
       <Dependent Role="AUXILIAR_CXP">
         <PropertyRef Name="DocumentoDebito" />
         <PropertyRef Name="IdProveedor" />
-        <PropertyRef Name="TipoDocumentoCredito" />
+        <PropertyRef Name="TipoDocumentoDebito" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -821,18 +836,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_PROVEEDOR_COLABORADOR">
-    <End Role="COLABORADOR" Type="Self.COLABORADOR" Multiplicity="1" />
-    <End Role="PROVEEDOR" Type="Self.PROVEEDOR" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="COLABORADOR">
-        <PropertyRef Name="IdColaborador" />
-      </Principal>
-      <Dependent Role="PROVEEDOR">
-        <PropertyRef Name="IdProveedor" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_COLABORADORACCIONPERSONAL_TIPOACCIONPERS">
     <End Role="TIPO_ACCION_PERS" Type="Self.TIPO_ACCION_PERS" Multiplicity="1" />
     <End Role="COLABORADOR_ACCION_PERSONAL" Type="Self.COLABORADOR_ACCION_PERSONAL" Multiplicity="*" />
@@ -906,18 +909,6 @@
       </Principal>
       <Dependent Role="NOMINA">
         <PropertyRef Name="IdConsecutivo" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_DOCUMENTOCXP_PLANILLA_COLABORADOR">
-    <End Role="PLANILLA_COLABORADOR" Type="Self.PLANILLA_COLABORADOR" Multiplicity="1" />
-    <End Role="DOCUMENTO_CXP" Type="Self.DOCUMENTO_CXP" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PLANILLA_COLABORADOR">
-        <PropertyRef Name="Liquidacion" />
-      </Principal>
-      <Dependent Role="DOCUMENTO_CXP">
-        <PropertyRef Name="Documento" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -999,6 +990,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PROVEEDOR_TIPO_PROVEEDOR">
+    <End Role="TIPO_PROVEEDOR" Type="Self.TIPO_PROVEEDOR" Multiplicity="1" />
+    <End Role="PROVEEDOR" Type="Self.PROVEEDOR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIPO_PROVEEDOR">
+        <PropertyRef Name="IdTipoProveedor" />
+      </Principal>
+      <Dependent Role="PROVEEDOR">
+        <PropertyRef Name="Tipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_USUARIOPER_USUARIO">
     <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
     <End Role="USUARIO_PERFIL" Type="Self.USUARIO_PERFIL" Multiplicity="*" />
@@ -1038,11 +1041,12 @@
     <EntitySet Name="PLANILLA_DETALLE" EntityType="Self.PLANILLA_DETALLE" />
     <EntitySet Name="PROVEEDOR" EntityType="Self.PROVEEDOR" />
     <EntitySet Name="PUESTO" EntityType="Self.PUESTO" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TIPO_ACCION_PERS" EntityType="Self.TIPO_ACCION_PERS" />
+    <EntitySet Name="TIPO_PROVEEDOR" EntityType="Self.TIPO_PROVEEDOR" />
     <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
     <EntitySet Name="USUARIO_PERFIL" EntityType="Self.USUARIO_PERFIL" />
-    <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
+    <EntitySet Name="Audit_ControlAsistencia" EntityType="Self.Audit_ControlAsistencia" />
+    <EntitySet Name="Audit_Parametros" EntityType="Self.Audit_Parametros" />
     <AssociationSet Name="FK_PARENTESCO_ACCION" Association="Self.FK_PARENTESCO_ACCION">
       <End Role="ACCION" EntitySet="ACCION" />
       <End Role="PARENTESCO" EntitySet="PARENTESCO" />
@@ -1059,11 +1063,11 @@
       <End Role="PARTIDA" EntitySet="PARTIDA" />
       <End Role="AUXILIAR_CXC" EntitySet="AUXILIAR_CXC" />
     </AssociationSet>
-    <AssociationSet Name="FK_AUXILIARCXCBEB_DOCUMENTOCXC" Association="Self.FK_AUXILIARCXCBEB_DOCUMENTOCXC">
+    <AssociationSet Name="FK_AUXILIARCXCCRED_DOCUMENTOCXC" Association="Self.FK_AUXILIARCXCCRED_DOCUMENTOCXC">
       <End Role="DOCUMENTO_CXC" EntitySet="DOCUMENTO_CXC" />
       <End Role="AUXILIAR_CXC" EntitySet="AUXILIAR_CXC" />
     </AssociationSet>
-    <AssociationSet Name="FK_AUXILIARCXCCRED_DOCUMENTOCXC" Association="Self.FK_AUXILIARCXCCRED_DOCUMENTOCXC">
+    <AssociationSet Name="FK_AUXILIARCXCDEB_DOCUMENTOCXC" Association="Self.FK_AUXILIARCXCDEB_DOCUMENTOCXC">
       <End Role="DOCUMENTO_CXC" EntitySet="DOCUMENTO_CXC" />
       <End Role="AUXILIAR_CXC" EntitySet="AUXILIAR_CXC" />
     </AssociationSet>
@@ -1107,10 +1111,6 @@
       <End Role="COLABORADOR" EntitySet="COLABORADOR" />
       <End Role="CONTROL_ASISTENCIA" EntitySet="CONTROL_ASISTENCIA" />
     </AssociationSet>
-    <AssociationSet Name="FK_PROVEEDOR_COLABORADOR" Association="Self.FK_PROVEEDOR_COLABORADOR">
-      <End Role="COLABORADOR" EntitySet="COLABORADOR" />
-      <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
-    </AssociationSet>
     <AssociationSet Name="FK_COLABORADORACCIONPERSONAL_TIPOACCIONPERS" Association="Self.FK_COLABORADORACCIONPERSONAL_TIPOACCIONPERS">
       <End Role="TIPO_ACCION_PERS" EntitySet="TIPO_ACCION_PERS" />
       <End Role="COLABORADOR_ACCION_PERSONAL" EntitySet="COLABORADOR_ACCION_PERSONAL" />
@@ -1134,10 +1134,6 @@
     <AssociationSet Name="FK_NOMINA_CONSECUTIVO" Association="Self.FK_NOMINA_CONSECUTIVO">
       <End Role="CONSECUTIVO" EntitySet="CONSECUTIVO" />
       <End Role="NOMINA" EntitySet="NOMINA" />
-    </AssociationSet>
-    <AssociationSet Name="FK_DOCUMENTOCXP_PLANILLA_COLABORADOR" Association="Self.FK_DOCUMENTOCXP_PLANILLA_COLABORADOR">
-      <End Role="PLANILLA_COLABORADOR" EntitySet="PLANILLA_COLABORADOR" />
-      <End Role="DOCUMENTO_CXP" EntitySet="DOCUMENTO_CXP" />
     </AssociationSet>
     <AssociationSet Name="FK_DOCUMENTOCXP_PROVEEDOR" Association="Self.FK_DOCUMENTOCXP_PROVEEDOR">
       <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
@@ -1163,6 +1159,10 @@
       <End Role="PLANILLA_DETALLE" EntitySet="PLANILLA_DETALLE" />
       <End Role="PLANILLA_COLABORADOR" EntitySet="PLANILLA_COLABORADOR" />
     </AssociationSet>
+    <AssociationSet Name="FK_PROVEEDOR_TIPO_PROVEEDOR" Association="Self.FK_PROVEEDOR_TIPO_PROVEEDOR">
+      <End Role="TIPO_PROVEEDOR" EntitySet="TIPO_PROVEEDOR" />
+      <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+    </AssociationSet>
     <AssociationSet Name="FK_USUARIOPER_USUARIO" Association="Self.FK_USUARIOPER_USUARIO">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="USUARIO_PERFIL" EntitySet="USUARIO_PERFIL" />
@@ -1173,11 +1173,12 @@
     <FunctionImport Name="f_opcionesUsuariosPerfil" IsComposable="true" ReturnType="Collection(SICOAdminModel.f_opcionesUsuariosPerfil_Result)">
       <Parameter Name="IdPerfil" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_alterdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
+    <FunctionImport Name="SP_Buscar_Partidas_Activas" ReturnType="Collection(SICOAdminModel.SP_Buscar_Partidas_Activas_Result)" />
+    <FunctionImport Name="SP_C__Buscar_Documento_CXC" ReturnType="Collection(SICOAdminModel.SP_C__Buscar_Documento_CXC_Result)">
+      <Parameter Name="idDocumento" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C__Buscar_Documento_CXP" ReturnType="Collection(SICOAdminModel.SP_C__Buscar_Documento_CXP_Result)">
+      <Parameter Name="idDocumento" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_C_AuthorizeUser" ReturnType="Collection(Int32)">
       <Parameter Name="Usuario" Mode="In" Type="String" />
@@ -1186,68 +1187,230 @@
       <Parameter Name="IdPuesto" Mode="In" Type="Int32" />
       <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
     </FunctionImport>
+    <FunctionImport Name="SP_C_Buscar_Documentos_CXC" ReturnType="Collection(SICOAdminModel.SP_C_Buscar_Documentos_CXC_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="nombre" Mode="In" Type="String" />
+      <Parameter Name="identificacion" Mode="In" Type="String" />
+      <Parameter Name="documento" Mode="In" Type="String" />
+      <Parameter Name="fechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
+      <Parameter Name="monto" Mode="In" Type="Decimal" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_Buscar_Documentos_CXP" ReturnType="Collection(SICOAdminModel.SP_C_Buscar_Documentos_CXP_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="nombre" Mode="In" Type="String" />
+      <Parameter Name="identificacion" Mode="In" Type="String" />
+      <Parameter Name="documento" Mode="In" Type="String" />
+      <Parameter Name="fechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
+      <Parameter Name="monto" Mode="In" Type="Decimal" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_Buscar_DocumentosCXC_Por_Cliente" ReturnType="Collection(SICOAdminModel.SP_C_Buscar_DocumentosCXC_Por_Cliente_Result)">
+      <Parameter Name="cliente" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_Buscar_DocumentosCXP_Por_Proveedor" ReturnType="Collection(SICOAdminModel.SP_C_Buscar_DocumentosCXP_Por_Proveedor_Result)">
+      <Parameter Name="proveedor" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_BuscarCliente" ReturnType="Collection(SICOAdminModel.SP_C_BuscarCliente_Result)">
+      <Parameter Name="IdCliente" Mode="In" Type="Int32" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_BuscarConcepto" ReturnType="Collection(SICOAdminModel.SP_C_BuscarConcepto_Result)">
+      <Parameter Name="idConcepto" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_C_BuscarConsecutivo" ReturnType="Collection(SICOAdminModel.SP_C_BuscarConsecutivo_Result)">
       <Parameter Name="idConsecutivo" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="SP_C_BuscarControlAsistencia" ReturnType="Collection(SICOAdminModel.SP_C_BuscarControlAsistencia_Result)">
       <Parameter Name="idAsistencia" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_C_BuscarDocumentos" ReturnType="Collection(SICOAdminModel.SP_C_BuscarDocumentos_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="nombreTabla" Mode="In" Type="String" />
+      <Parameter Name="nombre" Mode="In" Type="String" />
+      <Parameter Name="identificacion" Mode="In" Type="String" />
+      <Parameter Name="documento" Mode="In" Type="String" />
+      <Parameter Name="fechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
+      <Parameter Name="monto" Mode="In" Type="Decimal" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_BuscarFilial" ReturnType="Collection(SICOAdminModel.SP_C_BuscarFilial_Result)">
+      <Parameter Name="Identificacion" Mode="In" Type="Int32" />
+      <Parameter Name="VerId" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_BuscarParametroActivo" ReturnType="Collection(SICOAdminModel.SP_C_BuscarParametroActivo_Result)" />
     <FunctionImport Name="SP_C_BuscarPerfil" ReturnType="Collection(SICOAdminModel.SP_C_BuscarPerfil_Result)">
       <Parameter Name="IdPerfil" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_BuscarProveedor" ReturnType="Collection(SICOAdminModel.SP_C_BuscarProveedor_Result)">
+      <Parameter Name="Identificacion" Mode="In" Type="Int32" />
+      <Parameter Name="VerId" Mode="In" Type="Boolean" />
     </FunctionImport>
     <FunctionImport Name="SP_C_BuscarUsuario" ReturnType="Collection(SICOAdminModel.SP_C_BuscarUsuario_Result)">
       <Parameter Name="Usuario" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_C_ConsecutivosActivos" ReturnType="Collection(SICOAdminModel.SP_C_ConsecutivosActivos_Result)" />
+    <FunctionImport Name="SP_C_Documento" ReturnType="Collection(SICOAdminModel.SP_C_Documento_Result)">
+      <Parameter Name="nombreTabla" Mode="In" Type="String" />
+      <Parameter Name="idDocumento" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_GetPartida" ReturnType="Collection(SICOAdminModel.SP_C_GetPartida_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_GetTipoAccionPers" ReturnType="Collection(SICOAdminModel.SP_C_GetTipoAccionPers_Result)">
+      <Parameter Name="idAccion" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_C_MostarNominas" ReturnType="Collection(SICOAdminModel.SP_C_MostarNominas_Result)">
       <Parameter Name="opcion" Mode="In" Type="String" />
       <Parameter Name="nomina" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_C_Mostrar_Clientes_Activos" ReturnType="Collection(SICOAdminModel.SP_C_Mostrar_Clientes_Activos_Result)" />
+    <FunctionImport Name="SP_C_Mostrar_Depositos_CXC" ReturnType="Collection(SICOAdminModel.SP_C_Mostrar_Depositos_CXC_Result)">
+      <Parameter Name="documento" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_Mostrar_Documentos_CXC" ReturnType="Collection(SICOAdminModel.SP_C_Mostrar_Documentos_CXC_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_Mostrar_Documentos_CXP" ReturnType="Collection(SICOAdminModel.SP_C_Mostrar_Documentos_CXP_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_Mostrar_Facturtas_CXP" ReturnType="Collection(SICOAdminModel.SP_C_Mostrar_Facturtas_CXP_Result)">
+      <Parameter Name="documento" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_Mostrar_Proveedores_Activos" ReturnType="Collection(SICOAdminModel.SP_C_Mostrar_Proveedores_Activos_Result)" />
     <FunctionImport Name="SP_C_MostrarAcciones" ReturnType="Collection(SICOAdminModel.SP_C_MostrarAcciones_Result)" />
+    <FunctionImport Name="SP_C_MostrarAuditControlAsistencia" ReturnType="Collection(SICOAdminModel.SP_C_MostrarAuditControlAsistencia_Result)">
+      <Parameter Name="idAsistencia" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_C_MostrarAuditParametro" ReturnType="Collection(SICOAdminModel.SP_C_MostrarAuditParametro_Result)">
       <Parameter Name="idParametro" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarClientes" ReturnType="Collection(SICOAdminModel.SP_C_MostrarClientes_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="SP_C_MostrarColaboradores" ReturnType="Collection(SICOAdminModel.SP_C_MostrarColaboradores_Result)">
       <Parameter Name="Identificacion" Mode="In" Type="String" />
       <Parameter Name="Opcion" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarColaboradoresPag" ReturnType="Collection(SICOAdminModel.SP_C_MostrarColaboradoresPag_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarConceptos" ReturnType="Collection(SICOAdminModel.SP_C_MostrarConceptos_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_C_MostrarConsecutivos" ReturnType="Collection(SICOAdminModel.SP_C_MostrarConsecutivos_Result)" />
-    <FunctionImport Name="SP_C_MostrarControlAsistencia" ReturnType="Collection(SICOAdminModel.SP_C_MostrarControlAsistencia_Result)" />
+    <FunctionImport Name="SP_C_MostrarControlAsistencia" ReturnType="Collection(SICOAdminModel.SP_C_MostrarControlAsistencia_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarDocumentos" ReturnType="Collection(SICOAdminModel.SP_C_MostrarDocumentos_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="nombreTabla" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarFilial" ReturnType="Collection(SICOAdminModel.SP_C_MostrarFilial_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarFiliales" ReturnType="Collection(SICOAdminModel.SP_C_MostrarFiliales_Result)" />
+    <FunctionImport Name="SP_C_MostrarFilialPersona" ReturnType="Collection(SICOAdminModel.SP_C_MostrarFilialPersona_Result)">
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="Opcion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarFilialPersonasPag" ReturnType="Collection(SICOAdminModel.SP_C_MostrarFilialPersonasPag_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_C_MostrarParametros" ReturnType="Collection(SICOAdminModel.SP_C_MostrarParametros_Result)">
       <Parameter Name="opc" Mode="In" Type="String" />
       <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarPartidas" ReturnType="Collection(SICOAdminModel.SP_C_MostrarPartidas_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="SP_C_MostrarPerfil" ReturnType="Collection(SICOAdminModel.SP_C_MostrarPerfil_Result)">
       <Parameter Name="opcion" Mode="In" Type="String" />
       <Parameter Name="id" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarProveedores" ReturnType="Collection(SICOAdminModel.SP_C_MostrarProveedores_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_C_MostrarPuestos" ReturnType="Collection(SICOAdminModel.SP_C_MostrarPuestos_Result)" />
+    <FunctionImport Name="SP_C_MostrarTipoAccionPers" ReturnType="Collection(SICOAdminModel.SP_C_MostrarTipoAccionPers_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_C_MostrarTiposProveedores" ReturnType="Collection(SICOAdminModel.SP_C_MostrarTiposProveedores_Result)" />
     <FunctionImport Name="SP_C_MostrarUsuarios" ReturnType="Collection(SICOAdminModel.SP_C_MostrarUsuarios_Result)">
       <Parameter Name="opcion" Mode="In" Type="String" />
       <Parameter Name="usuario" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_creatediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
+    <FunctionImport Name="SP_C_MostrarUsuariosPag" ReturnType="Collection(SICOAdminModel.SP_C_MostrarUsuariosPag_Result)">
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_dropdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    <FunctionImport Name="SP_C_VerEstadoCuenta" ReturnType="Collection(SICOAdminModel.SP_C_VerEstadoCuenta_Result)">
+      <Parameter Name="IdFilial" Mode="In" Type="Int32" />
+      <Parameter Name="Anio" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_Get_Next_Consecutivo">
       <Parameter Name="psValorConsecutivo" Mode="In" Type="String" />
       <Parameter Name="psMascara" Mode="In" Type="String" />
       <Parameter Name="psNuevoConsecutivo" Mode="InOut" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(SICOAdminModel.sp_helpdiagramdefinition_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    <FunctionImport Name="SP_P_ActivarDesactivarCliente">
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="FechaModificacion" Mode="In" Type="DateTime" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(SICOAdminModel.sp_helpdiagrams_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    <FunctionImport Name="SP_P_ActivarDesactivarFilialPersona">
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="FechaModificacion" Mode="In" Type="DateTime" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_P_ActualizarConsecutivo">
       <Parameter Name="idConsecutivo" Mode="In" Type="Int32" />
@@ -1283,6 +1446,25 @@
     <FunctionImport Name="SP_P_ActualizarProximoValorConsecutivo">
       <Parameter Name="idConsecutivo" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_AddPlanilla">
+      <Parameter Name="Consecutivo" Mode="In" Type="String" />
+      <Parameter Name="IdNomina" Mode="In" Type="Int32" />
+      <Parameter Name="Estado" Mode="In" Type="String" />
+      <Parameter Name="FechaInicial" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFinal" Mode="In" Type="DateTime" />
+      <Parameter Name="Periodo" Mode="In" Type="String" />
+      <Parameter Name="Anio" Mode="In" Type="Int32" />
+      <Parameter Name="MontoTotal" Mode="In" Type="Decimal" />
+      <Parameter Name="BeneficioTotal" Mode="In" Type="Decimal" />
+      <Parameter Name="DeduccionTotal" Mode="In" Type="Decimal" />
+      <Parameter Name="ProyeccionTotal" Mode="In" Type="Decimal" />
+      <Parameter Name="UsuarioCreacion" Mode="In" Type="String" />
+      <Parameter Name="FechaCreacion" Mode="In" Type="DateTime" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="FechaModificacion" Mode="In" Type="DateTime" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_AddUser">
       <Parameter Name="Usuario" Mode="In" Type="String" />
       <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -1307,6 +1489,11 @@
       <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
       <Parameter Name="Mensaje" Mode="InOut" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_CambiarEstadoProveedor">
+      <Parameter Name="idProveedor" Mode="In" Type="Int32" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="seModifico" Mode="InOut" Type="Byte" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_CambioContrasena">
       <Parameter Name="Usuario" Mode="In" Type="String" />
       <Parameter Name="ContrasenaActual" Mode="In" Type="String" />
@@ -1319,6 +1506,31 @@
       <Parameter Name="descipcion" Mode="In" Type="String" />
       <Parameter Name="tipo" Mode="In" Type="String" />
       <Parameter Name="usuarioCreacionModificacion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_CrearAuxiliar">
+      <Parameter Name="nombreTablaAuxiliar" Mode="In" Type="String" />
+      <Parameter Name="documentoCredito" Mode="In" Type="String" />
+      <Parameter Name="documentoDebito" Mode="In" Type="String" />
+      <Parameter Name="idPartida" Mode="In" Type="Int32" />
+      <Parameter Name="usuario" Mode="In" Type="String" />
+      <Parameter Name="res" Mode="InOut" Type="Boolean" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_CrearCliente">
+      <Parameter Name="IdFilial" Mode="In" Type="Byte" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="Tipo" Mode="In" Type="String" />
+      <Parameter Name="Contacto" Mode="In" Type="String" />
+      <Parameter Name="Telefono1" Mode="In" Type="String" />
+      <Parameter Name="Telefono2" Mode="In" Type="String" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="CondicionPago" Mode="In" Type="Int32" />
+      <Parameter Name="Activo" Mode="In" Type="Boolean" />
+      <Parameter Name="UsuarioCreacion" Mode="In" Type="String" />
+      <Parameter Name="FechaCreacion" Mode="In" Type="DateTime" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_P_CrearColaborador">
       <Parameter Name="nombre" Mode="In" Type="String" />
@@ -1371,6 +1583,45 @@
       <Parameter Name="UsuarioCreaModif" Mode="In" Type="String" />
       <Parameter Name="msj" Mode="InOut" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_CrearDocumento">
+      <Parameter Name="nombreTabla" Mode="In" Type="String" />
+      <Parameter Name="documento" Mode="In" Type="String" />
+      <Parameter Name="idRelacion" Mode="In" Type="Int32" />
+      <Parameter Name="tipoDocumento" Mode="In" Type="String" />
+      <Parameter Name="monto" Mode="In" Type="Decimal" />
+      <Parameter Name="condicionPago" Mode="In" Type="Int32" />
+      <Parameter Name="fechaDocumento" Mode="In" Type="DateTime" />
+      <Parameter Name="notas" Mode="In" Type="String" />
+      <Parameter Name="usuario" Mode="In" Type="String" />
+      <Parameter Name="res" Mode="InOut" Type="Boolean" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_CrearFilial">
+      <Parameter Name="Descripcion" Mode="In" Type="String" />
+      <Parameter Name="Estado" Mode="In" Type="String" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="seAgrego" Mode="InOut" Type="Byte" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_CrearFilialPersona">
+      <Parameter Name="IdFilial" Mode="In" Type="Byte" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="Activo" Mode="In" Type="Boolean" />
+      <Parameter Name="Responsable" Mode="In" Type="Boolean" />
+      <Parameter Name="Tipo" Mode="In" Type="String" />
+      <Parameter Name="Trato" Mode="In" Type="String" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="Telefono1" Mode="In" Type="String" />
+      <Parameter Name="Telefono2" Mode="In" Type="String" />
+      <Parameter Name="WhatsApp" Mode="In" Type="String" />
+      <Parameter Name="UsuarioCreacion" Mode="In" Type="String" />
+      <Parameter Name="FechaCreacion" Mode="In" Type="DateTime" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="FechaModificacion" Mode="In" Type="DateTime" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_CrearNomina">
       <Parameter Name="descripcion" Mode="In" Type="String" />
       <Parameter Name="frecuencia" Mode="In" Type="String" />
@@ -1395,6 +1646,15 @@
       <Parameter Name="padre" Mode="In" Type="Int32" />
       <Parameter Name="usuarioCreacionModf" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_CrearPartida">
+      <Parameter Name="alias" Mode="In" Type="String" />
+      <Parameter Name="descripcion" Mode="In" Type="String" />
+      <Parameter Name="tipo" Mode="In" Type="String" />
+      <Parameter Name="activo" Mode="In" Type="Boolean" />
+      <Parameter Name="usuarioCreacion" Mode="In" Type="String" />
+      <Parameter Name="res" Mode="InOut" Type="Boolean" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_CrearPerfil">
       <Parameter Name="Nombre" Mode="In" Type="String" />
       <Parameter Name="Descripcion" Mode="In" Type="String" />
@@ -1402,6 +1662,22 @@
       <Parameter Name="UsuarioCreacion" Mode="In" Type="String" />
       <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
       <Parameter Name="resultado" Mode="InOut" Type="Int16" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_CrearProveedor">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="Tipo" Mode="In" Type="String" />
+      <Parameter Name="Contacto" Mode="In" Type="String" />
+      <Parameter Name="Telefono1" Mode="In" Type="String" />
+      <Parameter Name="Telefono2" Mode="In" Type="String" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="CondicionPago" Mode="In" Type="Int32" />
+      <Parameter Name="CuentaBancaria" Mode="In" Type="String" />
+      <Parameter Name="Banco" Mode="In" Type="String" />
+      <Parameter Name="Activo" Mode="In" Type="Boolean" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="seAgrego" Mode="InOut" Type="Byte" />
     </FunctionImport>
     <FunctionImport Name="SP_P_CrearPuesto">
       <Parameter Name="Descripcion" Mode="In" Type="String" />
@@ -1414,10 +1690,42 @@
       <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
       <Parameter Name="resultado" Mode="InOut" Type="Int16" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_CrearTipoAccionPers">
+      <Parameter Name="descripcion" Mode="In" Type="String" />
+      <Parameter Name="tipo" Mode="In" Type="String" />
+      <Parameter Name="estado_empleado" Mode="In" Type="String" />
+      <Parameter Name="restablece_estado" Mode="In" Type="Boolean" />
+      <Parameter Name="usuarioCreacion" Mode="In" Type="String" />
+      <Parameter Name="msg" Mode="InOut" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_CrearUsuarioPerfil">
       <Parameter Name="Usuario" Mode="In" Type="String" />
       <Parameter Name="IdPerfil" Mode="In" Type="Int32" />
       <Parameter Name="UsuarioCreacion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_CreateConcept">
+      <Parameter Name="idConcepto" Mode="In" Type="Int32" />
+      <Parameter Name="alias" Mode="In" Type="String" />
+      <Parameter Name="descripcion" Mode="In" Type="String" />
+      <Parameter Name="tipo" Mode="In" Type="String" />
+      <Parameter Name="unidad" Mode="In" Type="String" />
+      <Parameter Name="salarial" Mode="In" Type="Boolean" />
+      <Parameter Name="fijo" Mode="In" Type="Boolean" />
+      <Parameter Name="liquidable" Mode="In" Type="Boolean" />
+      <Parameter Name="CantEditable" Mode="In" Type="Boolean" />
+      <Parameter Name="MontoEditable" Mode="In" Type="Boolean" />
+      <Parameter Name="periodicidad" Mode="In" Type="String" />
+      <Parameter Name="activo" Mode="In" Type="Boolean" />
+      <Parameter Name="UsuarioCreacionModif" Mode="In" Type="String" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="seAgrego" Mode="InOut" Type="Byte" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_DesasociarDocumentoCredito">
+      <Parameter Name="nombreTablaAuxiliar" Mode="In" Type="String" />
+      <Parameter Name="documentoCredito" Mode="In" Type="String" />
+      <Parameter Name="documentoDebito" Mode="In" Type="String" />
+      <Parameter Name="resp" Mode="InOut" Type="Boolean" />
+      <Parameter Name="mensaje" Mode="InOut" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_P_DibujarArbol" ReturnType="Collection(SICOAdminModel.SP_P_DibujarArbol_Result)">
       <Parameter Name="idPerfil" Mode="In" Type="Int32" />
@@ -1431,9 +1739,30 @@
     <FunctionImport Name="SP_P_EliminarNomina">
       <Parameter Name="idNomina" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_EliminarRelacionAuxiliarDocumento">
+      <Parameter Name="nombreTablaAuxiliar" Mode="In" Type="String" />
+      <Parameter Name="documentoCredito" Mode="In" Type="String" />
+      <Parameter Name="documentoDebito" Mode="In" Type="String" />
+      <Parameter Name="res" Mode="InOut" Type="Boolean" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_EliminarUsuarioPerfil">
       <Parameter Name="Usuario" Mode="In" Type="String" />
       <Parameter Name="idPerfil" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_GenerarPago">
+      <Parameter Name="nombreTablaDocumento" Mode="In" Type="String" />
+      <Parameter Name="documentoCredito" Mode="In" Type="String" />
+      <Parameter Name="monto" Mode="In" Type="Decimal" />
+      <Parameter Name="condicionPago" Mode="In" Type="Int32" />
+      <Parameter Name="fechaDocumento" Mode="In" Type="DateTime" />
+      <Parameter Name="notas" Mode="In" Type="String" />
+      <Parameter Name="usuario" Mode="In" Type="String" />
+      <Parameter Name="nombreTablaAuxiliar" Mode="In" Type="String" />
+      <Parameter Name="documentoDebito" Mode="In" Type="String" />
+      <Parameter Name="idPartida" Mode="In" Type="Int32" />
+      <Parameter Name="res" Mode="InOut" Type="Boolean" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_P_GuardarCheck">
       <Parameter Name="idAccion" Mode="In" Type="String" />
@@ -1452,6 +1781,20 @@
       <Parameter Name="descripcion" Mode="In" Type="String" />
       <Parameter Name="tipo" Mode="In" Type="String" />
       <Parameter Name="usuarioModificacion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarCliente">
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="Tipo" Mode="In" Type="String" />
+      <Parameter Name="Contacto" Mode="In" Type="String" />
+      <Parameter Name="Telefono1" Mode="In" Type="String" />
+      <Parameter Name="Telefono2" Mode="In" Type="String" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="CondicionPago" Mode="In" Type="Int32" />
+      <Parameter Name="Activo" Mode="In" Type="Boolean" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="FechaModificacion" Mode="In" Type="DateTime" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_P_ModificarColaborador">
       <Parameter Name="Identificacion" Mode="In" Type="String" />
@@ -1478,6 +1821,23 @@
       <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
       <Parameter Name="Mensaje" Mode="InOut" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarConcepto">
+      <Parameter Name="idConcepto" Mode="In" Type="Int32" />
+      <Parameter Name="alias" Mode="In" Type="String" />
+      <Parameter Name="descripcion" Mode="In" Type="String" />
+      <Parameter Name="tipo" Mode="In" Type="String" />
+      <Parameter Name="unidad" Mode="In" Type="String" />
+      <Parameter Name="salarial" Mode="In" Type="Boolean" />
+      <Parameter Name="fijo" Mode="In" Type="Boolean" />
+      <Parameter Name="liquidable" Mode="In" Type="Boolean" />
+      <Parameter Name="CantEditable" Mode="In" Type="Boolean" />
+      <Parameter Name="MontoEditable" Mode="In" Type="Boolean" />
+      <Parameter Name="periodicidad" Mode="In" Type="String" />
+      <Parameter Name="activo" Mode="In" Type="Boolean" />
+      <Parameter Name="UsuarioCreacionModif" Mode="In" Type="String" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="seModifico" Mode="InOut" Type="Byte" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_ModificarControlAsistencia">
       <Parameter Name="IdAsistencia" Mode="In" Type="Int32" />
       <Parameter Name="IdColaborador" Mode="In" Type="Int32" />
@@ -1491,13 +1851,37 @@
       <Parameter Name="UsuarioCreaModif" Mode="In" Type="String" />
       <Parameter Name="msj" Mode="InOut" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarDocumento">
+      <Parameter Name="nombreTabla" Mode="In" Type="String" />
+      <Parameter Name="documento" Mode="In" Type="String" />
+      <Parameter Name="idDueno" Mode="In" Type="Int32" />
+      <Parameter Name="tipoDocumentoNuevo" Mode="In" Type="String" />
+      <Parameter Name="monto" Mode="In" Type="Decimal" />
+      <Parameter Name="condicionPago" Mode="In" Type="Int32" />
+      <Parameter Name="fechaDocumento" Mode="In" Type="DateTime" />
+      <Parameter Name="notas" Mode="In" Type="String" />
+      <Parameter Name="usuario" Mode="In" Type="String" />
+      <Parameter Name="res" Mode="InOut" Type="Boolean" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_ModificarEstadoConsecutivo">
       <Parameter Name="idConsecutivo" Mode="In" Type="Int32" />
       <Parameter Name="resultado" Mode="InOut" Type="Int16" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarEstadoFilial">
+      <Parameter Name="IdFilial" Mode="In" Type="Int32" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="seModifico" Mode="InOut" Type="Byte" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_ModificarEstadoParametro">
       <Parameter Name="idParametro" Mode="In" Type="Int32" />
       <Parameter Name="resultado" Mode="InOut" Type="Int16" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarEstadoPartida">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="usuarioMod" Mode="In" Type="String" />
+      <Parameter Name="res" Mode="InOut" Type="Boolean" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_P_ModificarEstadoPerfil">
       <Parameter Name="IdPerfil" Mode="In" Type="Int32" />
@@ -1510,6 +1894,37 @@
       <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
       <Parameter Name="Mensaje" Mode="InOut" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarFilial">
+      <Parameter Name="IdFilial" Mode="In" Type="Int32" />
+      <Parameter Name="Descricion" Mode="In" Type="String" />
+      <Parameter Name="Usuario_Modificacion" Mode="In" Type="String" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="seModifico" Mode="InOut" Type="Byte" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarFilialPersona">
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="Responsable" Mode="In" Type="Boolean" />
+      <Parameter Name="Tipo" Mode="In" Type="String" />
+      <Parameter Name="Trato" Mode="In" Type="String" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="Telefono1" Mode="In" Type="String" />
+      <Parameter Name="Telefono2" Mode="In" Type="String" />
+      <Parameter Name="WhatsApp" Mode="In" Type="String" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="FechaModificacion" Mode="In" Type="DateTime" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarPartida">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="alias" Mode="In" Type="String" />
+      <Parameter Name="descripcion" Mode="In" Type="String" />
+      <Parameter Name="tipo" Mode="In" Type="String" />
+      <Parameter Name="activo" Mode="In" Type="Boolean" />
+      <Parameter Name="usuarioMod" Mode="In" Type="String" />
+      <Parameter Name="res" Mode="InOut" Type="Boolean" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_ModificarPerfil">
       <Parameter Name="IdPerfil" Mode="In" Type="Int32" />
       <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -1517,6 +1932,23 @@
       <Parameter Name="Activo" Mode="In" Type="Boolean" />
       <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
       <Parameter Name="resultado" Mode="InOut" Type="Int16" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarProveedor">
+      <Parameter Name="IdProveedor" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Identificacion" Mode="In" Type="String" />
+      <Parameter Name="Tipo" Mode="In" Type="String" />
+      <Parameter Name="Contacto" Mode="In" Type="String" />
+      <Parameter Name="Telefono1" Mode="In" Type="String" />
+      <Parameter Name="Telefono2" Mode="In" Type="String" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="CondicionPago" Mode="In" Type="Int32" />
+      <Parameter Name="CuentaBancaria" Mode="In" Type="String" />
+      <Parameter Name="Banco" Mode="In" Type="String" />
+      <Parameter Name="Activo" Mode="In" Type="Boolean" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="seModifico" Mode="InOut" Type="Byte" />
     </FunctionImport>
     <FunctionImport Name="SP_P_ModificarPuesto">
       <Parameter Name="IdPuesto" Mode="In" Type="Int32" />
@@ -1528,6 +1960,15 @@
       <Parameter Name="CodigoINS" Mode="In" Type="String" />
       <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
       <Parameter Name="resultado" Mode="InOut" Type="Int16" />
+    </FunctionImport>
+    <FunctionImport Name="SP_P_ModificarTipoAccionPers">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="descripcion" Mode="In" Type="String" />
+      <Parameter Name="tipo" Mode="In" Type="String" />
+      <Parameter Name="estado_empleado" Mode="In" Type="String" />
+      <Parameter Name="restablece_estado" Mode="In" Type="Boolean" />
+      <Parameter Name="usuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="msg" Mode="InOut" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_P_ModificarUsuario">
       <Parameter Name="Usuario" Mode="In" Type="String" />
@@ -1551,17 +1992,170 @@
       <Parameter Name="palabraBusc" Mode="In" Type="String" />
       <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_P_UpdatePlanilla">
+      <Parameter Name="Consecutivo" Mode="In" Type="String" />
+      <Parameter Name="Estado" Mode="In" Type="String" />
+      <Parameter Name="FechaInicial" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFinal" Mode="In" Type="DateTime" />
+      <Parameter Name="Periodo" Mode="In" Type="String" />
+      <Parameter Name="Anio" Mode="In" Type="Int32" />
+      <Parameter Name="MontoTotal" Mode="In" Type="Decimal" />
+      <Parameter Name="BeneficioTotal" Mode="In" Type="Decimal" />
+      <Parameter Name="DeduccionTotal" Mode="In" Type="Decimal" />
+      <Parameter Name="ProyeccionTotal" Mode="In" Type="Decimal" />
+      <Parameter Name="UsuarioCreacion" Mode="In" Type="String" />
+      <Parameter Name="FechaCreacion" Mode="In" Type="DateTime" />
+      <Parameter Name="UsuarioModificacion" Mode="In" Type="String" />
+      <Parameter Name="FechaModificacion" Mode="In" Type="DateTime" />
+      <Parameter Name="Resultado" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="SP_P_UsuariosDelPerfil" ReturnType="Collection(SICOAdminModel.SP_P_UsuariosDelPerfil_Result)">
       <Parameter Name="IdPerfil" Mode="In" Type="Int32" />
+      <Parameter Name="NPag" Mode="In" Type="Int32" />
+      <Parameter Name="CantReg" Mode="In" Type="Int32" />
+      <Parameter Name="palabraBusc" Mode="In" Type="String" />
+      <Parameter Name="TotalPag" Mode="InOut" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_renamediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    <FunctionImport Name="SP_P_VerificarContrasenaAdmin">
+      <Parameter Name="contrasenaIngresada" Mode="In" Type="String" />
+      <Parameter Name="msj" Mode="InOut" Type="String" />
+      <Parameter Name="tienePermiso" Mode="InOut" Type="Byte" />
     </FunctionImport>
-    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
+  <ComplexType Name="SP_Buscar_Partidas_Activas_Result">
+    <Property Type="Int32" Name="IdPartida" Nullable="false" />
+    <Property Type="String" Name="Alias" Nullable="false" MaxLength="25" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C__Buscar_Documento_CXC_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdCliente" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="false" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_C__Buscar_Documento_CXP_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
   <ComplexType Name="SP_C_BItacoraPuesto_Result">
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Buscar_Documentos_CXC_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdCliente" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="false" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Buscar_Documentos_CXP_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Buscar_DocumentosCXC_Por_Cliente_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="false" MaxLength="Max" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Buscar_DocumentosCXP_Por_Proveedor_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="true" MaxLength="Max" />
+  </ComplexType>
+  <ComplexType Name="SP_C_BuscarCliente_Result">
+    <Property Type="Int32" Name="IdCliente" Nullable="false" />
+    <Property Type="Byte" Name="IdFilial" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="Contacto" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_BuscarConcepto_Result">
+    <Property Type="Int32" Name="IdConcepto" Nullable="false" />
+    <Property Type="String" Name="Alias" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="256" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="Unidad" Nullable="false" MaxLength="25" />
+    <Property Type="Boolean" Name="Salarial" Nullable="false" />
+    <Property Type="Boolean" Name="Fijo" Nullable="false" />
+    <Property Type="Boolean" Name="Liquidable" Nullable="false" />
+    <Property Type="Boolean" Name="CantEditable" Nullable="false" />
+    <Property Type="Boolean" Name="MontoEditable" Nullable="false" />
+    <Property Type="String" Name="Periodicidad" Nullable="false" MaxLength="2" />
+    <Property Type="Boolean" Name="Activo" Nullable="true" />
     <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
     <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
     <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
@@ -1594,6 +2188,44 @@
     <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
     <Property Type="String" Name="nomColaborador" Nullable="true" MaxLength="100" />
   </ComplexType>
+  <ComplexType Name="SP_C_BuscarDocumentos_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_C_BuscarFilial_Result">
+    <Property Type="Byte" Name="IdFilial" Nullable="false" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+  </ComplexType>
+  <ComplexType Name="SP_C_BuscarParametroActivo_Result">
+    <Property Type="Int32" Name="IdParametro" Nullable="false" />
+    <Property Type="Decimal" Name="Mensualidad" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Int32" Name="IdConsecRecibo" Nullable="false" />
+    <Property Type="Decimal" Name="InteresMora" Nullable="false" Precision="11" Scale="8" />
+    <Property Type="String" Name="TipoDocumentoCobro" Nullable="false" MaxLength="4" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+  </ComplexType>
   <ComplexType Name="SP_C_BuscarPerfil_Result">
     <Property Type="Int32" Name="IdPerfil" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="25" />
@@ -1603,6 +2235,24 @@
     <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
     <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_BuscarProveedor_Result">
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="Contacto" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="String" Name="CuentaBancaria" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Banco" Nullable="false" MaxLength="20" />
+    <Property Type="Boolean" Name="Activo" Nullable="true" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
   </ComplexType>
   <ComplexType Name="SP_C_BuscarUsuario_Result">
     <Property Type="String" Name="Usuario" Nullable="false" MaxLength="70" />
@@ -1632,6 +2282,43 @@
     <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
   </ComplexType>
+  <ComplexType Name="SP_C_Documento_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_GetPartida_Result">
+    <Property Type="Int32" Name="IdPartida" Nullable="false" />
+    <Property Type="String" Name="Alias" Nullable="false" MaxLength="25" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_GetTipoAccionPers_Result">
+    <Property Type="Int32" Name="IdTipoAccionPers" Nullable="false" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="70" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="4" />
+    <Property Type="String" Name="EstadoEmpleado" Nullable="false" MaxLength="4" />
+    <Property Type="Boolean" Name="RestableceEstado" Nullable="false" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
   <ComplexType Name="SP_C_MostarNominas_Result">
     <Property Type="Int32" Name="IdNomina" Nullable="false" />
     <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" />
@@ -1641,6 +2328,91 @@
     <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
     <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
     <Property Type="DateTime" Name="Fecha_Modificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Mostrar_Clientes_Activos_Result">
+    <Property Type="Int32" Name="IdCliente" Nullable="false" />
+    <Property Type="Byte" Name="IdFilial" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="Contacto" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Mostrar_Depositos_CXC_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="NombreCliente" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="Decimal" Name="MontoMensualidad" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="SaldoMensualidad" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="DocumentoCredito" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="MontoDeposito" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="38" Scale="8" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Mostrar_Documentos_CXC_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdCliente" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="false" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Mostrar_Documentos_CXP_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Mostrar_Facturtas_CXP_Result">
+    <Property Type="String" Name="DocumentoDebito" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="DocumentoCredito" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="MontoAux" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="NombreProveedor" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_C_Mostrar_Proveedores_Activos_Result">
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="Contacto" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="String" Name="CuentaBancaria" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Banco" Nullable="false" MaxLength="20" />
+    <Property Type="Boolean" Name="Activo" Nullable="true" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
   </ComplexType>
   <ComplexType Name="SP_C_MostrarAcciones_Result">
     <Property Type="Int32" Name="IdAccion" Nullable="false" />
@@ -1652,13 +2424,38 @@
     <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
   </ComplexType>
+  <ComplexType Name="SP_C_MostrarAuditControlAsistencia_Result">
+    <Property Type="Int32" Name="IdAsistencia" Nullable="false" />
+    <Property Type="String" Name="AccionRealizada" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
   <ComplexType Name="SP_C_MostrarAuditParametro_Result">
     <Property Type="Int32" Name="IdParametro" Nullable="true" />
-    <Property Type="String" Name="AccionRealizada" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="UsuarioCreacion" Nullable="true" MaxLength="70" />
-    <Property Type="DateTime" Name="FechaCreacion" Nullable="true" Precision="23" />
-    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
-    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="AccionRealizada" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarClientes_Result">
+    <Property Type="Int32" Name="IdCliente" Nullable="false" />
+    <Property Type="Byte" Name="IdFilial" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="Contacto" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
   </ComplexType>
   <ComplexType Name="SP_C_MostrarColaboradores_Result">
     <Property Type="Int32" Name="IdColaborador" Nullable="false" />
@@ -1691,6 +2488,55 @@
     <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
   </ComplexType>
+  <ComplexType Name="SP_C_MostrarColaboradoresPag_Result">
+    <Property Type="Int32" Name="IdColaborador" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Genero" Nullable="false" MaxLength="1" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="4" />
+    <Property Type="String" Name="Direccion" Nullable="false" MaxLength="Max" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Nacionalidad" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+    <Property Type="DateTime" Name="FechaIngreso" Nullable="false" />
+    <Property Type="DateTime" Name="FechaSalida" Nullable="false" />
+    <Property Type="Int32" Name="IdNomina" Nullable="false" />
+    <Property Type="String" Name="EstadoCivil" Nullable="false" MaxLength="2" />
+    <Property Type="Decimal" Name="SaldoVacaciones" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="DateTime" Name="UltCalculoVacaciones" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="IdPuesto" Nullable="false" />
+    <Property Type="String" Name="FormaPago" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="CuentaBancaria" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Banco" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="ContactoEmergencia" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="TelefonoContacto" Nullable="false" MaxLength="15" />
+    <Property Type="Decimal" Name="SalarioReferencia" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarConceptos_Result">
+    <Property Type="Int32" Name="IdConcepto" Nullable="false" />
+    <Property Type="String" Name="Alias" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="256" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="Unidad" Nullable="false" MaxLength="25" />
+    <Property Type="Boolean" Name="Salarial" Nullable="false" />
+    <Property Type="Boolean" Name="Fijo" Nullable="false" />
+    <Property Type="Boolean" Name="Liquidable" Nullable="false" />
+    <Property Type="Boolean" Name="CantEditable" Nullable="false" />
+    <Property Type="Boolean" Name="MontoEditable" Nullable="false" />
+    <Property Type="String" Name="Periodicidad" Nullable="false" MaxLength="2" />
+    <Property Type="Boolean" Name="Activo" Nullable="true" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
   <ComplexType Name="SP_C_MostrarConsecutivos_Result">
     <Property Type="Int32" Name="IdConsecutivo" Nullable="false" />
     <Property Type="String" Name="Alias" Nullable="false" MaxLength="10" />
@@ -1718,6 +2564,76 @@
     <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
     <Property Type="String" Name="NomColaborador" Nullable="false" MaxLength="100" />
   </ComplexType>
+  <ComplexType Name="SP_C_MostrarDocumentos_Result">
+    <Property Type="String" Name="Documento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="String" Name="Notas" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarFilial_Result">
+    <Property Type="Byte" Name="IdFilial" Nullable="false" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarFiliales_Result">
+    <Property Type="Byte" Name="IdFilial" Nullable="false" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Estado" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarFilialPersona_Result">
+    <Property Type="Byte" Name="IdFilial" Nullable="false" />
+    <Property Type="Int32" Name="IdPersona" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Indentification" Nullable="false" MaxLength="20" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="Boolean" Name="Responsable" Nullable="false" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="Trato" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="WhatsApp" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarFilialPersonasPag_Result">
+    <Property Type="Byte" Name="IdFilial" Nullable="false" />
+    <Property Type="Int32" Name="IdPersona" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Indentification" Nullable="false" MaxLength="20" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="Boolean" Name="Responsable" Nullable="false" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="Trato" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="WhatsApp" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
   <ComplexType Name="SP_C_MostrarParametros_Result">
     <Property Type="Int32" Name="IdParametro" Nullable="false" />
     <Property Type="Decimal" Name="Mensualidad" Nullable="false" Precision="28" Scale="8" />
@@ -1726,6 +2642,17 @@
     <Property Type="String" Name="TipoDocumentoCobro" Nullable="false" MaxLength="4" />
     <Property Type="Int32" Name="CondicionPago" Nullable="false" />
     <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarPartidas_Result">
+    <Property Type="Int32" Name="IdPartida" Nullable="false" />
+    <Property Type="String" Name="Alias" Nullable="false" MaxLength="25" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
     <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
     <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
     <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
@@ -1741,6 +2668,24 @@
     <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
   </ComplexType>
+  <ComplexType Name="SP_C_MostrarProveedores_Result">
+    <Property Type="Int32" Name="IdProveedor" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Tipo" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Contacto" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="String" Name="CuentaBancaria" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Banco" Nullable="false" MaxLength="20" />
+    <Property Type="Boolean" Name="Activo" Nullable="true" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
   <ComplexType Name="SP_C_MostrarPuestos_Result">
     <Property Type="Int32" Name="IdPuesto" Nullable="false" />
     <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="150" />
@@ -1753,6 +2698,21 @@
     <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
     <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarTipoAccionPers_Result">
+    <Property Type="Int32" Name="IdTipoAccionPers" Nullable="false" />
+    <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="70" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="4" />
+    <Property Type="String" Name="EstadoEmpleado" Nullable="false" MaxLength="4" />
+    <Property Type="Boolean" Name="RestableceEstado" Nullable="false" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_C_MostrarTiposProveedores_Result">
+    <Property Type="String" Name="IdTipoProveedor" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="20" />
   </ComplexType>
   <ComplexType Name="SP_C_MostrarUsuarios_Result">
     <Property Type="String" Name="Usuario" Nullable="false" MaxLength="70" />
@@ -1771,16 +2731,34 @@
     <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
   </ComplexType>
-  <ComplexType Name="sp_helpdiagramdefinition_Result">
-    <Property Type="Int32" Name="version" Nullable="true" />
-    <Property Type="Binary" Name="definition" Nullable="true" />
+  <ComplexType Name="SP_C_MostrarUsuariosPag_Result">
+    <Property Type="String" Name="Usuario" Nullable="false" MaxLength="70" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
+    <Property Type="Boolean" Name="Activo" Nullable="false" />
+    <Property Type="Boolean" Name="Bloqueado" Nullable="false" />
+    <Property Type="String" Name="Contrasena" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="DiasCambioContrasena" Nullable="false" />
+    <Property Type="Byte" Name="IntentosFallidos" Nullable="false" />
+    <Property Type="DateTime" Name="UltCambioContrasena" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UltIngreso" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
   </ComplexType>
-  <ComplexType Name="sp_helpdiagrams_Result">
-    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="ID" Nullable="false" />
-    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  <ComplexType Name="SP_C_VerEstadoCuenta_Result">
+    <Property Type="DateTime" Name="FechaDocumento" Nullable="false" />
+    <Property Type="Int32" Name="CondicionPago" Nullable="false" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="Decimal" Name="Pago" Nullable="true" Precision="29" Scale="8" />
+    <Property Type="Decimal" Name="Saldo" Nullable="false" Precision="28" Scale="8" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="4" />
+    <Property Type="String" Name="Notas" Nullable="false" MaxLength="Max" />
+    <Property Type="DateTime" Name="FechaPago" Nullable="true" />
+    <Property Type="String" Name="NombreCLiente" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Filial" Nullable="true" MaxLength="50" />
   </ComplexType>
   <ComplexType Name="SP_P_DibujarArbol_Result">
     <Property Type="Int32" Name="IdAccion" Nullable="false" />
@@ -1797,18 +2775,5 @@
   <ComplexType Name="SP_P_UsuariosDelPerfil_Result">
     <Property Type="String" Name="Usuario" Nullable="false" MaxLength="70" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
-    <Property Type="String" Name="Tipo" Nullable="false" MaxLength="2" />
-    <Property Type="Boolean" Name="Activo" Nullable="false" />
-    <Property Type="Boolean" Name="Bloqueado" Nullable="false" />
-    <Property Type="String" Name="Contrasena" Nullable="false" MaxLength="100" />
-    <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="100" />
-    <Property Type="Int32" Name="DiasCambioContrasena" Nullable="false" />
-    <Property Type="Byte" Name="IntentosFallidos" Nullable="false" />
-    <Property Type="DateTime" Name="UltCambioContrasena" Nullable="true" Precision="23" />
-    <Property Type="DateTime" Name="UltIngreso" Nullable="false" Precision="23" />
-    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="70" />
-    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
-    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="70" />
-    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
   </ComplexType>
 </Schema>

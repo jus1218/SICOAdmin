@@ -1,0 +1,147 @@
+﻿@model List<SICOAdmin1._0.Models.SP_C_MostrarUsuariosPag_Result>
+
+@{
+    ViewBag.Title = "Usuarios";
+}
+
+
+<div class="container margin-container p-4 glass" id="renderLocal">
+
+    @Html.Partial("_GetUser", Model)
+</div>
+
+
+
+@Html.Partial("_BitacoraUser")
+@Html.Partial("_AddUser")
+
+@section scripts{
+    <script>
+        const d = document,
+            $renderBody = d.getElementById("renderBody")
+        $renderBody.addEventListener("click",  (e) => {
+            let page = e.target.dataset.value || "";
+            if (e.target.name === "nextPage") {
+                console.log("entra");
+                siguientePagina({
+                    sig: page,
+                    totalPage: d.getElementById("totalPag").textContent,
+                    CantRegistros: d.getElementById("tamanoPagina").value,
+                    url: "@Url.Content("~/User/_TableUser")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+                })
+            }
+            else if (e.target.name === "previousPage") {
+                console.log("entra");
+
+                retrocederPagina({
+                   ant: page,
+                   totalPage: d.getElementById("totalPag").textContent,
+                   tamanoPagina: d.getElementById("tamanoPagina").value,
+                   url: "@Url.Content("~/User/_TableUser")",
+                   container: "content-table",
+                   palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+               })
+            }
+        })
+
+        //Paginación
+        // CHANGE
+        $renderBody.addEventListener("change", (e) => {
+            if (!(e.target.id === "tamanoPagina")) return false;
+            console.log(d.getElementById("totalPag").textContent);
+            console.log(e.target.value);
+            console.log("@Url.Content("~/User/_TableUser")");
+            console.log(d.getElementById("buscar").value.toLowerCase());
+            cambioTamanoPagina({
+                totalPage:d.getElementById("totalPag").textContent,
+                tamanoPagina: e.target.value,
+                url:"@Url.Content("~/User/_TableUser")",
+                container: "content-table",
+                palabraBuscar: d.getElementById("buscar").value.toLowerCase()
+            });
+        })
+
+        $renderBody.addEventListener("keyup", (e) => {
+            if (e.target.id === "buscar" ) {
+                let palabraBuscar = e.target.value;
+                console.log(palabraBuscar.toLowerCase());
+                buscarPalabra({
+                    url: "@Url.Content("~/User/_TableUser")",
+                    container: "content-table",
+                    palabraBuscar: d.getElementById("buscar").value.toLowerCase(),
+                    tamanoPagina: d.getElementById("tamanoPagina").value
+                });
+                return false;
+            }
+        })
+
+        //Bloquear - desbloquear / Activar - desactivar
+        function jsModificarEstado(pUserName, pAction) {
+            console.log(pUserName);
+            console.log(pAction);
+            if (pAction === 'Activ') {
+                fetch("@Url.Content("~/User/ActivUser")" + "?userName=" + pUserName)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        console.log(res);
+                        if (res == "1") {
+                            swal({
+                                title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $("#tbUsers").load(" #tbUsers");
+                        } else {
+                            swal({
+                                title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $("#tbUsers").load(" #tbUsers");
+                        }
+                    })
+            } else if (pAction === 'lock') {
+                fetch("@Url.Content("~/User/LockUser")" + "?userName=" + pUserName)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        console.log(res);
+                        if (res == "1") {
+                            swal({
+                                title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                                showConfirmButton: false
+                            }
+                            );
+                            $("#tbUsers").load(" #tbUsers");
+                        } else {
+                            swal({
+                                title: "Ups... Ha ocurrido un error", text: "No se modifico el Estado!!", type: "error",
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $("#tbUsers").load(" #tbUsers");
+                        }
+                    })
+            }
+        }
+
+        //Mostrar Bitacora por usuario
+        function jsmostrarBitacora(pUserName) {
+            console.log("Bitacora");
+            console.log(pUserName);
+            fetch("@Url.Content("~/User/getBitacora")" + "?userName=" + pUserName)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(res => {
+                        console.log(res);
+                        console.log("Bitacora");
+                        tdBUltIngreso.textContent = res.lastEntry;
+                        tdBUltiCamContra.textContent = res.lastChangedPassword;
+                        tdBUsuarioCrea.textContent = res.userCreation;
+                        tdBFechaCrea.textContent = res.dateCreation;
+                        tdBUsuarioModi.textContent = res.userModification;
+                        tdBFechaModi.textContent = res.dateModification;
+                    })
+        }
+
+    </script>
+}

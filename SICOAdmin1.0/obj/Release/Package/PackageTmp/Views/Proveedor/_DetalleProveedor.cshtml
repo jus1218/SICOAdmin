@@ -1,0 +1,95 @@
+﻿@model SICOAdmin1._0.Models.SP_C_BuscarProveedor_Result
+<div class="row d-flex justify-content-center mb-5">
+    <div class="col d-flex justify-content-center">
+        <table>
+
+            <tr>
+                <th scope="col"># Proveedor:</th>
+                <td class="pl-2">@Model.IdProveedor</td>
+            </tr>
+            <tr>
+                <th scope="col">Nombre:</th>
+                <td class="pl-2">@Model.Nombre</td>
+            </tr>
+            <tr>
+                <th scope="col">Identificacion: </th>
+                <td class="pl-2">@Model.Identificacion</td>
+            </tr>
+            <tr>
+                <th scope="col">Tipo: </th>
+                <td class="pl-2">@Model.Tipo</td>
+            </tr>
+            <tr>
+                <th scope="col">Contacto: </th>
+                <td class="pl-2">@Model.Contacto</td>
+            </tr>
+            <tr>
+                <th scope="col">Telefono 1: </th>
+                <td class="pl-2">@Model.Telefono1</td>
+            </tr>
+            <tr>
+                <th scope="col">Telefono 2: </th>
+                <td class="pl-2">@Model.Telefono2</td>
+            </tr>
+            <tr>
+                <th scope="col">Correo Electronico: </th>
+                <td class="pl-2">@Model.CorreoElectronico</td>
+            </tr>
+            <tr>
+                <th scope="col">Condicion Pago: </th>
+                <td class="pl-2">@Model.CondicionPago</td>
+            </tr>
+            <tr>
+                <th scope="col">Cuenta Bancaria: </th>
+                <td class="pl-2">@Model.CuentaBancaria</td>
+            </tr>
+            <tr>
+                <th scope="col">Banco: </th>
+                <td class="pl-2">@Model.Banco</td>
+            </tr>
+            <tr>
+                <th scope="col">Activo: </th>
+                @if (@Model.Activo == true)
+                {
+                    <td class="pl-2">SI</td>
+                }
+                else
+                {
+                    <td class="pl-2">NO</td>
+                }
+
+            </tr>
+
+
+
+
+            <tr>
+                <th scope="col">Fecha Creacion: </th>
+                <td class="pl-2">@Model.FechaCreacion</td>
+            </tr>
+
+            <tr>
+                <th scope="col">Usuario Modificacion: </th>
+                <td class="pl-2">@Model.UsuarioModificacion</td>
+            </tr>
+            <tr>
+                <th scope="col">Fecha Modificacion: </th>
+                <td class="pl-2">@Model.FechaModificacion</td>
+            </tr>
+         
+          
+        </table>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-4"></div>
+    <div class=" col-sm-12 col-md-4 d-flex  justify-content-center">
+        <!--
+
+        href="Url.Action("Index", "Proveedor")"
+            -->
+        <button type="button" class="btn btn-secondary col-sm-6 col-md-6" name="regresar">Cerrar</button>
+        
+    </div>
+    <div class="col-sm-12 col-md-4"></div>
+</div>

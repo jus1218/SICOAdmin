@@ -129,12 +129,22 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\CollaboratorController.cs" />
+    <Compile Include="Controllers\ConceptoController.cs" />
     <Compile Include="Controllers\ConsecutivoController.cs" />
     <Compile Include="Controllers\ControlAsistenciaController.cs" />
+    <Compile Include="Controllers\DepartureController.cs" />
+    <Compile Include="Controllers\DocumentsController.cs" />
+    <Compile Include="Controllers\FilialController.cs" />
+    <Compile Include="Controllers\Filial_PersonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\PayrollController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\PrintController.cs" />
+    <Compile Include="Controllers\ProveedorController.cs" />
+    <Compile Include="Controllers\TypeActionPersonalController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\AuthorizeUser.cs" />
     <Compile Include="Filters\VerifySession.cs" />
@@ -147,6 +157,12 @@
     <Compile Include="Models\ACCION_PERFIL.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Audit_ControlAsistencia.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Audit_Parametros.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AUXILIAR_CXC.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -156,6 +172,7 @@
     <Compile Include="Models\CLIENTE.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Client\Client.cs" />
     <Compile Include="Models\COLABORADOR.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -180,9 +197,6 @@
     <Compile Include="Models\CONTROL_ASISTENCIA.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\database_firewall_rules.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -198,24 +212,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Departure\Departure.cs" />
+    <Compile Include="Models\DocumentosCXC\DocumentosCXC.cs" />
     <Compile Include="Models\DOCUMENTO_CXC.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DOCUMENTO_CXP.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Documento_Deposito\DocumentoDeposito.cs" />
     <Compile Include="Models\FILIAL.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Filial\FilialViewModel.cs" />
     <Compile Include="Models\FILIAL_PERSONA.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Filial_Person\Filial_Person.cs" />
     <Compile Include="Models\f_opcionesPerfilesUsuario_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\f_opcionesUsuariosPerfil_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Job\Job.cs" />
     <Compile Include="Models\NOMINA.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -248,10 +268,21 @@
     <Compile Include="Models\PROVEEDOR.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Proveedor\Proveedor.cs" />
+    <Compile Include="Models\Parameter\TableModelParameter.cs" />
     <Compile Include="Models\PUESTO.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_Buscar_Partidas_Activas_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_C_BItacoraPuesto_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_BuscarCliente_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_BuscarConcepto_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_C_BuscarConsecutivo_Result.cs">
@@ -260,13 +291,46 @@
     <Compile Include="Models\SP_C_BuscarControlAsistencia_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_C_BuscarDocumentos_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_BuscarFilial_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_BuscarParametroActivo_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_C_BuscarPerfil_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_BuscarProveedor_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_C_BuscarUsuario_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_C_Buscar_DocumentosCXC_Por_Cliente_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_Buscar_DocumentosCXP_Por_Proveedor_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_Buscar_Documentos_CXC_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_Buscar_Documentos_CXP_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_C_ConsecutivosActivos_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_Documento_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_GetPartida_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_GetTipoAccionPers_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_C_MostarNominas_Result.cs">
@@ -275,10 +339,22 @@
     <Compile Include="Models\SP_C_MostrarAcciones_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_C_MostrarAuditControlAsistencia_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_C_MostrarAuditParametro_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_C_MostrarClientes_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarColaboradoresPag_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_C_MostrarColaboradores_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarConceptos_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_C_MostrarConsecutivos_Result.cs">
@@ -287,22 +363,73 @@
     <Compile Include="Models\SP_C_MostrarControlAsistencia_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_C_MostrarDocumentos_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarFiliales_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarFilialPersonasPag_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarFilialPersona_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarFilial_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_C_MostrarParametros_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarPartidas_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_C_MostrarPerfil_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_C_MostrarProveedores_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_C_MostrarPuestos_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarTipoAccionPers_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarTiposProveedores_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_MostrarUsuariosPag_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_C_MostrarUsuarios_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+    <Compile Include="Models\SP_C_Mostrar_Clientes_Activos_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+    <Compile Include="Models\SP_C_Mostrar_Depositos_CXC_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_Mostrar_Documentos_CXC_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_Mostrar_Documentos_CXP_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_Mostrar_Facturtas_CXP_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_Mostrar_Proveedores_Activos_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C_VerEstadoCuenta_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C__Buscar_Documento_CXC_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_C__Buscar_Documento_CXP_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_P_DibujarArbol_Result.cs">
@@ -314,13 +441,13 @@
     <Compile Include="Models\SP_P_UsuariosDelPerfil_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Parameter\TableModelParameter.cs" />
     <Compile Include="Models\TIPO_ACCION_PERS.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TIPO_PROVEEDOR.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TypeActionPers\TypeActionPers.cs" />
     <Compile Include="Models\User\User.cs" />
     <Compile Include="Models\USUARIO.cs">
       <DependentUpon>DB.tt</DependentUpon>
@@ -333,23 +460,26 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap4.min.css" />
+    <Content Include="Content\css\access.css" />
+    <Content Include="Content\css\carrousel.css" />
     <Content Include="Content\css\custom.css" />
     <Content Include="Content\css\custom.min.css" />
-    <Content Include="Content\css\login.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\sweetalert.min.css" />
+    <Content Include="Content\gijgo.min.css" />
     <Content Include="Content\images\back_disabled.png" />
     <Content Include="Content\images\back_enabled.png" />
     <Content Include="Content\images\back_enabled_hover.png" />
     <Content Include="Content\images\forward_disabled.png" />
     <Content Include="Content\images\forward_enabled.png" />
     <Content Include="Content\images\forward_enabled_hover.png" />
-    <Content Include="Content\images\justin-img.jpeg" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo  1.png" />
     <Content Include="Content\images\Logo.png" />
     <Content Include="Content\images\LogoTransp - icon.png" />
     <Content Include="Content\images\LogoTransp.png" />
+    <Content Include="Content\images\sinFotoPerfil.png" />
     <Content Include="Content\js\custom.js" />
     <Content Include="Content\js\custom.min.js" />
     <Compile Include="Controllers\ParametersController.cs" />
@@ -367,7 +497,31 @@
       <LastGenOutput>DB.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Documents_CXC.js" />
+    <Content Include="Scripts\Documents_CXP.js" />
+    <Content Include="Scripts\FuncionesDocumento_CXC_y_CXP.js" />
+    <Content Include="Scripts\gijgo.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <EntityDeploy Include="Models\DB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DB.edmx.diagram">
+      <DependentUpon>DB.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jspdf.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\MyScript.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Vendors\bootstrap\dist\css\bootstrap-grid.css" />
     <Content Include="Vendors\bootstrap\dist\css\bootstrap-grid.min.css" />
@@ -454,6 +608,92 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\_AddClient.cshtml" />
+    <Content Include="Views\Client\_Bitacora.cshtml" />
+    <Content Include="Views\Client\_GetClients.cshtml" />
+    <Content Include="Views\Client\_TableClient.cshtml" />
+    <Content Include="Views\Client\_UpdateClient.cshtml" />
+    <Content Include="Views\Collaborator\AddCollaborator.cshtml" />
+    <Content Include="Views\Collaborator\Index.cshtml" />
+    <Content Include="Views\Collaborator\Update.cshtml" />
+    <Content Include="Views\Collaborator\_Bitacora.cshtml" />
+    <Content Include="Views\Collaborator\_DetailsCollaborator.cshtml" />
+    <Content Include="Views\Collaborator\_GetCollaborators.cshtml" />
+    <Content Include="Views\Collaborator\_TableCollaborators.cshtml" />
+    <Content Include="Views\Concepto\Index.cshtml" />
+    <Content Include="Views\Concepto\_AgregarConcepto.cshtml" />
+    <Content Include="Views\Concepto\_DetalleConcepto.cshtml" />
+    <Content Include="Views\Concepto\_EditarConcepto.cshtml" />
+    <Content Include="Views\Concepto\_TablaConcepto.cshtml" />
+    <Content Include="Views\Departure\Index.cshtml" />
+    <Content Include="Views\Departure\_DepartureLog.cshtml" />
+    <Content Include="Views\Departure\_FormDeparture.cshtml" />
+    <Content Include="Views\Departure\_ShowDepartures.cshtml" />
+    <Content Include="Views\Departure\_TableDeparture.cshtml" />
+    <Content Include="Views\Documents\Index.cshtml" />
+    <Content Include="Views\Documents\_Add_Deposito_CXC.cshtml" />
+    <Content Include="Views\Documents\_Asociar_DocumentoxRecibo_CXC.cshtml" />
+    <Content Include="Views\Documents\_Deposito_CXC.cshtml" />
+    <Content Include="Views\Documents\_FormDocument_CXC.cshtml" />
+    <Content Include="Views\Documents\_FormDocument_CXP.cshtml" />
+    <Content Include="Views\Documents\_LogDocument_CXC.cshtml" />
+    <Content Include="Views\Documents\_LogDocument_CXP.cshtml" />
+    <Content Include="Views\Documents\_ShowDocuments_CXC.cshtml" />
+    <Content Include="Views\Documents\_ShowDocuments_CXP.cshtml" />
+    <Content Include="Views\Documents\_TableDocument_CXC.cshtml" />
+    <Content Include="Views\Documents\_TableDocument_CXP.cshtml" />
+    <Content Include="Views\Filial\Index.cshtml" />
+    <Content Include="Views\Filial\_AgregarFilial.cshtml" />
+    <Content Include="Views\Filial\_BitFilial.cshtml" />
+    <Content Include="Views\Filial\_EditarFilial.cshtml" />
+    <Content Include="Views\Filial\_TablaFilial.cshtml" />
+    <Content Include="Views\Filial_Person\Index.cshtml" />
+    <Content Include="Views\Filial_Person\_AddFilialPerson.cshtml" />
+    <Content Include="Views\Filial_Person\_Bitacora.cshtml" />
+    <Content Include="Views\Filial_Person\_GetFilialPersons.cshtml" />
+    <Content Include="Views\Filial_Person\_TableFilialPerson.cshtml" />
+    <Content Include="Views\Filial_Person\_UpdateFilialPerson.cshtml" />
+    <Content Include="Views\Job\Index.cshtml" />
+    <Content Include="Views\Job\_Nuevo.cshtml" />
+    <Content Include="Views\Job\_TableJob.cshtml" />
+    <Content Include="Views\Payroll\Index.cshtml" />
+    <Content Include="Views\Payroll\_AddPayroll.cshtml" />
+    <Content Include="Views\Payroll\_EditPayroll.cshtml" />
+    <Content Include="Views\Payroll\_PayrollLog.cshtml" />
+    <Content Include="Views\Payroll\_TablePayroll.cshtml" />
+    <Content Include="Views\Print\Index.cshtml" />
+    <Content Include="Views\Print\_Report.cshtml" />
+    <Content Include="Views\Proveedor\Index.cshtml" />
+    <Content Include="Views\Proveedor\_AgregarProveedor.cshtml" />
+    <Content Include="Views\Proveedor\_DetalleProveedor.cshtml" />
+    <Content Include="Views\Proveedor\_EditarProveedor.cshtml" />
+    <Content Include="Views\Proveedor\_MostrarProveedores.cshtml" />
+    <Content Include="Views\Proveedor\_TableProveedor.cshtml" />
+    <Content Include="Views\TypeActionPersonal\Index.cshtml" />
+    <Content Include="Views\TypeActionPersonal\_ActionLog.cshtml" />
+    <Content Include="Views\TypeActionPersonal\_AddTypeActionPers.cshtml" />
+    <Content Include="Views\TypeActionPersonal\_EditTypeActionPersonal.cshtml" />
+    <Content Include="Views\TypeActionPersonal\_TableTypeActionPers.cshtml" />
+    <Content Include="Views\User\_AddUser.cshtml" />
+    <Content Include="Views\User\_BitacoraUser.cshtml" />
+    <Content Include="Views\User\_Edit.cshtml" />
+    <Content Include="Views\User\_GetUser.cshtml" />
+    <Content Include="Views\User\_PerfilesUsuario.cshtml" />
+    <Content Include="Views\User\_SelectOpcProfile.cshtml" />
+    <Content Include="Views\User\_TableUser.cshtml" />
+    <Content Include="Views\Perfil\_Nuevo.cshtml" />
+    <Content Include="Views\Parameters\_AddParameter.cshtml" />
+    <Content Include="Views\Parameters\_EditParameter.cshtml" />
+    <Content Include="Views\Parameters\_ParameterLog.cshtml" />
+    <Content Include="Views\Parameters\_TableParameters.cshtml" />
+    <Content Include="Views\Consecutivo\_AddConsecutive.cshtml" />
+    <Content Include="Views\Consecutivo\_ConsecutiveLog.cshtml" />
+    <Content Include="Views\Consecutivo\_EditConsecutive.cshtml" />
+    <Content Include="Views\Consecutivo\_TableConsecutive.cshtml" />
+    <Content Include="Views\Shared\_ChangePass.cshtml" />
+    <Content Include="Views\Shared\_Profile.cshtml" />
+    <Content Include="Views\Access\_ChangePass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -465,13 +705,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <EntityDeploy Include="Models\DB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\DB.edmx.diagram">
-      <DependentUpon>DB.edmx</DependentUpon>
-    </Content>
     <None Include="packages.config" />
     <Content Include="Vendors\bootstrap\dist\css\bootstrap-grid.css.map" />
     <Content Include="Vendors\bootstrap\dist\css\bootstrap-grid.min.css.map" />
@@ -529,6 +762,8 @@
     <Content Include="Views\ControlAsistencia\_SelectTypeWorkDay.cshtml" />
     <Content Include="Views\ControlAsistencia\_TableAttendanceControl.cshtml" />
     <Content Include="Views\ControlAsistencia\_ViewMore.cshtml" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

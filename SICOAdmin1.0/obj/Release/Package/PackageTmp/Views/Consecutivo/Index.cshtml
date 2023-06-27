@@ -1,0 +1,227 @@
+﻿@model SICOAdmin1._0.Models.Consecutivo.Consecutivo
+
+
+@using SICOAdmin1._0.Models.Consecutivo
+
+@{
+    List<int?> lstActions = (List<int?>)Session["lstActions"];
+    if (lstActions == null)
+    {
+        lstActions = new List<int?>();
+    }
+
+    ViewBag.Title = "Consecutivo";
+    List<Consecutivo> lstConsecutivo = (List<Consecutivo>)ViewBag.Consecutivos;
+    var objConsecutivo = new Consecutivo();
+}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+
+</head>
+
+@section styles{
+
+
+}
+
+<div class="container margin-container p-4 glass">
+    <div class="row fila">
+        <!--TEXTO-->
+        <div class="col-xl-2 col-md-3 d-flex justify-content-center">
+            <h3 class="mt-0">Consecutivos</h3>
+        </div>
+        <!--BOTON-->
+        <div class="col-xl-2 col-md-2 mb-3 ">
+            @if (lstActions.Contains(17))
+            {
+                <button id="Agregar" data-toggle="modal" data-target="#Modal" type="button" class="btn btn-primary col-12">
+                    <i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>
+                    Agregar
+                </button>
+            }
+
+        </div>
+        <!--Barra busqueda-->
+        @*<div class="col-xl-4 col-md-6 offset-xl-3 offset-md-1">
+                <div class="input-group mb-2">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Buscar..."
+                           aria-label="Buscar..."
+                           aria-describedby="button-search"
+                           id="buscar" />
+                    <button class="btn btn-outline-secondary"
+                            type="button"
+                            disabled="disabled"
+                            id="button-search">
+                        <i class="fa fa-search mr-1" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>*@
+    </div>
+    <!--FILA TABLE-->
+
+    <div class="row fila scrol-tablex">
+        @Html.Partial("_TableConsecutive", lstConsecutivo);
+    </div>
+
+</div>
+
+<!-- Modal Agregar-->
+@Html.Partial("_AddConsecutive");
+
+
+<!-- Modal Update-->
+@Html.Partial("_EditConsecutive");
+
+
+<!-- Modal Bitacora-->
+@Html.Partial("_ConsecutiveLog");
+
+
+@section scripts{
+    <script type="text/javascript">
+        console.log('@TempData["Message"]');
+        console.log('@TempData["Message"]');
+        @if (TempData["Resultado"] != null)
+        {
+            if (TempData["Resultado"].ToString() == "1")
+            {
+                 <text>
+                    $(document).ready(function () {
+                        swal({
+                            title: "¡¡Exitoso!!", text: ('@TempData["Message"]'), type: "success", timer: 3000, showConfirmButton: false });
+                        })
+                </text>
+            }
+            else
+            {
+                <text>
+                $(document).ready(function () {
+                        swal({ title: "¡¡Error!!", text: ('@TempData["Message"]'), type: "error",timer: 3000, showConfirmButton: false});
+                        })
+
+                </text>
+            }
+
+        }
+    </script>
+
+    <script>
+        const idCons = document.getElementById("txtId");
+        const lbAlias = document.getElementById("txtAlias");
+        const lbMascara = document.getElementById("txtMascara");
+        const lbActivo = document.getElementById("txtActivo");
+        const lbProxValor = document.getElementById("txtProximoValor");
+
+        const tbId = document.getElementById("tbIdConsecutivo");
+        const tbUsuarioCreacion = document.getElementById("tbUsuarioCreacion");
+        const tbUsuarioModificacion = document.getElementById("tbUsuarioModificacion")
+
+        const tbFechaCreacion = document.getElementById("tbFechaCreacion");
+        const tbFechaModificacion = document.getElementById("tbFechaModificacion");
+
+
+        function jsRecargarComponente() {
+
+            $("#tbConsecutivo").load(" #tbConsecutivo");
+        }
+
+        function jsmostrarBitacora(pId) {
+
+            fetch("@Url.Content("~/Consecutivo/pintarDatos")" + "?idCons=" + pId)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+
+
+                    tbId.textContent = res.IdConsecutivo;
+                    tbId.value = res.IdConsecutivo;
+
+                    tbUsuarioCreacion.textContent = res.UsuarioCreacion;
+                    tbUsuarioCreacion.value = res.UsuarioCreacion;
+
+                    tbUsuarioModificacion.textContent = res.UsuarioModificacion;
+                    tbUsuarioModificacion.value = res.UsuarioModificacion;
+
+                    tbFechaCreacion.textContent = res.FechaCreacion;
+                    tbFechaCreacion.value = res.FechaCreacion;
+
+                    tbFechaModificacion.textContent = res.FechaModificacion;
+                    tbFechaModificacion.value = res.FechaModificacion;
+
+                })
+        }
+
+        function jsModificarEstado(pId) {
+            console.log(pId);
+            fetch("@Url.Content("~/Consecutivo/ModificarEstado")" + "?idCons=" + pId)
+
+              .then(res => res.ok ? res.json() : null)
+                .then(res => {
+                  console.log(res);
+                    if (res == 1) {
+                        swal({
+                            title: "Correcto", text: "Se modifico el Estado!!", type: "success", timer: 3000,
+                            showConfirmButton: false
+                        }
+                        );
+                        $("#tbConsecutivo").load(" #tbConsecutivo");
+                    } else if (res == -1) {
+                        swal({
+                            title: "Ups... Ha ocurrido un error", text: "No se puede desactivar un Consecutivo ligado a una Nomina!!", type: "error",
+                            timer: 5000,
+                            showConfirmButton: false
+                        });
+                        $("#tbConsecutivo").load(" #tbConsecutivo");
+                    } else {
+                        swal({
+                            title: "Ups... Ha ocurrido un error", text: "No se modifico el estado!!", type: "error",
+                            timer: 3000,
+                            showConfirmButton: false
+                        });
+                        $("#tbConsecutivo").load(" #tbConsecutivo");
+                    }
+
+              })
+        }
+
+        function jsmostrarDatos(pId) {
+
+            fetch("@Url.Content("~/Consecutivo/pintarDatos")" + "?idCons=" + pId)
+                .then(res => res.ok ? res.json() : null)
+                .then(res => {
+
+                    idCons.textContent = res.IdConsecutivo;
+                    idCons.value = res.IdConsecutivo;
+
+                    lbAlias.textContent = res.Alias;
+                    lbAlias.value = res.Alias;
+
+                    lbMascara.textContent = res.Mascara;
+                    lbMascara.value = res.Mascara;
+
+                    if (res.Activo == true) {
+                        lbActivo.setAttribute("checked","true")
+                    } else {
+                        lbActivo.removeAttribute("checked");
+                    }
+                    lbProxValor.textContent = res.ProximoValor;
+                    lbProxValor.value = res.ProximoValor;
+                })
+        }
+
+
+
+        $(document).ready(function () {
+            $("#buscar").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#tbConsecutivo tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}
